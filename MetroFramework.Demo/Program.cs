@@ -17,7 +17,7 @@ namespace MetroFramework.Demo
             {
                 Application.Run(new MainWindow());
             }
-            catch (ArgumentException e)
+            catch (SystemException e)
             {
 
             }

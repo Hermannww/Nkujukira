@@ -1,30 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Emgu.CV;
 using Emgu.CV.UI;
-using Emgu.CV.Util;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
-using System.Windows;
 using System.Diagnostics;
 using AForge.Imaging;
-using AForge.Imaging.Filters;
-using Accord.Vision.Detection;
-using Accord.Vision.Detection.Cascades;
 using System.Drawing;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Nkujukira.Entities;
 
 namespace Nkujukira
 {
     class FramesManager
     {
-        const byte RED = 0;
-        const byte GREEN = 1;
-        const byte BLUE = 0;
         public static Color COLOR_OF_FACE_RECTANGLE = Color.Green;
         const int THICKNESS = 1;
 
@@ -33,6 +20,25 @@ namespace Nkujukira
         const int MINIMUM_NEIGBHOURS = 3;
         const int WINDOW_SIZE = 50;
 
+
+        public static Image<Bgr, byte> GetNextFrame(Capture capture)
+        {
+            if (capture == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            try
+            {
+                Image<Bgr, byte> frame = capture.QueryFrame();
+                return frame;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return null;
+        }
 
         public static Image<Bgr, byte> GetNextFrame(Capture capture, ImageBox image_box)
         {
@@ -43,32 +49,55 @@ namespace Nkujukira
 
             try
             {
-                return capture.QueryFrame().Resize(image_box.Width, image_box.Height, INTER.CV_INTER_LINEAR);
+                using (Image<Bgr, byte> frame = capture.QueryFrame())
+                {
+                    if (frame != null)
+                    {
+                        // Nkujukira.Threads.VideoFromFileThread.capture_out_put.WriteFrame(frame);
+                        return frame.Resize(image_box.Width, image_box.Height, INTER.CV_INTER_LINEAR);
+                    }
+                }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return null;
             }
-
+            return null;
         }
 
-        public static bool PerformSeekOperationInVideo(double ratio,Capture capture)
+        public static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> frame, ImageBox image_box)
+        {
+            if (image_box == null || frame == null)
+            {
+                throw new NullReferenceException();
+            }
+            try
+            {
+                return frame.Resize(image_box.Width, image_box.Height, INTER.CV_INTER_LINEAR);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static bool PerformSeekOperationInVideo(double starting_time_in_milliseconds, Capture capture)
         {
             try
             {
-                capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_POS_AVI_RATIO, ratio);
+                capture.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_POS_MSEC, starting_time_in_milliseconds);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return false;
             }
-           
+
         }
 
-        public static Rectangle[] DetectFacesInFrame(Image<Bgr, byte> current_frame, Emgu.CV.HaarCascade haarcascade)
+        public static Rectangle[] DetectFacesInFrame(Image<Bgr, byte> current_frame, HaarCascade haarcascade)
         {
             if (current_frame == null || haarcascade == null)
             {
@@ -117,8 +146,8 @@ namespace Nkujukira
                 sucess = false;
                 throw new NullReferenceException();
             }
-            current_frame.Draw(rectangle_of_detected_face, new Bgr(COLOR_OF_FACE_RECTANGLE), THICKNESS);
 
+            current_frame.Draw(rectangle_of_detected_face, new Bgr(COLOR_OF_FACE_RECTANGLE), THICKNESS);
             sucess = true;
             return current_frame;
         }
@@ -126,14 +155,11 @@ namespace Nkujukira
 
         public static Bitmap DrawShapeOnTransparentBackGround(Rectangle a_rectangle, int frame_width, int frame_height)
         {
-       
-           
             Bitmap bitmap = new Bitmap(frame_width, frame_height);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
             graphics.DrawRectangle(Pens.Green, a_rectangle);
             graphics.Flush();
-            
             return bitmap;
         }
 
@@ -142,19 +168,61 @@ namespace Nkujukira
         {
             try
             {
-                using (to_be_overlaid)
+                if (to_be_overlaid == null || graphics == null)
                 {
-                    
-                    graphics.DrawImageUnscaled(to_be_overlaid, new Point(0, 0));
-                    graphics.Flush();
-                    return true;
+                    Debug.WriteLine("Stuff is null");
+                    return false;
                 }
+
+                graphics.DrawImageUnscaled(to_be_overlaid, new Point(0, 0));
+                graphics.Flush();
+                return true;
+
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
         }
 
+
+        public static Bitmap CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
+        {
+            try
+            {
+                Image<Gray, byte> gray_scale = frame.Convert<Gray, byte>();
+                gray_scale.ROI = detected_face;
+                Image<Gray, byte> cropped_face = gray_scale.Copy();
+                return cropped_face.ToBitmap();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+
+
+        }
+
+        public static Bitmap ResizeBitmap(Bitmap image, Size size)
+        {
+            try
+            {
+                Bitmap b = new Bitmap(size.Width, size.Height);
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(image, 0, 0, size.Width, size.Height);
+                    g.Flush();
+                }
+                return b;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ using MetroFramework.Demo;
 
 namespace Nkujukira.Threads
 {
-    class CameraOutputGrabberThread : ThreadSuperClass
+    public class CameraOutputGrabberThread : ThreadSuperClass
     {
 
         private Capture camera_capture;
@@ -34,21 +34,25 @@ namespace Nkujukira.Threads
         //IT WILL THEN ADD IT TO THE CONCURRENT QUEUE FOR CAMERA OUTPUT
         public override void DoWork()
         {
-            try
+            while (running)
             {
-                while (running)
+                if (!paused)
                 {
-                    if (!paused)
+                    try
                     {
+                        if (!running) { break; }
                         AddNextFrameToQueueForProcessing();
+                        if (!running) { break; }
+
+                    }
+                    catch (Exception e)
+                    {
+                        //CATCH ANY WEIRD EXCEPTIONS HERE
+                        //LIKE OBJECT DISPOSED EXCEPTION
+                        if (!running) { break; }
+                        Debug.WriteLine(e.Message);
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                //CATCH ANY WEIRD EXCEPTIONS HERE
-                //LIKE OBJECT DISPOSED EXCEPTION
-                Debug.WriteLine(e.Message);
             }
         }
 
@@ -56,12 +60,13 @@ namespace Nkujukira.Threads
         //FOR EASY ACESS WHEN THE FRAME IS PROCESSED BY MULTIPLE THREADS LATER
         public bool AddNextFrameToQueueForProcessing()
         {
-            current_frame = FramesManager.GetNextFrame(this.camera_capture, image_box);
+            if (!running) { return false; }
+            current_frame = FramesManager.GetNextFrame(this.camera_capture);
+            if (!running) { return false; }
             if (current_frame != null)
             {
-
+                if (!running) { return false; }
                 MainWindow.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
-                MainWindow.FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
                 return true;
             }
             return false;
@@ -72,13 +77,10 @@ namespace Nkujukira.Threads
 
         //WHEN THREAD IS STOPPED WE DO SOME CLEAN UP
         //DISPOSE OF ALL CAMERA OBJECTS
-        public override bool RequestStop()
+        public  override bool RequestStop(Thread thread)
         {
             running = false;
-            if (current_frame != null)
-                current_frame.Dispose();
-            if (camera_capture != null)
-                camera_capture.Dispose();
+            thread.Join();
             return true;
         }
     }

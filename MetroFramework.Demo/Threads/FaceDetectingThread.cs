@@ -4,37 +4,39 @@ using Emgu.CV.UI;
 using MetroFramework.Demo;
 using MetroFramework.Demo.Threads;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Nkujukira.Threads
 {
-    class FaceDetectingThread : ThreadSuperClass
+    public class FaceDetectingThread : ThreadSuperClass
     {
-        private Image<Bgr, byte> current_frame;
-        private string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
+        public Image<Bgr, byte> current_frame;
+        public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
         private HaarCascade haarcascade;
-        private Rectangle[] detected_faces;
+        public Rectangle[] detected_faces;
         public static int frame_width;
         public static int frame_height;
         private bool sucessfull;
         public static volatile int previous_id = 0;
         private int counter = 0;
+        public static bool WORK_DONE;
+        public static bool draw_detected_faces = false;
+        private Panel detected_faces_panel;
+        private Point location;
 
-
-        public FaceDetectingThread(ImageBox image_box)
+        public FaceDetectingThread(ImageBox image_box, Panel a_panel)
             : base()
         {
             haarcascade = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
             frame_width = image_box.Width;
             frame_height = image_box.Height;
+            this.detected_faces_panel = a_panel;
+            WORK_DONE = false;
+            location = new Point(2, 2);
         }
 
         public override void DoWork()
@@ -49,39 +51,122 @@ namespace Nkujukira.Threads
                     sucessfull = MainWindow.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
                     if (sucessfull)
                     {
-                        DetectFacesInFrame();
-                        DrawShapeAroundDetectedfaces();
-                        AddFrameToQueueForDisplay();
+                        using (current_frame)
+                        {
+                            Image<Bgr, byte> clone = current_frame.Clone();
+                            Debug.WriteLine("Detecting Faces");
+                            DetectFacesInFrame(clone);
+                            AddDetectedFacesToListViewPanel(clone);
+                            if (draw_detected_faces)
+                            {
+                                Debug.WriteLine("Drawing faces");
+                                DrawShapeAroundDetectedfaces(clone);
+                            }
+                            else
+                            {
+                                Debug.WriteLine("Enqueing Faces");
+                                AddFrameToQueueForDisplay(clone);
+                            }
+                            clone = null;
+                        }
+                    }
+                    //IF NO FRAMES IN DATA STORE
+                    else
+                    {
+                        //IF OUTPUT GRABBER THREAD IS DONE THEN IT MEANS THE FRAMES ARE DONE
+                        //TERMINATE THIS THREAD AND SIGNAL TO OTHERS THAT IT IS DONE
+                        if (VideoFromFileThread.WORK_DONE)
+                        {
+                            WORK_DONE = true;
+                            Debug.WriteLine("Terminating face detector");
+                            break;
+                        }
                     }
                 }
             }
         }
+        volatile int x = 2;
+        volatile int y = 2;
 
-        private void AddFrameToQueueForDisplay()
+        private void AddDetectedFacesToListViewPanel(Image<Bgr, byte> frame)
         {
-            MainWindow.FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame);
+            try
+            {
+                if (detected_faces != null)
+                {
+                    if (this.detected_faces_panel.InvokeRequired)
+                    {
+                        this.detected_faces_panel.Invoke((MethodInvoker)delegate
+                        {
+                            detected_faces_panel.Controls.Clear();
+                        });
+                    }
+                    x = 2;
+                    y = 2;
+                    Parallel.ForEach(detected_faces, detected_face =>
+                     {
+                         Bitmap face = FramesManager.CropSelectedFace(detected_face, frame);
+                         PictureBox a_picture_box = new PictureBox();
+                         a_picture_box.Width = face.Width;
+                         a_picture_box.Height = face.Height;
+                         a_picture_box.Image = face;
+                         //a_picture_box.Location = new Point(x, y);
+                         if (this.detected_faces_panel.InvokeRequired)
+                         {
+                             this.detected_faces_panel.Invoke((MethodInvoker)delegate
+                             {
+                                 detected_faces_panel.Controls.Add(a_picture_box);
+                             });
+
+                         }
+                     });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
         }
 
-        private void DrawShapeAroundDetectedfaces()
+        public void AddFrameToQueueForDisplay(Image<Bgr, byte> clone)
         {
-            if (detected_faces != null)
+            MainWindow.FRAMES_TO_BE_DISPLAYED.Enqueue(clone);
+        }
+
+        public bool DrawShapeAroundDetectedfaces(Image<Bgr, byte> clone)
+        {
+            try
             {
-                foreach (var detected_face in detected_faces) 
+                counter++;
+                FaceDrawingThread face_drawer = new FaceDrawingThread(clone, detected_faces, counter, previous_id);
+                ThreadPool.QueueUserWorkItem(face_drawer.DoWork);
+
+                if (counter == 250)
                 {
-                    FramesManager.DrawShapeAroundDetectedFaces(detected_face, current_frame, out sucessfull);
+                    counter = 0;
+                    previous_id = 0;
                 }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
 
-        private void DetectFacesInFrame()
+        public void DetectFacesInFrame(Image<Bgr, byte> clone)
         {
-            detected_faces = FramesManager.DetectFacesInFrame(current_frame, haarcascade);
+            detected_faces = FramesManager.DetectFacesInFrame(clone.Clone(), haarcascade);
+
         }
 
-        public override bool RequestStop()
+        public override bool RequestStop(Thread thread)
         {
             running = false;
+            //thread.Join();
             return true;
         }
 

@@ -1,29 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
-using Nkujukira.Entities;
 using System.Drawing;
-using Nkujukira.Threads;
 using MetroFramework.Demo;
+using MediaInfoNET;
+using MetroFramework.Demo.Threads;
 
 
 //THIS THREAD CONTINUOUSLY PICKS FRAMES FROM A GIVEN VIDEO FILE AND DUMPS THEM IN
 //SHARED DATASTORES FOR PROCESSING BY OTHER THREADS
 namespace Nkujukira.Threads
 {
-    class VideoFromFileThread : ThreadSuperClass
+    public class VideoFromFileThread : ThreadSuperClass
     {
         private const string PROCESSING_THREAD_NAME = "VIDEO_FROM_FILE_THREAD";
         private Capture video_capture;
         public Image<Bgr, byte> current_frame;
         private ImageBox image_box;
+        public static bool WORK_DONE;
+        public static double VIDEO_LENGTH;
+        public static string VIDEO_LENGTH_STRING;
+        private FootageSavingThread footage_saver;
+        private Thread footage_saving_thread;
+        private int SLEEP_TIME=30;
 
 
 
@@ -37,7 +39,27 @@ namespace Nkujukira.Threads
             }
 
             video_capture = new Capture(file_name);
+            MediaFile video_properties = new MediaFile(file_name);
+
+            //VIDEO LENGTH IN SECONDS
+            VIDEO_LENGTH = video_properties.General.DurationMillis;
+            VIDEO_LENGTH_STRING = video_properties.General.DurationString;
+            WORK_DONE = false;
             this.image_box = image_box;
+            //StartFootageStorageThread();
+        }
+
+        private void StartFootageStorageThread()
+        {
+            footage_saver = new FootageSavingThread(video_capture, image_box);
+            footage_saving_thread = new Thread(footage_saver.DoWork);
+            footage_saving_thread.Name = "Camera Thread";
+            footage_saving_thread.Priority = ThreadPriority.Highest;
+            footage_saving_thread.IsBackground = true;
+            footage_saving_thread.Start();
+            Debug.WriteLine("Starting camera output thread");
+            while (!footage_saving_thread.IsAlive) ;
+            Debug.WriteLine("Camera Output Thread is alive");
         }
 
 
@@ -52,6 +74,7 @@ namespace Nkujukira.Threads
                     if (!paused)
                     {
                         AddNextFrameToQueueForProcessing();
+                        Thread.Sleep(SLEEP_TIME);
                     }
                 }
             }
@@ -69,38 +92,67 @@ namespace Nkujukira.Threads
         public bool AddNextFrameToQueueForProcessing()
         {
 
-            current_frame = FramesManager.GetNextFrame(this.video_capture, image_box);
-            if (current_frame != null)
+            using (current_frame = FramesManager.GetNextFrame(this.video_capture))
             {
-                if (running)
+                if (current_frame != null)
                 {
-                    Image<Bgr, byte> clone_1 = current_frame.Clone();
-                    Image<Bgr, byte> clone_2 = current_frame.Clone();
-                    MainWindow.FRAMES_TO_BE_PROCESSED.Enqueue(clone_1);
-                    //MainWindow.FRAMES_TO_BE_DISPLAYED.Enqueue(clone_2);
-                    Debug.WriteLine("Frames Added");
-                    return true;
+                    if (running)
+                    {
+                        MainWindow.FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame, image_box));
+                        //MainWindow.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
+                        return true;
+                    }
                 }
-                //DISPOSE OF FRAME FOR GARABAGE COLLECTION
-                //current_frame = null;
+                //FRAME IS NULL 
+                //MEANING END OF FILE IS REACHED
+                else
+                {
+                    //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
+                    //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
+                    AddBlackFrame();
+                    WORK_DONE = true;
+                    running = false;
+                    Debug.WriteLine("Terminating video from file");
+                }
+                return false;
             }
-
-            return false;
 
         }
 
-        public void RewindOrForwardVideo(double ratio)
+        public override void Pause()
         {
-            bool sucess = FramesManager.PerformSeekOperationInVideo(ratio, video_capture);
+            if (footage_saver != null) 
+            {
+                footage_saver.Pause();
+            }
+            base.Pause();
+        }
+
+        //ADDS BLACK FRAME TO FRAMES DATASTORE
+        private void AddBlackFrame()
+        {
+            int width = image_box.Width;
+            int height = image_box.Height;
+            Image<Bgr, byte> black_image = new Image<Bgr, byte>(width, height, new Bgr(0, 0, 0));
+            MainWindow.FRAMES_TO_BE_PROCESSED.Enqueue(black_image);
+        }
+
+        public void RewindOrForwardVideo(double millisecond_to_jump_to)
+        {
+            bool sucess = FramesManager.PerformSeekOperationInVideo(millisecond_to_jump_to, video_capture);
         }
 
         //WHEN THREAD IS STOPPED WE DO SOME CLEAN UP
         //DISPOSE OF ALL CAMERA OBJECTS
-        public override bool RequestStop()
+        public override bool RequestStop(Thread thread)
         {
             running = false;
+            if (footage_saver!=null)
+            {
+                footage_saver.RequestStop(footage_saving_thread);  
+            }
+            
             return true;
         }
-
     }
 }

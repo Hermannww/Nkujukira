@@ -12,6 +12,7 @@ using Accord.Vision.Tracking;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using MetroFramework.Demo;
+using System.Threading;
 
 namespace Nkujukira.Threads
 {
@@ -112,9 +113,9 @@ namespace Nkujukira.Threads
             }
         }
 
-        public override bool RequestStop()
+        public override bool RequestStop(Thread thread)
         {
-            base.RequestStop();
+            base.RequestStop(thread);
             return true;
         }
     }

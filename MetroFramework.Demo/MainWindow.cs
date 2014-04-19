@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Globalization;
 using System.Windows.Forms;
 
 using MetroFramework.Forms;
@@ -14,6 +13,7 @@ using System.Diagnostics;
 using Emgu.CV.UI;
 using MB.Controls;
 using Nkujukira;
+using MetroFramework.Demo.Managers;
 
 namespace MetroFramework.Demo
 {
@@ -33,6 +33,7 @@ namespace MetroFramework.Demo
 
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_PROCESSED = new ConcurrentQueue<Image<Bgr, byte>>();
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_DISPLAYED = new ConcurrentQueue<Image<Bgr, byte>>();
+        public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_STORED = new ConcurrentQueue<Image<Bgr, byte>>();
         public static ConcurrentDictionary<int, Face> DETECTED_FACES_DATASTORE = new ConcurrentDictionary<int, Face>();
 
         CleanUpThread clean_upper;
@@ -50,6 +51,7 @@ namespace MetroFramework.Demo
         private const string PLAY_BUTTON_TEXT = "Play";
         public static int FRAME_WIDTH;
         public static int FRAME_HEIGHT;
+        public static string PERPETRATOR_IMAGE=Application.StartupPath+ @"\Resources\Images\face.PNG";
 
 
         public MainWindow()
@@ -58,6 +60,10 @@ namespace MetroFramework.Demo
             metroStyleManager.Style = MetroColorStyle.Red;
             FRAME_WIDTH = review_footage_imageBox.Width;
             FRAME_HEIGHT = review_footage_imageBox.Height;
+            Bitmap perpetrator = new Bitmap(PERPETRATOR_IMAGE);
+            perpetrator = FramesManager.ResizeBitmap(perpetrator, new Size(perpetrator_box.Width, perpetrator_box.Height));
+            perpetrator_box.Image = perpetrator;
+            DisableControls();
         }
 
 
@@ -142,7 +148,7 @@ namespace MetroFramework.Demo
         //STARTS THREAD TO DETECT FACES IN FRAME OFF THE MAIN THREAD
         public bool StartFaceDetectingThread()
         {
-            face_detector = new FaceDetectingThread(review_footage_imageBox);
+            face_detector = new FaceDetectingThread(review_footage_imageBox, detected_faces_panel);
             face_detecting_thread = new Thread(face_detector.DoWork);
             face_detecting_thread.Name = FACE_DETECTOR_THREAD_NAME;
             face_detecting_thread.IsBackground = true;
@@ -152,10 +158,10 @@ namespace MetroFramework.Demo
             return true;
         }
 
-
+        //STARTS A THREAD TO CONTINUOUSLY UPDATE THE VIDEO DISPLAY
         private void StartDisplayUpdaterThread(ImageBox an_image_box)
         {
-            video_updater = new DisplayUpdaterThread(an_image_box);
+            video_updater = new DisplayUpdaterThread(review_footage_imageBox, slider_review_footage, elapsed_time_label, video_total_time_label);
             video_updater_thread = new Thread(video_updater.DoWork);
             video_updater_thread.Name = DISPLAY_UPDATER_THREAD_NAME;
             video_updater_thread.Priority = ThreadPriority.AboveNormal;
@@ -166,6 +172,7 @@ namespace MetroFramework.Demo
             Debug.WriteLine("Video Updater Thread is alive");
         }
 
+       
 
         private void StartCleanUpThread()
         {
@@ -178,7 +185,7 @@ namespace MetroFramework.Demo
             while (!clean_up_thread.IsAlive) ;
         }
 
-        //THIS RETURNS A THE FILEPATH TO A GIVEN VIDEO 
+        //THIS RETURNS A FILEPATH TO A GIVEN VIDEO 
         //AFTER PRESENTING A USER WITH A DIALOG
         private String LoadVideoFromFile()
         {
@@ -204,7 +211,7 @@ namespace MetroFramework.Demo
         }
 
         //INITIALIZES ALL DATA STORES AND NECESSARY OBJECTS
-        private void InitializeStuff()
+        public static void InitializeStuff()
         {
             FRAMES_TO_BE_PROCESSED = new ConcurrentQueue<Image<Bgr, byte>>();
             FRAMES_TO_BE_DISPLAYED = new ConcurrentQueue<Image<Bgr, byte>>();
@@ -212,10 +219,11 @@ namespace MetroFramework.Demo
         }
 
 
+
         //THIS EMPTIES DATASTORES
-        public void ClearDataStores()
+        public static void ClearDataStores()
         {
-            Image<Bgr, byte> image=null;
+            Image<Bgr, byte> image;
             while (FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
             while (FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
             DETECTED_FACES_DATASTORE.Clear();
@@ -228,27 +236,16 @@ namespace MetroFramework.Demo
         {
             try
             {
-
-                if (video_updater_thread != null)
+                if (video_from_file_grabber_thread != null)
                 {
-                    //IF THE VIDEO IS PAUSED RESUME IT
-                    //ResumeVideo();
-
                     //PROCEED TO TERMINATE THE THREADS
-                    video_updater.RequestStop();
-                    face_detector.RequestStop();
-                    video_from_file_grabber.RequestStop();
+                    Debug.WriteLine("Stopping file grabber".ToUpper());
+                    video_from_file_grabber.RequestStop(video_from_file_grabber_thread);
+                    Debug.WriteLine("Stopping Face detector".ToUpper());
+                    face_detector.RequestStop(face_detecting_thread);
+                    Debug.WriteLine("Stopping video Updater".ToUpper());
+                    video_updater.RequestStop(video_updater_thread);
                     //clean_upper.RequestStop();
-
-                    //LOOP HERE UNTIL ALL THREADS ARE TERMINATED
-                    while (video_updater_thread.IsAlive) ;
-                    Debug.WriteLine("Video Updater Is Dead".ToUpper());
-                    while (face_detecting_thread.IsAlive) ;
-                    Debug.WriteLine("face detector Is Dead".ToUpper());
-                    while (video_from_file_grabber_thread.IsAlive) ;
-                    Debug.WriteLine("Video From File Is Dead".ToUpper());
-
-                    
                 }
             }
             catch (Exception e)
@@ -257,27 +254,31 @@ namespace MetroFramework.Demo
             }
         }
 
-        public void PauseThreads() 
+        //THIS PAUSES ALL RUNNING THREADS
+        public void PauseThreads()
         {
-            video_updater.paused = true;
-            face_detector.paused = true;
-            video_from_file_grabber.paused = true;
+            video_updater.Pause();
+            face_detector.Pause();
+            video_from_file_grabber.Pause();
+
         }
 
-        public void ResumeThreads() 
+        //THIS RESUMES ANY PAUSED THREADS
+        public void ResumeThreads()
         {
-            video_updater.paused = false;
-            face_detector.paused = false;
-            video_from_file_grabber.paused = false;
+            video_updater.Resume();
+            face_detector.Resume();
+            video_from_file_grabber.Resume();
         }
 
-        //THIS DISABLES UNCESSARY BUTTON CONTROLS
-        public void DisableButtons()
+        //THIS DISABLES UNECESSARY CONTROLS
+        public void DisableControls()
         {
             pause_button.Enabled = false;
-            stop_button.Enabled = false;
-            stop_button2.Enabled = false;
-
+            stop_button_1.Enabled = false;
+            stop_button_2.Enabled = false;
+            slider_review_footage.Enabled = false;
+            ResetButtonText();
             //ENABLE THE PICK VIDEO BUTTON
             //SO THE USER HAS THE ABILITY TO PICK 
             //ANOTHER VIDEO
@@ -285,17 +286,24 @@ namespace MetroFramework.Demo
 
         }
 
-        //THIS ENABLES THE NECESSARY BUTTON CONTROLS
-        public void EnableButtons()
+        //THIS ENABLES THE NECESSARY CONTROLS
+        public void EnableControls()
         {
             pause_button.Enabled = true;
-            stop_button.Enabled = true;
-            stop_button2.Enabled = true;
-
+            stop_button_1.Enabled = true;
+            stop_button_2.Enabled = true;
+            slider_review_footage.Enabled = true;
+            ResetButtonText();
             //DISABLE THE PICK VIDEO BUTTON
             //SO THE USER CAN NOT PICK ANOTHER VIDEO
             //WHILE THE CURRENT ONE IS STILL RUNNING
-            pick_video_button.Enabled = false;
+            pick_video_button.Enabled = true;
+        }
+
+        //RESETS NECESSARY BUTTON TEXTS TO DEFAULTS
+        private void ResetButtonText()
+        {
+            pause_button.Text = "Pause";
         }
 
         //THIS DISPLAYS A DIALOG ALLOWING A USER TO LOAD A VIDEO
@@ -304,18 +312,23 @@ namespace MetroFramework.Demo
         {
             try
             {
-                
+                StopThreads();
+                ClearDataStores();
+                ReleaseResources();
+
                 String file_name = LoadVideoFromFile();
-                
+
                 if (file_name != null)
                 {
                     InitializeStuff();
                     StartThreads(file_name);
-                    EnableButtons();
+                    EnableControls();
+                    return;
                 }
                 else
                 {
-                    MetroMessageBox.Show(this, SELECT_VIDEO_MESSAGE, MESSAGE_BOX_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    MetroMessageBox.Show(this, SELECT_VIDEO_MESSAGE, MESSAGE_BOX_TITLE, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -327,15 +340,15 @@ namespace MetroFramework.Demo
             }
         }
 
+        //STARTS ALL NECESSARY THREADS
         private void StartThreads(String file_name)
         {
             StartVideoFileGrabberThread(file_name);
             StartDisplayUpdaterThread(review_footage_imageBox);
             StartFaceDetectingThread();
-            //StartCleanUpThread();
         }
 
-        //
+        //THIS NULLS ALL OBJECTS
         public void ReleaseResources()
         {
             try
@@ -349,6 +362,7 @@ namespace MetroFramework.Demo
                 video_from_file_grabber_thread = null;
                 face_detecting_thread = null;
                 clean_up_thread = null;
+                show_detected_faces2.Checked = false;
 
             }
             catch (Exception ex)
@@ -357,20 +371,7 @@ namespace MetroFramework.Demo
             }
         }
 
-        private void MakeBackgroundOfImageBoxBlack()
-        {
-
-            int width = review_footage_imageBox.Width;
-            int height = review_footage_imageBox.Height;
-            Image<Bgr, byte> black_image = new Image<Bgr, byte>(width, height, new Bgr(0, 0, 0));
-            review_footage_imageBox.ClearOperation();
-            review_footage_imageBox.Image = black_image;
-            review_footage_imageBox.Image = black_image;
-            //live_stream_imageBox.ClearOperation();
-            //live_stream_imageBox.Image = black_image;
-            //live_stream_imageBox.Image = black_image;
-        }
-
+        //PAUSES THE RUNNING VIDEO UPON CALL
         private void pause_button_Click(object sender, EventArgs e)
         {
             if (pause_button.Text == PAUSE_BUTTON_TEXT)
@@ -384,61 +385,134 @@ namespace MetroFramework.Demo
         }
 
         //ATTEMPTS TO PAUSE A RUNNING VIDEO
-        public void PauseVideo() 
+        public void PauseVideo()
         {
-            video_updater.paused = true;
+            PauseThreads();
             pause_button.Text = PLAY_BUTTON_TEXT;
         }
 
         //ATTEMPTS TO RESUME A PREVIOUSLY PAUSED VIDEO
-        public void ResumeVideo() 
+        public void ResumeVideo()
         {
-            video_updater.paused = false;
+            ResumeThreads();
             pause_button.Text = PAUSE_BUTTON_TEXT;
         }
 
-        private void stop_button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                StopThreads();
-                DisableButtons();
-                MakeBackgroundOfImageBoxBlack();
-                ReleaseResources();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
+        //ENABLES DRAWING OF DETECTED FACES ON TO THE FRAMES
         private void show_detected_faces2_CheckedChanged(object sender, EventArgs e)
         {
-            DisplayUpdaterThread.show_deteted_faces_is_checked = !DisplayUpdaterThread.show_deteted_faces_is_checked;
+            FaceDetectingThread.draw_detected_faces = !FaceDetectingThread.draw_detected_faces;
         }
 
-        private void colorSlider1_Scroll(object sender, ScrollEventArgs e)
-        {
-            Debug.WriteLine("Slider Scroll Event");
-            double ratio=(e.NewValue/100);
-            GoToThatPartOfTheVideo(ratio);
-        }
 
         private void GoToThatPartOfTheVideo(double ratio)
         {
             PauseThreads();
             ClearDataStores();
-            video_from_file_grabber.RewindOrForwardVideo(ratio);
+            double millescond_to_jump_to = ratio * VideoFromFileThread.VIDEO_LENGTH;
+            video_from_file_grabber.RewindOrForwardVideo(millescond_to_jump_to);
+            video_updater.SetTimeElapsed(millescond_to_jump_to);
             ResumeThreads();
+        }
+
+        int old_value = 1;
+        private void SlidersScroll(object sender, ScrollEventArgs e)
+        {
+            try
+            {
+                if (!DisplayUpdaterThread.WORK_DONE)
+                {
+                    int value = (sender as ColorSlider).Value;
+                    if (value != old_value)
+                    {
+                        Debug.WriteLine("VALUE=" + value);
+                        old_value = value;
+                        double ratio = ((((double)value) / ((double)100)));
+
+                        Debug.WriteLine("RATIO=" + ratio.ToString());
+                        //MessageBox.Show("RATIO=" + ratio.ToString());
+                        GoToThatPartOfTheVideo(ratio);
+                    }
+                }
+                else
+                {
+                    slider_review_footage.Value = 0;
+                    slider_review_footage.Enabled = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            }
 
         }
 
-        private void colorSlider1_ValueChanged(object sender, EventArgs e)
+        //STOPS RUNNING VIDEO UPON CALL [CLICK OF STOP BUTTON]
+        private void StopButton_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("Value Changed Event");
-            double ratio=((sender as ColorSlider).Value/100);
-            //GoToThatPartOfTheVideo(ratio);
+            try
+            {
+                Debug.WriteLine("Stopping Threads");
+                StopThreads();
+                Debug.WriteLine("Disabling Buttons");
+                //DisableButtons();
+                Debug.WriteLine("Releasing Resources");
+                ClearDataStores();
+                ReleaseResources();
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        private void metroTabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void colorSlider1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imageBox4_Click(object sender, EventArgs e)
+        {
+
         }
 
 

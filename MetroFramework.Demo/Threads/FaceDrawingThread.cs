@@ -8,22 +8,23 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MetroFramework.Demo.Threads
 {
-    class FaceDrawingThread : ThreadSuperClass
+    public class FaceDrawingThread : ThreadSuperClass
     {
-        private Image<Bgr, byte> current_frame;
-        private Rectangle[] detected_faces_in_frame;
-        private  int frame_width=FaceDetectingThread.frame_width;
-        private  int frame_height=FaceDetectingThread.frame_height;
+        public Image<Bgr, byte> current_frame;
+        public Rectangle[] detected_faces_in_frame;
+        private int frame_width = FaceDetectingThread.frame_width;
+        private int frame_height = FaceDetectingThread.frame_height;
         private int frame_id;
         private int previous_id;
 
 
 
-        public FaceDrawingThread(Image<Bgr, byte> next_frame, Rectangle[] detected_faces, int frame_id,int previous_id)
+        public FaceDrawingThread(Image<Bgr, byte> next_frame, Rectangle[] detected_faces, int frame_id, int previous_id)
             : base()
         {
             if (next_frame == null)
@@ -62,17 +63,15 @@ namespace MetroFramework.Demo.Threads
 
             try
             {
-                if (frame_id == (previous_id + 1))
-                {
+
+                
+                    Debug.WriteLine("Enqueueing Frame In Face Drawer".ToUpper());
                     MainWindow.FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame);
-                    FaceDetectingThread.previous_id = frame_id;
-                }
-                else
-                {
-                    AddImageToQueueForDisplay();
-                }
+                    //FaceDetectingThread.previous_id = frame_id;
+              
+
             }
-            catch (StackOverflowException e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return;
@@ -81,26 +80,49 @@ namespace MetroFramework.Demo.Threads
 
         private void DrawFaceRectangles()
         {
-            if (current_frame == null) 
+            if (current_frame == null)
             {
                 throw new NullReferenceException();
             }
 
             try
             {
-               
+                if (detected_faces_in_frame != null)
+                {
+
+                    Bitmap current_frame_bitmap = current_frame.ToBitmap();
+                    Graphics graphics = Graphics.FromImage(current_frame_bitmap);
+
+                    Debug.WriteLine("Drawing Frame In Face Drawer".ToUpper());
+                    Parallel.ForEach(detected_faces_in_frame,detected_face=>
+                    {
+                        Debug.WriteLine("Drawing On Transparent Bg".ToUpper());
+                        Bitmap a_frame = FramesManager.DrawShapeOnTransparentBackGround(detected_face, frame_width, frame_height);
+                        lock (current_frame)
+                        {
+                            Debug.WriteLine("Overlaying Frame In Face Drawer".ToUpper());
+                            FramesManager.OverLayBitmapToFormNewImage(a_frame, graphics);
+                        }
+                    });
+                    current_frame = new Image<Bgr, byte>(current_frame_bitmap);
+                }
+
+                else 
+                {
+                    Debug.WriteLine("Detected Faces is Null".ToUpper());
+                }
+
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
 
         }
 
-        public override bool RequestStop()
+        public bool RequestStop()
         {
-            current_frame = null;
-            detected_faces_in_frame = null;
+            running = false;
             return true;
         }
     }

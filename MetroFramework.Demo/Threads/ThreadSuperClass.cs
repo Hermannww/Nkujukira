@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Nkujukira.Threads
 {
-    class ThreadSuperClass
+    public class ThreadSuperClass
     {
         //VOLATILE BOOL BECOZ MULTIPLE THREADS WILL ACCESS IT
         public volatile bool running;
@@ -42,9 +43,10 @@ namespace Nkujukira.Threads
 
         //WHEN THREAD IS STOPPED WE DO SOME CLEAN UP
         //DISPOSE OF ALL CAMERA OBJECTS
-        public virtual bool RequestStop()
+        public virtual bool RequestStop(Thread thread)
         {
             running = false;
+            thread.Join();
             return true;
         }
     }
