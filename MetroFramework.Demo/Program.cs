@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MetroFramework.Demo
 {
@@ -13,8 +14,17 @@ namespace MetroFramework.Demo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-          
-            Application.Run(new MainWindow());
+            try
+            {
+                new Login().Show();
+                Application.Run();
+
+            }
+            catch (SystemException e)
+            {
+                Debug.WriteLine(e.Message);
+
+            }
             
         }
     }
