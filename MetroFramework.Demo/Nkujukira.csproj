@@ -184,28 +184,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddNewUser.cs">
+    <Compile Include="Views\AddNewUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddNewUser.designer.cs">
+    <Compile Include="Views\AddNewUser.designer.cs">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChangeInitialLoginSettings.cs">
+    <Compile Include="Views\ChangeInitialLoginSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChangeInitialLoginSettings.designer.cs">
+    <Compile Include="Views\ChangeInitialLoginSettings.designer.cs">
       <DependentUpon>ChangeInitialLoginSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChangeUserLoginDetails.cs">
+    <Compile Include="Views\ChangeUserLoginDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChangeUserLoginDetails.designer.cs">
+    <Compile Include="Views\ChangeUserLoginDetails.designer.cs">
       <DependentUpon>ChangeUserLoginDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChangeUserTypeDialog.cs">
+    <Compile Include="Views\ChangeUserTypeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChangeUserTypeDialog.designer.cs">
+    <Compile Include="Views\ChangeUserTypeDialog.designer.cs">
       <DependentUpon>ChangeUserTypeDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Entitities\Crime.cs" />
@@ -217,10 +217,10 @@
     <Compile Include="Entitities\Victim.cs" />
     <Compile Include="Factories\ThreadFactory.cs" />
     <Compile Include="Interfaces\ThreadInterface.cs" />
-    <Compile Include="LoginWindow.cs">
+    <Compile Include="Views\LoginWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginWindow.designer.cs">
+    <Compile Include="Views\LoginWindow.designer.cs">
       <DependentUpon>LoginWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Managers\DatabaseManager.cs" />
@@ -270,19 +270,19 @@
     <Compile Include="Threads\AbstractThread.cs" />
     <Compile Include="Threads\DisplayUpdaterThread.cs" />
     <Compile Include="Threads\VideoFromFileThread.cs" />
-    <EmbeddedResource Include="AddNewUser.resx">
+    <EmbeddedResource Include="Views\AddNewUser.resx">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChangeInitialLoginSettings.resx">
+    <EmbeddedResource Include="Views\ChangeInitialLoginSettings.resx">
       <DependentUpon>ChangeInitialLoginSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChangeUserLoginDetails.resx">
+    <EmbeddedResource Include="Views\ChangeUserLoginDetails.resx">
       <DependentUpon>ChangeUserLoginDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChangeUserTypeDialog.resx">
+    <EmbeddedResource Include="Views\ChangeUserTypeDialog.resx">
       <DependentUpon>ChangeUserTypeDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginWindow.resx">
+    <EmbeddedResource Include="Views\LoginWindow.resx">
       <DependentUpon>LoginWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainWindow.resx">

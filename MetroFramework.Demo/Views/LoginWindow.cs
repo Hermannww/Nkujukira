@@ -22,7 +22,7 @@ namespace MetroFramework.Demo
         public Login()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Green;
+            this.Style = MetroColorStyle.Red;
             //this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Login_FormCosed);
         }
         private void Login_FormCosed(object sender, FormClosedEventArgs e)

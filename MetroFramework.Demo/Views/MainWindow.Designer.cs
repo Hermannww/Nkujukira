@@ -112,6 +112,7 @@ namespace MetroFramework.Demo
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
+            this.userTable = new System.Windows.Forms.DataGridView();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
@@ -123,6 +124,7 @@ namespace MetroFramework.Demo
             this.metroTabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.metroContextMenu1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userTable)).BeginInit();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -137,7 +139,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 4;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -662,7 +664,7 @@ namespace MetroFramework.Demo
             this.metroLabel3.Location = new System.Drawing.Point(534, 3);
             this.metroLabel3.Margin = new System.Windows.Forms.Padding(3);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(116, 19);
+            this.metroLabel3.Size = new System.Drawing.Size(117, 19);
             this.metroLabel3.TabIndex = 4;
             this.metroLabel3.Text = "Pick A Perpetrator";
             this.metroToolTip.SetToolTip(this.metroLabel3, "Label Tooltip");
@@ -807,7 +809,7 @@ namespace MetroFramework.Demo
             this.metroLabel19.AutoSize = true;
             this.metroLabel19.Location = new System.Drawing.Point(181, 133);
             this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(84, 19);
+            this.metroLabel19.Size = new System.Drawing.Size(86, 19);
             this.metroLabel19.TabIndex = 9;
             this.metroLabel19.Text = "MetroToggle";
             // 
@@ -891,6 +893,7 @@ namespace MetroFramework.Demo
             // 
             // metroTabPage5
             // 
+            this.metroTabPage5.Controls.Add(this.userTable);
             this.metroTabPage5.Controls.Add(this.metroButton12);
             this.metroTabPage5.Controls.Add(this.metroButton11);
             this.metroTabPage5.Controls.Add(this.metroButton10);
@@ -912,7 +915,8 @@ namespace MetroFramework.Demo
             // 
             // metroButton12
             // 
-            this.metroButton12.Location = new System.Drawing.Point(197, 97);
+            this.metroButton12.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton12.Location = new System.Drawing.Point(756, 13);
             this.metroButton12.Name = "metroButton12";
             this.metroButton12.Size = new System.Drawing.Size(140, 31);
             this.metroButton12.TabIndex = 8;
@@ -922,17 +926,19 @@ namespace MetroFramework.Demo
             // 
             // metroButton11
             // 
-            this.metroButton11.Location = new System.Drawing.Point(383, 10);
+            this.metroButton11.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton11.Location = new System.Drawing.Point(318, 12);
             this.metroButton11.Name = "metroButton11";
             this.metroButton11.Size = new System.Drawing.Size(140, 31);
             this.metroButton11.TabIndex = 7;
-            this.metroButton11.Text = "Retry Cancel";
+            this.metroButton11.Text = "Edit User";
             this.metroButton11.UseSelectable = true;
             this.metroButton11.Click += new System.EventHandler(this.metroButton11_Click);
             // 
             // metroButton10
             // 
-            this.metroButton10.Location = new System.Drawing.Point(12, 57);
+            this.metroButton10.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton10.Location = new System.Drawing.Point(26, 50);
             this.metroButton10.Name = "metroButton10";
             this.metroButton10.Size = new System.Drawing.Size(140, 31);
             this.metroButton10.TabIndex = 6;
@@ -942,17 +948,19 @@ namespace MetroFramework.Demo
             // 
             // metroButton9
             // 
-            this.metroButton9.Location = new System.Drawing.Point(383, 54);
+            this.metroButton9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton9.Location = new System.Drawing.Point(464, 12);
             this.metroButton9.Name = "metroButton9";
             this.metroButton9.Size = new System.Drawing.Size(140, 31);
             this.metroButton9.TabIndex = 5;
-            this.metroButton9.Text = "Abort Retry Ignore";
+            this.metroButton9.Text = "Delete User";
             this.metroButton9.UseSelectable = true;
             this.metroButton9.Click += new System.EventHandler(this.metroButton9_Click);
             // 
             // metroButton8
             // 
-            this.metroButton8.Location = new System.Drawing.Point(197, 56);
+            this.metroButton8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton8.Location = new System.Drawing.Point(610, 13);
             this.metroButton8.Name = "metroButton8";
             this.metroButton8.Size = new System.Drawing.Size(140, 31);
             this.metroButton8.TabIndex = 4;
@@ -962,21 +970,23 @@ namespace MetroFramework.Demo
             // 
             // metroButton7
             // 
-            this.metroButton7.Location = new System.Drawing.Point(197, 12);
+            this.metroButton7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton7.Location = new System.Drawing.Point(172, 12);
             this.metroButton7.Name = "metroButton7";
             this.metroButton7.Size = new System.Drawing.Size(140, 31);
             this.metroButton7.TabIndex = 3;
-            this.metroButton7.Text = "Yes No";
+            this.metroButton7.Text = "Add User";
             this.metroButton7.UseSelectable = true;
             this.metroButton7.Click += new System.EventHandler(this.metroButton7_Click);
             // 
             // metroButton6
             // 
+            this.metroButton6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroButton6.Location = new System.Drawing.Point(12, 13);
             this.metroButton6.Name = "metroButton6";
-            this.metroButton6.Size = new System.Drawing.Size(140, 31);
+            this.metroButton6.Size = new System.Drawing.Size(154, 31);
             this.metroButton6.TabIndex = 2;
-            this.metroButton6.Text = "Ok";
+            this.metroButton6.Text = "Change Login Credentials";
             this.metroButton6.UseSelectable = true;
             this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
             // 
@@ -1059,6 +1069,14 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
+            // userTable
+            // 
+            this.userTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.userTable.Location = new System.Drawing.Point(3, 87);
+            this.userTable.Name = "userTable";
+            this.userTable.Size = new System.Drawing.Size(912, 310);
+            this.userTable.TabIndex = 9;
+            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -1074,6 +1092,7 @@ namespace MetroFramework.Demo
             this.StyleManager = this.metroStyleManager;
             this.Text = "Nkujukira";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabPage1.PerformLayout();
@@ -1089,6 +1108,7 @@ namespace MetroFramework.Demo
             this.metroTabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.metroContextMenu1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.userTable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1189,6 +1209,7 @@ namespace MetroFramework.Demo
         private MB.Controls.ColorSlider review_footage_color_slider;
         private System.Windows.Forms.Label total_time_label;
         private System.Windows.Forms.Label time_elapsed_label;
+        private System.Windows.Forms.DataGridView userTable;
      
 
 

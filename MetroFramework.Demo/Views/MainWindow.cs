@@ -14,6 +14,7 @@ using MB.Controls;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
+using System.Data;
 
 namespace MetroFramework.Demo
 {
@@ -25,6 +26,18 @@ namespace MetroFramework.Demo
         private const string MESSAGE_BOX_TITLE = "Message!!";
         private const string PAUSE_BUTTON_TEXT = "Pause";
         private const string PLAY_BUTTON_TEXT = "Play";
+        public static DataTable userDataTable;
+
+        public void generateUserTable()
+        {
+            userDataTable = new DatabaseManager().generateUsersDataTable();
+            userTable.DataSource = userDataTable;
+            DataGridViewColumn column1 = userTable.Columns[1];
+            DataGridViewColumn column2 = userTable.Columns[2];
+            column1.Width = 400;
+            column2.Width = 370;
+
+        }
 
 
         public MainWindow()
@@ -38,6 +51,7 @@ namespace MetroFramework.Demo
             this.MaximizeBox = false;
 
             DisableControls();
+            generateUserTable();
         }
 
 
@@ -55,7 +69,16 @@ namespace MetroFramework.Demo
 
         private void metroButton6_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `OK` only button", "MetroMessagebox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                new ChangeUserLoginDetails().ShowDialog(this);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `OK` only button", "MetroMessagebox", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void metroButton10_Click(object sender, EventArgs e)
@@ -65,7 +88,16 @@ namespace MetroFramework.Demo
 
         private void metroButton7_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes` and `No` button", "MetroMessagebox", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            try
+            {
+                new AddNewUser().ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes` and `No` button", "MetroMessagebox", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         }
 
         private void metroButton8_Click(object sender, EventArgs e)
@@ -75,12 +107,46 @@ namespace MetroFramework.Demo
 
         private void metroButton11_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Retry` and `Cancel` button.  With warning style.", "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            try
+            {
+                int Row = userTable.CurrentRow.Index;
+                String id = (String)userTable[0, Row].Value;
+                String user = (String)userTable[1, Row].Value;
+                String role = (String)userTable[2, Row].Value;
+                ChangeUserTypeDialog.id = id;
+                ChangeUserTypeDialog.user = user;
+                ChangeUserTypeDialog.user_role = role;
+                new ChangeUserTypeDialog().ShowDialog(this);
+                //MetroMessageBox.Show(this,id+user+role, "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Retry` and `Cancel` button.  With warning style.", "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
         }
 
         private void metroButton9_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Abort`, `Retry` and `Ignore` button.  With Error style.", "MetroMessagebox", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+            DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected User", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (response == DialogResult.Yes)
+            {
+                int Row = userTable.CurrentRow.Index;
+                String id = (String)userTable[0, Row].Value;
+                if (new DatabaseManager().deleteUser(id))
+                {
+                    MetroMessageBox.Show(this, "User Deleted Succefully", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                }
+            }
+            else if (response == DialogResult.No)
+            {
+                MetroMessageBox.Show(this, "No...", "");
+            }
+            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Abort`, `Retry` and `Ignore` button.  With Error style.", "MetroMessagebox", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
         }
 
         private void metroButton12_Click(object sender, EventArgs e)
@@ -382,6 +448,11 @@ namespace MetroFramework.Demo
                 SelectPerpetrator form = new SelectPerpetrator((Image<Bgr, byte>)review_footage_image_box.Image);
                 form.Show();
             }
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
         }
 
 
