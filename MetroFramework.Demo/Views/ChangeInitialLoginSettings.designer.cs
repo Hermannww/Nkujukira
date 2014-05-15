@@ -133,6 +133,7 @@
             this.Padding = new System.Windows.Forms.Padding(33, 92, 33, 31);
             this.Text = "Change Login Credentials";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Load += new System.EventHandler(this.ChangeInitialLoginSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

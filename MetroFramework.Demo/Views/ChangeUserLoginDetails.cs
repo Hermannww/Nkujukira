@@ -17,7 +17,7 @@ namespace MetroFramework.Demo
         public ChangeUserLoginDetails()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Green;
+            this.Style = MetroColorStyle.Red;
         }
 
         private void ChangeUserLoginDetails_Load(object sender, EventArgs e)

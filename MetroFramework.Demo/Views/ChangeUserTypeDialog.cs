@@ -20,7 +20,7 @@ namespace MetroFramework.Demo
         public ChangeUserTypeDialog()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Green;
+            this.Style = MetroColorStyle.Red;
             user_name.Text = user;
             role.Text = user_role;
         }

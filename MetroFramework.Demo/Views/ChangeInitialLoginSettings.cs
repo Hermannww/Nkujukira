@@ -17,7 +17,7 @@ namespace MetroFramework.Demo
         public ChangeInitialLoginSettings()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Green;
+            this.Style = MetroColorStyle.Red;
         }
 
         private void newUserName_Click(object sender, EventArgs e)
@@ -52,6 +52,11 @@ namespace MetroFramework.Demo
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void ChangeInitialLoginSettings_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
