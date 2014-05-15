@@ -31,7 +31,7 @@ namespace MetroFramework.Demo.Managers
             }
             else
             {
-                bool user_created = createNewUser(new SystemUser("admin", "123", "Admin"));
+                bool user_created = createNewUser(new Admin("admin", "123", "Admin"));
                 if (user_created)
                 {
                     firstUser = true;
@@ -92,7 +92,7 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public bool createNewUser(SystemUser user)
+        public bool createNewUser(Admin user)
         {
             String user_name = user.getUserName();
             String pass_word = user.getPassWord();
@@ -333,10 +333,11 @@ namespace MetroFramework.Demo.Managers
         }
         public void createTables()
         {
-            createTableSystemUsers();
+            createTableStudent();
+            createTableAdmin();
         }
 
-        public bool createTableSystemUsers()
+        public bool createTableAdmin()
         {
             bool created = false;
             try
@@ -386,17 +387,8 @@ namespace MetroFramework.Demo.Managers
                         String course = dataReader.GetString("Course");
                         String DOB = dataReader.GetString("DOB");
                         String gender = dataReader.GetString("Gender");
-                        byte[] imageData = (byte[])dataReader["Photo"];
-                        list.Add(new Student(firstName, middleName, lastName, studentNo, regNo, course, DOB, gender, imageData));
-                         using (MemoryStream ms = new MemoryStream(imageData))
-                        {
-                            System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-                            //img.Save(@"C:\Users\Royal\Desktop\ours", System.Drawing.Imaging.ImageFormat.Jpeg);
-                            Bitmap b = (Bitmap)img;
-                            SavePicture(b);
-
-                        }
-
+                        String photo = dataReader.GetString("Photo");
+                        list.Add(new Student(firstName, middleName, lastName, studentNo, regNo, course, DOB, gender, photo));
                     }
                     dataReader.Close();
 
@@ -404,7 +396,7 @@ namespace MetroFramework.Demo.Managers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message+"Image ERROR");
+                Debug.WriteLine(ex.Message + "Image ERROR");
             }
             finally
             {
@@ -412,12 +404,87 @@ namespace MetroFramework.Demo.Managers
             }
             return list;
         }
+
         public void SavePicture(Bitmap myBitmap)
         {
 
             Bitmap bm = new Bitmap(myBitmap);
-            bm.Save("Output\\out.bmp" ,System.Drawing.Imaging.ImageFormat.Bmp );
+            bm.Save("Output\\out.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
         }
+
+        public bool createTableStudent()
+        {
+            bool created = false;
+            try
+            {
+                if (this.openConnection() == true)
+                {
+                    String query = "create Table Student("
+                    + "FirstName varchar(30) not null,"
+                    + "LastName varchar(30) not null,"
+                    + "MiddleName varchar(30),"
+                    + "StudentNo varchar(30) not null,"
+                    + "RegNo varchar(30) not null,"
+                    + "Course varchar(25) not null,"
+                    + "DOB varchar(25) not null,"
+                    + "Gender varchar(25) not null,"
+                    + "Photo varchar(500) null)";
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    int rows = cmd.ExecuteNonQuery();
+                    if (rows == 0)
+                    {
+                        Debug.WriteLine("Students table created");
+                        created = true;
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "problem from the createTableStudent function");
+            }
+            finally
+            {
+                this.closeConnection();
+            }
+            return created;
+        }
+        public bool addStudent(Student student)
+        {
+            try
+            {
+                if (this.openConnection() == true)
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandText = "insert into Student values(@FirstName,@LastName,@MiddleName,@StudentNo,@RegNo,@Course,@DOB,@Gender,@Photo)";
+                    cmd.Prepare();
+                    cmd.Parameters.AddWithValue("@FirstName", student.getFirstName());
+                    cmd.Parameters.AddWithValue("@LastName", student.getLastName());
+                    cmd.Parameters.AddWithValue("@MiddleName", student.getMiddleName());
+                    cmd.Parameters.AddWithValue("@StudentNo", student.getStudentNo());
+                    cmd.Parameters.AddWithValue("@RegNo", student.getRegNo());
+                    cmd.Parameters.AddWithValue("@Course", student.getCourse());
+                    cmd.Parameters.AddWithValue("@DOB", student.getDOB());
+                    cmd.Parameters.AddWithValue("@Gender", student.getGender());
+                    cmd.Parameters.AddWithValue("@Photo", student.getPhoto());
+                    int rows = cmd.ExecuteNonQuery();
+                    if (rows > 0)
+                    {
+                        this.closeConnection();
+                        return true;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "Error from AddStudent Method");
+            }
+            return false;
+        }
+
 
 
     }

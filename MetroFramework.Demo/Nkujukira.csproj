@@ -184,11 +184,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\DataBaseFactory.cs" />
+    <Compile Include="FactoryMethod\DataBaseInterface.cs" />
+    <Compile Include="FactoryMethod\MySQLDataBaseHandler.cs" />
+    <Compile Include="Managers\AdminManager.cs" />
+    <Compile Include="Managers\StudentManager.cs" />
     <Compile Include="Views\AddNewUser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\AddNewUser.designer.cs">
       <DependentUpon>AddNewUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddStudentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AddStudentDialog.Designer.cs">
+      <DependentUpon>AddStudentDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeInitialLoginSettings.cs">
       <SubType>Form</SubType>
@@ -213,7 +224,7 @@
     <Compile Include="Entitities\Face.cs" />
     <Compile Include="Entitities\Sound.cs" />
     <Compile Include="Entitities\Student.cs" />
-    <Compile Include="Entitities\SystemUser.cs" />
+    <Compile Include="Entitities\Admin.cs" />
     <Compile Include="Entitities\Victim.cs" />
     <Compile Include="Factories\ThreadFactory.cs" />
     <Compile Include="Interfaces\ThreadInterface.cs" />
@@ -272,6 +283,9 @@
     <Compile Include="Threads\VideoFromFileThread.cs" />
     <EmbeddedResource Include="Views\AddNewUser.resx">
       <DependentUpon>AddNewUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\AddStudentDialog.resx">
+      <DependentUpon>AddStudentDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ChangeInitialLoginSettings.resx">
       <DependentUpon>ChangeInitialLoginSettings.cs</DependentUpon>
@@ -446,6 +460,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

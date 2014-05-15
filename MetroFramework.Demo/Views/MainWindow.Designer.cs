@@ -93,6 +93,7 @@ namespace MetroFramework.Demo
             this.metroToggle1 = new MetroFramework.Controls.MetroToggle();
             this.metroCheckBox1 = new MetroFramework.Controls.MetroCheckBox();
             this.metroTabPage5 = new MetroFramework.Controls.MetroTabPage();
+            this.userTable = new System.Windows.Forms.DataGridView();
             this.metroButton12 = new MetroFramework.Controls.MetroButton();
             this.metroButton11 = new MetroFramework.Controls.MetroButton();
             this.metroButton10 = new MetroFramework.Controls.MetroButton();
@@ -112,7 +113,6 @@ namespace MetroFramework.Demo
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
-            this.userTable = new System.Windows.Forms.DataGridView();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
@@ -122,9 +122,9 @@ namespace MetroFramework.Demo
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_box)).BeginInit();
             this.metroTabPage4.SuspendLayout();
             this.metroTabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.metroContextMenu1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.userTable)).BeginInit();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -913,6 +913,14 @@ namespace MetroFramework.Demo
             this.metroTabPage5.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage5.VerticalScrollbarSize = 10;
             // 
+            // userTable
+            // 
+            this.userTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.userTable.Location = new System.Drawing.Point(3, 87);
+            this.userTable.Name = "userTable";
+            this.userTable.Size = new System.Drawing.Size(912, 310);
+            this.userTable.TabIndex = 9;
+            // 
             // metroButton12
             // 
             this.metroButton12.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -964,7 +972,7 @@ namespace MetroFramework.Demo
             this.metroButton8.Name = "metroButton8";
             this.metroButton8.Size = new System.Drawing.Size(140, 31);
             this.metroButton8.TabIndex = 4;
-            this.metroButton8.Text = "Yes No Cancel";
+            this.metroButton8.Text = "Add Student";
             this.metroButton8.UseSelectable = true;
             this.metroButton8.Click += new System.EventHandler(this.metroButton8_Click);
             // 
@@ -1069,14 +1077,6 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
-            // userTable
-            // 
-            this.userTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.userTable.Location = new System.Drawing.Point(3, 87);
-            this.userTable.Name = "userTable";
-            this.userTable.Size = new System.Drawing.Size(912, 310);
-            this.userTable.TabIndex = 9;
-            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -1106,9 +1106,9 @@ namespace MetroFramework.Demo
             this.metroTabPage4.ResumeLayout(false);
             this.metroTabPage4.PerformLayout();
             this.metroTabPage5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.userTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.metroContextMenu1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.userTable)).EndInit();
             this.ResumeLayout(false);
 
         }

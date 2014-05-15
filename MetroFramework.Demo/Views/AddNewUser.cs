@@ -18,7 +18,7 @@ namespace MetroFramework.Demo
         public AddNewUser()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Green;
+            this.Style = MetroColorStyle.Red;
         }
 
         private void AddNewUser_Load(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace MetroFramework.Demo
                     }
                     else
                     {
-                        bool added = new DatabaseManager().createNewUser(new SystemUser(user, password, type));
+                        bool added = new DatabaseManager().createNewUser(new Admin(user, password, type));
                         if (added == true)
                         {
                             MetroMessageBox.Show(this, "New User Created Successfully", "CONGRATULATIONS");

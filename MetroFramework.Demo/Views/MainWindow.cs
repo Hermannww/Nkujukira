@@ -15,6 +15,7 @@ using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
 using System.Data;
+using MetroFramework.Demo.Views;
 
 namespace MetroFramework.Demo
 {
@@ -102,7 +103,8 @@ namespace MetroFramework.Demo
 
         private void metroButton8_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes`, `No` and `Cancel` button", "MetroMessagebox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            new AddStudentDialog().ShowDialog();
+            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes`, `No` and `Cancel` button", "MetroMessagebox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         }
 
         private void metroButton11_Click(object sender, EventArgs e)
@@ -151,7 +153,8 @@ namespace MetroFramework.Demo
 
         private void metroButton12_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample `default` MetroMessagebox ", "MetroMessagebox");
+            StudentManager.printNumberOfPhotosInFolder(new DatabaseManager().getStudentDetails());
+            //MetroMessageBox.Show(this, "This is a sample `default` MetroMessagebox ", "MetroMessagebox");
         }
 
         private void metroButton3_Click(object sender, EventArgs e)

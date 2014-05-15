@@ -5,20 +5,20 @@ using System.Text;
 
 namespace MetroFramework.Demo.Entitities
 {
-    class SystemUser
+    class Admin
     {
         private String id;
         private String user_name;
         private String password;
         private String user_type;
-        public SystemUser(String id, String user_name, String password, String user_type)
+        public Admin(String id, String user_name, String password, String user_type)
         {
             this.id = id;
             this.user_name = user_name;
             this.password = password;
             this.user_type = user_type;
         }
-        public SystemUser(String user_name, String password, String user_type)
+        public Admin(String user_name, String password, String user_type)
         {
             this.user_name = user_name;
             this.password = password;

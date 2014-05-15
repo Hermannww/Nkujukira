@@ -154,9 +154,6 @@ C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.M
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.Math.dll
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.Statistics.dll
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.Vision.dll
-C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\CSCore.dll
-C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\MediaInfoNET.dll
-C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\NAudio.dll
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\nunit.framework.dll
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.pdb
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\Accord.xml
@@ -200,3 +197,4 @@ C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFra
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.SelectPerpetrator.resources
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.TaskWindowControl.resources
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\Nkujukira.csproj.GenerateResource.Cache
+C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.Views.AddStudentDialog.resources
