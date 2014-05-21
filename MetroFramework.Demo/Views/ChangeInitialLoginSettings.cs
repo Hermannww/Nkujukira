@@ -9,11 +9,14 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using MetroFramework.Demo.Managers;
 using System.Diagnostics;
+using MetroFramework.Demo.FactoryMethod;
+using MetroFramework.Demo.Factories;
 
 namespace MetroFramework.Demo
 {
     public partial class ChangeInitialLoginSettings : MetroForm
     {
+        String DATABASE = "MYSQL";
         public ChangeInitialLoginSettings()
         {
             InitializeComponent();
@@ -26,10 +29,10 @@ namespace MetroFramework.Demo
         }
         private void changeInitialCredentials_Click(object sender, EventArgs e)
         {
-            DatabaseManager db = new DatabaseManager();
+            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
             try
             {
-                if (db.userTableIsNotEmpty())
+                if (dataBaseFactory.userTableIsNotEmpty())
                 {
                     String new_username = new_UserName.Text;
                     String new_password = new_PassWord.Text;
@@ -37,7 +40,7 @@ namespace MetroFramework.Demo
 
                     if (new_password.Equals(confirm_new_pass_word))
                     {
-                        db.updateLoginCredentials("admin", "123", new_username, new_password);
+                        dataBaseFactory.updateLoginCredentials("admin", "123", new_username, new_password);
                         new MainWindow().Show();
                         this.Close();
                     }

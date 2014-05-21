@@ -918,6 +918,7 @@ namespace MetroFramework.Demo
             this.userTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.userTable.Location = new System.Drawing.Point(3, 87);
             this.userTable.Name = "userTable";
+            this.userTable.ReadOnly = true;
             this.userTable.Size = new System.Drawing.Size(912, 310);
             this.userTable.TabIndex = 9;
             // 

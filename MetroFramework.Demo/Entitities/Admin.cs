@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Entitities
 {
-    class Admin
+    public class Admin
     {
         private String id;
         private String user_name;

@@ -234,7 +234,6 @@
     <Compile Include="Views\LoginWindow.designer.cs">
       <DependentUpon>LoginWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Managers\DatabaseManager.cs" />
     <Compile Include="Managers\Manager.cs" />
     <Compile Include="Managers\PerpetratorsManager.cs" />
     <Compile Include="Managers\VictimsManager.cs" />

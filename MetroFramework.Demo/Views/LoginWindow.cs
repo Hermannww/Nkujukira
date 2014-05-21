@@ -10,6 +10,8 @@ using MB.Controls;
 using MetroFramework.Forms;
 using MetroFramework.Demo.Managers;
 using System.Diagnostics;
+using MetroFramework.Demo.FactoryMethod;
+using MetroFramework.Demo.Factories;
 
 namespace MetroFramework.Demo
 {
@@ -50,14 +52,14 @@ namespace MetroFramework.Demo
 
         private void user_login_Click(object sender, EventArgs e)
         {
+            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
             try
             {
                 String user = user_name.Text;
                 String password = pass_word.Text;
-                DatabaseManager dataManager = new DatabaseManager();
-                if (dataManager.getUser(user, password) == true)
+                if (dataBaseFactory.getUser(user, password) == true)
                 {
-                    if (DatabaseManager.firstUser == true)
+                    if (MySQLDataBaseHandler.firstUser==true)
                     {
                         MetroMessageBox.Show(this, "Please You are advised to change your login credentials", "WARNING");
                         (new ChangeInitialLoginSettings()).Show();
@@ -87,7 +89,9 @@ namespace MetroFramework.Demo
             }
         }
 
-      
+
+
+        public string DATABASE = "MYSQL";
     }
 
    

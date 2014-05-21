@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
 using MetroFramework.Demo.Managers;
+using MetroFramework.Demo.FactoryMethod;
+using MetroFramework.Demo.Factories;
 
 namespace MetroFramework.Demo
 {
@@ -37,8 +39,9 @@ namespace MetroFramework.Demo
 
         private void changeUserRole_Click(object sender, EventArgs e)
         {
+            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
             try {
-                bool role_updated = new DatabaseManager().changeUserRole(id,role.Text);
+                bool role_updated = dataBaseFactory.changeUserRole(id, role.Text);
                 if (role_updated==true)
                 {
                     MetroMessageBox.Show(this, "User Role Updated Successfully", "CONGRATULATIONS");
@@ -50,5 +53,7 @@ namespace MetroFramework.Demo
                 Debug.WriteLine(ex.Message);
             }
         }
+
+        public string DATABASE = "MYSQL";
     }
 }

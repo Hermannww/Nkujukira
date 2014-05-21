@@ -4,21 +4,44 @@ using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
 using MetroFramework.Demo.Entitities;
+using System.Data;
 
 namespace MetroFramework.Demo.FactoryMethod
 {
     public interface DataBaseInterface
     {
-       /* public bool openConnection();
-        public bool closeConnection();
-        public bool createTable();
-        public bool createNewUser(Admin user);
-        public bool userNameExists(String user_name);
-        public bool getUser(String user_name, String pass_word);
-        public bool userTableIsNotEmpty();
-        public bool changeUserRole(String id, String role);
-        public bool updateLoginCredentials(String default_user_name, String default_pass_word, String user_name, String pass_word);
-        public bool deleteUser(String id);
-        public bool createTableSystemUsers();*/
+        bool openConnection();
+
+        bool closeConnection();
+
+       /* bool createTable(String[] columns);
+
+        bool insert(String[] columns, String[] data);
+
+        bool delete(String id);
+
+        bool Update(String[] columns, String id);
+
+        Entity[] all();
+
+        Entity[] where(string coloum, string condition, string value);
+
+        Entity[] OrderBy(string coloum, string order);
+
+        Entity First();*/
+
+        //Entity Last();
+        bool createTableAdmin();
+        bool createTableStudent();
+        bool addStudent(Student student);
+        List<Student> getStudentDetails();
+        bool createNewUser(Admin user);
+        bool userNameExists(String user_name);
+        bool getUser(String user_name, String pass_word);
+        bool userTableIsNotEmpty();
+        bool changeUserRole(String id, String role);
+        bool updateLoginCredentials(String default_user_name, String default_pass_word, String user_name, String pass_word);
+        bool deleteUser(String id);
+        DataTable generateUsersDataTable();
     }
 }

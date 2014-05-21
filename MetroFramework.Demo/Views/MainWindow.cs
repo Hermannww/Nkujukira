@@ -16,6 +16,7 @@ using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
 using System.Data;
 using MetroFramework.Demo.Views;
+using MetroFramework.Demo.FactoryMethod;
 
 namespace MetroFramework.Demo
 {
@@ -28,10 +29,13 @@ namespace MetroFramework.Demo
         private const string PAUSE_BUTTON_TEXT = "Pause";
         private const string PLAY_BUTTON_TEXT = "Play";
         public static DataTable userDataTable;
+        public string DATABASE = "MYSQL";
+        DataBaseInterface dataBaseFactory;
 
         public void generateUserTable()
         {
-            userDataTable = new DatabaseManager().generateUsersDataTable();
+            dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+            userDataTable = dataBaseFactory.generateUsersDataTable();
             userTable.DataSource = userDataTable;
             DataGridViewColumn column1 = userTable.Columns[1];
             DataGridViewColumn column2 = userTable.Columns[2];
@@ -72,7 +76,7 @@ namespace MetroFramework.Demo
         {
             try
             {
-                new ChangeUserLoginDetails().ShowDialog(this);
+                new ChangeUserLoginDetails().ShowDialog();
 
             }
             catch (Exception ex)
@@ -118,7 +122,7 @@ namespace MetroFramework.Demo
                 ChangeUserTypeDialog.id = id;
                 ChangeUserTypeDialog.user = user;
                 ChangeUserTypeDialog.user_role = role;
-                new ChangeUserTypeDialog().ShowDialog(this);
+                new ChangeUserTypeDialog().ShowDialog();
                 //MetroMessageBox.Show(this,id+user+role, "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
@@ -135,7 +139,7 @@ namespace MetroFramework.Demo
             {
                 int Row = userTable.CurrentRow.Index;
                 String id = (String)userTable[0, Row].Value;
-                if (new DatabaseManager().deleteUser(id))
+                if (dataBaseFactory.deleteUser(id))
                 {
                     MetroMessageBox.Show(this, "User Deleted Succefully", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 }
@@ -153,7 +157,8 @@ namespace MetroFramework.Demo
 
         private void metroButton12_Click(object sender, EventArgs e)
         {
-            StudentManager.printNumberOfPhotosInFolder(new DatabaseManager().getStudentDetails());
+            
+            StudentManager.printNumberOfPhotosInFolder(dataBaseFactory.getStudentDetails());
             //MetroMessageBox.Show(this, "This is a sample `default` MetroMessagebox ", "MetroMessagebox");
         }
 
@@ -461,5 +466,7 @@ namespace MetroFramework.Demo
 
 
 
+
+       
     }
 }

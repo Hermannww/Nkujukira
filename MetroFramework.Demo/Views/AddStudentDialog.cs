@@ -11,11 +11,14 @@ using System.Diagnostics;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Entitities;
 using System.Collections;
+using MetroFramework.Demo.FactoryMethod;
+using MetroFramework.Demo.Factories;
 
 namespace MetroFramework.Demo.Views
 {
     public partial class AddStudentDialog : MetroForm
     {
+        String DATABASE = "MYSQL";
         public AddStudentDialog()
         {
             InitializeComponent();
@@ -64,7 +67,7 @@ namespace MetroFramework.Demo.Views
 
         private void addStudent_Click(object sender, EventArgs e)
         {
-
+            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
             // String[] photo_paths = new String[photos.Items.Count];
 
             try
@@ -80,7 +83,7 @@ namespace MetroFramework.Demo.Views
                 String gender = this.gender.Text;
                 StudentManager.createImageFolder(student_no);
                 String path = StudentManager.IMAGES_FOLDER + student_no + @"\";
-                bool savedToDB = new DatabaseManager().addStudent(new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, path));
+                bool savedToDB = dataBaseFactory.addStudent(new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, path));
                 if (savedToDB)
                 {
                     int i = 0;
