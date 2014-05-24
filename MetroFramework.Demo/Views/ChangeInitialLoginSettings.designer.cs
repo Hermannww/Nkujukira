@@ -107,9 +107,9 @@
             // 
             this.changeInitialCredentials.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.changeInitialCredentials.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.changeInitialCredentials.Location = new System.Drawing.Point(213, 220);
+            this.changeInitialCredentials.Location = new System.Drawing.Point(258, 220);
             this.changeInitialCredentials.Name = "changeInitialCredentials";
-            this.changeInitialCredentials.Size = new System.Drawing.Size(192, 32);
+            this.changeInitialCredentials.Size = new System.Drawing.Size(109, 32);
             this.changeInitialCredentials.TabIndex = 17;
             this.changeInitialCredentials.Text = "Change";
             this.changeInitialCredentials.UseSelectable = true;

@@ -43,11 +43,13 @@
             this.regNo = new System.Windows.Forms.TextBox();
             this.course = new System.Windows.Forms.TextBox();
             this.gender = new MetroFramework.Controls.MetroComboBox();
-            this.DOB = new System.Windows.Forms.DateTimePicker();
             this.lastName = new System.Windows.Forms.TextBox();
             this.addStudent = new MetroFramework.Controls.MetroButton();
             this.addImageFile = new MetroFramework.Controls.MetroButton();
             this.photos = new MetroFramework.Controls.MetroComboBox();
+            this.date = new MetroFramework.Controls.MetroComboBox();
+            this.month = new MetroFramework.Controls.MetroComboBox();
+            this.year = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -195,14 +197,6 @@
             this.gender.UseSelectable = true;
             this.gender.SelectedIndexChanged += new System.EventHandler(this.role_SelectedIndexChanged);
             // 
-            // DOB
-            // 
-            this.DOB.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DOB.Location = new System.Drawing.Point(206, 255);
-            this.DOB.Name = "DOB";
-            this.DOB.Size = new System.Drawing.Size(244, 26);
-            this.DOB.TabIndex = 27;
-            // 
             // lastName
             // 
             this.lastName.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -215,9 +209,9 @@
             // 
             this.addStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.addStudent.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addStudent.Location = new System.Drawing.Point(223, 354);
+            this.addStudent.Location = new System.Drawing.Point(260, 354);
             this.addStudent.Name = "addStudent";
-            this.addStudent.Size = new System.Drawing.Size(211, 32);
+            this.addStudent.Size = new System.Drawing.Size(122, 32);
             this.addStudent.TabIndex = 29;
             this.addStudent.Text = "Add";
             this.addStudent.UseSelectable = true;
@@ -247,16 +241,94 @@
             this.photos.UseSelectable = true;
             this.photos.SelectedIndexChanged += new System.EventHandler(this.image_file_SelectedIndexChanged);
             // 
+            // date
+            // 
+            this.date.FormattingEnabled = true;
+            this.date.ItemHeight = 23;
+            this.date.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.date.Location = new System.Drawing.Point(206, 256);
+            this.date.Name = "date";
+            this.date.PromptText = "1";
+            this.date.Size = new System.Drawing.Size(79, 29);
+            this.date.TabIndex = 32;
+            this.date.UseSelectable = true;
+            // 
+            // month
+            // 
+            this.month.FormattingEnabled = true;
+            this.month.ItemHeight = 23;
+            this.month.Items.AddRange(new object[] {
+            "Jan",
+            "Feb",
+            "Mar",
+            "April",
+            "May",
+            "June",
+            "July",
+            "Aug",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec"});
+            this.month.Location = new System.Drawing.Point(291, 256);
+            this.month.Name = "month";
+            this.month.PromptText = "Jan";
+            this.month.Size = new System.Drawing.Size(63, 29);
+            this.month.TabIndex = 33;
+            this.month.UseSelectable = true;
+            // 
+            // year
+            // 
+            this.year.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.year.Location = new System.Drawing.Point(360, 255);
+            this.year.Name = "year";
+            this.year.Size = new System.Drawing.Size(90, 30);
+            this.year.TabIndex = 34;
+            this.year.Text = "1990";
+            // 
             // AddStudentDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 440);
+            this.ClientSize = new System.Drawing.Size(509, 473);
+            this.Controls.Add(this.year);
+            this.Controls.Add(this.month);
+            this.Controls.Add(this.date);
             this.Controls.Add(this.photos);
             this.Controls.Add(this.addImageFile);
             this.Controls.Add(this.addStudent);
             this.Controls.Add(this.lastName);
-            this.Controls.Add(this.DOB);
             this.Controls.Add(this.gender);
             this.Controls.Add(this.course);
             this.Controls.Add(this.regNo);
@@ -298,10 +370,12 @@
         private System.Windows.Forms.TextBox regNo;
         private System.Windows.Forms.TextBox course;
         private Controls.MetroComboBox gender;
-        private System.Windows.Forms.DateTimePicker DOB;
         private System.Windows.Forms.TextBox lastName;
         private Controls.MetroButton addStudent;
         private Controls.MetroButton addImageFile;
         private Controls.MetroComboBox photos;
+        private Controls.MetroComboBox date;
+        private Controls.MetroComboBox month;
+        private System.Windows.Forms.TextBox year;
     }
 }

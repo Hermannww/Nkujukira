@@ -39,9 +39,9 @@
             // 
             this.changeUserRole.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.changeUserRole.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.changeUserRole.Location = new System.Drawing.Point(198, 136);
+            this.changeUserRole.Location = new System.Drawing.Point(253, 136);
             this.changeUserRole.Name = "changeUserRole";
-            this.changeUserRole.Size = new System.Drawing.Size(211, 32);
+            this.changeUserRole.Size = new System.Drawing.Size(121, 32);
             this.changeUserRole.TabIndex = 24;
             this.changeUserRole.Text = "Change";
             this.changeUserRole.UseSelectable = true;

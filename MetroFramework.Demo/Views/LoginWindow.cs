@@ -20,7 +20,20 @@ namespace MetroFramework.Demo
         public const int SC_CLOSE = 61536;
         public const int WM_SYSCOMMAND = 274;
         public bool close = false;
+        /// <summary>
+        /// to be used by splash screen
+        /// 
+        /// </summary>
 
+        private bool m_bLayoutCalled = false;
+        //private System.ComponentModel.IContainer components;
+        private DateTime m_dt;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// 
+        
         public Login()
         {
             InitializeComponent();

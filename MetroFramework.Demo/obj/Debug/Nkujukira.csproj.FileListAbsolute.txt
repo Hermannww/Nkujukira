@@ -198,3 +198,4 @@ C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFra
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.TaskWindowControl.resources
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\Nkujukira.csproj.GenerateResource.Cache
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.Views.AddStudentDialog.resources
+C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.SplashScreen.resources

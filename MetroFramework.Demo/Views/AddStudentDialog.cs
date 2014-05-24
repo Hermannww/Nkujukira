@@ -79,7 +79,7 @@ namespace MetroFramework.Demo.Views
                 String student_no = this.studentNo.Text;
                 String reg_no = this.regNo.Text;
                 String course = this.course.Text;
-                String dob = this.DOB.Text;
+                String dob = this.date.Text+"/" + this.month.Text+"/" + year.Text;
                 String gender = this.gender.Text;
                 StudentManager.createImageFolder(student_no);
                 String path = StudentManager.IMAGES_FOLDER + student_no + @"\";
@@ -111,7 +111,6 @@ namespace MetroFramework.Demo.Views
                 Debug.WriteLine(ex.Message);
             }
         }
-
 
     }
 }

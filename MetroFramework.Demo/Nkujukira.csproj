@@ -280,6 +280,12 @@
     <Compile Include="Threads\AbstractThread.cs" />
     <Compile Include="Threads\DisplayUpdaterThread.cs" />
     <Compile Include="Threads\VideoFromFileThread.cs" />
+    <Compile Include="Views\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\AddNewUser.resx">
       <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -319,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskWindowControl.resx">
       <DependentUpon>TaskWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Default.srprofile">
@@ -432,6 +441,7 @@
     <Content Include="Resources\Sounds\Siren.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Splash.JPG" />
     <Content Include="ZedGraph.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

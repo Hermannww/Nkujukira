@@ -39,8 +39,8 @@ namespace MetroFramework.Demo
             userTable.DataSource = userDataTable;
             DataGridViewColumn column1 = userTable.Columns[1];
             DataGridViewColumn column2 = userTable.Columns[2];
-            column1.Width = 400;
-            column2.Width = 370;
+            column1.Width = 200;
+            column2.Width = 200;
 
         }
 
@@ -461,6 +461,84 @@ namespace MetroFramework.Demo
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void metroTabPage5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroButton6_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                new ChangeUserLoginDetails().ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void metroButton9_Click_1(object sender, EventArgs e)
+        {
+            DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected User", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (response == DialogResult.Yes)
+            {
+                int Row = userTable.CurrentRow.Index;
+                String id = (String)userTable[0, Row].Value;
+                if (dataBaseFactory.deleteUser(id))
+                {
+                    MetroMessageBox.Show(this, "User Deleted Succefully", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                }
+            }
+            else if (response == DialogResult.No)
+            {
+                //MetroMessageBox.Show(this, "No...", "");
+            }
+        }
+
+        private void metroButton7_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                new AddNewUser().ShowDialog();
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void metroButton11_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                int Row = userTable.CurrentRow.Index;
+                String id = (String)userTable[0, Row].Value;
+                String user = (String)userTable[1, Row].Value;
+                String role = (String)userTable[2, Row].Value;
+                ChangeUserTypeDialog.id = id;
+                ChangeUserTypeDialog.user = user;
+                ChangeUserTypeDialog.user_role = role;
+                new ChangeUserTypeDialog().ShowDialog();
+                //MetroMessageBox.Show(this,id+user+role, "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void metroButton8_Click_1(object sender, EventArgs e)
+        {
+            new AddStudentDialog().ShowDialog();
         }
 
 

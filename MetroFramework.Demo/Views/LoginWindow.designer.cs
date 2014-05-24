@@ -1,4 +1,5 @@
-﻿namespace MetroFramework.Demo
+﻿using System;
+namespace MetroFramework.Demo
 {
     partial class Login
     {
@@ -20,6 +21,16 @@
             base.Dispose(disposing);
         }
 
+        private void TestSplashScreen_Layout(object sender, System.Windows.Forms.LayoutEventArgs e)
+        {
+            if (m_bLayoutCalled == false)
+            {
+                m_bLayoutCalled = true;
+                m_dt = DateTime.Now;
+                this.Activate();
+                SplashScreen.CloseForm();
+            }
+        }
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -60,10 +71,11 @@
             // user_name
             // 
             this.user_name.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.user_name.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.user_name.Location = new System.Drawing.Point(189, 80);
+            this.user_name.Font = new System.Drawing.Font("Trebuchet MS", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.user_name.Location = new System.Drawing.Point(189, 85);
+            this.user_name.Multiline = true;
             this.user_name.Name = "user_name";
-            this.user_name.Size = new System.Drawing.Size(192, 30);
+            this.user_name.Size = new System.Drawing.Size(192, 27);
             this.user_name.TabIndex = 2;
             this.user_name.TextChanged += new System.EventHandler(this.user_name_TextChanged);
             // 
@@ -81,9 +93,9 @@
             // 
             this.user_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.user_login.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.user_login.Location = new System.Drawing.Point(189, 171);
+            this.user_login.Location = new System.Drawing.Point(241, 173);
             this.user_login.Name = "user_login";
-            this.user_login.Size = new System.Drawing.Size(192, 32);
+            this.user_login.Size = new System.Drawing.Size(67, 32);
             this.user_login.TabIndex = 16;
             this.user_login.Text = "Login";
             this.user_login.UseSelectable = true;
@@ -99,10 +111,15 @@
             this.Controls.Add(this.user_name);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Login";
+            this.ShowIcon = false;
             this.Text = "Login";
+            this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.Login_Load);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.TestSplashScreen_Layout);
             this.ResumeLayout(false);
             this.PerformLayout();
 

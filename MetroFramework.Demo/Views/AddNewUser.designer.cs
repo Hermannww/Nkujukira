@@ -131,9 +131,9 @@
             // 
             this.changeloginCredentials.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.changeloginCredentials.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.changeloginCredentials.Location = new System.Drawing.Point(180, 194);
+            this.changeloginCredentials.Location = new System.Drawing.Point(222, 194);
             this.changeloginCredentials.Name = "changeloginCredentials";
-            this.changeloginCredentials.Size = new System.Drawing.Size(211, 32);
+            this.changeloginCredentials.Size = new System.Drawing.Size(132, 32);
             this.changeloginCredentials.TabIndex = 19;
             this.changeloginCredentials.Text = "Create";
             this.changeloginCredentials.UseSelectable = true;
