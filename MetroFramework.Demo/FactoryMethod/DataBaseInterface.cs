@@ -14,23 +14,6 @@ namespace MetroFramework.Demo.FactoryMethod
 
         bool closeConnection();
 
-       /* bool createTable(String[] columns);
-
-        bool insert(String[] columns, String[] data);
-
-        bool delete(String id);
-
-        bool Update(String[] columns, String id);
-
-        Entity[] all();
-
-        Entity[] where(string coloum, string condition, string value);
-
-        Entity[] OrderBy(string coloum, string order);
-
-        Entity First();*/
-
-        //Entity Last();
         bool createTableAdmin();
         bool createTableStudent();
         bool addStudent(Student student);

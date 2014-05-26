@@ -60,7 +60,7 @@ namespace MetroFramework.Demo
                 System.Threading.Thread.Sleep(240);
                 SplashScreen.SetStatus("Loading .............");
                 System.Threading.Thread.Sleep(90);
-                new Login().Show();
+                new LoginForm().Show();
                 Application.Run();
 
             }

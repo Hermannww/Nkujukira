@@ -20,7 +20,7 @@ namespace Nkujukira.Threads
         public static double VIDEO_LENGTH;
         public static string VIDEO_LENGTH_STRING;
         private FootageSavingThread footage_saver;
-        private int SLEEP_TIME = 30;
+        private const int SLEEP_TIME = 30;
 
 
 

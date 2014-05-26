@@ -1,37 +1,52 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using Manina.Windows.Forms;
 using MetroFramework.Demo.Singletons;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Nkujukira.Threads
 {
     public class FaceDetectingThread : AbstractThread
     {
-        public Image<Bgr, byte> current_frame;
         public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
+        
+        public static bool WORK_DONE;
+        public static bool draw_detected_faces;
+
+        public static volatile int previous_id ;
+        public static volatile bool its_time_to_pick_perpetrator_faces=false;
+        
+        private Image<Bgr, byte> current_frame;
         private HaarCascade haarcascade;
         public Rectangle[] detected_faces;
-        public int frame_width;
-        public int frame_height;
+        private int frame_width;
+        private int frame_height;
         private bool sucessfull;
-        public static volatile int previous_id = 0;
-        private int counter                    = 0;
-        public static bool WORK_DONE           = false;
-        public static bool draw_detected_faces = false;
         private Point location;
+
+        private int counter ;
+
+      
+        
         
 
         public FaceDetectingThread(int frame_width, int frame_height)
             : base()
         {
-            haarcascade       = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
-            this.frame_width  = frame_width;
-            this.frame_height = frame_height;
-            location          = new Point(2, 2);
+            haarcascade         = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
+            this.frame_width    = frame_width;
+            this.frame_height   = frame_height;
+            WORK_DONE           = false;
+            draw_detected_faces = false;
+            counter             = 0;
+            previous_id         = 0;
+            location            = new Point(2, 2);
+           
 
         }
 
@@ -44,42 +59,54 @@ namespace Nkujukira.Threads
                 {
                     //GET NEXT FRAME
                     //GET DETECTED FACES IN FRAME
-                    //FOR EACH FACE DRAW A RECTANGLE AROUND FACE IN PARALLEL
                     DetectFacesInFrame();
+
+                    //IF OPTION IS ENABLED ADD DETECTED FACES TO PANEL
                     AddDetectedFacesToListViewPanel();
+
+                    //FOR EACH FACE DRAW A RECTANGLE AROUND FACE IN PARALLEL
                     DrawShapeAroundDetectedfaces();
+
+                    //ADD FRAME TO THE QUEUE FOR DISPLAY
                     AddFrameToQueueForDisplay();
-                    
-
-
-                }
+                 }
             }
         }
-
+        int count = 0;
         private void AddDetectedFacesToListViewPanel()
         {
             try
             {
-                if (detected_faces!=null&&current_frame!=null)
+                if (its_time_to_pick_perpetrator_faces)
                 {
-                    
-
-                    foreach (var detected_face in detected_faces)
+                    if (detected_faces != null && current_frame != null)
                     {
-                        Bitmap face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
-                        PictureBox a_picture_box = new PictureBox();
-                        a_picture_box.Width = face.Width;
-                        a_picture_box.Height = face.Height;
-                        a_picture_box.Image = face;
+                        ImageListView image_list_view = Singleton.SELECT_PERP_FACES.GetImageListView();
 
-                        if (Singleton.MAIN_WINDOW.GetDetectedFacesPanel().InvokeRequired)
+                        //create an image list
+                        ImageList image_list = new ImageList();
+                       
+                        for (int i = 0; i < detected_faces.Length;i++ )
                         {
-                            Singleton.MAIN_WINDOW.GetDetectedFacesPanel().Invoke((MethodInvoker)delegate
-                            {
-                                Singleton.MAIN_WINDOW.GetDetectedFacesPanel().Controls.Clear();
-                                Singleton.MAIN_WINDOW.GetDetectedFacesPanel().Controls.Add(a_picture_box);
-                            });
+                            //get face
+                            Bitmap face = FramesManager.CropSelectedFace(detected_faces[i], current_frame.Clone());
+
+                            //resize face
+                            face = FramesManager.ResizeBitmap(face, new Size(120, 120));
+
+                            //Debug.WriteLine("ADDING FACE " + count);
+                            
+                            //add face to image list
+                            Singleton.SELECT_PERP_FACES.suspect_faces.TryAdd(count, face);
+
+                            //add face to image list view
+                            image_list_view.Invoke(new AddImage(Singleton.SELECT_PERP_FACES.AddImage),new object[] {"face " + count, "face " + count, face});
+
+                            //increment id counter
+                            count++;
+
                         }
+                        
                     }
                 }
 
@@ -90,6 +117,10 @@ namespace Nkujukira.Threads
             }
 
         }
+
+        public delegate void AddImage(Object key,String txt,Image thumbnail);
+
+        
 
         //CAN UPDATE UI THREAD
         public override void ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -104,7 +135,7 @@ namespace Nkujukira.Threads
             WORK_DONE = true;
         }
 
-
+        //ADDS A FRAME TO THE DATASTORE MEANT FOR FRAMES TO BE DISPLAYED
         public void AddFrameToQueueForDisplay()
         {
             if (sucessfull)
@@ -117,7 +148,7 @@ namespace Nkujukira.Threads
         }
 
 
-
+        //DRAWS A SHAPE AROUND THE FACE IF THE OPTION IS SELECTED
         public bool DrawShapeAroundDetectedfaces()
         {
             try
@@ -132,7 +163,7 @@ namespace Nkujukira.Threads
 
                         if (counter == 250)
                         {
-                            counter = 0;
+                            counter     = 0;
                             previous_id = 0;
                         }
                         return true;
@@ -146,12 +177,17 @@ namespace Nkujukira.Threads
             return false;
         }
 
-
+        //DETECTS FACES IN THE CURRENT FRAME
         public void DetectFacesInFrame()
         {
+            //try to get a frame from the shared datastore for captured frames
             sucessfull = Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
+            
+            
+            //if ok
             if (sucessfull)
             {
+                //detect faces in frame
                 detected_faces = FramesManager.DetectFacesInFrame(current_frame.Clone(), haarcascade);
 
             }
@@ -161,13 +197,14 @@ namespace Nkujukira.Threads
                 //IF OUTPUT GRABBER THREAD IS DONE THEN IT MEANS THE FRAMES ARE DONE
                 //TERMINATE THIS THREAD AND SIGNAL TO OTHERS THAT IT IS DONE
                 if (VideoFromFileThread.WORK_DONE)
-                {   
+                {
+                    WORK_DONE = true;
                     running = false;     
                 }
             }
         }
 
 
-
+        
     }
 }

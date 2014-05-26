@@ -6,15 +6,15 @@ namespace MetroFramework.Demo.Factories
 {
     class ThreadFactory
     {
-        public const String ALERT_THREAD = "alert";
-        public const String CAMERA_THREAD = "camera_output";
+        public const String ALERT_THREAD    = "alert";
+        public const String CAMERA_THREAD   = "camera_output";
         public const String DISPLAY_UPDATER = "display_updater";
-        public const String FACE_DETECTOR = "face_detector";
-        public const String FACE_DRAWER = "face_drawer";
-        public const String FACE_TRACKER = "face_tracker";
-        public const String FOOTAGE_SAVER = "footage_saver";
-        public const String VIDEO_THREAD = "video_from_file";
-        public static String[] ALL_THREADS = { ALERT_THREAD, CAMERA_THREAD, DISPLAY_UPDATER, FACE_DETECTOR, FACE_DRAWER, FACE_TRACKER, FOOTAGE_SAVER, VIDEO_THREAD };
+        public const String FACE_DETECTOR   = "face_detector";
+        public const String FACE_DRAWER     = "face_drawer";
+        public const String FACE_TRACKER    = "face_tracker";
+        public const String FOOTAGE_SAVER   = "footage_saver";
+        public const String VIDEO_THREAD    = "video_from_file";
+        public static String[] ALL_THREADS  = { ALERT_THREAD, CAMERA_THREAD, DISPLAY_UPDATER, FACE_DETECTOR, FACE_DRAWER, FACE_TRACKER, FOOTAGE_SAVER, VIDEO_THREAD };
 
 
         public static AbstractThread CreateThread(String thread_id)
@@ -45,7 +45,9 @@ namespace MetroFramework.Demo.Factories
             }
             return null;
         }
-
+        
+        
+        //STARTS A NEW ALERT GENERATION THREAD
         private static AbstractThread CreateNewAlertGenerationThread()
         {
             AlertGenerationThread alert_thread = new AlertGenerationThread(null);
@@ -79,7 +81,7 @@ namespace MetroFramework.Demo.Factories
             return face_detector;
         }
 
-
+        //STARTS A NEW FOOTAGE SAVING THREAD
         private static AbstractThread CreateFootageSaverThread()
         {
             FootageSavingThread footage_saver = new FootageSavingThread(VideoFromFileThread.video_capture);

@@ -8,6 +8,8 @@ namespace MetroFramework.Demo.Managers
 {
     public class PerpetratorsManager 
     {
+        public static int PERPETRATOR_ID = 0;
+
         public static  Entity[] All()
         {
             throw new NotImplementedException();
@@ -36,6 +38,17 @@ namespace MetroFramework.Demo.Managers
         public static Entity Last()
         {
             throw new NotImplementedException();
+        }
+
+        public static bool Save(Perpetrator perp) 
+        {
+
+            return false;
+        }
+
+        internal static void Delete(int perpetrator_id)
+        {
+            
         }
     }
 }

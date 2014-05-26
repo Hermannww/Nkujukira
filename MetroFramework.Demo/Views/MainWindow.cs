@@ -14,35 +14,17 @@ using MB.Controls;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
-using System.Data;
-using MetroFramework.Demo.Views;
-using MetroFramework.Demo.FactoryMethod;
 
 namespace MetroFramework.Demo
 {
     public partial class MainWindow : MetroForm
     {
-        private const string SELECT_VIDEO_MESSAGE = "Please Select a Video file";
+        private const string SELECT_VIDEO_MESSAGE        = "Please Select a Video file";
         private const string LOAD_CAMERA_FOOTAGE_MESSAGE = "You Are Loading Footage From Your camera!!";
-        private const string FILE_FILTER = "All files (*.*)|*.*";
-        private const string MESSAGE_BOX_TITLE = "Message!!";
-        private const string PAUSE_BUTTON_TEXT = "Pause";
-        private const string PLAY_BUTTON_TEXT = "Play";
-        public static DataTable userDataTable;
-        public string DATABASE = "MYSQL";
-        DataBaseInterface dataBaseFactory;
-
-        public void generateUserTable()
-        {
-            dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
-            userDataTable = dataBaseFactory.generateUsersDataTable();
-            userTable.DataSource = userDataTable;
-            DataGridViewColumn column1 = userTable.Columns[1];
-            DataGridViewColumn column2 = userTable.Columns[2];
-            column1.Width = 200;
-            column2.Width = 200;
-
-        }
+        private const string FILE_FILTER                 = "All files (*.*)|*.*";
+        private const string MESSAGE_BOX_TITLE           = "Message!!";
+        private const string PAUSE_BUTTON_TEXT           = "Pause";
+        private const string PLAY_BUTTON_TEXT            = "Play";
 
 
         public MainWindow()
@@ -56,7 +38,6 @@ namespace MetroFramework.Demo
             this.MaximizeBox = false;
 
             DisableControls();
-            generateUserTable();
         }
 
 
@@ -74,16 +55,7 @@ namespace MetroFramework.Demo
 
         private void metroButton6_Click(object sender, EventArgs e)
         {
-            try
-            {
-                new ChangeUserLoginDetails().ShowDialog();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `OK` only button", "MetroMessagebox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `OK` only button", "MetroMessagebox", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void metroButton10_Click(object sender, EventArgs e)
@@ -93,73 +65,27 @@ namespace MetroFramework.Demo
 
         private void metroButton7_Click(object sender, EventArgs e)
         {
-            try
-            {
-                new AddNewUser().ShowDialog();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes` and `No` button", "MetroMessagebox", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes` and `No` button", "MetroMessagebox", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         }
 
         private void metroButton8_Click(object sender, EventArgs e)
         {
-            new AddStudentDialog().ShowDialog();
-            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes`, `No` and `Cancel` button", "MetroMessagebox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Yes`, `No` and `Cancel` button", "MetroMessagebox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
         }
 
         private void metroButton11_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int Row = userTable.CurrentRow.Index;
-                String id = (String)userTable[0, Row].Value;
-                String user = (String)userTable[1, Row].Value;
-                String role = (String)userTable[2, Row].Value;
-                ChangeUserTypeDialog.id = id;
-                ChangeUserTypeDialog.user = user;
-                ChangeUserTypeDialog.user_role = role;
-                new ChangeUserTypeDialog().ShowDialog();
-                //MetroMessageBox.Show(this,id+user+role, "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Retry` and `Cancel` button.  With warning style.", "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Retry` and `Cancel` button.  With warning style.", "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
         }
 
         private void metroButton9_Click(object sender, EventArgs e)
         {
-            DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected User", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (response == DialogResult.Yes)
-            {
-                int Row = userTable.CurrentRow.Index;
-                String id = (String)userTable[0, Row].Value;
-                if (dataBaseFactory.deleteUser(id))
-                {
-                    MetroMessageBox.Show(this, "User Deleted Succefully", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                }
-                else
-                {
-                    MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
-                }
-            }
-            else if (response == DialogResult.No)
-            {
-                MetroMessageBox.Show(this, "No...", "");
-            }
-            //MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Abort`, `Retry` and `Ignore` button.  With Error style.", "MetroMessagebox", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `Abort`, `Retry` and `Ignore` button.  With Error style.", "MetroMessagebox", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
         }
 
         private void metroButton12_Click(object sender, EventArgs e)
         {
-            
-            StudentManager.printNumberOfPhotosInFolder(dataBaseFactory.getStudentDetails());
-            //MetroMessageBox.Show(this, "This is a sample `default` MetroMessagebox ", "MetroMessagebox");
+            MetroMessageBox.Show(this, "This is a sample `default` MetroMessagebox ", "MetroMessagebox");
         }
 
         private void metroButton3_Click(object sender, EventArgs e)
@@ -286,14 +212,15 @@ namespace MetroFramework.Demo
         public void PauseVideo()
         {
             ThreadManager.PauseAllThreads();
-            pause_button.Text = PLAY_BUTTON_TEXT;
+            AbstractThread.SetControlPropertyThreadSafe(pause_button, "Text", PLAY_BUTTON_TEXT);
         }
 
         //ATTEMPTS TO RESUME A PREVIOUSLY PAUSED VIDEO
         public void ResumeVideo()
         {
             ThreadManager.ResumeAllThreads();
-            pause_button.Text = PAUSE_BUTTON_TEXT;
+            AbstractThread.SetControlPropertyThreadSafe(pause_button, "Text", PAUSE_BUTTON_TEXT);
+           
         }
 
         //ENABLES DRAWING OF DETECTED FACES ON TO THE FRAMES
@@ -435,116 +362,47 @@ namespace MetroFramework.Demo
             return review_footage_color_slider;
         }
 
-        public Label GetLabel(String name) 
+        public Control GetControl(String name) 
         {
-            switch (name) 
+            switch (name)
             {
                 case "time_elapsed":
                     return time_elapsed_label;
                 case "total_time":
                     return total_time_label;
+                case "suspects_picture_box":
+                    return suspects_picture_box;
+                case "comparison_picture_box":
+                    return comparison_picture_box;
+                case "review_image_box":
+                    return review_footage_image_box;
+                case "detected_faces_panel":
+                    return panel_for_detected_faces;
+                case "comparison_table":
+                    //tableLayoutPanel1.ro
+                    return tableLayoutPanel1;
+                   
             }
             return null;
         }
+
 
         //HANDLES A CLICK EVENT IN THE REVIEW FOOTAGE BOX
         private void review_footage_image_box_Click(object sender, EventArgs e)
         {
             if (((DisplayUpdaterThread)ThreadManager.GetThread(ThreadFactory.DISPLAY_UPDATER)) != null)
             {
-                PauseVideo();
-                SelectPerpetrator form = new SelectPerpetrator((Image<Bgr, byte>)review_footage_image_box.Image);
-                form.Show();
-            }
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void metroTabPage5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void metroButton6_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                new ChangeUserLoginDetails().ShowDialog();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void metroButton9_Click_1(object sender, EventArgs e)
-        {
-            DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected User", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (response == DialogResult.Yes)
-            {
-                int Row = userTable.CurrentRow.Index;
-                String id = (String)userTable[0, Row].Value;
-                if (dataBaseFactory.deleteUser(id))
+                if (review_footage_image_box.Image!=null)
                 {
-                    MetroMessageBox.Show(this, "User Deleted Succefully", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                }
-                else
-                {
-                    MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                    PauseVideo();
+                    SelectPerpetratorForm form = new SelectPerpetratorForm((Image<Bgr, byte>)review_footage_image_box.Image);
+                    form.Show();
                 }
             }
-            else if (response == DialogResult.No)
-            {
-                //MetroMessageBox.Show(this, "No...", "");
-            }
-        }
-
-        private void metroButton7_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                new AddNewUser().ShowDialog();
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void metroButton11_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int Row = userTable.CurrentRow.Index;
-                String id = (String)userTable[0, Row].Value;
-                String user = (String)userTable[1, Row].Value;
-                String role = (String)userTable[2, Row].Value;
-                ChangeUserTypeDialog.id = id;
-                ChangeUserTypeDialog.user = user;
-                ChangeUserTypeDialog.user_role = role;
-                new ChangeUserTypeDialog().ShowDialog();
-                //MetroMessageBox.Show(this,id+user+role, "MetroMessagebox", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void metroButton8_Click_1(object sender, EventArgs e)
-        {
-            new AddStudentDialog().ShowDialog();
         }
 
 
 
 
-
-       
     }
 }

@@ -8,6 +8,8 @@ namespace MetroFramework.Demo.Managers
 {
     class VictimsManager 
     {
+        public static int VICTIM_ID=0;
+
         public static Entity[] All()
         {
             throw new NotImplementedException();
@@ -36,6 +38,11 @@ namespace MetroFramework.Demo.Managers
         public static Entity Last()
         {
             throw new NotImplementedException();
+        }
+
+        internal static bool Save(Victim victim)
+        {
+            return true;
         }
     }
 }

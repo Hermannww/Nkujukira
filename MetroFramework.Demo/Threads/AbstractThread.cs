@@ -3,23 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Nkujukira.Threads
 {
     public abstract class AbstractThread:ThreadInterface
     {
         //VOLATILE BOOL BECOZ MULTIPLE THREADS WILL ACCESS IT
-        protected volatile bool running;
-        protected volatile bool paused;
+        protected bool running= false;
+        protected bool paused = false;
         protected BackgroundWorker background_worker;
 
         //CONSTRUCTOR
         public AbstractThread()
         {
-            running                                      = true;
-            paused                                       = false;
+            
 
             background_worker                            = new BackgroundWorker();
             background_worker.WorkerReportsProgress      = true;
@@ -38,7 +39,23 @@ namespace Nkujukira.Threads
 
         public abstract void DoWork(object sender, DoWorkEventArgs e);
 
+        //METHOD DELEGATE
+        private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);
 
+        //PROVIDES A THREAD SAFE WAY TO UPDATE THE GUI FROM THIS THREAD
+        public static void SetControlPropertyThreadSafe(Control control, string propertyName, object propertyValue)
+        {
+            //IF AN INVOKE IS REQUIRED FOR THIS CONTROL
+            if (control.InvokeRequired)
+            {
+                //INVOKE THE UPDATE OPERATION
+                control.Invoke(new SetControlPropertyThreadSafeDelegate(SetControlPropertyThreadSafe), new object[] { control, propertyName, propertyValue });
+            }
+            else
+            {
+                control.GetType().InvokeMember(propertyName, BindingFlags.SetProperty, null, control, new object[] { propertyValue });
+            }
+        }
 
         public void StartWorking()
         {
@@ -47,6 +64,11 @@ namespace Nkujukira.Threads
             background_worker.RunWorkerAsync();
         }
 
+
+        public bool IsRunning()
+        {
+            return running;
+        }
 
         public virtual bool Pause()
         {

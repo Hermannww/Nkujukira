@@ -1,27 +1,49 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Singletons
 {
     class Singleton
     {
-        public static MainWindow MAIN_WINDOW { get; set; }
+        private static int perpetrator_id = 0;
 
-        private static String current_file_name = "";
-
-        public static String CURRENT_FILE_NAME 
+        public static int PERPETRATOR_ID
         {
             get 
             {
+                return Singleton.perpetrator_id; 
+            }
+            set
+            { 
+                Singleton.perpetrator_id = value;
+            }
+        }
+
+        public static String START_UP_FOLDER = Application.StartupPath;
+
+        public static String RESOURCES_DIRECTORY = START_UP_FOLDER + @"\Resources\";
+
+        public static MainWindow MAIN_WINDOW { get; set; }
+
+        public static SelectPerpetratorFacesForm SELECT_PERP_FACES { get; set; }
+
+        private static String current_file_name = "";
+
+        public static String CURRENT_FILE_NAME
+        {
+            get
+            {
                 return Singleton.current_file_name;
             }
-            set 
+            set
             {
                 Singleton.current_file_name = value;
             }
@@ -37,11 +59,11 @@ namespace MetroFramework.Demo.Singletons
             }
             set
             {
-                Singleton.frames_to_be_processed= value;
+                Singleton.frames_to_be_processed = value;
             }
         }
 
-        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_displayed=new ConcurrentQueue<Image<Bgr,byte>>();
+        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();
 
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_DISPLAYED
         {
@@ -50,9 +72,9 @@ namespace MetroFramework.Demo.Singletons
 
                 return Singleton.frames_to_be_displayed;
             }
-            set 
+            set
             {
-                Singleton.frames_to_be_displayed=value;
+                Singleton.frames_to_be_displayed = value;
             }
         }
 
@@ -76,8 +98,8 @@ namespace MetroFramework.Demo.Singletons
                 return Singleton.detected_faces_datastore;
             }
             set
-            { 
-                Singleton.detected_faces_datastore= value;
+            {
+                Singleton.detected_faces_datastore = value;
             }
         }
 

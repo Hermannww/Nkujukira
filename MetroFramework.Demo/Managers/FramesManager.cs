@@ -13,12 +13,11 @@ namespace Nkujukira
     class FramesManager
     {
         public static Color COLOR_OF_FACE_RECTANGLE = Color.Green;
-        const int THICKNESS = 1;
-
-        const double SCALE = 3.0;
-        const double SCALEFACTOR = 1.4;
-        const int MINIMUM_NEIGBHOURS = 3;
-        const int WINDOW_SIZE = 50;
+        private const int THICKNESS                 = 1;
+        private const double SCALE                  = 3.0;
+        private const double SCALEFACTOR            = 1.4;
+        private const int MINIMUM_NEIGBHOURS        = 3;
+        private const int WINDOW_SIZE               = 50;
 
 
         public static Image<Bgr, byte> GetNextFrame(Capture capture)
@@ -30,7 +29,11 @@ namespace Nkujukira
 
             try
             {
-                Image<Bgr, byte> frame = capture.QueryFrame();
+                Image<Bgr, byte> frame=null;
+                lock (capture)
+                {
+                    frame = capture.QueryFrame();   
+                }
                 return frame;
             }
             catch (Exception e)
@@ -148,14 +151,14 @@ namespace Nkujukira
             }
 
             current_frame.Draw(rectangle_of_detected_face, new Bgr(COLOR_OF_FACE_RECTANGLE), THICKNESS);
-            sucess = true;
+            sucess     = true;
             return current_frame;
         }
 
 
         public static Bitmap DrawShapeOnTransparentBackGround(Rectangle a_rectangle, int frame_width, int frame_height)
         {
-            Bitmap bitmap = new Bitmap(frame_width, frame_height);
+            Bitmap bitmap     = new Bitmap(frame_width, frame_height);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
             graphics.DrawRectangle(Pens.Green, a_rectangle);
@@ -190,8 +193,8 @@ namespace Nkujukira
         {
             try
             {
-                Image<Gray, byte> gray_scale = frame.Convert<Gray, byte>();
-                gray_scale.ROI = detected_face;
+                Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
+                gray_scale.ROI                 = detected_face;
                 Image<Gray, byte> cropped_face = gray_scale.Copy();
                 return cropped_face.ToBitmap();
             }

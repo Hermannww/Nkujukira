@@ -15,7 +15,7 @@ namespace MetroFramework.Demo.Entitities
         public String time_of_crime  { get; set; }
         public int crime_id          { get; set; }
 
-        public Victim(String name, String date_of_birth, String[] items_stolen, String gender, bool is_student, String time_of_crime, int crime_id) 
+        public Victim(String name, String date_of_birth, String[] items_stolen, String gender, bool is_student, int crime_id) 
         {
             this.name          = name;
             this.date_of_birth = date_of_birth;
