@@ -3,7 +3,7 @@ using MetroFramework.Forms;
 
 namespace MetroFramework.Demo
 {
-    partial class SplashScreen : MetroForm
+    partial class SplashScreen : Form
     {
         /// <summary>
         /// Required designer variable.
@@ -42,8 +42,8 @@ namespace MetroFramework.Demo
             // lblStatus
             // 
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
-            this.lblStatus.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblStatus.Location = new System.Drawing.Point(112, 116);
+            this.lblStatus.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus.Location = new System.Drawing.Point(103, 190);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(279, 14);
             this.lblStatus.TabIndex = 0;
@@ -52,9 +52,9 @@ namespace MetroFramework.Demo
             // pnlStatus
             // 
             this.pnlStatus.BackColor = System.Drawing.Color.Transparent;
-            this.pnlStatus.Location = new System.Drawing.Point(112, 138);
+            this.pnlStatus.Location = new System.Drawing.Point(106, 207);
             this.pnlStatus.Name = "pnlStatus";
-            this.pnlStatus.Size = new System.Drawing.Size(279, 18);
+            this.pnlStatus.Size = new System.Drawing.Size(279, 10);
             this.pnlStatus.TabIndex = 1;
             this.pnlStatus.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlStatus_Paint);
             this.pnlStatus.DoubleClick += new System.EventHandler(this.SplashScreen_DoubleClick);
@@ -62,8 +62,8 @@ namespace MetroFramework.Demo
             // lblTimeRemaining
             // 
             this.lblTimeRemaining.BackColor = System.Drawing.Color.Transparent;
-            this.lblTimeRemaining.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblTimeRemaining.Location = new System.Drawing.Point(112, 169);
+            this.lblTimeRemaining.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblTimeRemaining.Location = new System.Drawing.Point(106, 220);
             this.lblTimeRemaining.Name = "lblTimeRemaining";
             this.lblTimeRemaining.Size = new System.Drawing.Size(279, 16);
             this.lblTimeRemaining.TabIndex = 2;
@@ -78,18 +78,21 @@ namespace MetroFramework.Demo
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(421, 221);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(494, 317);
             this.ControlBox = false;
             this.Controls.Add(this.lblTimeRemaining);
             this.Controls.Add(this.pnlStatus);
             this.Controls.Add(this.lblStatus);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SplashScreen";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nkujukira";
-            this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
-            this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TransparencyKey = System.Drawing.Color.White;
             this.Load += new System.EventHandler(this.SplashScreen_Load);
             this.DoubleClick += new System.EventHandler(this.SplashScreen_DoubleClick);
             this.ResumeLayout(false);

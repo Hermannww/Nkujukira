@@ -14,7 +14,7 @@ using MetroFramework.Forms;
 namespace MetroFramework.Demo
 {
     // The SplashScreen class definition.  AKO Form
-    public partial class SplashScreen : MetroForm
+    public partial class SplashScreen : Form
     {
         #region Member Variables
         // Threading
@@ -53,7 +53,7 @@ namespace MetroFramework.Demo
         public SplashScreen()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Red;
+           // this.Style = MetroColorStyle.Red;
             this.Opacity = 0.0;
             UpdateTimer.Interval = TIMER_INTERVAL;
             UpdateTimer.Start();

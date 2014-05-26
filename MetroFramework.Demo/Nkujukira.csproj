@@ -426,6 +426,8 @@
     <Content Include="Resources\Images\help.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\nk_bg2.bmp" />
+    <Content Include="Resources\Images\nk_bg2.png" />
     <Content Include="Resources\Images\replay1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -438,6 +440,8 @@
     <Content Include="Resources\Images\wanted1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\nk_bg2.bmp" />
+    <Content Include="Resources\nk_bg2.png" />
     <Content Include="Resources\Sounds\Siren.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

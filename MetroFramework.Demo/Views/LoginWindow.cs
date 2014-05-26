@@ -33,7 +33,7 @@ namespace MetroFramework.Demo
         /// Clean up any resources being used.
         /// </summary>
         /// 
-        
+
         public Login()
         {
             InitializeComponent();
@@ -44,8 +44,8 @@ namespace MetroFramework.Demo
         {
             try
             {
-                    this.Close();
-                
+                this.Close();
+
             }
             catch (Exception ex)
             {
@@ -65,47 +65,89 @@ namespace MetroFramework.Demo
 
         private void user_login_Click(object sender, EventArgs e)
         {
-            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
-            try
-            {
-                String user = user_name.Text;
-                String password = pass_word.Text;
-                if (dataBaseFactory.getUser(user, password) == true)
-                {
-                    if (MySQLDataBaseHandler.firstUser==true)
-                    {
-                        MetroMessageBox.Show(this, "Please You are advised to change your login credentials", "WARNING");
-                        (new ChangeInitialLoginSettings()).Show();
-                        this.Close();
-                    }
-                    else
-                    {
-                        (new MainWindow()).Show();
-                        this.Close();
-                    }
-
-
-                }
-                else
-                {
-                    MetroMessageBox.Show(this, "Please Get the right User Login Details", "ERROR");
-                    
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-            }
+            timer1.Enabled = true;
+           
         }
 
 
 
         public string DATABASE = "MYSQL";
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            if (user_name.Text == "" && pass_word.Text == "")
+            {
+
+                progressBar.Enabled = false;
+                timer1.Enabled = false;
+                progressBar.Visible = false;
+                progressBar.Value = 0;
+                label3.Text = "Please!! Enter Your Username or Password.";
+            }
+            else 
+            {
+                progressBar.Visible = true;
+                progressBar.Value = progressBar.Value + 5;
+                label3.Visible = true;
+                label3.Text = "Please Wait While we are checking Authentication...";
+
+                if (progressBar.Value == progressBar.Maximum)
+                {
+
+                    DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+                    try
+                    {
+                        String user = user_name.Text;
+                        String password = pass_word.Text;
+                        if (dataBaseFactory.getUser(user, password) == true)
+                        {
+                            if (MySQLDataBaseHandler.firstUser == true)
+                            {
+                                MetroMessageBox.Show(this, "Please You are advised to change your login credentials", "WARNING");
+                                (new ChangeInitialLoginSettings()).Show();
+                                this.Close();
+                            }
+                            else
+                            {
+
+                                timer1.Enabled = false;
+                                progressBar.Visible = false;
+                                label3.Text = "Welcome!! you are Authorised User.";
+                                progressBar.Enabled = false;
+                                progressBar.Value = 0;
+                                (new MainWindow()).Show();
+                                this.Close();
+                            }
+
+
+                        }
+                        else
+                        {
+
+                            progressBar.Enabled = false;
+                            timer1.Enabled = false;
+                            progressBar.Visible = false;
+                            progressBar.Value = 0;
+                            user_name.Text = "";
+                            pass_word.Text = "";
+                            label3.Text = "Sorry!! Username or Password is Wrong.";
+
+                        }
+
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+
+                    }
+                }
+            }
+            
+        }
     }
 
-   
+
 }
