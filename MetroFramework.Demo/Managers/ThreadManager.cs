@@ -7,13 +7,13 @@ namespace MetroFramework.Demo.Managers
     public class ThreadManager
     {
         private static CameraOutputGrabberThread cam_output;
-        private static VideoFromFileThread video_from_file_grabber;
-        private static FaceDetectingThread face_detector;
-        private static DisplayUpdaterThread display_updater;
-        private static FaceTrackingThread face_tracker;
-        private static AlertGenerationThread alert_thread;
-        private static FaceDrawingThread face_drawer;
-        private static FootageSavingThread footage_saver;
+        private static VideoFromFileThread       video_from_file_grabber;
+        private static FaceDetectingThread       face_detector;
+        private static DisplayUpdaterThread      display_updater;
+        private static FaceTrackingThread        face_tracker;
+        private static AlertGenerationThread     alert_thread;
+        private static FaceDrawingThread         face_drawer;
+        private static FootageSavingThread       footage_saver;
 
 
         public static bool StartIntroThreads(bool review_mode)

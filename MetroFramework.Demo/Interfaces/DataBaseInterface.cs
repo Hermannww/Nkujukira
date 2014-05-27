@@ -4,21 +4,27 @@ using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
 using MetroFramework.Demo.Entitities;
+using System.Data;
 
 namespace MetroFramework.Demo.FactoryMethod
 {
-    public interface DataBaseInterface
+    public interface DatabaseInterface
     {
-        public bool OpenConnection();
-        public bool CloseConnection();
-        public bool CreateTable();
-        public bool CreateNewUser(Admin user);
-        public bool UserNameExists(String user_name);
-        public bool GetUser(String user_name, String pass_word);
-        public bool UserTableIsNotEmpty();
-        public bool ChangeUserRole(String id, String role);
-        public bool UpdateLoginCredentials(String default_user_name, String default_pass_word, String user_name, String pass_word);
-        public bool DeleteUser(String id);
-        public bool CreateTableSystemUsers();
+        bool openConnection();
+
+        bool closeConnection();
+
+        bool createTableAdmin();
+        bool createTableStudent();
+        bool addStudent(Student student);
+        List<Student> getStudentDetails();
+        bool createNewUser(Admin user);
+        bool userNameExists(String user_name);
+        bool getUser(String user_name, String pass_word);
+        bool userTableIsNotEmpty();
+        bool changeUserRole(String id, String role);
+        bool updateLoginCredentials(String default_user_name, String default_pass_word, String user_name, String pass_word);
+        bool deleteUser(String id);
+        DataTable generateUsersDataTable();
     }
 }

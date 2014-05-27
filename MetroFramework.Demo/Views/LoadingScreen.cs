@@ -91,11 +91,5 @@ namespace MetroFramework.Demo.Views
                 background_worker.CancelAsync();
             }
         }
-
-        private void LoadingScreen_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            StopWorking();
-            Singleton.MAIN_WINDOW.PauseVideo();
-        }
     }
 }

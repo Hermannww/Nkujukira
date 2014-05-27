@@ -39,7 +39,7 @@ namespace MetroFramework.Demo
 
         private void changeUserRole_Click(object sender, EventArgs e)
         {
-            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
             try {
                 bool role_updated = dataBaseFactory.changeUserRole(id, role.Text);
                 if (role_updated==true)

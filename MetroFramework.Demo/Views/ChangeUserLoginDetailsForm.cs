@@ -39,7 +39,7 @@ namespace MetroFramework.Demo
 
         private void changeloginCredentials_Click(object sender, EventArgs e)
         {
-            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
             try
             {
                 if (this.new_pass_word.Text.Equals(this.confirm_new_pass_word.Text))

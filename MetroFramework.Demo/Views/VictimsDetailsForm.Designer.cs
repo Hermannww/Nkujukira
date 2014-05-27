@@ -98,6 +98,9 @@
             // is_a_student_comboBox
             // 
             this.is_a_student_comboBox.FormattingEnabled = true;
+            this.is_a_student_comboBox.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
             this.is_a_student_comboBox.Location = new System.Drawing.Point(151, 208);
             this.is_a_student_comboBox.Name = "is_a_student_comboBox";
             this.is_a_student_comboBox.Size = new System.Drawing.Size(100, 21);
@@ -105,7 +108,11 @@
             // 
             // gender_comoboBox
             // 
+            this.gender_comoboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.gender_comoboBox.FormattingEnabled = true;
+            this.gender_comoboBox.Items.AddRange(new object[] {
+            "Male",
+            "Female"});
             this.gender_comoboBox.Location = new System.Drawing.Point(151, 155);
             this.gender_comoboBox.Name = "gender_comoboBox";
             this.gender_comoboBox.Size = new System.Drawing.Size(100, 21);

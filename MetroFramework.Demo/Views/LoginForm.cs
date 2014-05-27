@@ -95,14 +95,14 @@ namespace MetroFramework.Demo
                 if (progressBar.Value == progressBar.Maximum)
                 {
 
-                    DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+                    DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
                     try
                     {
                         String user = user_name.Text;
                         String password = pass_word.Text;
                         if (dataBaseFactory.getUser(user, password) == true)
                         {
-                            if (MySQLDataBaseHandler.firstUser == true)
+                            if (MySQLDatabaseHandler.firstUser == true)
                             {
                                 MetroMessageBox.Show(this, "Please You are advised to change your login credentials", "WARNING");
                                 (new ChangeInitialLoginSettingsForm()).Show();

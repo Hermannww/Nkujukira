@@ -6,17 +6,16 @@ using MetroFramework.Demo.FactoryMethod;
 
 namespace MetroFramework.Demo.Factories
 {
-    public class DataBaseFactory
+    public class DatabaseFactory : StorageFactory
     {
-        public DataBaseInterface getDataBase(String database)
+        public const String MYSQL_DATABASE = "MYSQL";
+
+        public DatabaseInterface getDataBase(String database)
         {
-            if (database == null)
+            switch(database)
             {
-                return null;
-            }
-            else if (database.Equals("MYSQL"))
-            {
-                return new MySQLDataBaseHandler();
+                case MYSQL_DATABASE:
+                    return new MySQLDatabaseHandler();
             }
 
             return null;

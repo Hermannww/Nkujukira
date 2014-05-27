@@ -67,7 +67,7 @@ namespace MetroFramework.Demo.Views
 
         private void addStudent_Click(object sender, EventArgs e)
         {
-            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
             // String[] photo_paths = new String[photos.Items.Count];
 
             try

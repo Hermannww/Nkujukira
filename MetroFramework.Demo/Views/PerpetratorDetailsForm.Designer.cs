@@ -61,10 +61,12 @@
             // 
             // is_active_combo_box
             // 
+            this.is_active_combo_box.Enabled = false;
             this.is_active_combo_box.Location = new System.Drawing.Point(298, 132);
             this.is_active_combo_box.Name = "is_active_combo_box";
             this.is_active_combo_box.Size = new System.Drawing.Size(208, 27);
             this.is_active_combo_box.TabIndex = 29;
+            this.is_active_combo_box.Text = "Yes";
             // 
             // done_button
             // 
@@ -80,7 +82,11 @@
             // 
             // is_a_student_combo_box
             // 
+            this.is_a_student_combo_box.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.is_a_student_combo_box.FormattingEnabled = true;
+            this.is_a_student_combo_box.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
             this.is_a_student_combo_box.Location = new System.Drawing.Point(298, 84);
             this.is_a_student_combo_box.Name = "is_a_student_combo_box";
             this.is_a_student_combo_box.Size = new System.Drawing.Size(208, 27);
@@ -135,14 +141,14 @@
             this.perpetrator_picture_box.TabIndex = 0;
             this.perpetrator_picture_box.TabStop = false;
             // 
-            // PerpetratorDetails
+            // PerpetratorDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 359);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
-            this.Name = "PerpetratorDetails";
+            this.Name = "PerpetratorDetailsForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.Style = MetroFramework.MetroColorStyle.Red;

@@ -34,7 +34,7 @@
             this.image_list_view = new Manina.Windows.Forms.ImageListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.done_button = new System.Windows.Forms.Button();
+            this.done_button = new MetroFramework.Controls.MetroButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,18 +79,17 @@
             // 
             // done_button
             // 
+            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Enabled = false;
-            this.done_button.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.done_button.Location = new System.Drawing.Point(173, 488);
+            this.done_button.Location = new System.Drawing.Point(155, 487);
             this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(173, 37);
-            this.done_button.TabIndex = 2;
+            this.done_button.Size = new System.Drawing.Size(204, 48);
+            this.done_button.TabIndex = 28;
             this.done_button.Text = "Done";
-            this.done_button.UseVisualStyleBackColor = true;
+            this.done_button.UseSelectable = true;
             this.done_button.Click += new System.EventHandler(this.DoneButton_Click);
             // 
-            // SelectPerpetratorFaces
+            // SelectPerpetratorFacesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -99,7 +98,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
-            this.Name = "SelectPerpetratorFaces";
+            this.Name = "SelectPerpetratorFacesForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.Style = MetroFramework.MetroColorStyle.Red;
@@ -115,8 +114,8 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button done_button;
         private System.Windows.Forms.ImageList imageList1;
         private Manina.Windows.Forms.ImageListView image_list_view;
+        private Controls.MetroButton done_button;
     }
 }

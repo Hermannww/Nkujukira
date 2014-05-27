@@ -10,7 +10,7 @@ using System.Data;
 
 namespace MetroFramework.Demo.Factories
 {
-    class MySQLDataBaseHandler : DataBaseInterface
+    class MySQLDatabaseHandler : DatabaseInterface
     {
         private MySqlConnection connection = null;
         private String server;
@@ -18,7 +18,7 @@ namespace MetroFramework.Demo.Factories
         private String password;
         private String username;
         private String tableName;
-        public  static bool firstUser = false;
+        public static bool firstUser = false;
         public String getTableName()
         {
             return tableName;
@@ -32,7 +32,7 @@ namespace MetroFramework.Demo.Factories
             createTableStudent();
             createTableAdmin();
         }
-        public MySQLDataBaseHandler()
+        public MySQLDatabaseHandler()
         {
             initialise();
             this.createTables();
@@ -54,6 +54,7 @@ namespace MetroFramework.Demo.Factories
                 }
             }
         }
+
         private void initialise()
         {
             try
@@ -70,6 +71,7 @@ namespace MetroFramework.Demo.Factories
                 Debug.WriteLine(ex.Message + "ERROR from initialise method");
             }
         }
+
         public bool openConnection()
         {
             try
@@ -309,6 +311,8 @@ namespace MetroFramework.Demo.Factories
             }
             return false;
         }
+
+
         public bool userNameExists(String user_name)
         {
             bool user_name_exists = false;
@@ -481,7 +485,7 @@ namespace MetroFramework.Demo.Factories
         }
 
 
-       
+
 
     }
 }

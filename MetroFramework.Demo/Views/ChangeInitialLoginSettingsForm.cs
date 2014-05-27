@@ -29,7 +29,7 @@ namespace MetroFramework.Demo
         }
         private void changeInitialCredentials_Click(object sender, EventArgs e)
         {
-            DataBaseInterface dataBaseFactory = new DataBaseFactory().getDataBase(DATABASE);
+            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
             try
             {
                 if (dataBaseFactory.userTableIsNotEmpty())
