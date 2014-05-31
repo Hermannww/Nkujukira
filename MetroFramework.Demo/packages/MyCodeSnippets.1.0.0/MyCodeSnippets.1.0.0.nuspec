@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MyCodeSnippets</id>
+    <version>1.0.0</version>
+    <title>My Code Snippets</title>
+    <authors>arekbee</authors>
+    <owners>arekbee</owners>
+    <licenseUrl>https://github.com/arekbee/MyCodeSnippets</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>My Code Snippets for C#</description>
+    <summary>Code Snippets for C#</summary>
+    <tags>snippet code</tags>
+  </metadata>
+</package>

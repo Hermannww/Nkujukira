@@ -9,8 +9,8 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
 using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.FactoryMethod;
 using MetroFramework.Demo.Factories;
+using MetroFramework.Demo.Entitities;
 
 namespace MetroFramework.Demo
 {
@@ -39,13 +39,13 @@ namespace MetroFramework.Demo
 
         private void changeloginCredentials_Click(object sender, EventArgs e)
         {
-            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
             try
             {
                 if (this.new_pass_word.Text.Equals(this.confirm_new_pass_word.Text))
                 {
-                    bool updated = dataBaseFactory.updateLoginCredentials(this.old_user_name.Text, this.old_password.Text, new_user_name.Text, this.new_pass_word.Text);
-                    if (updated == true)
+                    Admin admin = Singletons.Singleton.ADMIN;
+                    admin.password = new_pass_word.Text;
+                    if (AdminManager.Save(admin))
                     {
                         MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
                     }
@@ -65,6 +65,5 @@ namespace MetroFramework.Demo
             }
         }
 
-        public string DATABASE = "MYSQL";
     }
 }

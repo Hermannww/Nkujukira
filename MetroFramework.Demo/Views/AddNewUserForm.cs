@@ -11,13 +11,12 @@ using System.Diagnostics;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.FactoryMethod;
 
 namespace MetroFramework.Demo
 {
     public partial class AddNewUserForm : MetroForm
     {
-        String DATABASE = "MYSQL";
+        
         public AddNewUserForm()
         {
             InitializeComponent();
@@ -41,23 +40,23 @@ namespace MetroFramework.Demo
 
         private void changeloginCredentials_Click(object sender, EventArgs e)
         {
-            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
+           
             try
             {
                 if (pass_word.Text.Equals(confirm_password.Text))
                 {
-                    String user = user_name.Text;
+                    String username = user_name.Text;
                     String password = pass_word.Text;
                     String type = role.Text;
-                    if (dataBaseFactory.userNameExists(user))
+                    if (AdminManager.Exists(username))
                     {
                         MetroMessageBox.Show(this, "User Name already Exists. Please try again", "ERROR");
 
                     }
                     else
                     {
-                        bool added = dataBaseFactory.createNewUser(new Admin(user, password, type));
-                        if (added == true)
+                        Admin new_admin = new Admin(username, password, type);
+                        if (AdminManager.Save(new_admin))
                         {
                             MetroMessageBox.Show(this, "New User Created Successfully", "CONGRATULATIONS");
                         }

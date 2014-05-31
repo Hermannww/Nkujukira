@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>test_method_case</Title>
+			<Shortcut>test_method_case</Shortcut>
+			<Description>Code snippet for test method</Description>
+			<Author>Arkadiusz Beer</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+      <Imports>
+        <Import>
+          <Namespace>NUnit.Framework</Namespace>
+        </Import>
+      </Imports>
+      <References>
+        <Reference>
+          <Assembly>nunit.framework.dlldll</Assembly>
+        </Reference>
+      </References>
+			<Declarations>
+				<Literal>
+					<ID>methodname</ID>
+					<ToolTip>Method evaluate</ToolTip>
+					<Default>MethodName</Default>
+				</Literal>
+				<Literal>
+					<ID>parArg1</ID>
+					<ToolTip>Object value</ToolTip>
+					<Default>null</Default>
+				</Literal>
+			<Literal Editable="false">
+            <ID>TestCase</ID>
+            <Function>SimpleTypeName(global:: NUnit.Framework.TestCaseAttribute)</Function>
+          </Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[[$TestCase$($parArg1$)]
+public void  It_should_$methodname$(object arg1) 
+{
+	   $selected$$end$
+}]]></Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

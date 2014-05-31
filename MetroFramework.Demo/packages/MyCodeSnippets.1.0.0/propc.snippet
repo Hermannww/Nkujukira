@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Shortcut>propc</Shortcut>
+			<Title>propc</Title>
+      <Author>Arkadiusz Beer</Author>
+			<Description>
+				Code snippet for a configuration-backed property
+			</Description>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>type</ID>
+					<ToolTip>Property type</ToolTip>
+					<Default>string</Default>
+				</Literal>
+				<Literal>
+					<ID>configurationProperty</ID>
+					<ToolTip>Configuration property name</ToolTip>
+					<Default>myProperty</Default>
+				</Literal>
+				<Literal>
+					<ID>isRequired</ID>
+					<ToolTip>Specifies whether the property is required</ToolTip>
+					<Default>true</Default>
+					<Type>System.Boolean</Type>
+				</Literal>
+				<Literal>
+					<ID>property</ID>
+					<ToolTip>Property name</ToolTip>
+					<Default>MyProperty</Default>
+				</Literal>
+				<Literal Editable="false">
+					<ID>SystemConfigurationConfigurationProperty</ID>
+					<Function>SimpleTypeName(global::System.Configuration.ConfigurationProperty)</Function>
+				</Literal>
+			</Declarations>
+			<Code Language="CSharp"><![CDATA[[$SystemConfigurationConfigurationProperty$("$configurationProperty$", IsRequired = $isRequired$)]
+	public $type$ $property$
+	{
+		get
+		{
+			return ($type$)this["$configurationProperty$"];
+		}
+		set
+		{
+			this["$configurationProperty$"] = value;
+		}
+	}
+	$end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

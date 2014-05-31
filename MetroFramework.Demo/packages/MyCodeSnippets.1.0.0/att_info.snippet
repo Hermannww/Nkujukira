@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>att_info</Title>
+			<Shortcut>att_info</Shortcut>
+			<Description>Code snippet for using</Description>
+			<Author>Arkadiusz Beer</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>defaultValue</ID>
+					<ToolTip>Stopwatch</ToolTip>
+					<Default>""</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[[DebuggerDisplay("")]
+			[DisplayName("Error color")]
+[Description("The color used on nodes containing errors.")]
+[DefaultValue(Color.Red)]
+[Serializable]
+[ImmutableObject(true)]
+[DebuggerStepThrough]
+			$selected$ $end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

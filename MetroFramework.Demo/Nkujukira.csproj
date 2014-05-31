@@ -192,13 +192,12 @@
     <Compile Include="Factories\FileFactory.cs" />
     <Compile Include="Factories\StorageFactory.cs" />
     <Compile Include="Interfaces\DatabaseInterface.cs" />
-    <Compile Include="DataStores\MySQLDataBaseHandler.cs" />
+    <Compile Include="DataStores\MySQLDatabaseHandler.cs" />
     <Compile Include="Managers\AdminManager.cs" />
     <Compile Include="Managers\CrimesManager.cs" />
+    <Compile Include="Managers\DatabaseManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\StudentManager.cs" />
-    <Compile Include="Managers\SystemUserManager.cs" />
-    <Compile Include="MySQLDataBaseHandler.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,12 +209,6 @@
     </Compile>
     <Compile Include="Views\AddStudentDialog.Designer.cs">
       <DependentUpon>AddStudentDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ChangeInitialLoginSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\ChangeInitialLoginSettingsForm.designer.cs">
-      <DependentUpon>ChangeInitialLoginSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeUserLoginDetailsForm.cs">
       <SubType>Form</SubType>
@@ -307,6 +300,12 @@
     <Compile Include="Views\SelectPerpetratorForm.Designer.cs">
       <DependentUpon>SelectPerpetratorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SetUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SetUpForm.Designer.cs">
+      <DependentUpon>SetUpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -324,9 +323,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\AddStudentDialog.resx">
       <DependentUpon>AddStudentDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ChangeInitialLoginSettingsForm.resx">
-      <DependentUpon>ChangeInitialLoginSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ChangeUserLoginDetailsForm.resx">
       <DependentUpon>ChangeUserLoginDetailsForm.cs</DependentUpon>
@@ -367,6 +363,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SelectPerpetratorForm.resx">
       <DependentUpon>SelectPerpetratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SetUpForm.resx">
+      <DependentUpon>SetUpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>

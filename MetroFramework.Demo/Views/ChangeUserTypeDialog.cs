@@ -9,8 +9,8 @@ using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
 using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.FactoryMethod;
 using MetroFramework.Demo.Factories;
+using MetroFramework.Demo.Entitities;
 
 namespace MetroFramework.Demo
 {
@@ -39,14 +39,16 @@ namespace MetroFramework.Demo
 
         private void changeUserRole_Click(object sender, EventArgs e)
         {
-            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
+            
             try {
-                bool role_updated = dataBaseFactory.changeUserRole(id, role.Text);
-                if (role_updated==true)
+                Admin admin = Singletons.Singleton.ADMIN;
+                admin.user_type = role.Text;
+                if (AdminManager.Save(admin))
                 {
                     MetroMessageBox.Show(this, "User Role Updated Successfully", "CONGRATULATIONS");
                 }
-                else {
+                else 
+                {
                     MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
                 }
             }catch(Exception ex){
@@ -54,6 +56,6 @@ namespace MetroFramework.Demo
             }
         }
 
-        public string DATABASE = "MYSQL";
+      
     }
 }

@@ -35,7 +35,7 @@ namespace MetroFramework.Demo.Views
             int id              = VictimsManager.VICTIM_ID;
 
             //create victims object
-            Victim victim = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime_id);
+            Victim victim = new Victim(id,name, d_o_b, items_lost, gender, is_a_student, crime_id);
 
             //save victim
             bool sucess= VictimsManager.Save(victim);

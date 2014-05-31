@@ -10,7 +10,7 @@ namespace MetroFramework.Demo.Managers
 {
     public class FileManager
     {
-        public bool SaveBitmapToFile(String file_path,Bitmap bitmap) 
+        public static bool SaveBitmap(String file_path,Bitmap bitmap) 
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MetroFramework.Demo.Managers
             return false;
         }
 
-        public bool DeleteBitmapFile(String file_name)
+        public static bool DeleteBitmap(String file_name)
         {
             return false;
         }

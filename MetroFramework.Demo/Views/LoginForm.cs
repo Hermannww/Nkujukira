@@ -10,8 +10,10 @@ using MB.Controls;
 using MetroFramework.Forms;
 using MetroFramework.Demo.Managers;
 using System.Diagnostics;
-using MetroFramework.Demo.FactoryMethod;
 using MetroFramework.Demo.Factories;
+using MetroFramework.Demo.Interfaces;
+using MetroFramework.Demo.Entitities;
+using MetroFramework.Demo.Views;
 
 namespace MetroFramework.Demo
 {
@@ -28,6 +30,8 @@ namespace MetroFramework.Demo
         private bool m_bLayoutCalled = false;
         //private System.ComponentModel.IContainer components;
         private DateTime m_dt;
+        private bool is_admin=false;
+        MainWindow main_window = new MainWindow();
 
         /// <summary>
         /// Clean up any resources being used.
@@ -38,14 +42,15 @@ namespace MetroFramework.Demo
         {
             InitializeComponent();
             this.Style = MetroColorStyle.Red;
+            label4.Visible = false;
             //this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Login_FormCosed);
         }
+
         private void Login_FormCosed(object sender, FormClosedEventArgs e)
         {
             try
             {
                 this.Close();
-
             }
             catch (Exception ex)
             {
@@ -66,87 +71,112 @@ namespace MetroFramework.Demo
         private void user_login_Click(object sender, EventArgs e)
         {
             timer1.Enabled = true;
-           
+
+            //get user input
+            Debug.WriteLine("getting user input");
+            String username = user_name.Text;
+            String password = pass_word.Text;
+
+            //validate user input
+            if (username == "" && password == "")
+            {
+                progressBar.Enabled = false;
+                timer1.Enabled      = false;
+                progressBar.Visible = false;
+                progressBar.Value   = 0;
+
+                label4.Visible      = true;
+                label4.Text         = "Please Enter Your  A Valid Username or Password.";
+
+                return;
+            }
+
+            //if user is an admin
+            Debug.WriteLine("getting admin");
+            Admin admin=AdminManager.GetAdmin(username, password);
+            if (admin != null)
+            {
+                Debug.WriteLine("user in an admin");
+                //make admin object a session object
+                Singletons.Singleton.ADMIN = admin;
+
+                //signal to show Main Winow
+                is_admin = true;
+
+            }
+
+            //wrong credentials provided
+            else
+            {
+                Debug.WriteLine("user is not admin");
+                //signal to display error message 
+                is_admin = false;
+
+            }
         }
 
-
-
-        public string DATABASE = "MYSQL";
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            if (user_name.Text == "" && pass_word.Text == "")
+           
+            if (progressBar.Value < progressBar.Maximum)
             {
-
-                progressBar.Enabled = false;
-                timer1.Enabled = false;
-                progressBar.Visible = false;
-                progressBar.Value = 0;
-                label3.Text = "Please!! Enter Your Username or Password.";
+               
+                //display loading progress bar
+                progressBar.Visible = true;
+                progressBar.Value   = progressBar.Value + 5;
+                label4.Visible      = true;
+                label4.Text         = "Please Wait While we are checking Authentication...";
             }
             else 
             {
-                progressBar.Visible = true;
-                progressBar.Value = progressBar.Value + 5;
-                label3.Visible = true;
-                label3.Text = "Please Wait While we are checking Authentication...";
+                
+                //log user in or display error msg
+                DisplayResultsOfLogin();
 
-                if (progressBar.Value == progressBar.Maximum)
-                {
-
-                    DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
-                    try
-                    {
-                        String user = user_name.Text;
-                        String password = pass_word.Text;
-                        if (dataBaseFactory.getUser(user, password) == true)
-                        {
-                            if (MySQLDatabaseHandler.firstUser == true)
-                            {
-                                MetroMessageBox.Show(this, "Please You are advised to change your login credentials", "WARNING");
-                                (new ChangeInitialLoginSettingsForm()).Show();
-                                this.Close();
-                            }
-                            else
-                            {
-
-                                timer1.Enabled = false;
-                                progressBar.Visible = false;
-                                label3.Text = "Welcome!! you are Authorised User.";
-                                progressBar.Enabled = false;
-                                progressBar.Value = 0;
-                                (new MainWindow()).Show();
-                                this.Close();
-                            }
-
-
-                        }
-                        else
-                        {
-
-                            progressBar.Enabled = false;
-                            timer1.Enabled = false;
-                            progressBar.Visible = false;
-                            progressBar.Value = 0;
-                            user_name.Text = "";
-                            pass_word.Text = "";
-                            label3.Text = "Sorry!! Username or Password is Wrong.";
-
-                        }
-
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-
-                    }
-                }
+                //disable timer
+                timer1.Enabled = false;
+                
             }
-            
+
         }
+
+        private void DisplayResultsOfLogin()
+        {
+            //disable some stuff
+            progressBar.Enabled = false;
+            progressBar.Visible = false;
+            progressBar.Value   = 0;
+            user_name.Text      = "";
+            pass_word.Text      = "";
+
+            //user is admin
+            if (is_admin)
+            {
+                
+                //log admin
+                label4.Text     = "Welcome!! you are Authorised User.";
+             
+               
+                this.Close();
+            }
+
+            //wrong credentials
+            else
+            {
+                //display error message
+                label4.Text     = "Sorry!! Username or Password is Wrong.";
+            }
+        }
+
+        private void metroButton1_Click(object sender, EventArgs e)
+        {
+            SetUpForm form = new SetUpForm();
+            form.Show();
+        }
+
+
+
     }
 
 

@@ -1,0 +1,21 @@
+﻿<CodeSnippet Format="1.1.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>eval</Title>
+    <Author>Arkadiusz Beer</Author>
+    <Shortcut>eval</Shortcut>
+    <Description>Markup snippet for a eval attribute</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+      <Declarations>
+      <Literal>
+        <ID>itemName</ID>
+        <ToolTip>name of propertie</ToolTip>
+        <Default>Name</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="html"><![CDATA['<%# DataBinder.Eval(Container.DataItem,"$itemName$") %>'$end$]]></Code>
+  </Snippet>
+</CodeSnippet>

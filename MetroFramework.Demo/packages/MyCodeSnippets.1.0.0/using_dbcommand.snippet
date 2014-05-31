@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>using_dbcommand</Title>
+			<Shortcut>using_dbcommand</Shortcut>
+			<Description>Code snippet for using iDBCommand</Description>
+			<Author>Arkadiusz Beer</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>expression</ID>
+					<ToolTip>filePath</ToolTip>
+					<Default></Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[using(IDBCommand command = new SqlCommand($expression$)) 
+		  {
+	        $selected$ $end$
+		  }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

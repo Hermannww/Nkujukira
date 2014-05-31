@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>using_bitmap</Title>
+			<Shortcut>using_bitmap</Shortcut>
+			<Description>Code snippet for using Bitmap</Description>
+			<Author>Arkadiusz Beer</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>bitmapfile</ID>
+					<ToolTip>File of bitmap</ToolTip>
+					<Default></Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[using(Bitmap vBitmap = new Bitmap($bitmapfile$)) 
+		  {
+			$selected$ $end$ 
+		  }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

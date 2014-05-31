@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>test_method_source</Title>
+			<Shortcut>test_method_source</Shortcut>
+			<Description>Code snippet for test method</Description>
+			<Author>Arkadiusz Beer</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+      <Imports>
+        <Import>
+          <Namespace>NUnit.Framework</Namespace>
+        </Import>
+      </Imports>
+      <References>
+        <Reference>
+          <Assembly>nunit.framework.dlldll</Assembly>
+        </Reference>
+      </References>
+			<Declarations>
+				<Literal>
+					<ID>methodname</ID>
+					<ToolTip>Method evaluate</ToolTip>
+					<Default>MethodName</Default>
+				</Literal>
+				<Literal>
+					<ID>sourceName</ID>
+					<ToolTip>Test Source Name</ToolTip>
+					<Default>null</Default>
+				</Literal>
+				<Literal Editable="false">
+				<ID>TestCaseSource</ID>
+				<Function>SimpleTypeName(global:: NUnit.Framework.TestCaseSource)</Function>
+				</Literal>
+				<Literal Editable="false">
+					<ID>IEnumerable</ID>
+					<Function>SimpleTypeName(global:: System.Collections.IEnumerable)</Function>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[[$TestCaseSource$("TestCaseSource_$sourceName$")]
+public void  It_should_$methodname$(object arg1) 
+{
+	   $selected$$end$
+}
+public static  $IEnumerable$ TestCaseSource_$sourceName$ 
+{
+	get 
+	{ 
+		yield return new TestCaseData(null);
+	}
+}
+
+]]></Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

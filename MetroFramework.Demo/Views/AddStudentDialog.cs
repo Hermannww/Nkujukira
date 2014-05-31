@@ -11,14 +11,13 @@ using System.Diagnostics;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Entitities;
 using System.Collections;
-using MetroFramework.Demo.FactoryMethod;
 using MetroFramework.Demo.Factories;
 
 namespace MetroFramework.Demo.Views
 {
     public partial class AddStudentDialog : MetroForm
     {
-        String DATABASE = "MYSQL";
+
         public AddStudentDialog()
         {
             InitializeComponent();
@@ -67,8 +66,6 @@ namespace MetroFramework.Demo.Views
 
         private void addStudent_Click(object sender, EventArgs e)
         {
-            DatabaseInterface dataBaseFactory = new DatabaseFactory().getDataBase(DATABASE);
-            // String[] photo_paths = new String[photos.Items.Count];
 
             try
             {
@@ -79,30 +76,20 @@ namespace MetroFramework.Demo.Views
                 String student_no = this.studentNo.Text;
                 String reg_no = this.regNo.Text;
                 String course = this.course.Text;
-                String dob = this.date.Text+"/" + this.month.Text+"/" + year.Text;
+                String dob = this.date.Text + "/" + this.month.Text + "/" + year.Text;
                 String gender = this.gender.Text;
-                StudentManager.createImageFolder(student_no);
-                String path = StudentManager.IMAGES_FOLDER + student_no + @"\";
-                bool savedToDB = dataBaseFactory.addStudent(new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, path));
-                if (savedToDB)
+                Bitmap[] photos = null;
+                Student student = new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, photos);
+
+
+                if (StudentsManager.Save(student))
                 {
-                    int i = 0;
-                    bool success = false;
-                    foreach (String file_name in photos.Items)
-                    {
-                        i++;
-                        success = false;
-                        Image image = StudentManager.getImageFromFile(file_name);
-                        bool savedToFile = StudentManager.saveImageToFile(image, path + i + ".JPG");
-                        success = true;
-                    }
-                    if (success == true)
-                    {
-                        MetroMessageBox.Show(this, "Student Added Successfully", "CONGRATULATIONS");
-                    }
-                    else {
-                        MetroMessageBox.Show(this, "Operation Not Successfully\n Please try again", "ERROR");
-                    }
+
+                    MetroMessageBox.Show(this, "Student Added Successfully", "CONGRATULATIONS");
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Operation Not Successfully\n Please try again", "ERROR");
                 }
 
             }

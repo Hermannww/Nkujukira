@@ -6,7 +6,7 @@ using System.Text;
 namespace MetroFramework.Demo.Factories
 
 {
-    class AbstractFactory
+    public class AbstractFactory
     {
     }
 }
