@@ -226,7 +226,33 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        public static bool Update(Student student)
+        {
+            String update_sql = "UPDATE " + TABLE_NAME + " SET FIRSTNAME=@firstname ,MIDDLENAME=@middlename,LASTNAME=@lastname ,STUDENT_NO=@student_no ,REG_NO=@reg_no ,DATE_OF_BIRTH=@dob ,COURSE=@course ,GENDER=@gender,PHOTOS_PATH=@path WHERE ID=@id";
+            String path = "";
 
+            //Sql command
+            sql_command = new MySqlCommand();
+            sql_command.CommandText = update_sql;
+
+            sql_command.Parameters.AddWithValue("@id", student.id);
+            sql_command.Parameters.AddWithValue("@firstname", student.firstName);
+            sql_command.Parameters.AddWithValue("@middlename", student.middleName);
+            sql_command.Parameters.AddWithValue("@lastname", student.lastName);
+            sql_command.Parameters.AddWithValue("@student_no", student.studentNo);
+            sql_command.Parameters.AddWithValue("@reg_no", student.regNo);
+            sql_command.Parameters.AddWithValue("@dob", student.DOB);
+            sql_command.Parameters.AddWithValue("@path", path);
+            sql_command.Parameters.AddWithValue("@course",student.course);
+
+            sql_command.Parameters.AddWithValue("@gender", student.gender);
+
+            sql_command.Prepare();
+
+            //execute command
+            database.Update(sql_command);
+            return true;
+        }
        
     }
 

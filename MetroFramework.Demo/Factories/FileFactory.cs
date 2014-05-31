@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Factories
 {
-    public class FileFactory : StorageFactory
+    public class FileFactory 
     {
 
     }

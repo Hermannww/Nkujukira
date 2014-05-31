@@ -7,7 +7,7 @@ using MetroFramework.Demo.DataStores;
 
 namespace MetroFramework.Demo.Factories
 {
-    public class DatabaseFactory : StorageFactory
+    public class DatabaseFactory
     {
         public const String MYSQL_DBMS = "MYSQL";
         public const String USERNAME   = "root";

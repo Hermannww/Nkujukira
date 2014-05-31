@@ -17,29 +17,36 @@ namespace MetroFramework.Demo.Managers
         private const string PATH_TO_IMAGES       = "";
         private const int ID                      = 0;
         private const int NAME                    = 1;
-        private const int FACES                   = 2;
+        private const int PHOTOS_PATH             = 2;
         private const int IS_A_STUDENT            = 3;
         private const int IS_ACTIVE               = 4;
-        private const int CRIME_ID                = 5;
-        private static int GENDER                 = 6;
+        private static int GENDER                 = 5;
 
         public static void CreateTable() 
         {
-            String create_sql                     = "CREATE TABLE "+TABLE_NAME+" IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),FACES_PATH VARCHAR(30),IS_A_STUDENT VARCHAR(10),IS_ACTIVE VARCHAR(10),CRIME_ID INT,GENDER VARCHAR(10) )";
+            //sql statement
+            String create_sql                     = "CREATE TABLE "+TABLE_NAME+" IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),PHOTOS_PATH VARCHAR(30),IS_A_STUDENT VARCHAR(10),IS_ACTIVE VARCHAR(10),GENDER VARCHAR(10) )";
+            
+            //sql command
             sql_command                           = new MySqlCommand();
             sql_command.Connection                = (MySqlConnection)database.OpenConnection();
             sql_command.CommandText               = create_sql;
             sql_command.Prepare();
+            
+            //execute sql
             database.Update(sql_command);
         }
 
         public static void DropTable()
         {
+            //sql statement
             String drop_sql                       = "DROP TABLE "+TABLE_NAME+" IF EXISTS";
             sql_command                           = new MySqlCommand();
             sql_command.Connection                = (MySqlConnection)database.OpenConnection();
             sql_command.CommandText               = drop_sql;
             sql_command.Prepare();
+            
+            //execute sql
             database.Update(sql_command);
         }
 
@@ -73,7 +80,7 @@ namespace MetroFramework.Demo.Managers
 
                     int id                        = data_reader.GetInt32(ID);
                     String name                   = data_reader.GetString(NAME);
-                    Bitmap[] faces                = GetPerpetratorFaces(data_reader.GetString(FACES));
+                    Bitmap[] faces                = GetPerpetratorFaces(data_reader.GetString(PHOTOS_PATH));
                     bool is_a_student             = data_reader.GetBoolean(IS_A_STUDENT);
                     bool is_active                = data_reader.GetBoolean(IS_ACTIVE);
                     String gender                 = data_reader.GetString(GENDER);
@@ -129,7 +136,7 @@ namespace MetroFramework.Demo.Managers
 
                     int id                        = data_reader.GetInt32(ID);
                     String name                   = data_reader.GetString(NAME);
-                    Bitmap[] faces                = GetPerpetratorFaces(data_reader.GetString(FACES));
+                    Bitmap[] faces                = GetPerpetratorFaces(data_reader.GetString(PHOTOS_PATH));
                     bool is_a_student             = data_reader.GetBoolean(IS_A_STUDENT);
                     bool is_active                = data_reader.GetBoolean(IS_ACTIVE);
                     String gender                 = data_reader.GetString(GENDER);
@@ -181,6 +188,29 @@ namespace MetroFramework.Demo.Managers
         internal static void Delete(int perpetrator_id)
         {
             
+        }
+
+        public static bool Update(Perpetrator perp)
+        {
+            String update_sql = "UPDATE " + TABLE_NAME + " SET NAME=@name ,PHOTOS_PATH=@path,IS_A_STUDENT=@student,IS_ACTIVE=@active,GENDER=@gender WHERE ID=@id";
+            String path = "";
+
+            //Sql command
+            sql_command = new MySqlCommand();
+            sql_command.CommandText = update_sql;
+
+            sql_command.Parameters.AddWithValue("@id", perp.id);
+            sql_command.Parameters.AddWithValue("@name", perp.name);
+            sql_command.Parameters.AddWithValue("@path", path);
+            sql_command.Parameters.AddWithValue("@student", perp.is_a_student);
+            sql_command.Parameters.AddWithValue("@active", perp.is_still_active);
+            sql_command.Parameters.AddWithValue("@gender", perp.gender);
+
+            sql_command.Prepare();
+
+            //execute command
+            database.Update(sql_command);
+            return true;
         }
     }
 }

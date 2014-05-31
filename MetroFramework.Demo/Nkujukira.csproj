@@ -188,15 +188,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entitities\Perpetrator.cs" />
+    <Compile Include="Entitities\Setting.cs" />
+    <Compile Include="Entitities\StolenItem.cs" />
     <Compile Include="Factories\DatabaseFactory.cs" />
     <Compile Include="Factories\FileFactory.cs" />
-    <Compile Include="Factories\StorageFactory.cs" />
     <Compile Include="Interfaces\DatabaseInterface.cs" />
     <Compile Include="DataStores\MySQLDatabaseHandler.cs" />
     <Compile Include="Managers\AdminManager.cs" />
     <Compile Include="Managers\CrimesManager.cs" />
     <Compile Include="Managers\DatabaseManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
+    <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Managers\StudentManager.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
@@ -262,7 +264,6 @@
     <Compile Include="Factories\AbstractFactory.cs" />
     <Compile Include="Managers\FramesManager.cs" />
     <Compile Include="Managers\SoundManager.cs" />
-    <Compile Include="Managers\StorageManager.cs" />
     <Compile Include="Managers\ThreadManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

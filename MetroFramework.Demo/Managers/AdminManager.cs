@@ -182,5 +182,25 @@ namespace MetroFramework.Demo.Managers
         {
             throw new NotImplementedException();
         }
+
+        public static bool Update(Admin admin)
+        {
+            String update_sql = "UPDATE " + TABLE_NAME + " SET USERNAME=@username ,PASSWORD=@password,USERTYPE=@type WHERE ID=@id";
+
+            //Sql command
+            sql_command = new MySqlCommand();
+            sql_command.CommandText = update_sql;
+
+            sql_command.Parameters.AddWithValue("@id", admin.id);
+            sql_command.Parameters.AddWithValue("@username", admin.user_name);
+            sql_command.Parameters.AddWithValue("@password", admin.password);
+            sql_command.Parameters.AddWithValue("@type", admin.user_type);
+
+            sql_command.Prepare();
+
+            //execute command
+            database.Update(sql_command);
+            return true;
+        }
     }
 }
