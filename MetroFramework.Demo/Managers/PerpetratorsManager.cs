@@ -24,30 +24,44 @@ namespace MetroFramework.Demo.Managers
 
         public static void CreateTable() 
         {
-            //sql statement
-            String create_sql                     = "CREATE TABLE "+TABLE_NAME+" IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),PHOTOS_PATH VARCHAR(30),IS_A_STUDENT VARCHAR(10),IS_ACTIVE VARCHAR(10),GENDER VARCHAR(10) )";
-            
-            //sql command
-            sql_command                           = new MySqlCommand();
-            sql_command.Connection                = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText               = create_sql;
-            sql_command.Prepare();
-            
-            //execute sql
-            database.Update(sql_command);
+            try
+            {
+                //sql statement
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "  (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),PHOTOS_PATH VARCHAR(30),IS_A_STUDENT VARCHAR(10),IS_ACTIVE VARCHAR(10),GENDER VARCHAR(10) )";
+
+                //sql command
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
+                sql_command.Prepare();
+
+                //execute sql
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         public static void DropTable()
         {
-            //sql statement
-            String drop_sql                       = "DROP TABLE "+TABLE_NAME+" IF EXISTS";
-            sql_command                           = new MySqlCommand();
-            sql_command.Connection                = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText               = drop_sql;
-            sql_command.Prepare();
-            
-            //execute sql
-            database.Update(sql_command);
+            try
+            {
+                //sql statement
+                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = drop_sql;
+                sql_command.Prepare();
+
+                //execute sql
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         public static void PopulateTable()

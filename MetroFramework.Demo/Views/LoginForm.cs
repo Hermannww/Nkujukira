@@ -73,7 +73,6 @@ namespace MetroFramework.Demo
             timer1.Enabled = true;
 
             //get user input
-            Debug.WriteLine("getting user input");
             String username = user_name.Text;
             String password = pass_word.Text;
 
@@ -92,11 +91,10 @@ namespace MetroFramework.Demo
             }
 
             //if user is an admin
-            Debug.WriteLine("getting admin");
             Admin admin=AdminManager.GetAdmin(username, password);
+
             if (admin != null)
             {
-                Debug.WriteLine("user in an admin");
                 //make admin object a session object
                 Singletons.Singleton.ADMIN = admin;
 

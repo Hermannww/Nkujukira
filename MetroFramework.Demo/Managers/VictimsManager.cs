@@ -22,30 +22,45 @@ namespace MetroFramework.Demo.Managers
 
         public static void CreateTable()
         {
-            String create_sql                     = "CREATE TABLE " + TABLE_NAME + " IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT )";
-            sql_command                           = new MySqlCommand();
-            sql_command.Connection                = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText               = create_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+            try
+            {
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT )";
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
 
-            //create items stolen table
-            create_sql                            = "CREATE TABLE ITEMS_STOLEN IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
-            sql_command                           = new MySqlCommand();
-            sql_command.Connection                = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText               = create_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+                //create items stolen table
+                create_sql = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         public static void DropTable()
         {
-            String drop_sql                       = "DROP TABLE " + TABLE_NAME + " IF EXISTS";
-            sql_command                           = new MySqlCommand();
-            sql_command.Connection                = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText               = drop_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+            try
+            {
+                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = drop_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
+
         }
 
         public static void PopulateTable()

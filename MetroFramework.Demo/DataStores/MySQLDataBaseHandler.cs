@@ -76,11 +76,16 @@ namespace MetroFramework.Demo.DataStores
         {
             try
             {
-                connection.Close();
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection = null;
+                }
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -106,33 +111,47 @@ namespace MetroFramework.Demo.DataStores
         //Update statement
         public void Update(DbCommand update_query)
         {
-            //Open connection
-            if (this.OpenConnection() != null)
+            try
             {
+                //Open connection
+                if (this.OpenConnection() != null)
+                {
 
-               
-                //Assign the query using CommandText
-                update_query.Connection = connection;
 
-                update_query.Prepare();
+                    //Assign the query using CommandText
+                    update_query.Connection = connection;
 
-                //Execute query
-                update_query.ExecuteNonQuery();
+                    update_query.Prepare();
 
-                //close connection
-                this.CloseConnection();
+                    //Execute query
+                    update_query.ExecuteNonQuery();
+
+                    //close connection
+                    this.CloseConnection();
+                }
+            }
+            catch (Exception e) 
+            {
+                Debug.WriteLine(e.Message);
             }
         }
 
         //Delete statement
         public void Delete(DbCommand delete_query)
         {
-            if (this.OpenConnection() != null)
+            try
             {
-                delete_query.Connection = connection;
-                delete_query.Prepare();
-                delete_query.ExecuteNonQuery();
-                this.CloseConnection();
+                if (this.OpenConnection() != null)
+                {
+                    delete_query.Connection = connection;
+                    delete_query.Prepare();
+                    delete_query.ExecuteNonQuery();
+                    this.CloseConnection();
+                }
+            }
+            catch (Exception e) 
+            {
+                Debug.WriteLine(e.Message);
             }
         }
 

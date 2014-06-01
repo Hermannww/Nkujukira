@@ -11,16 +11,18 @@ namespace MetroFramework.Demo.Managers
     {
         private const string DATABASE_NAME = DatabaseFactory.DATABASE;
 
+        //CREATE NEW DATABASE
         public static void CreateDatabase() 
         {
-            String create_sql = "create database " + DATABASE_NAME;
-            sql_command = new MySql.Data.MySqlClient.MySqlCommand();
-            sql_command.Connection = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText = create_sql;
+            String create_sql              = "create database " + DATABASE_NAME;
+            sql_command                    = new MySql.Data.MySqlClient.MySqlCommand();
+            sql_command.Connection         = (MySqlConnection)database.OpenConnection();
+            sql_command.CommandText        = create_sql;
             sql_command.Prepare();
             database.Update(sql_command);
         }
 
+        //CREATE TABLES IN DATABASE
         public static void CreateTables() 
         {
             AdminManager.CreateTable();
@@ -30,8 +32,11 @@ namespace MetroFramework.Demo.Managers
             PerpetratorsManager.CreateTable();
 
             VictimsManager.CreateTable();
+
+            SettingsManager.CreateTable();
         }
 
+        //POPULATE TABLES WITH INITIAL DATA
         public static void PopulateTables() 
         {
             AdminManager.PopulateTable();
@@ -41,8 +46,11 @@ namespace MetroFramework.Demo.Managers
             PerpetratorsManager.PopulateTable();
 
             VictimsManager.PopulateTable();
+
+            SettingsManager.PopulateTable();
         }
 
+        //DROP ALL TABLES IN DATABASE
         public static void Droptables()
         {
             AdminManager.DropTable();
@@ -52,6 +60,8 @@ namespace MetroFramework.Demo.Managers
             PerpetratorsManager.DropTable();
 
             VictimsManager.DropTable();
+
+            SettingsManager.DropTable();
         }
     }
 }

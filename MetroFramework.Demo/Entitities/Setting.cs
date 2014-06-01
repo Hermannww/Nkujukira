@@ -7,27 +7,35 @@ namespace MetroFramework.Demo.Entitities
 {
     public class Setting : Entity
     {
-        
-        public int id { get; set; }
 
-        public String name { get; set; }
+
+        public int id       { get; set; }
+
+        public String name  { get; set; }
 
         public String value { get; set; }
 
-        public Setting(int id1, string setting_name, string value1)
+        public Setting(int id, string setting_name, string value)
         {
-            // TODO: Complete member initialization
-            this.id = id1;
-            this.name = setting_name;
-            this.value = value1;
+
+            this.id    = id;
+            this.name  = setting_name;
+            this.value = value;
         }
 
-        public bool GetValueAsBoolean() ///<exception cref="InvalidCastException"></exception>
+        public Setting(string setting_name, string value)
+        {
+
+            this.name  = setting_name;
+            this.value = value;
+        }
+
+        public bool GetValueAsBoolean()
         {
             return Convert.ToBoolean(value);
         }
 
-        public int GetValueAsInt() 
+        public int GetValueAsInt()
         {
             return Convert.ToInt32(value);
         }

@@ -31,7 +31,7 @@ namespace MetroFramework.Demo.Views
             String d_o_b        = date_of_birth.Text;
             String gender       = gender_comoboBox.Text;
             bool is_a_student   = is_a_student_comboBox.Text.Equals("Yes")?true:false;
-            String[] items_lost = GetItemsLost();
+            StolenItem[] items_lost = GetItemsLost();
             int id              = VictimsManager.VICTIM_ID;
 
             //create victims object
@@ -53,7 +53,7 @@ namespace MetroFramework.Demo.Views
 
         }
 
-        private string[] GetItemsLost()
+        private StolenItem[] GetItemsLost()
         {
             return null;
         }

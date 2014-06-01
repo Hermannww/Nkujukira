@@ -14,38 +14,53 @@ using MySql.Data.MySqlClient;
 
 namespace MetroFramework.Demo.Managers
 {
-    class StudentsManager:Manager
+    class StudentsManager : Manager
     {
-        public const String IMAGES_FOLDER        = @"c:\Nkujukira\";
-        private const int FIRST_NAME             = 0;
-        private const int LAST_NAME              = 1;
-        private const int MIDDLE_NAME            = 2;
-        private const int STUDENT_NUMBER         = 3;
-        private const int REGISTRATION_NUMBER    = 4;
-        private const int D_O_B                  = 5;
-        private const int COURSE                 = 6;
-        private const int GENDER                 = 7;
-        private const int PHOTOS                 = 8;
-        private const string TABLE_NAME          = "STUDENT";
+        public const String IMAGES_FOLDER     = @"c:\Nkujukira\";
+        private const int FIRST_NAME          = 0;
+        private const int LAST_NAME           = 1;
+        private const int MIDDLE_NAME         = 2;
+        private const int STUDENT_NUMBER      = 3;
+        private const int REGISTRATION_NUMBER = 4;
+        private const int D_O_B               = 5;
+        private const int COURSE              = 6;
+        private const int GENDER              = 7;
+        private const int PHOTOS              = 8;
+        private const string TABLE_NAME       = "STUDENTS";
 
         public static void CreateTable()
         {
-            String create_sql                    = "CREATE TABLE " + TABLE_NAME + " IF NOT EXISTS (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(10),COURSE VARCHAR(30),GENDER VARCHAR(10),PHOTOS_PATH VARCHAR(30) )";
-            sql_command                          = new MySqlCommand();
-            sql_command.Connection               = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText              = create_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+            try
+            {
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(10),COURSE VARCHAR(30),GENDER VARCHAR(10),PHOTOS_PATH VARCHAR(30) )";
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         public static void DropTable()
         {
-            String drop_sql                      = "DROP TABLE " + TABLE_NAME + " IF EXISTS";
-            sql_command                          = new MySqlCommand();
-            sql_command.Connection               = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText              = drop_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+            try
+            {
+                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = drop_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
+
         }
 
         public static void PopulateTable()
@@ -53,40 +68,40 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public static Student[] GetAllStudents() 
+        public static Student[] GetAllStudents()
         {
             try
             {
                 //select sql
-                String select_sql                = "SELECT * FROM " + TABLE_NAME;
+                String select_sql             = "SELECT * FROM " + TABLE_NAME;
 
                 //Sql command
-                sql_command                      = new MySqlCommand();
-                sql_command.Connection           = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText          = select_sql;
+                sql_command                   = new MySqlCommand();
+                sql_command.Connection        = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText       = select_sql;
                 sql_command.Prepare();
 
                 //get results in enum object
-                data_reader                      = database.Select(sql_command);
+                data_reader                   = database.Select(sql_command);
 
-                List<Student> students           = new List<Student>();
+                List<Student> students        = new List<Student>();
 
                 //loop thru em 
                 while (data_reader.Read())
                 {
                     //create new student
 
-                    String first_name            = data_reader.GetString(FIRST_NAME);
-                    String last_name             = data_reader.GetString(LAST_NAME);
-                    String middle_name           = data_reader.GetString(MIDDLE_NAME);
-                    String student_number        = data_reader.GetString(STUDENT_NUMBER);
-                    String reg_number            = data_reader.GetString(REGISTRATION_NUMBER);
-                    String course                = data_reader.GetString(COURSE);
-                    String dob                   = data_reader.GetString(D_O_B);
-                    String gender                = data_reader.GetString(GENDER);
-                    Bitmap[] photos              = GetStudentPhotos(data_reader.GetString(PHOTOS));
+                    String first_name         = data_reader.GetString(FIRST_NAME);
+                    String last_name          = data_reader.GetString(LAST_NAME);
+                    String middle_name        = data_reader.GetString(MIDDLE_NAME);
+                    String student_number     = data_reader.GetString(STUDENT_NUMBER);
+                    String reg_number         = data_reader.GetString(REGISTRATION_NUMBER);
+                    String course             = data_reader.GetString(COURSE);
+                    String dob                = data_reader.GetString(D_O_B);
+                    String gender             = data_reader.GetString(GENDER);
+                    Bitmap[] photos           = GetStudentPhotos(data_reader.GetString(PHOTOS));
 
-                    Student student              = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
+                    Student student           = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
 
                     //add student to list
                     students.Add(student);
@@ -100,7 +115,7 @@ namespace MetroFramework.Demo.Managers
                 Debug.WriteLine(e.Message);
 
             }
-            finally 
+            finally
             {
                 data_reader.Close();
             }
@@ -112,41 +127,41 @@ namespace MetroFramework.Demo.Managers
             return null;
         }
 
-        public static Student GetStudent(int id) 
+        public static Student GetStudent(int id)
         {
             try
             {
                 //select sql
-                String select_sql                = "SELECT * FROM " + TABLE_NAME + " WHERE REG_NO=@id OR STUDENT_NO=@id";
-               
+                String select_sql             = "SELECT * FROM " + TABLE_NAME + " WHERE REG_NO=@id OR STUDENT_NO=@id";
+
                 //sql command
-                sql_command                      = new MySqlCommand();
-                sql_command.Connection           = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText          = select_sql;
+                sql_command                   = new MySqlCommand();
+                sql_command.Connection        = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText       = select_sql;
                 sql_command.Parameters.AddWithValue("@id", id);
                 sql_command.Prepare();
 
                 //get results in enum object
-                data_reader                      = database.Select(sql_command);
+                data_reader                   = database.Select(sql_command);
 
-                List<Student> students           = new List<Student>();
+                List<Student> students        = new List<Student>();
 
                 //loop thru em
                 while (data_reader.Read())
                 {
                     //create new student
 
-                    String first_name            = data_reader.GetString(FIRST_NAME);
-                    String last_name             = data_reader.GetString(LAST_NAME);
-                    String middle_name           = data_reader.GetString(MIDDLE_NAME);
-                    String student_number        = data_reader.GetString(STUDENT_NUMBER);
-                    String reg_number            = data_reader.GetString(REGISTRATION_NUMBER);
-                    String course                = data_reader.GetString(COURSE);
-                    String dob                   = data_reader.GetString(D_O_B);
-                    String gender                = data_reader.GetString(GENDER);
-                    Bitmap[] photos              = GetStudentPhotos(data_reader.GetString(PHOTOS));
+                    String first_name         = data_reader.GetString(FIRST_NAME);
+                    String last_name          = data_reader.GetString(LAST_NAME);
+                    String middle_name        = data_reader.GetString(MIDDLE_NAME);
+                    String student_number     = data_reader.GetString(STUDENT_NUMBER);
+                    String reg_number         = data_reader.GetString(REGISTRATION_NUMBER);
+                    String course             = data_reader.GetString(COURSE);
+                    String dob                = data_reader.GetString(D_O_B);
+                    String gender             = data_reader.GetString(GENDER);
+                    Bitmap[] photos           = GetStudentPhotos(data_reader.GetString(PHOTOS));
 
-                    Student student              = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
+                    Student student           = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
 
                     //add student to list
                     students.Add(student);
@@ -160,27 +175,27 @@ namespace MetroFramework.Demo.Managers
                 Debug.WriteLine(e.Message);
                 return null;
             }
-            finally 
+            finally
             {
                 data_reader.Close();
             }
-            
-           
+
+
         }
 
-        public static bool Save(Student student) 
+        public static bool Save(Student student)
         {
-            string photo_path                    ="";
+            string photo_path                 = "";
 
             //insert sql
-            String insert_sql                    = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,studentno,regno,course,dob,gender,photo) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
-                                                              
+            String insert_sql                 = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,studentno,regno,course,dob,gender,photo) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
+
 
 
             //Sql command
-            sql_command                          = new MySqlCommand();
-            sql_command.Connection               = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText              = insert_sql;
+            sql_command                       = new MySqlCommand();
+            sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+            sql_command.CommandText           = insert_sql;
 
             sql_command.Parameters.AddWithValue("@firstname", student.firstName);
             sql_command.Parameters.AddWithValue("@middlename", student.middleName);
@@ -205,20 +220,20 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
-        public static bool Delete(int id) 
+        public static bool Delete(int id)
         {
             //insert sql
-            String delete_sql                    = "DELETE FROM "+TABLE_NAME+" WHERE REGNO=@id OR STUDENTNO=@id";
+            String delete_sql                 = "DELETE FROM " + TABLE_NAME + " WHERE REGNO=@id OR STUDENTNO=@id";
 
             //Sql command
-            sql_command                          = new MySqlCommand();
-            sql_command.Connection               = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText              = delete_sql;
+            sql_command                       = new MySqlCommand();
+            sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+            sql_command.CommandText           = delete_sql;
 
             sql_command.Parameters.AddWithValue("@id", id);
 
             sql_command.Prepare();
-            
+
 
             //get results in enum object
             database.Delete(sql_command);
@@ -228,12 +243,12 @@ namespace MetroFramework.Demo.Managers
 
         public static bool Update(Student student)
         {
-            String update_sql = "UPDATE " + TABLE_NAME + " SET FIRSTNAME=@firstname ,MIDDLENAME=@middlename,LASTNAME=@lastname ,STUDENT_NO=@student_no ,REG_NO=@reg_no ,DATE_OF_BIRTH=@dob ,COURSE=@course ,GENDER=@gender,PHOTOS_PATH=@path WHERE ID=@id";
-            String path = "";
+            String update_sql                 = "UPDATE " + TABLE_NAME + " SET FIRSTNAME=@firstname ,MIDDLENAME=@middlename,LASTNAME=@lastname ,STUDENT_NO=@student_no ,REG_NO=@reg_no ,DATE_OF_BIRTH=@dob ,COURSE=@course ,GENDER=@gender,PHOTOS_PATH=@path WHERE ID=@id";
+            String path                       = "";
 
             //Sql command
-            sql_command = new MySqlCommand();
-            sql_command.CommandText = update_sql;
+            sql_command                       = new MySqlCommand();
+            sql_command.CommandText           = update_sql;
 
             sql_command.Parameters.AddWithValue("@id", student.id);
             sql_command.Parameters.AddWithValue("@firstname", student.firstName);
@@ -243,7 +258,7 @@ namespace MetroFramework.Demo.Managers
             sql_command.Parameters.AddWithValue("@reg_no", student.regNo);
             sql_command.Parameters.AddWithValue("@dob", student.DOB);
             sql_command.Parameters.AddWithValue("@path", path);
-            sql_command.Parameters.AddWithValue("@course",student.course);
+            sql_command.Parameters.AddWithValue("@course", student.course);
 
             sql_command.Parameters.AddWithValue("@gender", student.gender);
 
@@ -253,7 +268,7 @@ namespace MetroFramework.Demo.Managers
             database.Update(sql_command);
             return true;
         }
-       
+
     }
 
 

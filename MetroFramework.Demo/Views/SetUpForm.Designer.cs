@@ -28,116 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.user_login = new MetroFramework.Controls.MetroButton();
+            this.label5 = new System.Windows.Forms.Label();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
+            this.user_login = new MetroFramework.Controls.MetroButton();
+            this.txtbox_saveImagesPath = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtbox_confirmedPassword = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtbox_password = new System.Windows.Forms.TextBox();
+            this.txtbox_username = new System.Windows.Forms.TextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.user_login);
-            this.panel1.Controls.Add(this.textBox4);
+            this.panel1.Controls.Add(this.txtbox_saveImagesPath);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.textBox3);
+            this.panel1.Controls.Add(this.txtbox_confirmedPassword);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.txtbox_password);
+            this.panel1.Controls.Add(this.txtbox_username);
             this.panel1.Location = new System.Drawing.Point(23, 85);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(449, 310);
             this.panel1.TabIndex = 0;
             // 
-            // textBox1
+            // label5
             // 
-            this.textBox1.Location = new System.Drawing.Point(224, 17);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(161, 20);
-            this.textBox1.TabIndex = 0;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(224, 66);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(161, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(67, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Enter a Username";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(67, 66);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Enter a Password";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(66, 107);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Confirm Password";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(224, 107);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(161, 20);
-            this.textBox3.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(64, 155);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Save Images Here";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(224, 155);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(161, 20);
-            this.textBox4.TabIndex = 7;
-            // 
-            // user_login
-            // 
-            this.user_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.user_login.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.user_login.Location = new System.Drawing.Point(126, 216);
-            this.user_login.Name = "user_login";
-            this.user_login.Size = new System.Drawing.Size(161, 32);
-            this.user_login.TabIndex = 17;
-            this.user_login.Text = "Nkujukira!!!";
-            this.user_login.UseSelectable = true;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label5.Location = new System.Drawing.Point(93, 256);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 19);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "label5";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // progressBar
             // 
@@ -148,12 +85,106 @@
             this.progressBar.TabIndex = 18;
             this.progressBar.Visible = false;
             // 
+            // user_login
+            // 
+            this.user_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.user_login.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.user_login.Location = new System.Drawing.Point(149, 219);
+            this.user_login.Name = "user_login";
+            this.user_login.Size = new System.Drawing.Size(161, 32);
+            this.user_login.TabIndex = 17;
+            this.user_login.Text = "Nkujukira!!!";
+            this.user_login.UseSelectable = true;
+            this.user_login.Click += new System.EventHandler(this.user_login_Click);
+            // 
+            // txtbox_saveImagesPath
+            // 
+            this.txtbox_saveImagesPath.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbox_saveImagesPath.Location = new System.Drawing.Point(224, 155);
+            this.txtbox_saveImagesPath.Name = "txtbox_saveImagesPath";
+            this.txtbox_saveImagesPath.Size = new System.Drawing.Size(161, 27);
+            this.txtbox_saveImagesPath.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label4.Location = new System.Drawing.Point(64, 155);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(125, 19);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Save Images Here";
+            // 
+            // txtbox_confirmedPassword
+            // 
+            this.txtbox_confirmedPassword.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbox_confirmedPassword.Location = new System.Drawing.Point(224, 107);
+            this.txtbox_confirmedPassword.Name = "txtbox_confirmedPassword";
+            this.txtbox_confirmedPassword.Size = new System.Drawing.Size(161, 27);
+            this.txtbox_confirmedPassword.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label3.Location = new System.Drawing.Point(66, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 19);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Confirm Password";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label2.Location = new System.Drawing.Point(67, 66);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(121, 19);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Enter a Password";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(67, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(125, 19);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Enter a Username";
+            // 
+            // txtbox_password
+            // 
+            this.txtbox_password.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbox_password.Location = new System.Drawing.Point(224, 66);
+            this.txtbox_password.Name = "txtbox_password";
+            this.txtbox_password.Size = new System.Drawing.Size(161, 27);
+            this.txtbox_password.TabIndex = 1;
+            // 
+            // txtbox_username
+            // 
+            this.txtbox_username.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtbox_username.Location = new System.Drawing.Point(224, 17);
+            this.txtbox_username.Name = "txtbox_username";
+            this.txtbox_username.Size = new System.Drawing.Size(161, 27);
+            this.txtbox_username.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 50;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // SetUpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(495, 418);
             this.Controls.Add(this.panel1);
+            this.MaximizeBox = false;
             this.Name = "SetUpForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
@@ -170,15 +201,17 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtbox_confirmedPassword;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtbox_password;
+        private System.Windows.Forms.TextBox txtbox_username;
+        private System.Windows.Forms.TextBox txtbox_saveImagesPath;
         private System.Windows.Forms.Label label4;
         private Controls.MetroButton user_login;
         private Controls.MetroProgressBar progressBar;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Timer timer1;
     }
 }
