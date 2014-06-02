@@ -34,6 +34,8 @@ namespace MetroFramework.Demo.Managers
             VictimsManager.CreateTable();
 
             SettingsManager.CreateTable();
+
+            CrimesManager.CreateTable();
         }
 
         //POPULATE TABLES WITH INITIAL DATA
@@ -48,6 +50,8 @@ namespace MetroFramework.Demo.Managers
             VictimsManager.PopulateTable();
 
             SettingsManager.PopulateTable();
+
+            CrimesManager.PopulateTable();
         }
 
         //DROP ALL TABLES IN DATABASE
@@ -62,6 +66,8 @@ namespace MetroFramework.Demo.Managers
             VictimsManager.DropTable();
 
             SettingsManager.DropTable();
+
+            CrimesManager.DropTable();
         }
     }
 }

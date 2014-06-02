@@ -12,7 +12,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Managers
 {
-    public abstract class Manager
+    public class Manager
     {
         //database object
         public static DatabaseInterface database = DatabaseFactory.GetDatabase(DatabaseFactory.MYSQL_DBMS);
@@ -22,5 +22,11 @@ namespace MetroFramework.Demo.Managers
 
         //Sql commad
         public static MySqlCommand sql_command = null ;
+
+        //returns a time stamp
+        public static string GetTimeStamp(DateTime value) 
+        {
+            return value.ToString("ddMMyyyyHHmmssffff");
+        }
     }
 }

@@ -90,7 +90,7 @@ namespace MetroFramework.Demo.Views
                i++;
            }
 
-           Perpetrator perpetrator = new Perpetrator(PerpetratorsManager.PERPETRATOR_ID,perpetrator_faces);
+           Perpetrator perpetrator = new Perpetrator(perpetrator_faces,true,"");
 
            
            //clear datastore

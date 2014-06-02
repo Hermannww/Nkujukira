@@ -20,7 +20,7 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String create_sql       = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),VALUE VARCHAR(30))";
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),VALUE VARCHAR(30),CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
                 sql_command             = new MySqlCommand();
                 sql_command.Connection  = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText = create_sql;
@@ -162,6 +162,8 @@ namespace MetroFramework.Demo.Managers
 
                 //execute command
                 database.Insert(sql_command);
+
+                setting.id = Convert.ToInt32(sql_command.LastInsertedId);
 
                 return true;
             }

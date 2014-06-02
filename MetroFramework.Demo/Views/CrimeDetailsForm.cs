@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,39 +15,46 @@ namespace MetroFramework.Demo.Views
 {
     public partial class CrimeDetailsForm : MetroForm
     {
-        int perpetrator_id;
+        private Perpetrator perpetrator;
+        String[] types_of_crimes                     = { "Crime againist Person", "Crime againist Property", "Crime againist Morality", "White-collar crime" };
+        String[] crimes_againist_persons             = { "murder", "aggrevated assault", "rape", "robbery" };
+        String[] crimes_againist_property            = { "theft", "burglary", "laceny", "auto theft", "arson" };
+        String[] crimes_againist_morality            = { "prostitution", "illegal gambling", "drug use" };
+        String[] white_collar_crimes                 = { "embezzling", "insider trading", "tax evasion" };
+        //internal List<Victim> victims_of_this_crime=new List<Victim>();
 
-        public CrimeDetailsForm(int perpetrator_id)
+        public CrimeDetailsForm(Perpetrator perpetrator_id)
         {
-            this.perpetrator_id = perpetrator_id;
+            this.perpetrator                         = perpetrator_id;
             InitializeComponent();
         }
 
         private void cancel_button_Click(object sender, EventArgs e)
         {
-            PerpetratorsManager.Delete(perpetrator_id);
             this.Close();
         }
 
         private void save_button_Click(object sender, EventArgs e)
         {
             //get crime details
-            String date_of_crime    = dateTimePicker1.Text;
-            String time_of_crime    = GetTimeOfCrime();
-            String type_of_crime    = type_of_crime_comboBox.Text;
-            String details_of_crime = details_of_crime_textfield.Text;
-            int id                  = CrimesManager.CRIME_ID;
+            String date_of_crime                     = dateTimePicker1.Text;
+            String time_of_crime                     = GetTimeOfCrime();
+            String type_of_crime                     = type_of_crime_comboBox.Text;
+            String crime_commited                    = comboBox_crimeCommited.Text;
+            String details_of_crime                  = details_of_crime_textfield.Text;
 
             //create crime object
-            Crime crime             = new Crime(id, date_of_crime, details_of_crime, type_of_crime, time_of_crime);
+            Crime crime                              = new Crime(date_of_crime, details_of_crime, type_of_crime, crime_commited, time_of_crime, -1);
 
-            //save crime
-            bool sucess             = CrimesManager.Save(crime);
 
-            //if saved
-            if (sucess)
+            //if the crime selected has victims
+            if (type_of_crime_comboBox.Text.Equals(types_of_crimes[0]) || type_of_crime_comboBox.Text.Equals(types_of_crimes[1]))
             {
-                //start face recognition for perpetrator from students database
+                
+                Debug.WriteLine("This Crime Has Victims");
+                //open victims form
+                VictimsDetailsForm form              = new VictimsDetailsForm(perpetrator, crime);
+                form.Show();
 
                 //close this form
                 this.Close();
@@ -55,9 +63,37 @@ namespace MetroFramework.Demo.Views
                 return;
             }
 
+            // we are dealing with a victimless crime
+            else
+            {
+                Debug.WriteLine("Text=" + comboBox_crimeCommited.Text);
+                Debug.WriteLine("This Crime Has No Victims");
+                //save perpetrator
+                PerpetratorsManager.Save(perpetrator);
+
+                //set the id of the perpetrator
+                crime.perpetrator_id                 = perpetrator.id;
+
+
+                //save crime
+                bool sucess                          = CrimesManager.Save(crime);
+
+
+            }
+
             //display error message
 
 
+        }
+
+        private int GetPerpetratorId()
+        {
+            throw new NotImplementedException();
+        }
+
+        private int GetCrimeId()
+        {
+            throw new NotImplementedException();
         }
 
         private string GetTimeOfCrime()
@@ -65,24 +101,40 @@ namespace MetroFramework.Demo.Views
             return "";
         }
 
-        private void details_of_crime_textfield_MouseDown(object sender, MouseEventArgs e)
+        public void details_of_crime_textfield_MouseDown(object sender, MouseEventArgs e)
         {
-            //check for right click
-            if (e.Button == MouseButtons.Right) 
+
+        }
+
+        private void type_of_crime_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (type_of_crime_comboBox.Text)
             {
-                //handle right click by
-                //create victim details form
-                VictimsDetailsForm form = new VictimsDetailsForm(CrimesManager.CRIME_ID);
-                
-                //set focus to form
-                form.Focus();
-
-                //make it top most form
-                form.TopMost = true;
-
-                //show it
-                form.Show();
+                case "Crime againist Person":
+                    comboBox_crimeCommited.Items.Clear();
+                    comboBox_crimeCommited.Items.AddRange(crimes_againist_persons);
+                    break;
+                case "Crime againist Property":
+                    comboBox_crimeCommited.Items.Clear();
+                    comboBox_crimeCommited.Items.AddRange(crimes_againist_property);
+                    break;
+                case "Crime againist Morality":
+                    comboBox_crimeCommited.Items.Clear();
+                    comboBox_crimeCommited.Items.AddRange(crimes_againist_morality);
+                    break;
+                case "White-collar crime":
+                    comboBox_crimeCommited.Items.Clear();
+                    comboBox_crimeCommited.Items.AddRange(white_collar_crimes);
+                    break;
             }
+            comboBox_crimeCommited.Enabled           = true;
+        }
+
+        private void CrimeDetailsForm_Load(object sender, EventArgs e)
+        {
+            type_of_crime_comboBox.SelectedIndex     = 0;
+            comboBox_hours.SelectedIndex             = 0;
+            comboBox_minutes.SelectedIndex           = 0;
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.done_button = new MetroFramework.Controls.MetroButton();
@@ -41,12 +42,17 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressBar = new MetroFramework.Controls.MetroProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.progressBar);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.metroButton1);
             this.panel1.Controls.Add(this.done_button);
             this.panel1.Controls.Add(this.date_of_birth);
@@ -61,26 +67,26 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Location = new System.Drawing.Point(9, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(548, 386);
+            this.panel1.Size = new System.Drawing.Size(548, 418);
             this.panel1.TabIndex = 0;
             // 
             // metroButton1
             // 
             this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.metroButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroButton1.Location = new System.Drawing.Point(373, 311);
+            this.metroButton1.Location = new System.Drawing.Point(380, 296);
             this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(163, 37);
+            this.metroButton1.Size = new System.Drawing.Size(156, 37);
             this.metroButton1.TabIndex = 41;
-            this.metroButton1.Text = "Cancel";
+            this.metroButton1.Text = "Another Victim";
             this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.cancel_button_Click);
+            this.metroButton1.Click += new System.EventHandler(this.another_victim_button_Click);
             // 
             // done_button
             // 
             this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(151, 311);
+            this.done_button.Location = new System.Drawing.Point(151, 296);
             this.done_button.Name = "done_button";
             this.done_button.Size = new System.Drawing.Size(178, 37);
             this.done_button.TabIndex = 40;
@@ -90,32 +96,35 @@
             // 
             // date_of_birth
             // 
+            this.date_of_birth.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.date_of_birth.Location = new System.Drawing.Point(151, 107);
             this.date_of_birth.Name = "date_of_birth";
-            this.date_of_birth.Size = new System.Drawing.Size(385, 20);
+            this.date_of_birth.Size = new System.Drawing.Size(385, 27);
             this.date_of_birth.TabIndex = 39;
             // 
             // is_a_student_comboBox
             // 
+            this.is_a_student_comboBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.is_a_student_comboBox.FormattingEnabled = true;
             this.is_a_student_comboBox.Items.AddRange(new object[] {
             "Yes",
             "No"});
             this.is_a_student_comboBox.Location = new System.Drawing.Point(151, 208);
             this.is_a_student_comboBox.Name = "is_a_student_comboBox";
-            this.is_a_student_comboBox.Size = new System.Drawing.Size(100, 21);
+            this.is_a_student_comboBox.Size = new System.Drawing.Size(100, 27);
             this.is_a_student_comboBox.TabIndex = 37;
             // 
             // gender_comoboBox
             // 
             this.gender_comoboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gender_comoboBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gender_comoboBox.FormattingEnabled = true;
             this.gender_comoboBox.Items.AddRange(new object[] {
             "Male",
             "Female"});
             this.gender_comoboBox.Location = new System.Drawing.Point(151, 155);
             this.gender_comoboBox.Name = "gender_comoboBox";
-            this.gender_comoboBox.Size = new System.Drawing.Size(100, 21);
+            this.gender_comoboBox.Size = new System.Drawing.Size(100, 27);
             this.gender_comoboBox.TabIndex = 36;
             // 
             // label12
@@ -131,16 +140,18 @@
             // 
             // items_lost_textbox
             // 
+            this.items_lost_textbox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.items_lost_textbox.Location = new System.Drawing.Point(151, 256);
             this.items_lost_textbox.Name = "items_lost_textbox";
-            this.items_lost_textbox.Size = new System.Drawing.Size(385, 20);
+            this.items_lost_textbox.Size = new System.Drawing.Size(385, 27);
             this.items_lost_textbox.TabIndex = 34;
             // 
             // name_text_box
             // 
+            this.name_text_box.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.name_text_box.Location = new System.Drawing.Point(151, 57);
             this.name_text_box.Name = "name_text_box";
-            this.name_text_box.Size = new System.Drawing.Size(385, 20);
+            this.name_text_box.Size = new System.Drawing.Size(385, 27);
             this.name_text_box.TabIndex = 33;
             // 
             // label10
@@ -187,6 +198,30 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Name";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(264, 356);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(156, 19);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "Enter The Details Here";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(151, 391);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(385, 10);
+            this.progressBar.Style = MetroFramework.MetroColorStyle.Red;
+            this.progressBar.TabIndex = 43;
+            this.progressBar.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // VictimsDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -222,5 +257,8 @@
         private System.Windows.Forms.Label label6;
         private Controls.MetroButton done_button;
         private Controls.MetroButton metroButton1;
+        private System.Windows.Forms.Label label1;
+        private Controls.MetroProgressBar progressBar;
+        private System.Windows.Forms.Timer timer1;
     }
 }

@@ -181,6 +181,7 @@ namespace MetroFramework.Demo
             this.Name = "LoginForm";
             this.Resizable = false;
             this.ShowIcon = false;
+            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Login";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;

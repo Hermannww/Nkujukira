@@ -24,18 +24,18 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT )";
-                sql_command = new MySqlCommand();
-                sql_command.Connection = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText = create_sql;
+                String create_sql                 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),IS_A_STUDENT VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+                sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText           = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
 
                 //create items stolen table
-                create_sql = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
-                sql_command = new MySqlCommand();
-                sql_command.Connection = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText = create_sql;
+                create_sql                        = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
+                sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText           = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -49,10 +49,10 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
-                sql_command = new MySqlCommand();
-                sql_command.Connection = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText = drop_sql;
+                String drop_sql                   = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText           = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -77,6 +77,7 @@ namespace MetroFramework.Demo.Managers
                 String select_sql                 = "SELECT * FROM " + TABLE_NAME;
 
                 sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText           = select_sql;
                 sql_command.Prepare();
 
@@ -115,6 +116,7 @@ namespace MetroFramework.Demo.Managers
             finally
             {
                 data_reader.Close();
+                database.CloseConnection();
             }
             return null;
         }
@@ -127,6 +129,7 @@ namespace MetroFramework.Demo.Managers
                 String select_sql                 = "SELECT * FROM " + TABLE_NAME + "WHERE ID=@id";
 
                 sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText           = select_sql;
                 sql_command.Parameters.AddWithValue("@id", id);
                 sql_command.Prepare();
@@ -163,6 +166,7 @@ namespace MetroFramework.Demo.Managers
             finally
             {
                 data_reader.Close();
+                database.CloseConnection();
             }
             return null;
         }
@@ -174,48 +178,81 @@ namespace MetroFramework.Demo.Managers
 
         public static bool Save(Victim victim)
         {
-            return true;
+            try
+            {
+                String insert_sql                 = "INSERT INTO VICTIMS (NAME,DATE_OF_BIRTH,IS_A_STUDENT,GENDER,CRIME_ID) VALUES(@name,@dob,@is_student,@gender,@crime_id)";
+
+                //Sql command
+                sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText           = insert_sql;
+
+                sql_command.Parameters.AddWithValue("@name", victim.name);
+                sql_command.Parameters.AddWithValue("@dob", victim.date_of_birth);
+                sql_command.Parameters.AddWithValue("@is_student", ""+victim.is_a_student);
+                sql_command.Parameters.AddWithValue("@gender", victim.gender);
+                sql_command.Parameters.AddWithValue("@crime_id", victim.crime_id);
+                sql_command.Prepare();
+
+                database.Insert(sql_command);
+
+                victim.id = Convert.ToInt32(sql_command.LastInsertedId);
+
+                return true;
+            }
+            finally 
+            {
+                database.CloseConnection();
+            }
         }
 
         public static bool Update(Victim victim)
         {
-            String update_sql                     = "UPDATE " + TABLE_NAME + " SET NAME=@name ,DOB=@dob,IS_A_STUDENT=@student,GENDER=@gender,CRIME_ID=@crime_id WHERE ID=@id";
-            
-            //Sql command
-            sql_command                           = new MySqlCommand();
-            sql_command.CommandText               = update_sql;
-
-            sql_command.Parameters.AddWithValue("@id", victim.id);
-            sql_command.Parameters.AddWithValue("@name", victim.name);
-            sql_command.Parameters.AddWithValue("@dob", victim.date_of_birth);
-            sql_command.Parameters.AddWithValue("@student", victim.is_a_student);
-            sql_command.Parameters.AddWithValue("@gender", victim.gender);
-            sql_command.Parameters.AddWithValue("@crime_id", victim.crime_id);
-
-            sql_command.Prepare();
-
-            //execute command
-            database.Update(sql_command);
-
-            //update each stolen item
-            foreach (var stolen_item in victim.items_stolen)
+            try
             {
-               //sql statement
-                update_sql                        = "UPDATE ITEMS_STOLEN SET NAME=@item_name WHERE ID=@id";
+                String update_sql                 = "UPDATE " + TABLE_NAME + " SET NAME=@name ,DOB=@dob,IS_A_STUDENT=@student,GENDER=@gender,CRIME_ID=@crime_id WHERE ID=@id";
 
                 //Sql command
                 sql_command                       = new MySqlCommand();
+                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText           = update_sql;
 
-                sql_command.Parameters.AddWithValue("@id", stolen_item.id);
-                sql_command.Parameters.AddWithValue("@name", stolen_item.name_of_item);
+                sql_command.Parameters.AddWithValue("@id", victim.id);
+                sql_command.Parameters.AddWithValue("@name", victim.name);
+                sql_command.Parameters.AddWithValue("@dob", victim.date_of_birth);
+                sql_command.Parameters.AddWithValue("@student", victim.is_a_student);
+                sql_command.Parameters.AddWithValue("@gender", victim.gender);
+                sql_command.Parameters.AddWithValue("@crime_id", victim.crime_id);
 
                 sql_command.Prepare();
 
                 //execute command
                 database.Update(sql_command);
+
+                //update each stolen item
+                foreach (var stolen_item in victim.items_stolen)
+                {
+                    //sql statement
+                    update_sql                    = "UPDATE ITEMS_STOLEN SET NAME=@item_name WHERE ID=@id";
+
+                    //Sql command
+                    sql_command                   = new MySqlCommand();
+                    sql_command.CommandText       = update_sql;
+
+                    sql_command.Parameters.AddWithValue("@id", stolen_item.id);
+                    sql_command.Parameters.AddWithValue("@name", stolen_item.name_of_item);
+
+                    sql_command.Prepare();
+
+                    //execute command
+                    database.Update(sql_command);
+                }
+                return true;
             }
-            return true;
+            finally 
+            {
+                database.CloseConnection();
+            }
         }
     }
 }

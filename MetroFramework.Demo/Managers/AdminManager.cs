@@ -12,6 +12,7 @@ namespace MetroFramework.Demo.Managers
         public const int USERNAME       = 1;
         public const int PASSWORD       = 2;
         public const int TYPE           = 3;
+        private static int ID           =0;
 
         public static void CreateTable()
         {
@@ -77,8 +78,9 @@ namespace MetroFramework.Demo.Managers
                 if (data_reader.Read())
                 {
                     //create object
+                    int id              = data_reader.GetInt32(ID);
                     String type         = data_reader.GetString(TYPE);
-                    admin               = new Admin(username, password, type);
+                    admin               = new Admin(id,username, password, type);
                 }
             }
             catch (Exception e) 
@@ -145,6 +147,7 @@ namespace MetroFramework.Demo.Managers
 
                 //Sql command
                 sql_command             = new MySqlCommand();
+                sql_command.Connection  = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText = select_sql;
                 sql_command.Prepare();
 
@@ -156,10 +159,11 @@ namespace MetroFramework.Demo.Managers
                 if (data_reader.Read())
                 {
                     //create object
+                    int id              = data_reader.GetInt32(ID);
                     String username     = data_reader.GetString(USERNAME);
                     String password     = data_reader.GetString(PASSWORD);
                     String type         = data_reader.GetString(TYPE);
-                    Admin admin         = new Admin(username, password, type);
+                    Admin admin         = new Admin(id,username, password, type);
                     admins.Add(admin);
                 }
             }
@@ -194,6 +198,8 @@ namespace MetroFramework.Demo.Managers
 
                 database.Insert(sql_command);
 
+                admin.id = Convert.ToInt32(sql_command.LastInsertedId);
+
                 return true;
             }
             finally
@@ -216,6 +222,7 @@ namespace MetroFramework.Demo.Managers
 
                 //Sql command
                 sql_command             = new MySqlCommand();
+                sql_command.Connection  = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText = update_sql;
 
                 sql_command.Parameters.AddWithValue("@id", admin.id);

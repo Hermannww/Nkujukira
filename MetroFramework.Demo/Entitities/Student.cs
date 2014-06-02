@@ -35,16 +35,16 @@ namespace MetroFramework.Demo.Entitities
 
         public Student(int id,String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Bitmap[] photos)
         {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
+            this.id         = id;
+            this.firstName  = firstName;
+            this.lastName   = lastName;
             this.middleName = middleName;
-            this.studentNo = studentNo;
-            this.regNo = regNo;
-            this.course = course;
-            this.DOB = DOB;
-            this.gender = gender;
-            this.photos = photos;
+            this.studentNo  = studentNo;
+            this.regNo      = regNo;
+            this.course     = course;
+            this.DOB        = DOB;
+            this.gender     = gender;
+            this.photos     = photos;
         }
     }
 

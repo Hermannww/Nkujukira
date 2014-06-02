@@ -24,8 +24,8 @@ namespace MetroFramework.Demo.Views
         private void user_login_Click(object sender, EventArgs e)
         {
             //ENABLE SOME STUFF
-            timer1.Enabled            = true;
-            timer1_Tick(null, null);
+            timer1.Start();
+            progressBar.Visible = true;
 
             //GET USER INPUT
             String username           = txtbox_username.Text;
@@ -37,7 +37,7 @@ namespace MetroFramework.Demo.Views
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password) || String.IsNullOrEmpty(confirmed_password))
             {
                 //disable some stuff
-                timer1.Enabled        = false;
+                timer1.Stop();
                 progressBar.Enabled   = false;
                 progressBar.Visible   = false;
                 progressBar.Value     = 0;
@@ -50,7 +50,7 @@ namespace MetroFramework.Demo.Views
             if (!password.Equals(confirmed_password))
             {
                 //disable some stuff
-                timer1.Enabled        = false;
+                timer1.Stop();
                 progressBar.Enabled   = false;
                 progressBar.Visible   = false;
                 progressBar.Value     = 0;
@@ -86,7 +86,7 @@ namespace MetroFramework.Demo.Views
 
                 //display loading progress bar
                 progressBar.Visible   = true;
-                progressBar.Value     = progressBar.Value + 2;
+                progressBar.Value ++;
                 label5.Visible        = true;
                 label5.Text           = "Please Wait While Create The Database...";
             }
@@ -97,6 +97,7 @@ namespace MetroFramework.Demo.Views
                 DisplayResultsOfLogin();
 
                 //disable timer
+                timer1.Stop();
                 timer1.Enabled        = false;
 
             }
@@ -108,10 +109,16 @@ namespace MetroFramework.Demo.Views
             progressBar.Visible       = false;
             progressBar.Value         = 0;
             label5.Visible            = true;
+
             //display results of operations
             label5.Text               = "Welcome!! We are Done Setting Up...\nClose This To Login";
             
 
+        }
+
+        private void SetUpForm_Load(object sender, EventArgs e)
+        {
+            timer1.Stop();
         }
     }
 }

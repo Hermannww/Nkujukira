@@ -17,25 +17,26 @@ namespace MetroFramework.Demo.Managers
     class StudentsManager : Manager
     {
         public const String IMAGES_FOLDER     = @"c:\Nkujukira\";
-        private const int FIRST_NAME          = 0;
-        private const int LAST_NAME           = 1;
+        private const int ID                  = 0;
+        private const int FIRST_NAME          = 1;
+        private const int LAST_NAME           = 3;
         private const int MIDDLE_NAME         = 2;
-        private const int STUDENT_NUMBER      = 3;
-        private const int REGISTRATION_NUMBER = 4;
-        private const int D_O_B               = 5;
-        private const int COURSE              = 6;
-        private const int GENDER              = 7;
-        private const int PHOTOS              = 8;
+        private const int STUDENT_NUMBER      = 4;
+        private const int REGISTRATION_NUMBER = 5;
+        private const int D_O_B               = 6;
+        private const int COURSE              = 7;
+        private const int GENDER              = 8;
+        private const int PHOTOS              = 9;
         private const string TABLE_NAME       = "STUDENTS";
 
         public static void CreateTable()
         {
             try
             {
-                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(10),COURSE VARCHAR(30),GENDER VARCHAR(10),PHOTOS_PATH VARCHAR(30) )";
-                sql_command = new MySqlCommand();
-                sql_command.Connection = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText = create_sql;
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(10),COURSE VARCHAR(30),GENDER VARCHAR(10),PHOTOS_PATH VARCHAR(30),CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+                sql_command                   = new MySqlCommand();
+                sql_command.Connection        = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText       = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -49,10 +50,10 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
-                sql_command = new MySqlCommand();
-                sql_command.Connection = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText = drop_sql;
+                String drop_sql               = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command                   = new MySqlCommand();
+                sql_command.Connection        = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText       = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -90,7 +91,7 @@ namespace MetroFramework.Demo.Managers
                 while (data_reader.Read())
                 {
                     //create new student
-
+                    int id                    = data_reader.GetInt32(ID);
                     String first_name         = data_reader.GetString(FIRST_NAME);
                     String last_name          = data_reader.GetString(LAST_NAME);
                     String middle_name        = data_reader.GetString(MIDDLE_NAME);
@@ -101,7 +102,7 @@ namespace MetroFramework.Demo.Managers
                     String gender             = data_reader.GetString(GENDER);
                     Bitmap[] photos           = GetStudentPhotos(data_reader.GetString(PHOTOS));
 
-                    Student student           = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
+                    Student student           = new Student(id,first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
 
                     //add student to list
                     students.Add(student);
@@ -127,12 +128,12 @@ namespace MetroFramework.Demo.Managers
             return null;
         }
 
-        public static Student GetStudent(int id)
+        public static Student GetStudent(String id)
         {
             try
             {
                 //select sql
-                String select_sql             = "SELECT * FROM " + TABLE_NAME + " WHERE REG_NO=@id OR STUDENT_NO=@id";
+                String select_sql             = "SELECT * FROM " + TABLE_NAME + " WHERE REG_NO=@id OR STUDENT_NO=@id OR ID=@id";
 
                 //sql command
                 sql_command                   = new MySqlCommand();
@@ -150,7 +151,7 @@ namespace MetroFramework.Demo.Managers
                 while (data_reader.Read())
                 {
                     //create new student
-
+                    int std_id                = data_reader.GetInt32(ID);
                     String first_name         = data_reader.GetString(FIRST_NAME);
                     String last_name          = data_reader.GetString(LAST_NAME);
                     String middle_name        = data_reader.GetString(MIDDLE_NAME);
@@ -161,7 +162,7 @@ namespace MetroFramework.Demo.Managers
                     String gender             = data_reader.GetString(GENDER);
                     Bitmap[] photos           = GetStudentPhotos(data_reader.GetString(PHOTOS));
 
-                    Student student           = new Student(first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
+                    Student student           = new Student(std_id,first_name, middle_name, last_name, student_number, reg_number, course, dob, gender, photos);
 
                     //add student to list
                     students.Add(student);
@@ -185,39 +186,48 @@ namespace MetroFramework.Demo.Managers
 
         public static bool Save(Student student)
         {
-            string photo_path                 = "";
-
-            //insert sql
-            String insert_sql                 = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,studentno,regno,course,dob,gender,photo) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
-
-
-
-            //Sql command
-            sql_command                       = new MySqlCommand();
-            sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText           = insert_sql;
-
-            sql_command.Parameters.AddWithValue("@firstname", student.firstName);
-            sql_command.Parameters.AddWithValue("@middlename", student.middleName);
-            sql_command.Parameters.AddWithValue("@lastname", student.lastName);
-            sql_command.Parameters.AddWithValue("@studentno", student.studentNo);
-            sql_command.Parameters.AddWithValue("@regno", student.regNo);
-            sql_command.Parameters.AddWithValue("@course", student.course);
-            sql_command.Parameters.AddWithValue("@dob", student.DOB);
-            sql_command.Parameters.AddWithValue("@gender", student.gender);
-            sql_command.Parameters.AddWithValue("@photo", photo_path);
-
-            sql_command.Prepare();
-
-            //insert into db
-            database.Insert(sql_command);
-
-            //save each image
-            foreach (var photo in student.photos)
+            try
             {
-                FileManager.SaveBitmap(photo_path, photo);
+                string photo_path = "";
+
+                //insert sql
+                String insert_sql = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,studentno,regno,course,dob,gender,photo) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
+
+
+
+                //Sql command
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = insert_sql;
+
+                sql_command.Parameters.AddWithValue("@firstname", student.firstName);
+                sql_command.Parameters.AddWithValue("@middlename", student.middleName);
+                sql_command.Parameters.AddWithValue("@lastname", student.lastName);
+                sql_command.Parameters.AddWithValue("@studentno", student.studentNo);
+                sql_command.Parameters.AddWithValue("@regno", student.regNo);
+                sql_command.Parameters.AddWithValue("@course", student.course);
+                sql_command.Parameters.AddWithValue("@dob", student.DOB);
+                sql_command.Parameters.AddWithValue("@gender", student.gender);
+                sql_command.Parameters.AddWithValue("@photo", photo_path);
+
+                sql_command.Prepare();
+
+                //insert into db
+                database.Insert(sql_command);
+
+                student.id = Convert.ToInt32(sql_command.LastInsertedId);
+
+                //save each image
+                foreach (var photo in student.photos)
+                {
+                    FileManager.SaveBitmap(photo_path, photo);
+                }
+                return true;
             }
-            return true;
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         public static bool Delete(int id)
@@ -248,6 +258,7 @@ namespace MetroFramework.Demo.Managers
 
             //Sql command
             sql_command                       = new MySqlCommand();
+            sql_command.Connection = (MySqlConnection)database.OpenConnection();
             sql_command.CommandText           = update_sql;
 
             sql_command.Parameters.AddWithValue("@id", student.id);
