@@ -45,7 +45,8 @@ namespace MetroFramework.Demo
                 {
                     Admin admin = Singletons.Singleton.ADMIN;
                     admin.password = new_pass_word.Text;
-                    if (AdminManager.Save(admin))
+                    admin.user_name = new_user_name.Text;
+                    if (AdminManager.Update(admin))
                     {
                         MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
                     }

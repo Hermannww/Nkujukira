@@ -43,7 +43,7 @@ namespace MetroFramework.Demo
             try {
                 Admin admin = Singletons.Singleton.ADMIN;
                 admin.user_type = role.Text;
-                if (AdminManager.Save(admin))
+                if (AdminManager.Update(admin))
                 {
                     MetroMessageBox.Show(this, "User Role Updated Successfully", "CONGRATULATIONS");
                 }

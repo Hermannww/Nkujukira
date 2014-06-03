@@ -52,7 +52,7 @@
             this.image_list_view.DefaultImage = ((System.Drawing.Image)(resources.GetObject("image_list_view.DefaultImage")));
             this.image_list_view.ErrorImage = ((System.Drawing.Image)(resources.GetObject("image_list_view.ErrorImage")));
             this.image_list_view.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.image_list_view.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            //this.image_list_view.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.image_list_view.Location = new System.Drawing.Point(3, 3);
             this.image_list_view.Name = "image_list_view";
             this.image_list_view.Size = new System.Drawing.Size(505, 428);

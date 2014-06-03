@@ -154,7 +154,7 @@
       <HintPath>..\..\..\nkujukira\nkujukira\bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
     <Reference Include="ImageListView">
-      <HintPath>..\..\..\..\Downloads\ImageListViewSource\ImageListView\bin\Debug\ImageListView.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\ours\net35\ImageListView.dll</HintPath>
     </Reference>
     <Reference Include="MediaInfoNET">
       <HintPath>..\..\..\..\Desktop\New folder\Nkujukira\MetroFramework.Demo\bin\Debug\MediaInfoNET.dll</HintPath>

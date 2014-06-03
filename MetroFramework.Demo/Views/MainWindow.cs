@@ -14,6 +14,7 @@ using MB.Controls;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
+using MetroFramework.Demo.Views;
 
 namespace MetroFramework.Demo
 {
@@ -60,7 +61,9 @@ namespace MetroFramework.Demo
 
         private void metroButton10_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, "This is a sample MetroMessagebox `OK` and `Cancel` button", "MetroMessagebox", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            ChangeUserLoginDetailsForm form = new ChangeUserLoginDetailsForm();
+            form.ShowDialog();
+            
         }
 
         private void metroButton7_Click(object sender, EventArgs e)
@@ -399,6 +402,24 @@ namespace MetroFramework.Demo
                     form.Show();
                 }
             }
+        }
+
+        private void metroButton6_Click_1(object sender, EventArgs e)
+        {
+            AddNewUserForm form = new AddNewUserForm();
+            form.ShowDialog();
+        }
+
+        private void metroButton3_Click_1(object sender, EventArgs e)
+        {
+            ChangeUserTypeDialog dialog = new ChangeUserTypeDialog();
+            dialog.ShowDialog();
+        }
+
+        private void metroButton4_Click_1(object sender, EventArgs e)
+        {
+            AddStudentDialog dialog = new AddStudentDialog();
+            dialog.ShowDialog();
         }
 
 

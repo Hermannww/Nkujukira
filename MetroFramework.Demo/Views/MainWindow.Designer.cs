@@ -95,13 +95,16 @@ namespace MetroFramework.Demo
             this.metroToggle1 = new MetroFramework.Controls.MetroToggle();
             this.metroCheckBox1 = new MetroFramework.Controls.MetroCheckBox();
             this.metroTabPage5 = new MetroFramework.Controls.MetroTabPage();
-            this.metroButton12 = new MetroFramework.Controls.MetroButton();
-            this.metroButton11 = new MetroFramework.Controls.MetroButton();
-            this.metroButton10 = new MetroFramework.Controls.MetroButton();
-            this.metroButton9 = new MetroFramework.Controls.MetroButton();
-            this.metroButton8 = new MetroFramework.Controls.MetroButton();
-            this.metroButton7 = new MetroFramework.Controls.MetroButton();
+            this.metroTabControl2 = new MetroFramework.Controls.MetroTabControl();
+            this.metroTabPage7 = new MetroFramework.Controls.MetroTabPage();
+            this.metroTabPage6 = new MetroFramework.Controls.MetroTabPage();
+            this.metroButton4 = new MetroFramework.Controls.MetroButton();
+            this.metroButton3 = new MetroFramework.Controls.MetroButton();
             this.metroButton6 = new MetroFramework.Controls.MetroButton();
+            this.metroButton10 = new MetroFramework.Controls.MetroButton();
+            this.metroTabPage8 = new MetroFramework.Controls.MetroTabPage();
+            this.metroTabPage9 = new MetroFramework.Controls.MetroTabPage();
+            this.metroTabPage10 = new MetroFramework.Controls.MetroTabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.metroToolTip = new MetroFramework.Components.MetroToolTip();
@@ -127,6 +130,8 @@ namespace MetroFramework.Demo
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_box)).BeginInit();
             this.metroTabPage4.SuspendLayout();
             this.metroTabPage5.SuspendLayout();
+            this.metroTabControl2.SuspendLayout();
+            this.metroTabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.metroContextMenu1.SuspendLayout();
             this.SuspendLayout();
@@ -143,7 +148,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 4;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -686,7 +691,7 @@ namespace MetroFramework.Demo
             this.metroLabel3.Location = new System.Drawing.Point(534, 3);
             this.metroLabel3.Margin = new System.Windows.Forms.Padding(3);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(116, 19);
+            this.metroLabel3.Size = new System.Drawing.Size(117, 19);
             this.metroLabel3.TabIndex = 4;
             this.metroLabel3.Text = "Pick A Perpetrator";
             this.metroToolTip.SetToolTip(this.metroLabel3, "Label Tooltip");
@@ -831,7 +836,7 @@ namespace MetroFramework.Demo
             this.metroLabel19.AutoSize = true;
             this.metroLabel19.Location = new System.Drawing.Point(181, 133);
             this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(84, 19);
+            this.metroLabel19.Size = new System.Drawing.Size(86, 19);
             this.metroLabel19.TabIndex = 9;
             this.metroLabel19.Text = "MetroToggle";
             // 
@@ -915,17 +920,12 @@ namespace MetroFramework.Demo
             // 
             // metroTabPage5
             // 
-            this.metroTabPage5.Controls.Add(this.metroButton12);
-            this.metroTabPage5.Controls.Add(this.metroButton11);
-            this.metroTabPage5.Controls.Add(this.metroButton10);
-            this.metroTabPage5.Controls.Add(this.metroButton9);
-            this.metroTabPage5.Controls.Add(this.metroButton8);
-            this.metroTabPage5.Controls.Add(this.metroButton7);
-            this.metroTabPage5.Controls.Add(this.metroButton6);
+            this.metroTabPage5.Controls.Add(this.metroTabControl2);
             this.metroTabPage5.HorizontalScrollbarBarColor = true;
             this.metroTabPage5.HorizontalScrollbarHighlightOnWheel = false;
             this.metroTabPage5.HorizontalScrollbarSize = 10;
             this.metroTabPage5.Location = new System.Drawing.Point(4, 41);
+            this.metroTabPage5.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.metroTabPage5.Name = "metroTabPage5";
             this.metroTabPage5.Size = new System.Drawing.Size(918, 400);
             this.metroTabPage5.TabIndex = 5;
@@ -934,75 +934,148 @@ namespace MetroFramework.Demo
             this.metroTabPage5.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage5.VerticalScrollbarSize = 10;
             // 
-            // metroButton12
+            // metroTabControl2
             // 
-            this.metroButton12.Location = new System.Drawing.Point(197, 97);
-            this.metroButton12.Name = "metroButton12";
-            this.metroButton12.Size = new System.Drawing.Size(140, 31);
-            this.metroButton12.TabIndex = 8;
-            this.metroButton12.Text = "Default";
-            this.metroButton12.UseSelectable = true;
-            this.metroButton12.Click += new System.EventHandler(this.metroButton12_Click);
+            this.metroTabControl2.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuItem;
+            this.metroTabControl2.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.metroTabControl2.Controls.Add(this.metroTabPage7);
+            this.metroTabControl2.Controls.Add(this.metroTabPage6);
+            this.metroTabControl2.Controls.Add(this.metroTabPage8);
+            this.metroTabControl2.Controls.Add(this.metroTabPage9);
+            this.metroTabControl2.Controls.Add(this.metroTabPage10);
+            this.metroTabControl2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroTabControl2.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.metroTabControl2.ItemSize = new System.Drawing.Size(25, 150);
+            this.metroTabControl2.Location = new System.Drawing.Point(3, 3);
+            this.metroTabControl2.Multiline = true;
+            this.metroTabControl2.Name = "metroTabControl2";
+            this.metroTabControl2.SelectedIndex = 0;
+            this.metroTabControl2.Size = new System.Drawing.Size(903, 367);
+            this.metroTabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.metroTabControl2.Style = MetroFramework.MetroColorStyle.White;
+            this.metroTabControl2.TabIndex = 2;
+            this.metroTabControl2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.metroTabControl2.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroTabControl2.UseSelectable = true;
+            this.metroTabControl2.UseStyleColors = true;
             // 
-            // metroButton11
+            // metroTabPage7
             // 
-            this.metroButton11.Location = new System.Drawing.Point(383, 10);
-            this.metroButton11.Name = "metroButton11";
-            this.metroButton11.Size = new System.Drawing.Size(140, 31);
-            this.metroButton11.TabIndex = 7;
-            this.metroButton11.Text = "Retry Cancel";
-            this.metroButton11.UseSelectable = true;
-            this.metroButton11.Click += new System.EventHandler(this.metroButton11_Click);
+            this.metroTabPage7.HorizontalScrollbarBarColor = true;
+            this.metroTabPage7.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage7.HorizontalScrollbarSize = 10;
+            this.metroTabPage7.Location = new System.Drawing.Point(154, 4);
+            this.metroTabPage7.Name = "metroTabPage7";
+            this.metroTabPage7.Size = new System.Drawing.Size(745, 359);
+            this.metroTabPage7.TabIndex = 1;
+            this.metroTabPage7.Text = "metroTabPage7";
+            this.metroTabPage7.VerticalScrollbarBarColor = true;
+            this.metroTabPage7.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage7.VerticalScrollbarSize = 10;
             // 
-            // metroButton10
+            // metroTabPage6
             // 
-            this.metroButton10.Location = new System.Drawing.Point(12, 57);
-            this.metroButton10.Name = "metroButton10";
-            this.metroButton10.Size = new System.Drawing.Size(140, 31);
-            this.metroButton10.TabIndex = 6;
-            this.metroButton10.Text = "Ok Cancel";
-            this.metroButton10.UseSelectable = true;
-            this.metroButton10.Click += new System.EventHandler(this.metroButton10_Click);
+            this.metroTabPage6.Controls.Add(this.metroButton4);
+            this.metroTabPage6.Controls.Add(this.metroButton3);
+            this.metroTabPage6.Controls.Add(this.metroButton6);
+            this.metroTabPage6.Controls.Add(this.metroButton10);
+            this.metroTabPage6.HorizontalScrollbarBarColor = true;
+            this.metroTabPage6.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage6.HorizontalScrollbarSize = 10;
+            this.metroTabPage6.Location = new System.Drawing.Point(154, 4);
+            this.metroTabPage6.Name = "metroTabPage6";
+            this.metroTabPage6.Size = new System.Drawing.Size(745, 359);
+            this.metroTabPage6.TabIndex = 0;
+            this.metroTabPage6.Text = "User Settings";
+            this.metroTabPage6.VerticalScrollbarBarColor = true;
+            this.metroTabPage6.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage6.VerticalScrollbarSize = 10;
             // 
-            // metroButton9
+            // metroButton4
             // 
-            this.metroButton9.Location = new System.Drawing.Point(383, 54);
-            this.metroButton9.Name = "metroButton9";
-            this.metroButton9.Size = new System.Drawing.Size(140, 31);
-            this.metroButton9.TabIndex = 5;
-            this.metroButton9.Text = "Abort Retry Ignore";
-            this.metroButton9.UseSelectable = true;
-            this.metroButton9.Click += new System.EventHandler(this.metroButton9_Click);
+            this.metroButton4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton4.Location = new System.Drawing.Point(467, 3);
+            this.metroButton4.Name = "metroButton4";
+            this.metroButton4.Size = new System.Drawing.Size(140, 31);
+            this.metroButton4.TabIndex = 8;
+            this.metroButton4.Text = "Add Student";
+            this.metroButton4.UseSelectable = true;
+            this.metroButton4.Click += new System.EventHandler(this.metroButton4_Click_1);
             // 
-            // metroButton8
+            // metroButton3
             // 
-            this.metroButton8.Location = new System.Drawing.Point(197, 56);
-            this.metroButton8.Name = "metroButton8";
-            this.metroButton8.Size = new System.Drawing.Size(140, 31);
-            this.metroButton8.TabIndex = 4;
-            this.metroButton8.Text = "Yes No Cancel";
-            this.metroButton8.UseSelectable = true;
-            this.metroButton8.Click += new System.EventHandler(this.metroButton8_Click);
-            // 
-            // metroButton7
-            // 
-            this.metroButton7.Location = new System.Drawing.Point(197, 12);
-            this.metroButton7.Name = "metroButton7";
-            this.metroButton7.Size = new System.Drawing.Size(140, 31);
-            this.metroButton7.TabIndex = 3;
-            this.metroButton7.Text = "Yes No";
-            this.metroButton7.UseSelectable = true;
-            this.metroButton7.Click += new System.EventHandler(this.metroButton7_Click);
+            this.metroButton3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton3.Location = new System.Drawing.Point(321, 3);
+            this.metroButton3.Name = "metroButton3";
+            this.metroButton3.Size = new System.Drawing.Size(140, 31);
+            this.metroButton3.TabIndex = 7;
+            this.metroButton3.Text = "Change User Role";
+            this.metroButton3.UseSelectable = true;
+            this.metroButton3.Click += new System.EventHandler(this.metroButton3_Click_1);
             // 
             // metroButton6
             // 
-            this.metroButton6.Location = new System.Drawing.Point(12, 13);
+            this.metroButton6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton6.Location = new System.Drawing.Point(3, 3);
             this.metroButton6.Name = "metroButton6";
             this.metroButton6.Size = new System.Drawing.Size(140, 31);
-            this.metroButton6.TabIndex = 2;
-            this.metroButton6.Text = "Ok";
+            this.metroButton6.TabIndex = 3;
+            this.metroButton6.Text = "Add User";
             this.metroButton6.UseSelectable = true;
-            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
+            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click_1);
+            // 
+            // metroButton10
+            // 
+            this.metroButton10.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroButton10.Location = new System.Drawing.Point(149, 3);
+            this.metroButton10.Name = "metroButton10";
+            this.metroButton10.Size = new System.Drawing.Size(166, 31);
+            this.metroButton10.TabIndex = 6;
+            this.metroButton10.Text = "Change Login Credentials";
+            this.metroButton10.UseSelectable = true;
+            this.metroButton10.Click += new System.EventHandler(this.metroButton10_Click);
+            // 
+            // metroTabPage8
+            // 
+            this.metroTabPage8.HorizontalScrollbarBarColor = true;
+            this.metroTabPage8.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage8.HorizontalScrollbarSize = 10;
+            this.metroTabPage8.Location = new System.Drawing.Point(154, 4);
+            this.metroTabPage8.Name = "metroTabPage8";
+            this.metroTabPage8.Size = new System.Drawing.Size(745, 359);
+            this.metroTabPage8.TabIndex = 2;
+            this.metroTabPage8.Text = "Dash Board";
+            this.metroTabPage8.VerticalScrollbarBarColor = true;
+            this.metroTabPage8.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage8.VerticalScrollbarSize = 10;
+            // 
+            // metroTabPage9
+            // 
+            this.metroTabPage9.HorizontalScrollbarBarColor = true;
+            this.metroTabPage9.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage9.HorizontalScrollbarSize = 10;
+            this.metroTabPage9.Location = new System.Drawing.Point(154, 4);
+            this.metroTabPage9.Name = "metroTabPage9";
+            this.metroTabPage9.Size = new System.Drawing.Size(745, 359);
+            this.metroTabPage9.TabIndex = 3;
+            this.metroTabPage9.Text = "History";
+            this.metroTabPage9.VerticalScrollbarBarColor = true;
+            this.metroTabPage9.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage9.VerticalScrollbarSize = 10;
+            // 
+            // metroTabPage10
+            // 
+            this.metroTabPage10.HorizontalScrollbarBarColor = true;
+            this.metroTabPage10.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage10.HorizontalScrollbarSize = 10;
+            this.metroTabPage10.Location = new System.Drawing.Point(154, 4);
+            this.metroTabPage10.Name = "metroTabPage10";
+            this.metroTabPage10.Size = new System.Drawing.Size(745, 359);
+            this.metroTabPage10.TabIndex = 4;
+            this.metroTabPage10.Text = "DataBases";
+            this.metroTabPage10.VerticalScrollbarBarColor = true;
+            this.metroTabPage10.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage10.VerticalScrollbarSize = 10;
             // 
             // label1
             // 
@@ -1117,6 +1190,8 @@ namespace MetroFramework.Demo
             this.metroTabPage4.ResumeLayout(false);
             this.metroTabPage4.PerformLayout();
             this.metroTabPage5.ResumeLayout(false);
+            this.metroTabControl2.ResumeLayout(false);
+            this.metroTabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.metroContextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1130,6 +1205,7 @@ namespace MetroFramework.Demo
 
         #region Controls
         private Controls.MetroTabControl metroTabControl1;
+        private Controls.MetroTabControl metroTabControl2;
         private Components.MetroStyleManager metroStyleManager;
         private Controls.MetroTabPage metroTabPage1;
         private Components.MetroToolTip metroToolTip;
@@ -1163,13 +1239,7 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private Controls.MetroTabPage metroTabPage5;
-        private Controls.MetroButton metroButton9;
-        private Controls.MetroButton metroButton8;
-        private Controls.MetroButton metroButton7;
-        private Controls.MetroButton metroButton6;
-        private Controls.MetroButton metroButton11;
         private Controls.MetroButton metroButton10;
-        private Controls.MetroButton metroButton12;
         private Controls.MetroCheckBox show_detected_faces;
         private Controls.MetroButton stop_button_1;
         public static Emgu.CV.UI.ImageBox live_stream_imageBox;
@@ -1221,6 +1291,14 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.PictureBox comparison_picture_box;
         private System.Windows.Forms.PictureBox suspects_picture_box;
         private System.Windows.Forms.Label label14;
+        private Controls.MetroTabPage metroTabPage6;
+        private Controls.MetroButton metroButton6;
+        private Controls.MetroTabPage metroTabPage7;
+        private Controls.MetroButton metroButton3;
+        private Controls.MetroButton metroButton4;
+        private Controls.MetroTabPage metroTabPage8;
+        private Controls.MetroTabPage metroTabPage9;
+        private Controls.MetroTabPage metroTabPage10;
      
 
 
