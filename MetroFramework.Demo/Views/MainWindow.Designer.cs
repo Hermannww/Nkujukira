@@ -1107,7 +1107,7 @@ namespace MetroFramework.Demo
             this.metroTabPage11.VerticalScrollbarBarColor = true;
             this.metroTabPage11.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage11.VerticalScrollbarSize = 10;
-            this.metroTabPage11.Click += new System.EventHandler(this.metroTabPage11_Click);
+            //this.metroTabPage11.Click += new System.EventHandler(this.metroTabPage11_Click);
             // 
             // metroTile3
             // 

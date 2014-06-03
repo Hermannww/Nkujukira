@@ -191,7 +191,7 @@ namespace MetroFramework.Demo.Managers
                 string photo_path = "";
 
                 //insert sql
-                String insert_sql = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,studentno,regno,course,dob,gender,photo) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
+                String insert_sql = "INSERT INTO " + TABLE_NAME + " (firstname,middlename,lastname,student_no,reg_no,course,date_of_birth,gender,photos_path) VALUES(@firstname,@middlename,@lastname,@studentno,@regno,@course,@dob,@gender,@photo)";
 
 
 
@@ -218,9 +218,9 @@ namespace MetroFramework.Demo.Managers
                 student.id = Convert.ToInt32(sql_command.LastInsertedId);
 
                 //save each image
-                foreach (var photo in student.photos)
+                //foreach (var photo in student.photos)
                 {
-                    FileManager.SaveBitmap(photo_path, photo);
+                    //FileManager.SaveBitmap(photo_path, photo);
                 }
                 return true;
             }
