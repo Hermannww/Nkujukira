@@ -105,10 +105,13 @@ namespace MetroFramework.Demo
             this.metroTabPage8 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabPage9 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabPage10 = new MetroFramework.Controls.MetroTabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.metroToolTip = new MetroFramework.Components.MetroToolTip();
-            this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
+            this.metroTabPage11 = new MetroFramework.Controls.MetroTabPage();
+            this.metroTile3 = new MetroFramework.Controls.MetroTile();
+            this.metroTile5 = new MetroFramework.Controls.MetroTile();
+            this.metroTile4 = new MetroFramework.Controls.MetroTile();
+            this.metroTile2 = new MetroFramework.Controls.MetroTile();
+            this.metroTile1 = new MetroFramework.Controls.MetroTile();
+            this.tile1 = new MetroFramework.Controls.MetroTile();
             this.metroContextMenu1 = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maintenanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +119,10 @@ namespace MetroFramework.Demo
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
+            this.metroToolTip = new MetroFramework.Components.MetroToolTip();
+            this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
@@ -132,8 +139,9 @@ namespace MetroFramework.Demo
             this.metroTabPage5.SuspendLayout();
             this.metroTabControl2.SuspendLayout();
             this.metroTabPage6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
+            this.metroTabPage11.SuspendLayout();
             this.metroContextMenu1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -144,11 +152,12 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Controls.Add(this.metroTabPage3);
             this.metroTabControl1.Controls.Add(this.metroTabPage4);
             this.metroTabControl1.Controls.Add(this.metroTabPage5);
+            this.metroTabControl1.Controls.Add(this.metroTabPage11);
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 4;
+            this.metroTabControl1.SelectedIndex = 5;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -936,12 +945,12 @@ namespace MetroFramework.Demo
             // 
             // metroTabControl2
             // 
-            this.metroTabControl2.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuItem;
+            this.metroTabControl2.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolTip;
             this.metroTabControl2.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.metroTabControl2.Controls.Add(this.metroTabPage7);
+            this.metroTabControl2.Controls.Add(this.metroTabPage9);
             this.metroTabControl2.Controls.Add(this.metroTabPage6);
             this.metroTabControl2.Controls.Add(this.metroTabPage8);
-            this.metroTabControl2.Controls.Add(this.metroTabPage9);
             this.metroTabControl2.Controls.Add(this.metroTabPage10);
             this.metroTabControl2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTabControl2.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
@@ -949,7 +958,7 @@ namespace MetroFramework.Demo
             this.metroTabControl2.Location = new System.Drawing.Point(3, 3);
             this.metroTabControl2.Multiline = true;
             this.metroTabControl2.Name = "metroTabControl2";
-            this.metroTabControl2.SelectedIndex = 0;
+            this.metroTabControl2.SelectedIndex = 3;
             this.metroTabControl2.Size = new System.Drawing.Size(903, 367);
             this.metroTabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.metroTabControl2.Style = MetroFramework.MetroColorStyle.White;
@@ -1077,28 +1086,119 @@ namespace MetroFramework.Demo
             this.metroTabPage10.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage10.VerticalScrollbarSize = 10;
             // 
-            // label1
+            // metroTabPage11
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(70, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Detected Faces";
+            this.metroTabPage11.BackColor = System.Drawing.Color.Silver;
+            this.metroTabPage11.Controls.Add(this.metroTile3);
+            this.metroTabPage11.Controls.Add(this.metroTile5);
+            this.metroTabPage11.Controls.Add(this.metroTile4);
+            this.metroTabPage11.Controls.Add(this.metroTile2);
+            this.metroTabPage11.Controls.Add(this.metroTile1);
+            this.metroTabPage11.Controls.Add(this.tile1);
+            this.metroTabPage11.HorizontalScrollbarBarColor = true;
+            this.metroTabPage11.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage11.HorizontalScrollbarSize = 10;
+            this.metroTabPage11.Location = new System.Drawing.Point(4, 41);
+            this.metroTabPage11.Name = "metroTabPage11";
+            this.metroTabPage11.Size = new System.Drawing.Size(918, 400);
+            this.metroTabPage11.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.metroTabPage11.TabIndex = 6;
+            this.metroTabPage11.Text = "Settings";
+            this.metroTabPage11.VerticalScrollbarBarColor = true;
+            this.metroTabPage11.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage11.VerticalScrollbarSize = 10;
+            this.metroTabPage11.Click += new System.EventHandler(this.metroTabPage11_Click);
             // 
-            // metroStyleManager
+            // metroTile3
             // 
-            this.metroStyleManager.Owner = this;
-            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.metroTile3.ActiveControl = null;
+            this.metroTile3.Location = new System.Drawing.Point(605, 156);
+            this.metroTile3.Name = "metroTile3";
+            this.metroTile3.Size = new System.Drawing.Size(237, 109);
+            this.metroTile3.Style = MetroFramework.MetroColorStyle.Red;
+            this.metroTile3.TabIndex = 8;
+            this.metroTile3.Text = "History";
+            this.metroTile3.UseSelectable = true;
             // 
-            // metroToolTip
+            // metroTile5
             // 
-            this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroToolTip.StyleManager = null;
-            this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTile5.ActiveControl = null;
+            this.metroTile5.Location = new System.Drawing.Point(327, 156);
+            this.metroTile5.Name = "metroTile5";
+            this.metroTile5.Size = new System.Drawing.Size(237, 109);
+            this.metroTile5.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.metroTile5.TabIndex = 7;
+            this.metroTile5.Text = "DataBases";
+            this.metroTile5.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile5.TileImage")));
+            this.metroTile5.TileImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.metroTile5.UseSelectable = true;
+            this.metroTile5.UseTileImage = true;
+            // 
+            // metroTile4
+            // 
+            this.metroTile4.ActiveControl = null;
+            this.metroTile4.Location = new System.Drawing.Point(605, 24);
+            this.metroTile4.Name = "metroTile4";
+            this.metroTile4.Size = new System.Drawing.Size(237, 94);
+            this.metroTile4.Style = MetroFramework.MetroColorStyle.Brown;
+            this.metroTile4.TabIndex = 6;
+            this.metroTile4.Text = "Change User role";
+            this.metroTile4.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile4.TileImage")));
+            this.metroTile4.TileImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.metroTile4.UseSelectable = true;
+            this.metroTile4.UseTileImage = true;
+            this.metroTile4.Click += new System.EventHandler(this.metroTile4_Click);
+            // 
+            // metroTile2
+            // 
+            this.metroTile2.ActiveControl = null;
+            this.metroTile2.Location = new System.Drawing.Point(45, 156);
+            this.metroTile2.Name = "metroTile2";
+            this.metroTile2.Size = new System.Drawing.Size(237, 109);
+            this.metroTile2.Style = MetroFramework.MetroColorStyle.Purple;
+            this.metroTile2.TabIndex = 4;
+            this.metroTile2.Text = "Add Student";
+            this.metroTile2.UseSelectable = true;
+            this.metroTile2.Click += new System.EventHandler(this.metroTile2_Click);
+            // 
+            // metroTile1
+            // 
+            this.metroTile1.ActiveControl = null;
+            this.metroTile1.Location = new System.Drawing.Point(327, 24);
+            this.metroTile1.Name = "metroTile1";
+            this.metroTile1.Size = new System.Drawing.Size(237, 94);
+            this.metroTile1.Style = MetroFramework.MetroColorStyle.Lime;
+            this.metroTile1.TabIndex = 3;
+            this.metroTile1.Text = "Change Login Credentials";
+            this.metroTile1.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile1.TileImage")));
+            this.metroTile1.TileImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.metroTile1.UseSelectable = true;
+            this.metroTile1.UseTileImage = true;
+            this.metroTile1.Click += new System.EventHandler(this.metroTile1_Click);
+            // 
+            // tile1
+            // 
+            this.tile1.ActiveControl = null;
+            this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
+            this.tile1.ContextMenuStrip = this.metroContextMenu1;
+            this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.tile1.Location = new System.Drawing.Point(45, 24);
+            this.tile1.Name = "tile1";
+            this.tile1.Size = new System.Drawing.Size(240, 94);
+            this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tile1.TabIndex = 2;
+            this.tile1.Text = "Add User";
+            this.tile1.TileImage = ((System.Drawing.Image)(resources.GetObject("tile1.TileImage")));
+            this.tile1.TileImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tile1.UseSelectable = true;
+            this.tile1.UseStyleColors = true;
+            this.tile1.UseTileImage = true;
+            this.tile1.Click += new System.EventHandler(this.tile1_Click);
             // 
             // metroContextMenu1
             // 
+            this.metroContextMenu1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.metroContextMenu1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.metroContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.maintenanceToolStripMenuItem,
@@ -1144,6 +1244,26 @@ namespace MetroFramework.Demo
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(70, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Detected Faces";
+            // 
+            // metroStyleManager
+            // 
+            this.metroStyleManager.Owner = this;
+            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // metroToolTip
+            // 
+            this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroToolTip.StyleManager = null;
+            this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Light;
+            // 
             // icons_list
             // 
             this.icons_list.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("icons_list.ImageStream")));
@@ -1172,6 +1292,7 @@ namespace MetroFramework.Demo
             this.StyleManager = this.metroStyleManager;
             this.Text = "Nkujukira";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabPage1.PerformLayout();
@@ -1192,8 +1313,9 @@ namespace MetroFramework.Demo
             this.metroTabPage5.ResumeLayout(false);
             this.metroTabControl2.ResumeLayout(false);
             this.metroTabPage6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
+            this.metroTabPage11.ResumeLayout(false);
             this.metroContextMenu1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1299,6 +1421,13 @@ namespace MetroFramework.Demo
         private Controls.MetroTabPage metroTabPage8;
         private Controls.MetroTabPage metroTabPage9;
         private Controls.MetroTabPage metroTabPage10;
+        private Controls.MetroTabPage metroTabPage11;
+        private Controls.MetroTile tile1;
+        private Controls.MetroTile metroTile4;
+        private Controls.MetroTile metroTile2;
+        private Controls.MetroTile metroTile1;
+        private Controls.MetroTile metroTile3;
+        private Controls.MetroTile metroTile5;
      
 
 

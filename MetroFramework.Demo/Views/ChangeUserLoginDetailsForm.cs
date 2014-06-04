@@ -49,6 +49,8 @@ namespace MetroFramework.Demo
                     if (AdminManager.Update(admin))
                     {
                         MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
+                        //this.Hide();
+                        //this.Dispose();
                     }
                     else
                     {

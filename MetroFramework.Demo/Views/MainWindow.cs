@@ -422,6 +422,36 @@ namespace MetroFramework.Demo
             dialog.ShowDialog();
         }
 
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        // show add new user dialog on clicking addnew user dialog
+        private void tile1_Click(object sender, EventArgs e)
+        {
+            AddNewUserForm form = new AddNewUserForm();
+            form.ShowDialog(null);
+        }
+        // show dialog when add student tile is clicked
+        private void metroTile2_Click(object sender, EventArgs e)
+        {
+            AddStudentDialog dialog = new AddStudentDialog();
+            dialog.ShowDialog(null);
+        }
+        // show dialog when change user role tile is clicked
+        private void metroTile4_Click(object sender, EventArgs e)
+        {
+            ChangeUserTypeDialog dialog = new ChangeUserTypeDialog();
+            dialog.ShowDialog(null);
+        }
+        // show change login credentials dialog on clicking the change login credentials tile 
+        private void metroTile1_Click(object sender, EventArgs e)
+        {
+            ChangeUserLoginDetailsForm form = new ChangeUserLoginDetailsForm();
+            form.ShowDialog(null);
+        }
+
 
 
 
