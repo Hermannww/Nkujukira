@@ -125,6 +125,10 @@
     <Reference Include="CSCore">
       <HintPath>..\..\..\..\Desktop\New folder\Nkujukira\MetroFramework.Demo\bin\Debug\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=11.8.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\DotNetBar for Windows Forms\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV, Version=2.2.1.1150, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\nkujukira\nkujukira\bin\Debug\Emgu.CV.dll</HintPath>
@@ -239,6 +243,12 @@
     <Compile Include="Views\CrimeDetailsForm.Designer.cs">
       <DependentUpon>CrimeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\DashBoard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\DashBoard.Designer.cs">
+      <DependentUpon>DashBoard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadingScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -333,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CrimeDetailsForm.resx">
       <DependentUpon>CrimeDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DashBoard.resx">
+      <DependentUpon>DashBoard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoadingScreen.resx">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
@@ -462,29 +475,66 @@
     <Content Include="Resources\Images\about-us.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\AttachFile.png" />
+    <Content Include="Resources\Images\BookNote.png" />
+    <Content Include="Resources\Images\BookNoteWhite.png" />
     <Content Include="Resources\Images\cam4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Charts.png" />
+    <Content Include="Resources\Images\CheckMark.png" />
+    <Content Include="Resources\Images\ColorScheme.png" />
+    <Content Include="Resources\Images\contact.png" />
+    <Content Include="Resources\Images\Delete.png" />
+    <Content Include="Resources\Images\Delete1.png" />
+    <Content Include="Resources\Images\DeleteWhite.png" />
+    <Content Include="Resources\Images\Details.png" />
     <Content Include="Resources\Images\face.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\help.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Invoice.png" />
+    <Content Include="Resources\Images\MarkAsPaid.png" />
+    <Content Include="Resources\Images\MarkAsPaidWhite.png" />
+    <Content Include="Resources\Images\NewInvoice.png" />
+    <Content Include="Resources\Images\NewInvoice1.png" />
+    <Content Include="Resources\Images\NewInvoiceWhite.png" />
+    <Content Include="Resources\Images\NewNote.png" />
     <Content Include="Resources\Images\nk_bg2.bmp" />
     <Content Include="Resources\Images\nk_bg2.png" />
+    <Content Include="Resources\Images\PaperClip.png" />
+    <Content Include="Resources\Images\PaperClipWhite.png" />
+    <Content Include="Resources\Images\Person.png" />
+    <Content Include="Resources\Images\Print.png" />
+    <Content Include="Resources\Images\Print1.png" />
+    <Content Include="Resources\Images\PrintWhite.png" />
     <Content Include="Resources\Images\replay1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\settings.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Table.png" />
+    <Content Include="Resources\Images\Table1.png" />
+    <Content Include="Resources\Images\TableReportt.png" />
+    <Content Include="Resources\Images\TableSelectRow.png" />
+    <Content Include="Resources\Images\TableWhite.png" />
+    <Content Include="Resources\Images\TableWhite1.png" />
     <Content Include="Resources\Images\thief1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Unpaid.png" />
+    <Content Include="Resources\Images\User.png" />
+    <Content Include="Resources\Images\User1.png" />
+    <Content Include="Resources\Images\User3.png" />
+    <Content Include="Resources\Images\UserWhite.png" />
+    <Content Include="Resources\Images\UserWhite1.png" />
     <Content Include="Resources\Images\wanted1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\Web.png" />
     <Content Include="Resources\nk_bg2.bmp" />
     <Content Include="Resources\nk_bg2.png" />
     <Content Include="Resources\Sounds\Siren.mp3">

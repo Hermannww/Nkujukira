@@ -51,7 +51,7 @@ namespace MetroFramework.Demo
 
         private void metroButton5_Click(object sender, EventArgs e)
         {
-            metroContextMenu1.Show(metroButton5, new Point(0, metroButton5.Height));
+            //metroContextMenu1.Show(metroButton5, new Point(0, metroButton5.Height));
         }
 
         private void metroButton6_Click(object sender, EventArgs e)
@@ -450,6 +450,20 @@ namespace MetroFramework.Demo
         {
             ChangeUserLoginDetailsForm form = new ChangeUserLoginDetailsForm();
             form.ShowDialog(null);
+        }
+
+        private void metroTabPage11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTile5_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("kasoma.......");
+            DashBoard dashBoard = new DashBoard();
+            dashBoard.Visible = true;
+            dashBoard.Show();
+            
         }
 
 

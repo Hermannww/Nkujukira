@@ -204,3 +204,4 @@ C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFra
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.Views.SetUpForm.resources
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.Views.VictimsDetailsForm.resources
 C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\Debug\ImageListView.dll
+C:\Users\Royal\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\Debug\MetroFramework.Demo.Views.DashBoard.resources
