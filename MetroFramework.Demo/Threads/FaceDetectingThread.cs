@@ -83,24 +83,22 @@ namespace Nkujukira.Threads
                     {
                         ImageListView image_list_view = Singleton.SELECT_PERP_FACES.GetImageListView();
 
-                        //create an image list
-                        ImageList image_list = new ImageList();
-                       
-                        for (int i = 0; i < detected_faces.Length;i++ )
+                        
+
+
+                        for (int i = 0; i < detected_faces.Length; i++)
                         {
                             //get face
-                            Bitmap face = FramesManager.CropSelectedFace(detected_faces[i], current_frame.Clone());
+                            Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_faces[i], current_frame.Clone());
 
                             //resize face
-                            face = FramesManager.ResizeBitmap(face, new Size(120, 120));
+                            face = FramesManager.ResizeGrayImage(face, new Size(120, 120));
 
-                            //Debug.WriteLine("ADDING FACE " + count);
-                            
                             //add face to image list
                             Singleton.SELECT_PERP_FACES.suspect_faces.TryAdd(count, face);
 
                             //add face to image list view
-                            image_list_view.Invoke(new AddImage(Singleton.SELECT_PERP_FACES.AddImage),new object[] {"face " + count, "face " + count, face});
+                            image_list_view.Invoke(new AddImage(Singleton.SELECT_PERP_FACES.AddImage), new object[] { "face " + count, "face " + count, face.ToBitmap() });
 
                             //increment id counter
                             count++;

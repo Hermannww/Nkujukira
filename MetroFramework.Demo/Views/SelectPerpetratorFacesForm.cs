@@ -14,19 +14,21 @@ using System.Windows.Forms;
 using System.Collections.Concurrent;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace MetroFramework.Demo.Views
 {
     public partial class SelectPerpetratorFacesForm : MetroForm
     {
         private LoadingScreen screen = new LoadingScreen();
-        private const int WORKLOAD_THRESHOLD = 1000;
-        public ConcurrentDictionary<int, Bitmap> suspect_faces = new ConcurrentDictionary<int, Bitmap>();
-       
+        //private const int WORKLOAD_THRESHOLD                       = 1000;
+        public ConcurrentDictionary<int, Image<Gray, byte>> suspect_faces = new ConcurrentDictionary<int, Image<Gray, byte>>();
+
 
         public SelectPerpetratorFacesForm()
         {
-           
+
 
             InitializeComponent();
 
@@ -41,7 +43,7 @@ namespace MetroFramework.Demo.Views
         }
 
 
-        public void AddImage(Object key, String txt, Image thumbnail) 
+        public void AddImage(Object key, String txt, Image thumbnail)
         {
             this.image_list_view.Items.Add(key, txt, thumbnail);
         }
@@ -61,58 +63,59 @@ namespace MetroFramework.Demo.Views
             }
         }
 
-      
+
+
 
         private void PlayVideoToDetectMoreFaces()
         {
             FaceDetectingThread.its_time_to_pick_perpetrator_faces = true;
 
             Singleton.MAIN_WINDOW.ResumeVideo();
-       
+
         }
 
         private void DoneButton_Click(object sender, EventArgs e)
         {
-           //reset mode of face detecting thread
-           FaceDetectingThread.its_time_to_pick_perpetrator_faces = false;
+            //reset mode of face detecting thread
+            FaceDetectingThread.its_time_to_pick_perpetrator_faces = false;
 
-           //create array for the identified perpetrator faces
-           Bitmap[] perpetrator_faces = new Bitmap[image_list_view.SelectedItems.Count];
+            //create array for the identified perpetrator faces
+            Image<Gray, byte>[] perpetrator_faces = new Image<Gray, byte>[image_list_view.SelectedItems.Count];
 
 
-           int i = 0;
+            int i = 0;
 
-           //save perpetrator images
-           foreach (var item in image_list_view.SelectedItems)
-           {
-              //get the perpetrator face from the list of suspects faces
-              suspect_faces.TryRemove(item.Index, out perpetrator_faces[i]);
-               i++;
-           }
+            //save perpetrator images
+            foreach (var item in image_list_view.SelectedItems)
+            {
+                //get the perpetrator face from the list of suspects faces
+                suspect_faces.TryRemove(item.Index, out perpetrator_faces[i]);
+                i++;
+            }
 
-           Perpetrator perpetrator = new Perpetrator(perpetrator_faces,true,"");
+            Perpetrator perpetrator = new Perpetrator(perpetrator_faces, true, "");
 
-           
-           //clear datastore
-           suspect_faces.Clear();
 
-           //open perpetrator details box
-           PerpetratorDetailsForm form = new PerpetratorDetailsForm(perpetrator);
-           form.Show();
+            //clear datastore
+            suspect_faces.Clear();
 
-           //close this form
-           this.Close();
+            //open perpetrator details box
+            PerpetratorDetailsForm form = new PerpetratorDetailsForm(perpetrator);
+            form.Show();
+
+            //close this form
+            this.Close();
         }
 
-        public ImageListView GetImageListView() 
+        public ImageListView GetImageListView()
         {
             return image_list_view;
         }
 
         private void ImageListView1_SelectionChanged(object sender, EventArgs e)
         {
-            
-            if (image_list_view.SelectedItems.Count >= 5) 
+
+            if (image_list_view.SelectedItems.Count >= 5)
             {
                 done_button.Enabled = true;
             }

@@ -85,6 +85,23 @@ namespace Nkujukira
             }
         }
 
+        public static Image<Gray, byte> ResizeGrayImage(Image<Gray, byte> frame, Size size)
+        {
+            if (frame == null)
+            {
+                throw new NullReferenceException();
+            }
+            try
+            {
+                return frame.Resize(size.Width, size.Height, INTER.CV_INTER_LINEAR);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static bool PerformSeekOperationInVideo(double starting_time_in_milliseconds, Capture capture)
         {
             try
@@ -189,14 +206,14 @@ namespace Nkujukira
         }
 
 
-        public static Bitmap CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
+        public static Image<Gray,byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
         {
             try
             {
                 Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
                 gray_scale.ROI                 = detected_face;
                 Image<Gray, byte> cropped_face = gray_scale.Copy();
-                return cropped_face.ToBitmap();
+                return cropped_face;
             }
             catch (Exception e)
             {

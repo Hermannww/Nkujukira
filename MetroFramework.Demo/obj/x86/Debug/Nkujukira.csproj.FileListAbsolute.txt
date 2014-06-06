@@ -182,3 +182,4 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroF
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.ChangeUserLoginDetailsForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.LoginForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.SetUpForm.resources
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.DashBoard.resources

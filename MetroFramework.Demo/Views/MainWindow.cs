@@ -204,6 +204,11 @@ namespace MetroFramework.Demo
 
         }
 
+        public void AddItemsToPanel(Control picture_box)
+        {
+            this.panel_for_detected_faces.Controls.Add(picture_box);
+        }
+
         //STARTS ALL NECESSARY THREADS
         private void StartThreads(String file_name)
         {
