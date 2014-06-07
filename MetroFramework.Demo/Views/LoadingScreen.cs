@@ -15,6 +15,8 @@ namespace MetroFramework.Demo.Views
     public partial class LoadingScreen : MetroForm
     {
         BackgroundWorker background_worker;
+        private string status_text="Processing......";
+        public string STATUS_TEXT { get { return status_text; } set { status_text = value; } }
 
         public LoadingScreen()
         {
@@ -45,7 +47,7 @@ namespace MetroFramework.Demo.Views
         {
             //Here you play with the main UI thread
             progress_bar.Value = e.ProgressPercentage;
-            label_status.Text  = "Processing......" + progress_bar.Value.ToString() + "%";
+            label_status.Text  = STATUS_TEXT + progress_bar.Value.ToString() + "%";
         }
 
        
@@ -80,6 +82,7 @@ namespace MetroFramework.Demo.Views
         public void StartWorking()
         {
             background_worker.RunWorkerAsync();
+            this.Show();
         }
 
         //stop doing work

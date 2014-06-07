@@ -378,17 +378,12 @@ namespace MetroFramework.Demo
                     return time_elapsed_label;
                 case "total_time":
                     return total_time_label;
-                case "suspects_picture_box":
-                    return suspects_picture_box;
-                case "comparison_picture_box":
-                    return comparison_picture_box;
+              
                 case "review_image_box":
                     return review_footage_image_box;
                 case "detected_faces_panel":
                     return panel_for_detected_faces;
-                case "comparison_table":
-                    //tableLayoutPanel1.ro
-                    return tableLayoutPanel1;
+                
                    
             }
             return null;
@@ -469,6 +464,11 @@ namespace MetroFramework.Demo
             dashBoard.Visible = true;
             dashBoard.Show();
             
+        }
+
+        private void panel_for_detected_faces_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
 

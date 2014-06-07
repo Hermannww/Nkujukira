@@ -113,6 +113,7 @@ namespace MetroFramework.Demo.Views
                 case "Crime againist Person":
                     comboBox_crimeCommited.Items.Clear();
                     comboBox_crimeCommited.Items.AddRange(crimes_againist_persons);
+                   
                     break;
                 case "Crime againist Property":
                     comboBox_crimeCommited.Items.Clear();
@@ -128,6 +129,7 @@ namespace MetroFramework.Demo.Views
                     break;
             }
             comboBox_crimeCommited.Enabled           = true;
+            comboBox_crimeCommited.SelectedIndex     = 0;
         }
 
         private void CrimeDetailsForm_Load(object sender, EventArgs e)

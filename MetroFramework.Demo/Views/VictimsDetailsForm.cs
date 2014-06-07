@@ -1,6 +1,7 @@
 ﻿using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Forms;
+using Nkujukira.Threads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -137,7 +138,7 @@ namespace MetroFramework.Demo.Views
             {
 
                 //log user in or display error msg
-                DisplayResultsOfLogin();
+                DisplayResultsOfSaving();
 
                 //disable timer
                 timer1.Stop();
@@ -146,7 +147,7 @@ namespace MetroFramework.Demo.Views
             }
         }
 
-        private void DisplayResultsOfLogin()
+        private void DisplayResultsOfSaving()
         {
             //DISABLE SOME STUFF
             progressBar.Visible                 = false;
@@ -160,8 +161,13 @@ namespace MetroFramework.Demo.Views
             //
             if (close_after_saving) 
             {
+                FaceRecognitionThread face_recognizer = new FaceRecognitionThread(perpetrator.faces[0]);
+                face_recognizer.StartWorking();
                 //close this form
                 this.Close();
+                LoadingScreen screen = new LoadingScreen();
+                screen.STATUS_TEXT = "Student recognition starting...";
+                screen.StartWorking();
             }
 
         }

@@ -204,6 +204,7 @@
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Managers\StudentManager.cs" />
+    <Compile Include="Singletons\EigenObjectRecognizer.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -45,10 +45,8 @@ namespace MetroFramework.Demo
             this.time_elapsed_label = new System.Windows.Forms.Label();
             this.review_footage_color_slider = new MB.Controls.ColorSlider();
             this.panel_for_detected_faces = new System.Windows.Forms.Panel();
+            this.label_separator = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.comparison_picture_box = new System.Windows.Forms.PictureBox();
-            this.suspects_picture_box = new System.Windows.Forms.PictureBox();
             this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
             this.pick_video_button = new MetroFramework.Controls.MetroButton();
@@ -71,25 +69,22 @@ namespace MetroFramework.Demo
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.metroToolTip = new MetroFramework.Components.MetroToolTip();
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
-            this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
-            this.button1 = new System.Windows.Forms.Button();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
             this.panel_for_detected_faces.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comparison_picture_box)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.suspects_picture_box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
             this.metroTabPage11.SuspendLayout();
             this.metroContextMenu1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.metroTabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -103,7 +98,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 3;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -278,57 +273,35 @@ namespace MetroFramework.Demo
             // panel_for_detected_faces
             // 
             this.metroStyleExtender.SetApplyMetroTheme(this.panel_for_detected_faces, true);
-            this.panel_for_detected_faces.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel_for_detected_faces.AutoScroll = true;
+            this.panel_for_detected_faces.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_for_detected_faces.Controls.Add(this.label_separator);
             this.panel_for_detected_faces.Controls.Add(this.label14);
-            this.panel_for_detected_faces.Controls.Add(this.tableLayoutPanel1);
             this.panel_for_detected_faces.Location = new System.Drawing.Point(439, 47);
             this.panel_for_detected_faces.Name = "panel_for_detected_faces";
-            this.panel_for_detected_faces.Size = new System.Drawing.Size(272, 338);
+            this.panel_for_detected_faces.Size = new System.Drawing.Size(321, 338);
             this.panel_for_detected_faces.TabIndex = 22;
+            this.panel_for_detected_faces.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_for_detected_faces_Paint);
+            // 
+            // label_separator
+            // 
+            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label_separator.Location = new System.Drawing.Point(3, 27);
+            this.label_separator.Name = "label_separator";
+            this.label_separator.Size = new System.Drawing.Size(310, 2);
+            this.label_separator.TabIndex = 2;
             // 
             // label14
             // 
             this.metroStyleExtender.SetApplyMetroTheme(this.label14, true);
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(56, 9);
+            this.label14.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label14.Location = new System.Drawing.Point(56, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(163, 13);
+            this.label14.Size = new System.Drawing.Size(205, 19);
             this.label14.TabIndex = 1;
             this.label14.Text = "FACE COMPARISON ONGOING";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.comparison_picture_box, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.suspects_picture_box, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 35);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(238, 119);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // comparison_picture_box
-            // 
-            this.comparison_picture_box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.comparison_picture_box.Location = new System.Drawing.Point(123, 6);
-            this.comparison_picture_box.Name = "comparison_picture_box";
-            this.comparison_picture_box.Size = new System.Drawing.Size(109, 107);
-            this.comparison_picture_box.TabIndex = 1;
-            this.comparison_picture_box.TabStop = false;
-            // 
-            // suspects_picture_box
-            // 
-            this.suspects_picture_box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.suspects_picture_box.Location = new System.Drawing.Point(6, 6);
-            this.suspects_picture_box.Name = "suspects_picture_box";
-            this.suspects_picture_box.Size = new System.Drawing.Size(108, 107);
-            this.suspects_picture_box.TabIndex = 0;
-            this.suspects_picture_box.TabStop = false;
             // 
             // review_footage_image_box
             // 
@@ -417,7 +390,6 @@ namespace MetroFramework.Demo
             this.metroTabPage11.VerticalScrollbarBarColor = true;
             this.metroTabPage11.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage11.VerticalScrollbarSize = 10;
-            //this.metroTabPage11.Click += new System.EventHandler(this.metroTabPage11_Click);
             // 
             // metroTile8
             // 
@@ -542,9 +514,9 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(105, 26);
+            this.tile1.Location = new System.Drawing.Point(-621, 26);
             this.tile1.Name = "tile1";
-            this.tile1.Size = new System.Drawing.Size(231, 104);
+            this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
@@ -604,6 +576,30 @@ namespace MetroFramework.Demo
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
+            // metroTabPage3
+            // 
+            this.metroTabPage3.Controls.Add(this.button1);
+            this.metroTabPage3.HorizontalScrollbarBarColor = true;
+            this.metroTabPage3.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage3.HorizontalScrollbarSize = 10;
+            this.metroTabPage3.Location = new System.Drawing.Point(4, 41);
+            this.metroTabPage3.Name = "metroTabPage3";
+            this.metroTabPage3.Size = new System.Drawing.Size(918, 400);
+            this.metroTabPage3.TabIndex = 7;
+            this.metroTabPage3.Text = "metroTabPage3";
+            this.metroTabPage3.VerticalScrollbarBarColor = true;
+            this.metroTabPage3.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage3.VerticalScrollbarSize = 10;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(184, 82);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -636,31 +632,6 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
-            // metroTabPage3
-            // 
-            this.metroTabPage3.Controls.Add(this.button1);
-            this.metroTabPage3.HorizontalScrollbarBarColor = true;
-            this.metroTabPage3.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroTabPage3.HorizontalScrollbarSize = 10;
-            this.metroTabPage3.Location = new System.Drawing.Point(4, 41);
-            this.metroTabPage3.Name = "metroTabPage3";
-            this.metroTabPage3.Size = new System.Drawing.Size(918, 400);
-            this.metroTabPage3.TabIndex = 7;
-            this.metroTabPage3.Text = "metroTabPage3";
-            this.metroTabPage3.VerticalScrollbarBarColor = true;
-            this.metroTabPage3.VerticalScrollbarHighlightOnWheel = false;
-            this.metroTabPage3.VerticalScrollbarSize = 10;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(184, 82);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            //this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -685,14 +656,11 @@ namespace MetroFramework.Demo
             this.metroTabPage2.PerformLayout();
             this.panel_for_detected_faces.ResumeLayout(false);
             this.panel_for_detected_faces.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comparison_picture_box)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.suspects_picture_box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).EndInit();
             this.metroTabPage11.ResumeLayout(false);
             this.metroContextMenu1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.metroTabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -743,9 +711,6 @@ namespace MetroFramework.Demo
         private MB.Controls.ColorSlider review_footage_color_slider;
         private System.Windows.Forms.Label total_time_label;
         private System.Windows.Forms.Label time_elapsed_label;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox comparison_picture_box;
-        private System.Windows.Forms.PictureBox suspects_picture_box;
         private System.Windows.Forms.Label label14;
         private Controls.MetroTabPage metroTabPage11;
         private Controls.MetroTile metroTile8;
@@ -759,6 +724,7 @@ namespace MetroFramework.Demo
         private Controls.MetroTile tile1;
         private Controls.MetroTabPage metroTabPage3;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label_separator;
         
      
 
