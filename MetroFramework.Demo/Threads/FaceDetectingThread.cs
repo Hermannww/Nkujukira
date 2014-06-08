@@ -2,6 +2,7 @@
 using Emgu.CV.Structure;
 using Manina.Windows.Forms;
 using MetroFramework.Demo.Singletons;
+using Nkujukira;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public class FaceDetectingThread : AbstractThread
     {

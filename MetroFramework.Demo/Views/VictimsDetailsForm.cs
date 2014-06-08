@@ -1,11 +1,12 @@
 ﻿using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
+using MetroFramework.Demo.Threads;
 using MetroFramework.Forms;
-using Nkujukira.Threads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -77,7 +78,7 @@ namespace MetroFramework.Demo.Views
         private StolenItem[] GetItemsLost()
         {
             String items_stolen                 = items_lost_textbox.Text;
-            String[] items                      =items_stolen.Split(new string[]{","}, StringSplitOptions.RemoveEmptyEntries);
+            String[] items                      = items_stolen.Split(new string[]{","}, StringSplitOptions.RemoveEmptyEntries);
             List<StolenItem> stolen             = new List<StolenItem>();
 
             foreach (var item in items) 
@@ -158,16 +159,26 @@ namespace MetroFramework.Demo.Views
             label1.ForeColor                    = Color.Green;
             label1.Text                         = "Data Saved";
 
-            //
+            //if details were saved
             if (close_after_saving) 
             {
-                FaceRecognitionThread face_recognizer = new FaceRecognitionThread(perpetrator.faces[0]);
-                face_recognizer.StartWorking();
+                if (perpetrator.is_a_student)
+                {
+                    LoadingScreen screen = new LoadingScreen();
+                    screen.STATUS_TEXT = "Student recognition starting...";
+                    screen.StartWorking();
+
+                    foreach (var face in perpetrator.faces) 
+                    {
+                        Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
+                        FaceRecognitionThread face_recognizer = new PerpetratorRecognitionThread(face);
+                        face_recognizer.StartWorking();
+                    }
+                }
+
                 //close this form
                 this.Close();
-                LoadingScreen screen = new LoadingScreen();
-                screen.STATUS_TEXT = "Student recognition starting...";
-                screen.StartWorking();
+                
             }
 
         }

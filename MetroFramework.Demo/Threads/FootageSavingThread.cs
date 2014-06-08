@@ -5,7 +5,7 @@ using MetroFramework.Demo.Singletons;
 using System;
 using System.IO;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     class FootageSavingThread : AbstractThread
     {

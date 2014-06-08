@@ -7,8 +7,9 @@ using System.Drawing;
 using Nkujukira.Entities;
 using System.Threading.Tasks;
 using MetroFramework.Demo.Singletons;
+using Nkujukira;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     class FaceTrackingThread : AbstractThread
     {

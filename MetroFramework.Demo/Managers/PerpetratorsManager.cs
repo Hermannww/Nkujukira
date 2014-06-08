@@ -72,6 +72,61 @@ namespace MetroFramework.Demo.Managers
 
         }
 
+        public static Perpetrator GetPerpetrator(int id)
+        {
+            try
+            {
+                //select sql
+                String select_sql              = "SELECT * FROM " + TABLE_NAME+" WHERE ID=@id";
+
+                //Sql command
+                sql_command                    = new MySqlCommand();
+                sql_command.Connection         = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText        = select_sql;
+
+                sql_command.Parameters.AddWithValue("@id",""+id);
+
+                sql_command.Prepare();
+
+                //get results in enum object
+                data_reader                    = database.Select(sql_command);
+
+                List<Perpetrator> perpetrators = new List<Perpetrator>();
+
+                //loop thru em 
+                while (data_reader.Read())
+                {
+
+                    //create new student
+                    String name                = data_reader.GetString(NAME);
+                    Image<Gray, byte>[] faces  = GetPerpetratorFaces(id);
+                    bool is_a_student          = data_reader.GetBoolean(IS_A_STUDENT);
+                    bool is_active             = data_reader.GetBoolean(IS_ACTIVE);
+                    String gender              = data_reader.GetString(GENDER);
+                    String created_at          = data_reader.GetString(CREATED_AT);
+
+                    Perpetrator perp           = new Perpetrator(id, name, faces, is_a_student, is_active, gender, created_at);
+
+                    //add student to list
+                    perpetrators.Add(perp);
+                }
+
+                //return array of results
+                return perpetrators.ToArray()[0];
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+
+            }
+            finally
+            {
+                data_reader.Close();
+                database.CloseConnection();
+            }
+            return null;
+        }
+
         public static Perpetrator[] GetAllPerpetrators()
         {
             try
@@ -127,7 +182,7 @@ namespace MetroFramework.Demo.Managers
 
         private static Image<Gray, byte>[] GetPerpetratorFaces(int id)
         {
-            String path                        = PATH_TO_IMAGES + id + "/";
+            String path                        = PATH_TO_IMAGES + id + @"\";
             Image<Gray, byte>[] images         = FileManager.GetAllImagesInDirectory(path);
             return images;
         }
@@ -217,7 +272,7 @@ namespace MetroFramework.Demo.Managers
                 FileManager.CreateFolderIfMissing(path);
 
                 //save each face in that folder 
-                for (int i                     = 0; i < perp.faces.Length; i++)
+                for (int i = 0; i < perp.faces.Length; i++)
                 {
                     //save using the perps name plus a unique number 
                     FileManager.SaveImage(path + perp.name + i + ".png", perp.faces[i]);
@@ -267,5 +322,7 @@ namespace MetroFramework.Demo.Managers
                 database.CloseConnection();
             }
         }
+
+        
     }
 }

@@ -4,8 +4,9 @@ using Emgu.CV.Structure;
 using System.Diagnostics;
 using Emgu.CV.UI;
 using MetroFramework.Demo.Singletons;
+using Nkujukira;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public class CameraOutputGrabberThread : AbstractThread
     {

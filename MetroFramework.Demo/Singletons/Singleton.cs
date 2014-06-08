@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Entitities;
+using MetroFramework.Demo.Threads;
 using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
 using System;
@@ -19,6 +20,7 @@ namespace MetroFramework.Demo.Singletons
         public static String START_UP_FOLDER                                    = Application.StartupPath;
 
         public static String RESOURCES_DIRECTORY                                = START_UP_FOLDER + @"\Resources\";
+
 
         public static MainWindow MAIN_WINDOW { get; set; }
 
@@ -50,6 +52,14 @@ namespace MetroFramework.Demo.Singletons
             {
                 Singleton.frames_to_be_processed                                = value;
             }
+        }
+
+        private static ConcurrentDictionary<int, AlertGenerationThread> all_alerts = new ConcurrentDictionary<int, AlertGenerationThread>();
+
+        public static ConcurrentDictionary<int, AlertGenerationThread> ALL_ALERTS 
+        {
+            get { return all_alerts; }
+            set { all_alerts = value; }
         }
 
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();

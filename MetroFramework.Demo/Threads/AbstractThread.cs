@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public abstract class AbstractThread:ThreadInterface
     {
@@ -33,10 +33,8 @@ namespace Nkujukira.Threads
 
         public virtual void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e) { }
 
-
         public virtual void ProgressChanged(object sender, ProgressChangedEventArgs e) { }
         
-
         public abstract void DoWork(object sender, DoWorkEventArgs e);
 
         //METHOD DELEGATE
@@ -63,7 +61,6 @@ namespace Nkujukira.Threads
             paused  = false;
             background_worker.RunWorkerAsync();
         }
-
 
         public bool IsRunning()
         {

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public class DisplayUpdaterThread : AbstractThread
     {

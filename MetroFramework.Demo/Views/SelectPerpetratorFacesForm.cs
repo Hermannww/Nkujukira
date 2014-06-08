@@ -1,7 +1,6 @@
 ﻿using Manina.Windows.Forms;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Forms;
-using Nkujukira.Threads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +15,7 @@ using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using MetroFramework.Demo.Threads;
 
 namespace MetroFramework.Demo.Views
 {

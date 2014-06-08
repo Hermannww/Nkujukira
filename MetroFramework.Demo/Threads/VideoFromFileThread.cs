@@ -6,11 +6,12 @@ using System.Threading;
 using System.Drawing;
 using MediaInfoNET;
 using MetroFramework.Demo.Singletons;
+using Nkujukira;
 
 
 //THIS THREAD CONTINUOUSLY PICKS FRAMES FROM A GIVEN VIDEO FILE AND DUMPS THEM IN
 //SHARED DATASTORES FOR PROCESSING BY OTHER THREADS
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public class VideoFromFileThread : AbstractThread
     {

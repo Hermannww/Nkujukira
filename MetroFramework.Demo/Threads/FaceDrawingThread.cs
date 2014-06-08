@@ -1,12 +1,13 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Singletons;
+using Nkujukira;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace Nkujukira.Threads
+namespace MetroFramework.Demo.Threads
 {
     public class FaceDrawingThread:AbstractThread
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 using MetroFramework.Forms;
 using System.Collections.Concurrent;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Nkujukira.Entities;
-using Nkujukira.Threads;
 using System.Diagnostics;
 using Emgu.CV.UI;
 using MB.Controls;
@@ -15,6 +13,8 @@ using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Views;
+using MetroFramework.Demo.Threads;
+using MetroFramework.Demo.Entitities;
 
 namespace MetroFramework.Demo
 {
@@ -387,6 +387,12 @@ namespace MetroFramework.Demo
                    
             }
             return null;
+        }
+
+        public void DisplayAlertDetails(Perpetrator perp) 
+        {
+            PerpetratorDetailsForm form = new PerpetratorDetailsForm(perp,true);
+            form.Show();
         }
 
 

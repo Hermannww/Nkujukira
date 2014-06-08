@@ -6,7 +6,7 @@ namespace MetroFramework.Demo
 {
     static class Program
     {
-        static bool login_is_enabled = false;
+        static bool login_is_enabled = true;
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>

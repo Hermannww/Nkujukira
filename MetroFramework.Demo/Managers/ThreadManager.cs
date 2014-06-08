@@ -1,5 +1,5 @@
 ﻿using MetroFramework.Demo.Factories;
-using Nkujukira.Threads;
+using MetroFramework.Demo.Threads;
 using System;
 
 namespace MetroFramework.Demo.Managers

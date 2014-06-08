@@ -6,7 +6,6 @@ using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Views;
 using MetroFramework.Forms;
 using Nkujukira;
-using Nkujukira.Threads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,35 +24,54 @@ namespace MetroFramework.Demo
         public PerpetratorDetailsForm(Perpetrator perpetrator)
         {
             InitializeComponent();
-            this.perpetrator = perpetrator;
+
+            this.perpetrator                     = perpetrator;
+            comboBox_is_a_student.SelectedIndex  = 0;
+            comboBox_gender.SelectedIndex        = 0;
+            button_getCrimes.Visible             = false;
+            button_getCrimes.Enabled             = false;
+        }
+
+        public PerpetratorDetailsForm(Perpetrator perpetrator,bool alert_mode)
+        {
+            InitializeComponent();
+
+            this.perpetrator                     = perpetrator;
+            textBox_perpetrator_name.Text        = perpetrator.name;
+            textBox_perpetrator_name.Enabled     = false;
+            comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;
+            comboBox_is_a_student.Enabled        = false;
+            comboBox_gender.SelectedIndex        = perpetrator.gender.Equals("Male") ? 0 : 1;
+            comboBox_gender.Enabled              = false;
+            button_getCrimes.Visible             = true;
+            button_getCrimes.Enabled             = true;
         }
 
         private void PerpetratorDetails_Load(object sender, EventArgs e)
         {
             //resize and display one of the images of the perpetrator
-            Size face_size = new Size(perpetrator_picture_box.Width, perpetrator_picture_box.Height);
-            perpetrator_picture_box.Image = FramesManager.ResizeBitmap(perpetrator.faces[1].ToBitmap(), face_size);
-            is_a_student_combo_box.SelectedIndex = 0;
-            comboBox_gender.SelectedIndex = 0;
+            Size face_size                       = new Size(perpetrator_picture_box.Width, perpetrator_picture_box.Height);
+            perpetrator_picture_box.Image        = FramesManager.ResizeBitmap(perpetrator.faces[0].ToBitmap(), face_size);
+            
         }
 
         private void save_button_Click(object sender, EventArgs e)
         {
             //get more perpetrator details
-            String name = perpetrator_name_textbox.Text;
-            String is_a_student = is_a_student_combo_box.Text;
-            String is_active = is_active_combo_box.Text;
-            String gender = comboBox_gender.Text;
+            String name                          = textBox_perpetrator_name.Text;
+            String is_a_student                  = comboBox_is_a_student.Text;
+            String is_active                     = comboBox_is_active.Text;
+            String gender                        = comboBox_gender.Text;
 
 
             //create perpetrator object
-            perpetrator.name = name;
-            perpetrator.gender = gender;
-            perpetrator.is_a_student = is_a_student.Equals("Yes") ? true : false;
-            perpetrator.is_still_active = is_active.Equals("Yes") ? true : false;
+            perpetrator.name                     = name;
+            perpetrator.gender                   = gender;
+            perpetrator.is_a_student             = is_a_student.Equals("Yes") ? true : false;
+            perpetrator.is_still_active          = is_active.Equals("Yes") ? true : false;
 
             //create crime details form
-            CrimeDetailsForm form = new CrimeDetailsForm(perpetrator);
+            CrimeDetailsForm form                = new CrimeDetailsForm(perpetrator);
 
             //show the form
             form.Show();
@@ -61,6 +79,26 @@ namespace MetroFramework.Demo
             //close this one
             this.Close();
 
+        }
+
+        public Control GetControl(String name) 
+        {
+            switch (name) 
+            {
+                case "name":
+                    return textBox_perpetrator_name;
+                case "is_a_student":
+                    return comboBox_is_a_student;
+                case "is_active":
+                    return comboBox_is_active;
+                case "gender":
+                    return comboBox_gender;
+                case "get crimes":
+                    return button_getCrimes;
+                default:
+                    return null;
+            }
+        
         }
 
     }

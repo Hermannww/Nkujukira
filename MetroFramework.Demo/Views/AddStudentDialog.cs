@@ -12,6 +12,8 @@ using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Entitities;
 using System.Collections;
 using MetroFramework.Demo.Factories;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace MetroFramework.Demo.Views
 {
@@ -78,7 +80,7 @@ namespace MetroFramework.Demo.Views
                 String course = this.course.Text;
                 String dob = this.date.Text + "/" + this.month.Text + "/" + year.Text;
                 String gender = this.gender.Text;
-                Bitmap[] photos = null;
+                Image<Gray,byte>[] photos = null;
                 Student student = new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, photos);
 
 

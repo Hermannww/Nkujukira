@@ -18,6 +18,7 @@ namespace MetroFramework.Demo.Entitities
         {
             try
             {
+                finished_playing = false;
                 wave_out_device = new WaveOut();
                 wave_out_device.PlaybackStopped += wave_out_device_PlaybackStopped;
                 audio_file_reader = new AudioFileReader(file_name);
@@ -26,7 +27,7 @@ namespace MetroFramework.Demo.Entitities
                     wave_out_device.Init(audio_file_reader);
                     wave_out_device.Play();
                 }
-                finished_playing = false;
+                
             }
             catch (Exception e) 
             {

@@ -203,8 +203,10 @@
     <Compile Include="Managers\DatabaseManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\SettingsManager.cs" />
-    <Compile Include="Managers\StudentManager.cs" />
+    <Compile Include="Managers\StudentsManager.cs" />
     <Compile Include="Singletons\EigenObjectRecognizer.cs" />
+    <Compile Include="Threads\PerpetratorRecognitionThread.cs" />
+    <Compile Include="Threads\StudentRecognitionThread.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
