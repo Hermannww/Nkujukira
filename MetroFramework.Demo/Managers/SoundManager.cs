@@ -16,7 +16,6 @@ namespace MetroFramework.Demo.Managers
         public static Sound siren = new Sound();
         public static void PlaySound() 
         {
-            Debug.WriteLine("FILE_NAME=" + ALARM_SOUND);
             if (siren.finished_playing)
             {
                 siren.PlaySound(ALARM_SOUND);

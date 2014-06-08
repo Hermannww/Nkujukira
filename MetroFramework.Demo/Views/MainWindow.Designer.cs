@@ -279,7 +279,7 @@ namespace MetroFramework.Demo
             this.panel_for_detected_faces.Controls.Add(this.label14);
             this.panel_for_detected_faces.Location = new System.Drawing.Point(439, 47);
             this.panel_for_detected_faces.Name = "panel_for_detected_faces";
-            this.panel_for_detected_faces.Size = new System.Drawing.Size(321, 338);
+            this.panel_for_detected_faces.Size = new System.Drawing.Size(349, 338);
             this.panel_for_detected_faces.TabIndex = 22;
             this.panel_for_detected_faces.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_for_detected_faces_Paint);
             // 
@@ -288,7 +288,7 @@ namespace MetroFramework.Demo
             this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_separator.Location = new System.Drawing.Point(3, 27);
             this.label_separator.Name = "label_separator";
-            this.label_separator.Size = new System.Drawing.Size(310, 2);
+            this.label_separator.Size = new System.Drawing.Size(335, 2);
             this.label_separator.TabIndex = 2;
             // 
             // label14
@@ -514,7 +514,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-621, 26);
+            this.tile1.Location = new System.Drawing.Point(-984, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;

@@ -7,6 +7,7 @@ using MetroFramework.Demo.Singletons;
 using Nkujukira;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -34,14 +35,14 @@ namespace MetroFramework.Demo.Threads
         protected string name_of_recognized_face                                = null;
         protected int maximum_iteration, num_labels;
 
+        //controls for displaying results
         PictureBox perpetrators_pictureBox                                      = null;
         PictureBox unknown_face_pictureBox                                      = null;
 
-        //Perpetrator[] perps                                                   = null;
-
-        private static int x                                                    = 15;
-        private static int y                                                    = 50;
-        private int SLEEP_TIME                                                  = 200;
+        //class variables that handle positioning of above controls
+        private static volatile int x                                                    = 15;
+        private static volatile int y                                                    = 50;
+       
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize): base()
         {
@@ -55,9 +56,8 @@ namespace MetroFramework.Demo.Threads
         {
             if (!paused)
             {
-                RecognizeFace();
-                DisplayFaceRecognitionProgress();
-                
+                Debug.WriteLine("Recognizing face NOW");
+                RecognizeFace(); 
             }
         }
 
@@ -65,11 +65,8 @@ namespace MetroFramework.Demo.Threads
         {
             if (known_faces.Count()!= 0)
             {
-                //TermCriteria for face recognition with numbers of trained images like maxIteration
-                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(maximum_iteration * 3, 0.1);
-
-                Debug.WriteLine("Number Of Images=" + known_faces.Count());
-                Debug.WriteLine("Number of Labels=" + known_faces_labels.Count());
+                //Termination criteria for face recognition
+                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(maximum_iteration, 0.001);
 
                 //Eigen face recognizer
                 MetroFramework.Demo.Singletons.EigenObjectRecognizer recognizer = new MetroFramework.Demo.Singletons.EigenObjectRecognizer
@@ -101,8 +98,7 @@ namespace MetroFramework.Demo.Threads
 
         public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            Debug.WriteLine("PERPETRATOR_NAME=" + name_of_recognized_face);
-            base.ThreadIsDone(sender, e);
+            DisplayFaceRecognitionProgress();
         }
 
         protected abstract void LoadPreviousTrainedFaces();
@@ -113,8 +109,7 @@ namespace MetroFramework.Demo.Threads
         {
             if (known_faces.Count() != 0)
             {
-                double i                                                        = 0;
-
+                
                 //create picture box for face to be recognized
                 unknown_face_pictureBox                                         = new PictureBox();
                 unknown_face_pictureBox.Location                                = new Point(x, y);
@@ -139,51 +134,102 @@ namespace MetroFramework.Demo.Threads
                 separator.Location                                              = new Point(5, y + 132);
                 separator.AutoSize                                              = false;
                 separator.Height                                                = 2;
-                separator.Width                                                 = 310;
+                separator.Width                                                 = 335;
                 separator.BorderStyle                                           = BorderStyle.Fixed3D;
 
                 //add picture boxes to panel in a thread safe way
                 Panel panel                                                     = (Panel)Singleton.MAIN_WINDOW.GetControl("detected_faces_panel");
-                panel.Invoke(new AddItemsToPanel(Singleton.MAIN_WINDOW.AddItemsToPanel), new Object[] { unknown_face_pictureBox });
-                panel.Invoke(new AddItemsToPanel(Singleton.MAIN_WINDOW.AddItemsToPanel), new Object[] { perpetrators_pictureBox });
-                panel.Invoke(new AddItemsToPanel(Singleton.MAIN_WINDOW.AddItemsToPanel), new Object[] { progress_label });
-                panel.Invoke(new AddItemsToPanel(Singleton.MAIN_WINDOW.AddItemsToPanel), new Object[] { separator });
+                panel.Controls.Add(unknown_face_pictureBox);
+                panel.Controls.Add(perpetrators_pictureBox);
+                panel.Controls.Add(progress_label);
+                panel.Controls.Add(separator);
 
-
-
-
-
-                //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
-                foreach (var face in known_faces.ToArray())
-                {
-                    //get the amount of work done
-                    int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
-                    //display perp face
-                    SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", face.ToBitmap());
-
-                    //update progress label
-                    SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
-
-                    if (percentage_completed >= 97)
-                    {
-                        percentage_completed = 100;
-                    }
-
-                    //let the thread sleep
-                    Thread.Sleep(SLEEP_TIME);
-                    i++;
-                }
+                //create a new progress thread to show face recog progress
+                FaceRecognitionProgress progress = new FaceRecognitionProgress(this, perpetrators_pictureBox, progress_label);
+                progress.StartWorking();
+              
 
                 y += 145;
 
-                GenerateAlarm();
             }
         }
 
         protected abstract void GenerateAlarm();
        
 
-        public delegate void AddItemsToPanel(Control item);
+        public class FaceRecognitionProgress:AbstractThread
+        {
+            private const int SLEEP_TIME = 200;
+
+            private List<Image<Gray,byte>> known_faces;
+            private PictureBox perp_picturebox;
+            private Label progress_label;
+            private Image<Gray, byte> current_face;
+            private FaceRecognitionThread thread;
+
+            public FaceRecognitionProgress(FaceRecognitionThread thread,PictureBox perp_picturebox,Label progress_label)
+            {
+
+                background_worker = new BackgroundWorker();
+                background_worker.WorkerReportsProgress = true;
+                background_worker.WorkerSupportsCancellation = true;
+
+                background_worker.DoWork += new DoWorkEventHandler(DoWork);
+                background_worker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+                background_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ThreadIsDone);
+
+                this.known_faces = thread.known_faces;
+                this.perp_picturebox = perp_picturebox;
+                this.progress_label = progress_label;
+                this.thread = thread;
+            }
+
+            public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+            {
+                double i = 0;
+
+                //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
+                foreach (var face in known_faces.ToArray())
+                {
+                    //get the amount of work done
+                    int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
+
+                    //set the current face
+                    current_face = face;
+
+                    //report progress
+                    background_worker.ReportProgress(percentage_completed);
+
+                    //let the thread sleep
+                    Thread.Sleep(SLEEP_TIME);
+                    i++;
+                }
+            }
+
+            public override void ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+            {
+                //get percentage completed
+                int percentage_completed = e.ProgressPercentage;
+
+                //display perp facee
+                SetControlPropertyThreadSafe(perp_picturebox, "Image", current_face.ToBitmap());
+
+                //update progress label
+                SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+
+
+                if (percentage_completed >= 97)
+                {
+                    percentage_completed = 100;
+                }
+            }
+
+            public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)
+            {
+                thread.GenerateAlarm();
+            }
+        
+        }
 
     }
 }
