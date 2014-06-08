@@ -13,13 +13,13 @@ namespace MetroFramework.Demo.Threads
 
         private Capture camera_capture;
         private Image<Bgr, byte> current_frame;
-        private ImageBox image_box;
+        public static bool WORK_DONE=false;
 
-        public CameraOutputGrabberThread(ImageBox image_box)
+        public CameraOutputGrabberThread()
             : base()
         {
-            camera_capture = new Capture();
-            this.image_box = image_box;
+            this.camera_capture = new Capture();
+            WORK_DONE           = false;
 
         }
 
@@ -48,12 +48,27 @@ namespace MetroFramework.Demo.Threads
         //FOR EASY ACESS WHEN THE FRAME IS PROCESSED BY MULTIPLE THREADS LATER
         public bool AddNextFrameToQueueForProcessing()
         {
-            
+            //get next frame from camera
             current_frame = FramesManager.GetNextFrame(this.camera_capture);
             
             if (current_frame != null)
             {
-                Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
+                //add frame to queue for display
+                Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(),Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width,Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+
+                //resize frame to save on memory and improve performance
+                int width = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
+                int height = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
+
+                current_frame = FramesManager.ResizeImage(current_frame, width, height);
+
+                //add frame to queue for face detection and recognition
+                Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame);
+
+                //add frame to queue for storage
+                Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame);
+
+                //return
                 return true;
             }
             return false;

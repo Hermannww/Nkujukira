@@ -79,11 +79,11 @@ namespace MetroFramework.Demo.Threads
             {
                 if (current_frame != null)
                 {
-                    int width =Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width;
-                    int height=Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height;
+                    int width =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
+                    int height=Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
+
                     Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame,width,height));
-                 
-                    //MainWindow.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
+                
                     return true;
                 }
                 //FRAME IS NULL 

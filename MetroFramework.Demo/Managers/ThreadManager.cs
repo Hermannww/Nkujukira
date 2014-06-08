@@ -1,5 +1,6 @@
 ﻿using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Threads;
+
 using System;
 
 namespace MetroFramework.Demo.Managers
@@ -8,7 +9,8 @@ namespace MetroFramework.Demo.Managers
     {
         private static CameraOutputGrabberThread cam_output;
         private static VideoFromFileThread       video_from_file_grabber;
-        private static FaceDetectingThread       face_detector;
+        private static FaceDetectingThread       review_face_detector;
+        private static LiveStreamFaceDetectingThread live_face_detector;
         private static DisplayUpdaterThread      display_updater;
         private static FaceTrackingThread        face_tracker;
         private static AlertGenerationThread     alert_thread;
@@ -20,72 +22,81 @@ namespace MetroFramework.Demo.Managers
         {
             if (review_mode)
             {
-                StartNewThread(ThreadFactory.VIDEO_THREAD);
+                StartNewThread(ThreadFactory.VIDEO_THREAD,review_mode);
+                StartNewThread(ThreadFactory.REVIEW_FACE_DETECTOR, review_mode);
             }
             else
             {
-                StartNewThread(ThreadFactory.CAMERA_THREAD);
+                StartNewThread(ThreadFactory.CAMERA_THREAD,review_mode);
+                StartNewThread(ThreadFactory.LIVE_FACE_DETECTOR, review_mode);
             }
 
-            StartNewThread(ThreadFactory.DISPLAY_UPDATER);
-            StartNewThread(ThreadFactory.FACE_DETECTOR);
+            StartNewThread(ThreadFactory.DISPLAY_UPDATER,review_mode);
+           
             return false;
         }
 
-        public static bool StartNewThread(String thread_id)
+        public static bool StartNewThread(String thread_id,bool review_mode)
         {
             switch (thread_id)
             {
                 case ThreadFactory.ALERT_THREAD:
                     if (alert_thread == null)
                     {
-                        alert_thread = (AlertGenerationThread)ThreadFactory.CreateThread(ThreadFactory.ALERT_THREAD);
+                        alert_thread = (AlertGenerationThread)ThreadFactory.CreateThread(ThreadFactory.ALERT_THREAD,review_mode);
                     }
                     break;
                 case ThreadFactory.CAMERA_THREAD:
                     if (cam_output == null)
                     {
-                        cam_output = (CameraOutputGrabberThread)ThreadFactory.CreateThread(ThreadFactory.CAMERA_THREAD);
+                        cam_output = (CameraOutputGrabberThread)ThreadFactory.CreateThread(ThreadFactory.CAMERA_THREAD, review_mode);
                     }
                     break;
 
                 case ThreadFactory.DISPLAY_UPDATER:
                     if (display_updater == null)
                     {
-                        display_updater = (DisplayUpdaterThread)ThreadFactory.CreateThread(ThreadFactory.DISPLAY_UPDATER);
+                        display_updater = (DisplayUpdaterThread)ThreadFactory.CreateThread(ThreadFactory.DISPLAY_UPDATER, review_mode);
                     }
                     break;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    if (face_detector == null)
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    if (review_face_detector == null)
                     {
-                        face_detector = (FaceDetectingThread)ThreadFactory.CreateThread(ThreadFactory.FACE_DETECTOR);
+                        review_face_detector = (FaceDetectingThread)ThreadFactory.CreateThread(ThreadFactory.REVIEW_FACE_DETECTOR, review_mode);
+                    }
+                    break;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    if (live_face_detector == null)
+                    {
+                        live_face_detector = (LiveStreamFaceDetectingThread)ThreadFactory.CreateThread(ThreadFactory.LIVE_FACE_DETECTOR, review_mode);
                     }
                     break;
 
                 case ThreadFactory.FACE_DRAWER:
                     if (face_drawer == null)
                     {
-                        face_drawer = (FaceDrawingThread)ThreadFactory.CreateThread(ThreadFactory.FACE_DRAWER);
+                        face_drawer = (FaceDrawingThread)ThreadFactory.CreateThread(ThreadFactory.FACE_DRAWER, review_mode);
                     }
                     break;
                 case ThreadFactory.FACE_TRACKER:
                     if (face_tracker == null)
                     {
-                        face_tracker = (FaceTrackingThread)ThreadFactory.CreateThread(ThreadFactory.FACE_DRAWER);
+                        face_tracker = (FaceTrackingThread)ThreadFactory.CreateThread(ThreadFactory.FACE_DRAWER, review_mode);
                     }
                     break;
                 case ThreadFactory.FOOTAGE_SAVER:
                     if (footage_saver == null)
                     {
-                        footage_saver = (FootageSavingThread)ThreadFactory.CreateThread(ThreadFactory.FOOTAGE_SAVER);
+                        footage_saver = (FootageSavingThread)ThreadFactory.CreateThread(ThreadFactory.FOOTAGE_SAVER, review_mode);
                     }
                     break;
 
                 case ThreadFactory.VIDEO_THREAD:
                     if (video_from_file_grabber == null)
                     {
-                        video_from_file_grabber = (VideoFromFileThread)ThreadFactory.CreateThread(ThreadFactory.VIDEO_THREAD);
+                        video_from_file_grabber = (VideoFromFileThread)ThreadFactory.CreateThread(ThreadFactory.VIDEO_THREAD, review_mode);
                     }
                     break;
             }
@@ -108,8 +119,11 @@ namespace MetroFramework.Demo.Managers
                 case ThreadFactory.DISPLAY_UPDATER:
                     return display_updater;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    return face_detector;
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    return review_face_detector;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    return live_face_detector;
 
                 case ThreadFactory.FACE_DRAWER:
                     return face_drawer;
@@ -141,8 +155,12 @@ namespace MetroFramework.Demo.Managers
                     if (display_updater != null) { display_updater.Pause(); }
                     break;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    if (face_detector != null) { face_detector.Pause(); }
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    if (review_face_detector != null) { review_face_detector.Pause(); }
+                    break;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    if (live_face_detector != null) { live_face_detector.Pause(); }
                     break;
 
                 case ThreadFactory.FACE_DRAWER:
@@ -188,8 +206,12 @@ namespace MetroFramework.Demo.Managers
                     if (display_updater != null) { display_updater.Resume(); }
                     break;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    if (face_detector != null) { face_detector.Resume(); }
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    if (review_face_detector != null) { review_face_detector.Resume(); }
+                    break;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    if (live_face_detector!= null) { live_face_detector.Resume(); }
                     break;
 
                 case ThreadFactory.FACE_DRAWER:
@@ -234,8 +256,12 @@ namespace MetroFramework.Demo.Managers
                     if (display_updater != null) { display_updater.RequestStop(); }
                     break;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    if (face_detector != null) { face_detector.RequestStop(); }
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    if (review_face_detector != null) { review_face_detector.RequestStop(); }
+                    break;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    if (live_face_detector != null) { live_face_detector.RequestStop(); }
                     break;
 
                 case ThreadFactory.FACE_DRAWER:      
@@ -282,8 +308,12 @@ namespace MetroFramework.Demo.Managers
                     display_updater = null;
                     break;
 
-                case ThreadFactory.FACE_DETECTOR:
-                    face_detector = null;
+                case ThreadFactory.REVIEW_FACE_DETECTOR:
+                    review_face_detector = null;
+                    break;
+
+                case ThreadFactory.LIVE_FACE_DETECTOR:
+                    live_face_detector = null;
                     break;
 
                 case ThreadFactory.FACE_DRAWER:

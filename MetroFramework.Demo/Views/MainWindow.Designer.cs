@@ -33,7 +33,18 @@ namespace MetroFramework.Demo
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.imageBox7 = new Emgu.CV.UI.ImageBox();
+            this.imageBox6 = new Emgu.CV.UI.ImageBox();
+            this.imageBox5 = new Emgu.CV.UI.ImageBox();
+            this.imageBox4 = new Emgu.CV.UI.ImageBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.show_detected_faces = new MetroFramework.Controls.MetroCheckBox();
+            this.turn_on_button = new MetroFramework.Controls.MetroButton();
+            this.stop_button_1 = new MetroFramework.Controls.MetroButton();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.total_time_label = new System.Windows.Forms.Label();
             this.time_elapsed_label = new System.Windows.Forms.Label();
@@ -63,38 +74,24 @@ namespace MetroFramework.Demo
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.metroTabPage3 = new MetroFramework.Controls.MetroTabPage();
-            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.metroToolTip = new MetroFramework.Components.MetroToolTip();
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.imageBox7 = new Emgu.CV.UI.ImageBox();
-            this.imageBox6 = new Emgu.CV.UI.ImageBox();
-            this.imageBox5 = new Emgu.CV.UI.ImageBox();
-            this.imageBox4 = new Emgu.CV.UI.ImageBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.stop_button_1 = new MetroFramework.Controls.MetroButton();
-            this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
-            this.metroTabPage2.SuspendLayout();
-            this.panel_for_detected_faces.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
-            this.metroTabPage11.SuspendLayout();
-            this.metroContextMenu1.SuspendLayout();
-            this.metroTabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
+            this.metroTabPage2.SuspendLayout();
+            this.panel_for_detected_faces.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
+            this.metroTabPage11.SuspendLayout();
+            this.metroContextMenu1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -103,7 +100,6 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Controls.Add(this.metroTabPage1);
             this.metroTabControl1.Controls.Add(this.metroTabPage2);
             this.metroTabControl1.Controls.Add(this.metroTabPage11);
-            this.metroTabControl1.Controls.Add(this.metroTabPage3);
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
@@ -135,6 +131,107 @@ namespace MetroFramework.Demo
             this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
             // 
+            // panel1
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.panel1, true);
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.imageBox7);
+            this.panel1.Controls.Add(this.imageBox6);
+            this.panel1.Controls.Add(this.imageBox5);
+            this.panel1.Controls.Add(this.imageBox4);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(4, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(542, 396);
+            this.panel1.TabIndex = 11;
+            // 
+            // imageBox7
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox7, true);
+            this.imageBox7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox7.Location = new System.Drawing.Point(282, 212);
+            this.imageBox7.Name = "imageBox7";
+            this.imageBox7.Size = new System.Drawing.Size(230, 170);
+            this.imageBox7.TabIndex = 30;
+            this.imageBox7.TabStop = false;
+            // 
+            // imageBox6
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox6, true);
+            this.imageBox6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox6.Location = new System.Drawing.Point(29, 212);
+            this.imageBox6.Name = "imageBox6";
+            this.imageBox6.Size = new System.Drawing.Size(230, 170);
+            this.imageBox6.TabIndex = 29;
+            this.imageBox6.TabStop = false;
+            // 
+            // imageBox5
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox5, true);
+            this.imageBox5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox5.Location = new System.Drawing.Point(282, 22);
+            this.imageBox5.Name = "imageBox5";
+            this.imageBox5.Size = new System.Drawing.Size(230, 171);
+            this.imageBox5.TabIndex = 28;
+            this.imageBox5.TabStop = false;
+            // 
+            // imageBox4
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox4, true);
+            this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageBox4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox4.Location = new System.Drawing.Point(29, 22);
+            this.imageBox4.Name = "imageBox4";
+            this.imageBox4.Size = new System.Drawing.Size(230, 171);
+            this.imageBox4.TabIndex = 21;
+            this.imageBox4.TabStop = false;
+            // 
+            // label5
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label5, true);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(282, 196);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Camera 4";
+            // 
+            // label4
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label4, true);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(282, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 26;
+            this.label4.Text = "Camera 2";
+            // 
+            // label3
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label3, true);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(26, 196);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 13);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Camera 3";
+            // 
+            // label2
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label2, true);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "Camera 1";
+            // 
             // show_detected_faces
             // 
             this.show_detected_faces.AutoSize = true;
@@ -146,6 +243,31 @@ namespace MetroFramework.Demo
             this.show_detected_faces.Text = "Show Detected Faces";
             this.metroToolTip.SetToolTip(this.show_detected_faces, "Checkbox Tooltip");
             this.show_detected_faces.UseSelectable = true;
+            // 
+            // turn_on_button
+            // 
+            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.turn_on_button.Location = new System.Drawing.Point(571, 50);
+            this.turn_on_button.Name = "turn_on_button";
+            this.turn_on_button.Size = new System.Drawing.Size(103, 37);
+            this.turn_on_button.TabIndex = 22;
+            this.turn_on_button.Text = "Turn On";
+            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
+            this.turn_on_button.UseSelectable = true;
+            this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
+            // 
+            // stop_button_1
+            // 
+            this.stop_button_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.stop_button_1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.stop_button_1.Location = new System.Drawing.Point(571, 104);
+            this.stop_button_1.Name = "stop_button_1";
+            this.stop_button_1.Size = new System.Drawing.Size(98, 37);
+            this.stop_button_1.TabIndex = 23;
+            this.stop_button_1.Text = "Stop";
+            this.metroToolTip.SetToolTip(this.stop_button_1, "Button Tooltip");
+            this.stop_button_1.UseSelectable = true;
             // 
             // metroTabPage2
             // 
@@ -456,7 +578,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-984, 26);
+            this.tile1.Location = new System.Drawing.Point(-1347, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
@@ -518,30 +640,6 @@ namespace MetroFramework.Demo
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
-            // metroTabPage3
-            // 
-            this.metroTabPage3.Controls.Add(this.button1);
-            this.metroTabPage3.HorizontalScrollbarBarColor = true;
-            this.metroTabPage3.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroTabPage3.HorizontalScrollbarSize = 10;
-            this.metroTabPage3.Location = new System.Drawing.Point(4, 41);
-            this.metroTabPage3.Name = "metroTabPage3";
-            this.metroTabPage3.Size = new System.Drawing.Size(918, 400);
-            this.metroTabPage3.TabIndex = 7;
-            this.metroTabPage3.Text = "metroTabPage3";
-            this.metroTabPage3.VerticalScrollbarBarColor = true;
-            this.metroTabPage3.VerticalScrollbarHighlightOnWheel = false;
-            this.metroTabPage3.VerticalScrollbarSize = 10;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(184, 82);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -574,137 +672,11 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
-            // panel1
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.panel1, true);
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.imageBox7);
-            this.panel1.Controls.Add(this.imageBox6);
-            this.panel1.Controls.Add(this.imageBox5);
-            this.panel1.Controls.Add(this.imageBox4);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(4, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(542, 396);
-            this.panel1.TabIndex = 11;
-            // 
-            // imageBox7
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox7, true);
-            this.imageBox7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageBox7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox7.Location = new System.Drawing.Point(282, 212);
-            this.imageBox7.Name = "imageBox7";
-            this.imageBox7.Size = new System.Drawing.Size(230, 170);
-            this.imageBox7.TabIndex = 30;
-            this.imageBox7.TabStop = false;
-            // 
-            // imageBox6
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox6, true);
-            this.imageBox6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageBox6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox6.Location = new System.Drawing.Point(29, 212);
-            this.imageBox6.Name = "imageBox6";
-            this.imageBox6.Size = new System.Drawing.Size(230, 170);
-            this.imageBox6.TabIndex = 29;
-            this.imageBox6.TabStop = false;
-            // 
-            // imageBox5
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox5, true);
-            this.imageBox5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageBox5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox5.Location = new System.Drawing.Point(282, 22);
-            this.imageBox5.Name = "imageBox5";
-            this.imageBox5.Size = new System.Drawing.Size(230, 171);
-            this.imageBox5.TabIndex = 28;
-            this.imageBox5.TabStop = false;
-            // 
-            // imageBox4
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox4, true);
-            this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageBox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox4.Location = new System.Drawing.Point(29, 22);
-            this.imageBox4.Name = "imageBox4";
-            this.imageBox4.Size = new System.Drawing.Size(230, 171);
-            this.imageBox4.TabIndex = 21;
-            this.imageBox4.TabStop = false;
-            // 
-            // label5
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label5, true);
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(282, 196);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Camera 4";
-            // 
-            // label4
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label4, true);
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(282, 6);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 26;
-            this.label4.Text = "Camera 2";
-            // 
-            // label3
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label3, true);
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 196);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Camera 3";
-            // 
-            // label2
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label2, true);
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
-            this.label2.TabIndex = 24;
-            this.label2.Text = "Camera 1";
-            // 
-            // stop_button_1
-            // 
-            this.stop_button_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.stop_button_1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop_button_1.Location = new System.Drawing.Point(571, 104);
-            this.stop_button_1.Name = "stop_button_1";
-            this.stop_button_1.Size = new System.Drawing.Size(98, 37);
-            this.stop_button_1.TabIndex = 23;
-            this.stop_button_1.Text = "Stop";
-            this.metroToolTip.SetToolTip(this.stop_button_1, "Button Tooltip");
-            this.stop_button_1.UseSelectable = true;
-            // 
-            // turn_on_button
-            // 
-            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.turn_on_button.Location = new System.Drawing.Point(571, 50);
-            this.turn_on_button.Name = "turn_on_button";
-            this.turn_on_button.Size = new System.Drawing.Size(103, 37);
-            this.turn_on_button.TabIndex = 22;
-            this.turn_on_button.Text = "Turn On";
-            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
-            this.turn_on_button.UseSelectable = true;
-            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackImage = global::MetroFramework.Demo.Properties.Resources.GitHub_Mark;
             this.BackImagePadding = new System.Windows.Forms.Padding(210, 10, 0, 0);
             this.BackMaxSize = 50;
             this.ClientSize = new System.Drawing.Size(966, 525);
@@ -719,6 +691,12 @@ namespace MetroFramework.Demo
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabPage1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
             this.metroTabPage2.ResumeLayout(false);
             this.metroTabPage2.PerformLayout();
             this.panel_for_detected_faces.ResumeLayout(false);
@@ -726,14 +704,7 @@ namespace MetroFramework.Demo
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).EndInit();
             this.metroTabPage11.ResumeLayout(false);
             this.metroContextMenu1.ResumeLayout(false);
-            this.metroTabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -789,8 +760,6 @@ namespace MetroFramework.Demo
         private Controls.MetroTile metroTile2;
         private Controls.MetroTile metroTile1;
         private Controls.MetroTile tile1;
-        private Controls.MetroTabPage metroTabPage3;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label_separator;
         private System.Windows.Forms.Panel panel1;
         private ImageBox imageBox7;

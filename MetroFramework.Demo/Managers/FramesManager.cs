@@ -13,11 +13,11 @@ namespace Nkujukira
     class FramesManager
     {
         public static Color COLOR_OF_FACE_RECTANGLE = Color.Green;
-        private const int THICKNESS                 = 1;
-        private const double SCALE                  = 3.0;
-        private const double SCALEFACTOR            = 1.4;
-        private const int MINIMUM_NEIGBHOURS        = 3;
-        private const int WINDOW_SIZE               = 50;
+        private const int THICKNESS = 1;
+        private const double SCALE = 3.0;
+        private const double SCALEFACTOR = 1.4;
+        private const int MINIMUM_NEIGBHOURS = 3;
+        private const int WINDOW_SIZE = 50;
 
 
         public static Image<Bgr, byte> GetNextFrame(Capture capture)
@@ -29,10 +29,10 @@ namespace Nkujukira
 
             try
             {
-                Image<Bgr, byte> frame=null;
+                Image<Bgr, byte> frame = null;
                 lock (capture)
                 {
-                    frame = capture.QueryFrame();   
+                    frame = capture.QueryFrame();
                 }
                 return frame;
             }
@@ -68,7 +68,7 @@ namespace Nkujukira
             return null;
         }
 
-        public static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> frame, int width,int height)
+        public static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> frame, int width, int height)
         {
             if (frame == null)
             {
@@ -126,30 +126,28 @@ namespace Nkujukira
 
             try
             {
-                if (current_frame != null)
+                using (current_frame)
                 {
-                    using (current_frame)
+                    using (Image<Gray, byte> grayscale_image = current_frame.Convert<Gray, byte>())
                     {
-                        using (Image<Gray, byte> grayscale_image = current_frame.Convert<Gray, byte>())
+                        grayscale_image._EqualizeHist();
+
+                        MCvAvgComp[] detected_faces = grayscale_image.DetectHaarCascade(haarcascade, SCALEFACTOR, MINIMUM_NEIGBHOURS, HAAR_DETECTION_TYPE.DO_CANNY_PRUNING, new System.Drawing.Size(WINDOW_SIZE, WINDOW_SIZE))[0];
+                        Debug.WriteLine("NUMBER OF FACES FOUND=" + detected_faces.Length);
+                        if (detected_faces.Length != 0)
                         {
-                            grayscale_image._EqualizeHist();
+                            Rectangle[] face_rectangles = new Rectangle[detected_faces.Length];
 
-                            MCvAvgComp[] detected_faces = grayscale_image.DetectHaarCascade(haarcascade, SCALEFACTOR, MINIMUM_NEIGBHOURS, HAAR_DETECTION_TYPE.DO_CANNY_PRUNING, new System.Drawing.Size(WINDOW_SIZE, WINDOW_SIZE))[0];
-                            Debug.WriteLine("NUMBER OF FACES FOUND=" + detected_faces.Length);
-                            if (detected_faces.Length != 0)
+                            Parallel.For(0, face_rectangles.Length, i =>
                             {
-                                Rectangle[] face_rectangles = new Rectangle[detected_faces.Length];
-
-                                Parallel.For(0, face_rectangles.Length, i =>
-                                {
-                                    face_rectangles[i] = detected_faces[i].rect;
-                                });
-                                detected_faces = null;
-                                return face_rectangles;
-                            }
+                                face_rectangles[i] = detected_faces[i].rect;
+                            });
+                            detected_faces = null;
+                            return face_rectangles;
                         }
                     }
                 }
+
             }
             catch (Exception e)
             {
@@ -168,14 +166,14 @@ namespace Nkujukira
             }
 
             current_frame.Draw(rectangle_of_detected_face, new Bgr(COLOR_OF_FACE_RECTANGLE), THICKNESS);
-            sucess     = true;
+            sucess = true;
             return current_frame;
         }
 
 
         public static Bitmap DrawShapeOnTransparentBackGround(Rectangle a_rectangle, int frame_width, int frame_height)
         {
-            Bitmap bitmap     = new Bitmap(frame_width, frame_height);
+            Bitmap bitmap = new Bitmap(frame_width, frame_height);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
             graphics.DrawRectangle(Pens.Green, a_rectangle);
@@ -206,12 +204,12 @@ namespace Nkujukira
         }
 
 
-        public static Image<Gray,byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
+        public static Image<Gray, byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
         {
             try
             {
-                Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
-                gray_scale.ROI                 = detected_face;
+                Image<Gray, byte> gray_scale = frame.Convert<Gray, byte>();
+                gray_scale.ROI = detected_face;
                 Image<Gray, byte> cropped_face = gray_scale.Copy();
                 return cropped_face;
             }

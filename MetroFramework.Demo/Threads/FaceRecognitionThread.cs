@@ -21,7 +21,7 @@ namespace MetroFramework.Demo.Threads
     public abstract class FaceRecognitionThread : AbstractThread
     {
         //the eigen distance threshold between 2 images; the bigger it is the more chances of a false positive 
-        private const double EIGEN_DISTANCE_THRESHOLD                           = 500;
+        private const double EIGEN_DISTANCE_THRESHOLD                           = 100;
         private MCvFont font                                                    = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 0.5d, 0.5d);
 
         //images of faces of people to be compared againist
@@ -40,8 +40,8 @@ namespace MetroFramework.Demo.Threads
         PictureBox unknown_face_pictureBox                                      = null;
 
         //class variables that handle positioning of above controls
-        private static volatile int x                                                    = 15;
-        private static volatile int y                                                    = 50;
+        private static volatile int x                                           = 15;
+        private static volatile int y                                           = 50;
        
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize): base()
@@ -66,10 +66,10 @@ namespace MetroFramework.Demo.Threads
             if (known_faces.Count()!= 0)
             {
                 //Termination criteria for face recognition
-                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(maximum_iteration, 0.001);
+                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(2, 0.01);
 
                 //Eigen face recognizer
-                MetroFramework.Demo.Singletons.EigenObjectRecognizer recognizer = new MetroFramework.Demo.Singletons.EigenObjectRecognizer
+                Emgu.CV.EigenObjectRecognizer recognizer = new Emgu.CV.EigenObjectRecognizer
                                                           (
                                                             known_faces.ToArray(),
 
