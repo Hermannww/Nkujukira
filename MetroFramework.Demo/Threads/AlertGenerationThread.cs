@@ -10,27 +10,19 @@ namespace MetroFramework.Demo.Threads
     public class AlertGenerationThread:AbstractThread
     {
         private Perpetrator identified_perpetrator;
+        private SoundPlayingThread sound_player;
         
         public AlertGenerationThread(Perpetrator identified_perpetrator) :base()
         {
             this.identified_perpetrator=identified_perpetrator;
-            DisplayDetails();
+            this.sound_player = new SoundPlayingThread();
         }
 
         public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            int i = 0;
             try
             {
-                while (running)
-                {
-                    if (!paused)
-                    {
-                        SoundManager.PlaySound();
-                        background_worker.ReportProgress(i);
-                        i++;
-                    }
-                }
+                sound_player.StartWorking();               
             }
             catch (Exception ex) 
             {
@@ -43,18 +35,18 @@ namespace MetroFramework.Demo.Threads
             return this.identified_perpetrator.id == perpetrator.id;
         }
 
-
+        public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            DisplayDetails();
+        }
        
 
         public void DisplayDetails() 
         {
             Debug.WriteLine("Displaying details NOW");
-            //Singletons.Singleton.MAIN_WINDOW.Invoke(new DisplayAlert(Singletons.Singleton.MAIN_WINDOW.DisplayAlertDetails), new Object[] { identified_perpetrator });
             PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
             form.Show();
         }
-
-        public delegate void DisplayAlert(Perpetrator perp);
 
         public override bool RequestStop()
         {

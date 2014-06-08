@@ -206,6 +206,7 @@
     <Compile Include="Managers\StudentsManager.cs" />
     <Compile Include="Singletons\EigenObjectRecognizer.cs" />
     <Compile Include="Threads\PerpetratorRecognitionThread.cs" />
+    <Compile Include="Threads\SoundPlayingThread.cs" />
     <Compile Include="Threads\StudentRecognitionThread.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>

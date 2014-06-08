@@ -49,6 +49,7 @@
             // perpetrator_frame_picture_box
             // 
             this.perpetrator_frame_picture_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.perpetrator_frame_picture_box.Cursor = System.Windows.Forms.Cursors.Hand;
             this.perpetrator_frame_picture_box.Location = new System.Drawing.Point(7, 61);
             this.perpetrator_frame_picture_box.Name = "perpetrator_frame_picture_box";
             this.perpetrator_frame_picture_box.Size = new System.Drawing.Size(409, 281);
@@ -71,7 +72,7 @@
             this.done_button.UseSelectable = true;
             this.done_button.Click += new System.EventHandler(this.done_button_Click);
             // 
-            // SelectPerpetrator
+            // SelectPerpetratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,7 +83,7 @@
             this.Controls.Add(this.label1);
             this.DisplayHeader = false;
             this.MaximizeBox = false;
-            this.Name = "SelectPerpetrator";
+            this.Name = "SelectPerpetratorForm";
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;
             this.ShowInTaskbar = false;
