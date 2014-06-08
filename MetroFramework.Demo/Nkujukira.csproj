@@ -308,6 +308,12 @@
     <Compile Include="Threads\AbstractThread.cs" />
     <Compile Include="Threads\DisplayUpdaterThread.cs" />
     <Compile Include="Threads\VideoFromFileThread.cs" />
+    <Compile Include="Views\PerpetratorsListDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PerpetratorsListDialog.Designer.cs">
+      <DependentUpon>PerpetratorsListDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectPerpetratorFacesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -383,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskWindowControl.resx">
       <DependentUpon>TaskWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PerpetratorsListDialog.resx">
+      <DependentUpon>PerpetratorsListDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SelectPerpetratorFacesForm.resx">
       <DependentUpon>SelectPerpetratorFacesForm.cs</DependentUpon>

@@ -20,7 +20,7 @@ namespace MetroFramework.Demo.Views
             this.Style = MetroColorStyle.Red;
 
 
-            if (MainWindow.REMOVE_LOGIN_COMPONENT == true)
+           /* if (MainWindow.REMOVE_LOGIN_COMPONENT == true)
             {
                 remove_login_component.Checked = true;
 
@@ -28,7 +28,7 @@ namespace MetroFramework.Demo.Views
             else
             {
                 remove_login_component.Checked = false;
-            }
+            }*/
         }
 
         private void DashBordDialog_Load(object sender, EventArgs e)

@@ -28,7 +28,7 @@ namespace MetroFramework.Demo
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
 
-        public static String THEMECOLOR = null;
+       /* public static String THEMECOLOR = null;
         public static bool REMOVE_LOGIN_COMPONENT;
         public void InterpretSettings(String[] settings)
         {
@@ -70,11 +70,13 @@ namespace MetroFramework.Demo
                 Debug.WriteLine(ex.Message + "\n\nERROR from getSettingsList method MainWindow class");
             }
             return null;
-        }
+        }*/
+         
+
         public MainWindow()
         {
             InitializeComponent();
-            if (THEMECOLOR != null)
+           /* if (THEMECOLOR != null)
             {
                 if (THEMECOLOR.Equals("Light"))
                 {
@@ -87,8 +89,8 @@ namespace MetroFramework.Demo
             }
             FileFactory file_factory = new FileFactory();
             FileInterface text_file = file_factory.GetFile("TEXTFILE");
-            this.InterpretSettings(this.GetSettingsList(text_file.readFromFile(@"dashBoard.txt")));
-
+            this.InterpretSettings(this.GetSettingsList(text_file.readFromFile(@"dashBoard.txt")));*/
+            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             Singleton.MAIN_WINDOW = this;
 
             metroStyleManager.Style = MetroColorStyle.Red;
@@ -506,6 +508,13 @@ namespace MetroFramework.Demo
         {
             AddNewUserForm form = new AddNewUserForm();
             form.ShowDialog(null);
+        }
+
+        private void metroTile7_Click(object sender, EventArgs e)
+        {
+            PerpetratorsListDialog form = new PerpetratorsListDialog();
+            form.ShowDialog(null);
+
         }
 
 

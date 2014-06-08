@@ -93,6 +93,7 @@ namespace MetroFramework.Demo
             this.metroTabPage11.SuspendLayout();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
+            //this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -501,6 +502,7 @@ namespace MetroFramework.Demo
             this.metroTile7.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.metroTile7.UseSelectable = true;
             this.metroTile7.UseTileImage = true;
+            this.metroTile7.Click += new System.EventHandler(this.metroTile7_Click);
             // 
             // metroTile6
             // 
@@ -677,13 +679,13 @@ namespace MetroFramework.Demo
             // metroStyleManager
             // 
             this.metroStyleManager.Owner = this;
-            //this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
             // metroToolTip
             // 
             this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroToolTip.StyleManager = null;
-            this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
             // icons_list
             // 
@@ -711,7 +713,6 @@ namespace MetroFramework.Demo
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.StyleManager = this.metroStyleManager;
             this.Text = "Nkujukira";
-            //this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
@@ -731,6 +732,8 @@ namespace MetroFramework.Demo
             this.metroContextMenu1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
+            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+            
 
         }
 
