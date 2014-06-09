@@ -187,6 +187,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStores\TextFile.cs" />
+    <Compile Include="DataStores\XMLFile.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
     <Compile Include="Entitities\StolenItem.cs" />
@@ -194,6 +196,7 @@
     <Compile Include="Factories\FileFactory.cs" />
     <Compile Include="Interfaces\DatabaseInterface.cs" />
     <Compile Include="DataStores\MySQLDatabaseHandler.cs" />
+    <Compile Include="Interfaces\FileInterface.cs" />
     <Compile Include="Managers\AdminManager.cs" />
     <Compile Include="Managers\CrimesManager.cs" />
     <Compile Include="Managers\DatabaseManager.cs" />
@@ -248,6 +251,12 @@
     </Compile>
     <Compile Include="Views\DashBoard.Designer.cs">
       <DependentUpon>DashBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DashBoardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\DashBoardDialog.designer.cs">
+      <DependentUpon>DashBoardDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LoadingScreen.cs">
       <SubType>Form</SubType>
@@ -346,6 +355,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DashBoard.resx">
       <DependentUpon>DashBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DashBoardDialog.resx">
+      <DependentUpon>DashBoardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoadingScreen.resx">
       <DependentUpon>LoadingScreen.cs</DependentUpon>

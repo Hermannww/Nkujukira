@@ -58,6 +58,7 @@ namespace MetroFramework.Demo
             this.show_detected_faces2 = new MetroFramework.Controls.MetroCheckBox();
             this.pause_button = new MetroFramework.Controls.MetroButton();
             this.metroTabPage11 = new MetroFramework.Controls.MetroTabPage();
+            this.metroTile9 = new MetroFramework.Controls.MetroTile();
             this.metroTile8 = new MetroFramework.Controls.MetroTile();
             this.metroTile7 = new MetroFramework.Controls.MetroTile();
             this.metroTile6 = new MetroFramework.Controls.MetroTile();
@@ -104,7 +105,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 2;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -433,6 +434,7 @@ namespace MetroFramework.Demo
             // metroTabPage11
             // 
             this.metroTabPage11.BackColor = System.Drawing.Color.Silver;
+            this.metroTabPage11.Controls.Add(this.metroTile9);
             this.metroTabPage11.Controls.Add(this.metroTile8);
             this.metroTabPage11.Controls.Add(this.metroTile7);
             this.metroTabPage11.Controls.Add(this.metroTile6);
@@ -455,9 +457,25 @@ namespace MetroFramework.Demo
             this.metroTabPage11.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage11.VerticalScrollbarSize = 10;
             // 
+            // metroTile9
+            // 
+            this.metroTile9.ActiveControl = null;
+            this.metroTile9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroTile9.Location = new System.Drawing.Point(105, 22);
+            this.metroTile9.Name = "metroTile9";
+            this.metroTile9.Size = new System.Drawing.Size(231, 108);
+            this.metroTile9.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTile9.TabIndex = 12;
+            this.metroTile9.Text = "Add New User";
+            this.metroTile9.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.metroTile9.UseSelectable = true;
+            this.metroTile9.UseTileImage = true;
+            this.metroTile9.Click += new System.EventHandler(this.metroTile9_Click);
+            // 
             // metroTile8
             // 
             this.metroTile8.ActiveControl = null;
+            this.metroTile8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile8.Location = new System.Drawing.Point(568, 252);
             this.metroTile8.Name = "metroTile8";
             this.metroTile8.Size = new System.Drawing.Size(225, 108);
@@ -472,6 +490,7 @@ namespace MetroFramework.Demo
             // metroTile7
             // 
             this.metroTile7.ActiveControl = null;
+            this.metroTile7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile7.Location = new System.Drawing.Point(342, 251);
             this.metroTile7.Name = "metroTile7";
             this.metroTile7.Size = new System.Drawing.Size(220, 108);
@@ -486,6 +505,7 @@ namespace MetroFramework.Demo
             // metroTile6
             // 
             this.metroTile6.ActiveControl = null;
+            this.metroTile6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile6.Location = new System.Drawing.Point(105, 251);
             this.metroTile6.Name = "metroTile6";
             this.metroTile6.Size = new System.Drawing.Size(231, 108);
@@ -500,6 +520,7 @@ namespace MetroFramework.Demo
             // metroTile3
             // 
             this.metroTile3.ActiveControl = null;
+            this.metroTile3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile3.Location = new System.Drawing.Point(568, 137);
             this.metroTile3.Name = "metroTile3";
             this.metroTile3.Size = new System.Drawing.Size(225, 109);
@@ -514,6 +535,7 @@ namespace MetroFramework.Demo
             // metroTile5
             // 
             this.metroTile5.ActiveControl = null;
+            this.metroTile5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile5.Location = new System.Drawing.Point(342, 136);
             this.metroTile5.Name = "metroTile5";
             this.metroTile5.Size = new System.Drawing.Size(220, 109);
@@ -529,9 +551,10 @@ namespace MetroFramework.Demo
             // metroTile4
             // 
             this.metroTile4.ActiveControl = null;
-            this.metroTile4.Location = new System.Drawing.Point(568, 26);
+            this.metroTile4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroTile4.Location = new System.Drawing.Point(568, 22);
             this.metroTile4.Name = "metroTile4";
-            this.metroTile4.Size = new System.Drawing.Size(225, 104);
+            this.metroTile4.Size = new System.Drawing.Size(225, 108);
             this.metroTile4.Style = MetroFramework.MetroColorStyle.Brown;
             this.metroTile4.TabIndex = 6;
             this.metroTile4.Text = "Change User role";
@@ -544,6 +567,7 @@ namespace MetroFramework.Demo
             // metroTile2
             // 
             this.metroTile2.ActiveControl = null;
+            this.metroTile2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.metroTile2.Location = new System.Drawing.Point(105, 137);
             this.metroTile2.Name = "metroTile2";
             this.metroTile2.Size = new System.Drawing.Size(231, 108);
@@ -559,9 +583,10 @@ namespace MetroFramework.Demo
             // metroTile1
             // 
             this.metroTile1.ActiveControl = null;
-            this.metroTile1.Location = new System.Drawing.Point(342, 26);
+            this.metroTile1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroTile1.Location = new System.Drawing.Point(342, 22);
             this.metroTile1.Name = "metroTile1";
-            this.metroTile1.Size = new System.Drawing.Size(220, 104);
+            this.metroTile1.Size = new System.Drawing.Size(220, 108);
             this.metroTile1.Style = MetroFramework.MetroColorStyle.Lime;
             this.metroTile1.TabIndex = 3;
             this.metroTile1.Text = "Change Login Credentials";
@@ -578,9 +603,9 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-1347, 26);
+            this.tile1.Location = new System.Drawing.Point(-1710, 26);
             this.tile1.Name = "tile1";
-            this.tile1.Size = new System.Drawing.Size(231, 0);
+            this.tile1.Size = new System.Drawing.Size(231, 342);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
@@ -772,6 +797,7 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label2;
         private Controls.MetroButton turn_on_button;
         private Controls.MetroButton stop_button_1;
+        private Controls.MetroTile metroTile9;
         
      
 

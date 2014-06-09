@@ -15,6 +15,7 @@ using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Views;
 using MetroFramework.Demo.Threads;
 using MetroFramework.Demo.Entitities;
+using MetroFramework.Demo.Interfaces;
 
 namespace MetroFramework.Demo
 {
@@ -27,10 +28,66 @@ namespace MetroFramework.Demo
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
 
+        public static String THEMECOLOR = null;
+        public static bool REMOVE_LOGIN_COMPONENT;
+        public void InterpretSettings(String[] settings)
+        {
+            try
+            {
+                if (settings.Length > 0)
+                {
+                    THEMECOLOR = settings[0];
+                    if (settings[1].Equals("yes"))
+                    {
+                        REMOVE_LOGIN_COMPONENT = true;
+                    }
+                    else
+                    {
+                        REMOVE_LOGIN_COMPONENT = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "\n\nERROR form InterpretSettings MainWindow");
+            }
+        }
+        public String[] GetSettingsList(String settings_from_file)
+        {
+            String[] settings = null;
+            try
+            {
+                Debug.WriteLine("String from File=" + settings_from_file);
+                if (settings_from_file != null)
+                {
+                    settings = settings_from_file.Split(',');
+                    return settings;
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "\n\nERROR from getSettingsList method MainWindow class");
+            }
+            return null;
+        }
         public MainWindow()
         {
             InitializeComponent();
+            if (THEMECOLOR != null)
+            {
+                if (THEMECOLOR.Equals("Light"))
+                {
+                    this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Light;
+                }
+                else if (THEMECOLOR.Equals("Dark"))
+                {
+                    this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
+                }
+            }
+            FileFactory file_factory = new FileFactory();
+            FileInterface text_file = file_factory.GetFile("TEXTFILE");
+            this.InterpretSettings(this.GetSettingsList(text_file.readFromFile(@"dashBoard.txt")));
 
             Singleton.MAIN_WINDOW = this;
 
@@ -426,8 +483,7 @@ namespace MetroFramework.Demo
 
         private void metroTile5_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("kasoma.......");
-            DashBoard dashBoard = new DashBoard();
+            DashBoardDialog dashBoard = new DashBoardDialog();
             dashBoard.Visible = true;
             dashBoard.Show();
             
@@ -444,6 +500,12 @@ namespace MetroFramework.Demo
             Singleton.ClearDataStores();
             ThreadManager.ReleaseAllThreadResources();
             StartLiveFootageThreads();
+        }
+
+        private void metroTile9_Click(object sender, EventArgs e)
+        {
+            AddNewUserForm form = new AddNewUserForm();
+            form.ShowDialog(null);
         }
 
 
