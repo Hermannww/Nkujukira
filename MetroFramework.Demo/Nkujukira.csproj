@@ -125,6 +125,7 @@
     <Reference Include="CSCore">
       <HintPath>..\..\..\..\Desktop\New folder\Nkujukira\MetroFramework.Demo\bin\Debug\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=11.8.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL" />
     <Reference Include="Emgu.CV, Version=2.2.1.1150, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\nkujukira\nkujukira\bin\Debug\Emgu.CV.dll</HintPath>

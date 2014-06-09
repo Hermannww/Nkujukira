@@ -512,8 +512,13 @@ namespace MetroFramework.Demo
 
         private void metroTile7_Click(object sender, EventArgs e)
         {
-            PerpetratorsListDialog form = new PerpetratorsListDialog();
-            form.ShowDialog(null);
+            try {
+                PerpetratorsListDialog form = new PerpetratorsListDialog();
+                form.ShowDialog(null);
+            }catch(Exception ex){
+                Debug.WriteLine(ex.Message);
+            }
+            
 
         }
 
