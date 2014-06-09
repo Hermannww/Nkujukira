@@ -32,9 +32,6 @@ namespace MetroFramework.Demo.Views
             object[] rows = null;
             dataGridViewX1.ColumnCount = 6;
             dataGridViewX1.ColumnHeadersVisible = true;
-            //DataTable dt = new System.Data.DataTable();
-            //BindingSource bs = new BindingSource();
-            // Set the column header style.
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
 
             columnHeaderStyle.BackColor = Color.Beige;
@@ -66,20 +63,52 @@ namespace MetroFramework.Demo.Views
                 }
                 if (perpetrators_list != null)
                 {
-                    
+
                     foreach (string[] rowArray in rows)
                     {
                         dataGridViewX1.Rows.Add(rowArray);
-                        //dt.Rows.Add(rowArray);
-                        
+
                     }
-                   // bs.DataSource = dt;
-                    //dataGridViewX1.DataSource = bs;
                 }
             }
         }
 
-        private void metroButton1_Click(object sender, EventArgs e)
+        private void metroButton3_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Deleting perpetrator");
+            try
+            {
+                DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected Perpetrator", "CONFIRMATION", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (response == DialogResult.Yes)
+                {
+                    int selected_row = dataGridViewX1.CurrentRow.Index;
+                    int id = Convert.ToInt32(dataGridViewX1[0, selected_row].Value);
+                    bool perpetrator_deleted = PerpetratorsManager.Delete(id);
+                    if (perpetrator_deleted)
+                    {
+                        MetroMessageBox.Show(this, "Perpetrator Deleted Successfully", "CONGRATULATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dataGridViewX1.Rows.RemoveAt(selected_row);
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Unknown Error Occured while deleting. Please try again", "ERROR");
+                    }
+                }
+                else if (response == DialogResult.No)
+                {
+                   
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "");
+            }
+        }
+
+        private void metroButton2_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Displaying details NOW");
             try
@@ -101,28 +130,7 @@ namespace MetroFramework.Demo.Views
 
         }
 
-        private void metroButton3_Click(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Deleting perpetrator");
-            try {
-                int Row = dataGridViewX1.CurrentRow.Index;
-                int id = Convert.ToInt32(dataGridViewX1[0, Row].Value);
-                bool perpetrator_deleted=PerpetratorsManager.Delete(id);
-                if (perpetrator_deleted)
-                {
-                    MetroMessageBox.Show(this, "Perpetrator Deleted Successfully", "CONGRATULATIONS");
-                    
-                    this.DrawTable(PerpetratorsManager.GetAllPerpetrators());
-                }
-                else {
-                    MetroMessageBox.Show(this, "Unknown Error Occured while deleting. Please try again", "ERROR");
-                }
-            }catch(Exception ex){
-                Debug.WriteLine(ex.Message+"");
-            }
-        }
-
-        private void metroButton2_Click(object sender, EventArgs e)
+        private void metroButton1_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Displaying details NOW");
             try
