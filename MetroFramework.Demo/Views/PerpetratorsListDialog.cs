@@ -32,8 +32,8 @@ namespace MetroFramework.Demo.Views
             object[] rows = null;
             dataGridViewX1.ColumnCount = 6;
             dataGridViewX1.ColumnHeadersVisible = true;
-            DataTable dt = new System.Data.DataTable();
-            BindingSource bs = new BindingSource();
+            //DataTable dt = new System.Data.DataTable();
+            //BindingSource bs = new BindingSource();
             // Set the column header style.
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
 
@@ -69,12 +69,12 @@ namespace MetroFramework.Demo.Views
                     
                     foreach (string[] rowArray in rows)
                     {
-                        //dataGridViewX1.Rows.Add(rowArray);
-                        dt.Rows.Add(rowArray);
+                        dataGridViewX1.Rows.Add(rowArray);
+                        //dt.Rows.Add(rowArray);
                         
                     }
-                    bs.DataSource = dt;
-                    dataGridViewX1.DataSource = bs;
+                   // bs.DataSource = dt;
+                    //dataGridViewX1.DataSource = bs;
                 }
             }
         }
@@ -120,6 +120,28 @@ namespace MetroFramework.Demo.Views
             }catch(Exception ex){
                 Debug.WriteLine(ex.Message+"");
             }
+        }
+
+        private void metroButton2_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Displaying details NOW");
+            try
+            {
+                int Row = dataGridViewX1.CurrentRow.Index;
+                int id = Convert.ToInt32(dataGridViewX1[0, Row].Value);
+                String name = Convert.ToString(dataGridViewX1[1, Row].Value);
+                bool is_a_student = Convert.ToBoolean(dataGridViewX1[2, Row].Value);
+                bool is_active = Convert.ToBoolean(dataGridViewX1[3, Row].Value);
+                String gender = Convert.ToString(dataGridViewX1[4, Row].Value);
+                String created_at = Convert.ToString(dataGridViewX1[5, Row].Value);
+                PerpetratorDetailsForm form = new PerpetratorDetailsForm(new Perpetrator(id, name, PerpetratorsManager.GetPerpetratorFaces(id), is_a_student, is_active, gender, created_at), true);
+                form.Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
         }
 
     }
