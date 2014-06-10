@@ -29,6 +29,7 @@ namespace MetroFramework.Demo.Managers
             {
                 StartNewThread(ThreadFactory.CAMERA_THREAD,review_mode);
                 StartNewThread(ThreadFactory.LIVE_FACE_DETECTOR, review_mode);
+                StartNewThread(ThreadFactory.FOOTAGE_SAVER, review_mode);
             }
 
             StartNewThread(ThreadFactory.DISPLAY_UPDATER,review_mode);

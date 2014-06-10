@@ -125,7 +125,9 @@
     <Reference Include="CSCore">
       <HintPath>..\..\..\..\Desktop\New folder\Nkujukira\MetroFramework.Demo\bin\Debug\CSCore.dll</HintPath>
     </Reference>
-    <Reference Include="DevComponents.DotNetBar2, Version=11.8.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL" />
+    <Reference Include="DevComponents.DotNetBar2, Version=11.8.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Downloads\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV, Version=2.2.1.1150, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\nkujukira\nkujukira\bin\Debug\Emgu.CV.dll</HintPath>
@@ -188,8 +190,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStores\TextFile.cs" />
-    <Compile Include="DataStores\XMLFile.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
     <Compile Include="Entitities\StolenItem.cs" />

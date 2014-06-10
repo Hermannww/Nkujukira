@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
@@ -11,42 +12,36 @@ namespace MetroFramework.Demo.Threads
 {
     class FootageSavingThread : AbstractThread
     {
-        private const double SAVING_INTERVAL       = 60 * 60 * 1000;
+        private const double SAVING_INTERVAL = 60 * 60 * 1000;
 
-        private static String FILE_NAME            = GetCurrentTimeAndDate()+"avi";
-        private static String PATH_TO_FOLDER       = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ours\";
-        private static String PATH_TO_SAVED_FILES  = Path.Combine(PATH_TO_FOLDER, FILE_NAME);
-        private VideoWriter video_writer           = null;
-        private Capture video_capture              = null;
-        private Image<Bgr, byte> frame             = null;
-        private Timer timer                        = null;
-        
+        private static String FILE_NAME = GetSystemTimeAndDate() + "avi";
+        private static String PATH_TO_FOLDER = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ours\";
+        private static String PATH_TO_SAVED_FILES = Path.Combine(PATH_TO_FOLDER, FILE_NAME);
+        private VideoWriter video_writer = null;
+        private Capture video_capture = null;
+        private Image<Bgr, byte> frame = null;
+        private Timer timer = null;
 
-        public FootageSavingThread(Capture video_capture):base()
+
+        public FootageSavingThread(Capture video_capture)
+            : base()
         {
+            this.video_capture = video_capture;
+
             //CREATE FOLDER IF IT DOESNT EXIST
             FileManager.CreateFolderIfMissing(PATH_TO_FOLDER);
 
-            //INITIALIZE WRITER
-            video_writer       = new VideoWriter(PATH_TO_SAVED_FILES,
-                (int)video_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FOURCC),
-                (int)video_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS),
-                Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width,
-                Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height,
-                true);
+            ChangeFileName();
 
-            this.video_capture = video_capture;
+            InitilaizeWriter();
 
-            //set timer to fire once every hour
-            timer              = new Timer(SAVING_INTERVAL);
+            InitilaizeTimer();
 
-            //handle the time elapsed event
-            timer.Elapsed += new ElapsedEventHandler(TimerElapsed);
 
         }
 
         //when the timer interval elapses
-        public void TimerElapsed(object obj, ElapsedEventArgs ex) 
+        public void TimerElapsed(object obj, ElapsedEventArgs ex)
         {
             //pause this thread
             Pause();
@@ -54,29 +49,44 @@ namespace MetroFramework.Demo.Threads
             //change the file name
             ChangeFileName();
 
+            InitilaizeWriter();
+
             //resume the thread
             Resume();
+        }
+
+        //INITILAIZES THE TIMER
+        private void InitilaizeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = SAVING_INTERVAL;
+            timer.Elapsed += new ElapsedEventHandler(TimerElapsed);
+        }
+
+
+        //INITIALIZES THE VIDEO WRITER
+        public void InitilaizeWriter()
+        {
+
+            video_writer = new VideoWriter(PATH_TO_SAVED_FILES,
+                    (int)video_capture.GetCaptureProperty(CAP_PROP.CV_CAP_PROP_FOURCC),
+                    (int)5,
+                    Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width,
+                    Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height,
+                    true);
         }
 
         private void ChangeFileName()
         {
             //change the filename to reflect the time and day
-            FILE_NAME           = GetCurrentTimeAndDate() + "avi";
-            PATH_TO_SAVED_FILES = Path.Combine(PATH_TO_FOLDER, FILE_NAME);
+            FILE_NAME = GetSystemTimeAndDate() + ".avi";
+            PATH_TO_SAVED_FILES = PATH_TO_FOLDER + FILE_NAME;
 
-            //re initialize the writer
-            video_writer        = new VideoWriter(PATH_TO_SAVED_FILES,
-                (int)video_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FOURCC),
-                (int)video_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS),
-                Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width,
-                Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height,
-                true);
         }
 
         public override void DoWork(object sender, DoWorkEventArgs e)
         {
             //Enalble and start the timer
-            timer.Enabled = true;
             timer.Start();
 
             while (running)
@@ -99,11 +109,13 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
-        public static String GetCurrentTimeAndDate() 
+        //GETS THE SYSTEM DATE AND TIME
+        private static string GetSystemTimeAndDate()
         {
-            //get the current system time and date
-            return DateTime.Now.ToString("HH:mm:ss dd-MM-yyyy");
+
+            return DateTime.Now.ToShortTimeString().Replace(':', '_').Replace(' ', '_') + " " + DateTime.Now.ToShortDateString().Replace('/', '_');
         }
+
 
     }
 }

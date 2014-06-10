@@ -11,15 +11,15 @@ namespace MetroFramework.Demo.Threads
     public class CameraOutputGrabberThread : AbstractThread
     {
 
-        private Capture camera_capture;
+        public static Capture camera_capture;
         private Image<Bgr, byte> current_frame;
-        public static bool WORK_DONE=false;
+        public static bool WORK_DONE = false;
 
         public CameraOutputGrabberThread()
             : base()
         {
-            this.camera_capture = new Capture();
-            WORK_DONE           = false;
+            camera_capture = new Capture();
+            WORK_DONE = false;
 
         }
 
@@ -49,12 +49,15 @@ namespace MetroFramework.Demo.Threads
         public bool AddNextFrameToQueueForProcessing()
         {
             //get next frame from camera
-            current_frame = FramesManager.GetNextFrame(this.camera_capture);
-            
+            current_frame = FramesManager.GetNextFrame(camera_capture);
+
             if (current_frame != null)
             {
                 //add frame to queue for display
-                Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(),Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width,Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+                Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+
+                //add frame to queue for storage
+                Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
 
                 //resize frame to save on memory and improve performance
                 int width = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
@@ -63,10 +66,9 @@ namespace MetroFramework.Demo.Threads
                 current_frame = FramesManager.ResizeImage(current_frame, width, height);
 
                 //add frame to queue for face detection and recognition
-                Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame);
+                Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
 
-                //add frame to queue for storage
-                Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame);
+
 
                 //return
                 return true;

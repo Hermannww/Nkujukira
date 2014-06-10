@@ -11,18 +11,7 @@ namespace MetroFramework.Demo.Factories
     {
         public FileInterface GetFile(String file_type)
         {
-            if (file_type == null)
-            {
-                return null;
-            }
-            else if (file_type.Equals("TEXTFILE"))
-            {
-                return new TextFile();
-            }
-            else if (file_type.Equals("XMLFILE"))
-            {
-                return new XMLFile();
-            }
+            
             return null;
         }
 
