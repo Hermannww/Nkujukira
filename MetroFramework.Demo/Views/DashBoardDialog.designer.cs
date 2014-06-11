@@ -75,6 +75,7 @@
             this.remove_login_component.UseCustomBackColor = true;
             this.remove_login_component.UseCustomForeColor = true;
             this.remove_login_component.UseSelectable = true;
+            this.remove_login_component.CheckedChanged += new System.EventHandler(this.remove_login_component_CheckedChanged);
             // 
             // label1
             // 

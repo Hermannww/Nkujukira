@@ -83,15 +83,29 @@ namespace MetroFramework.Demo.Views
                 Image<Gray,byte>[] photos = null;
                 Student student = new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, photos);
 
-
-                if (StudentsManager.Save(student))
-                {
-
-                    MetroMessageBox.Show(this, "Student Added Successfully", "CONGRATULATIONS");
+                if(first_name.Length<=0){
+                    MetroMessageBox.Show(this, "Please Enter Your First Name", "ERROR");
+                }else if(last_name.Length<=0){
+                    MetroMessageBox.Show(this, "Please Enter Your Last Name", "ERROR");
+                }else if(student_no.Length<=0){
+                    MetroMessageBox.Show(this, "Please Enter Your Student Number", "ERROR");
+                }else if(reg_no.Length<=0){
+                    MetroMessageBox.Show(this, "Please Enter Your Registration Number", "ERROR");
                 }
-                else
+                else if (course.Length <= 0)
                 {
-                    MetroMessageBox.Show(this, "Operation Not Successfully\n Please try again", "ERROR");
+                }
+                else {
+
+                    if (StudentsManager.Save(student))
+                    {
+
+                        MetroMessageBox.Show(this, "Student Added Successfully", "CONGRATULATIONS");
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Operation Not Successfully\n Please try again", "ERROR");
+                    }
                 }
 
             }

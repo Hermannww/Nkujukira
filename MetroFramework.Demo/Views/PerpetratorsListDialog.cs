@@ -83,20 +83,32 @@ namespace MetroFramework.Demo.Views
                 {
                     int selected_row = dataGridViewX1.CurrentRow.Index;
                     int id = Convert.ToInt32(dataGridViewX1[0, selected_row].Value);
-                    bool perpetrator_deleted = PerpetratorsManager.Delete(id);
-                    if (perpetrator_deleted)
+                    bool victim_deleted = VictimsManager.Delete(CrimesManager.GetCrimeId(id));
+                    if (victim_deleted)
                     {
-                        MetroMessageBox.Show(this, "Perpetrator Deleted Successfully", "CONGRATULATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        dataGridViewX1.Rows.RemoveAt(selected_row);
+                        Debug.WriteLine("Deleting Victims of crime");
+                        bool crime_deleted = CrimesManager.Delete(id);
+                        if (crime_deleted)
+                        {
+                            Debug.WriteLine("Deleting Crimes");
+                            bool perpetrator_deleted = PerpetratorsManager.Delete(id);
+                            if (perpetrator_deleted)
+                            {
+                                MetroMessageBox.Show(this, "Perpetrator Deleted Successfully", "CONGRATULATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                dataGridViewX1.Rows.RemoveAt(selected_row);
+                            }
+                            else
+                            {
+                                MetroMessageBox.Show(this, "Unknown Error Occured while deleting. Please try again", "ERROR");
+                            }
+                        }
                     }
-                    else
-                    {
-                        MetroMessageBox.Show(this, "Unknown Error Occured while deleting. Please try again", "ERROR");
-                    }
+
+
                 }
                 else if (response == DialogResult.No)
                 {
-                   
+
 
                 }
 

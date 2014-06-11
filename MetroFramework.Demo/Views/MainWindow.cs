@@ -27,6 +27,7 @@ namespace MetroFramework.Demo
         private const string MESSAGE_BOX_TITLE           = "Message!!";
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
+        public static bool REMOVE_LOGIN_COMPONENT;
 
        /* public static String THEMECOLOR = null;
         public static bool REMOVE_LOGIN_COMPONENT;
@@ -106,13 +107,6 @@ namespace MetroFramework.Demo
         {
             MetroTaskWindow.ShowTaskWindow(this, "SubControl in TaskWindow", new TaskWindowControl(), 10);
         }
-
-
-        
-
-        
-
-     
 
         //THIS DISPLAYS A DIALOG ALLOWING A USER TO LOAD A VIDEO
         //IT THEN STARTS THREADS TO LOAD AND PROCESS VIDEO FRAME BY FRAME
