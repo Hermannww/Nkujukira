@@ -16,7 +16,7 @@ namespace MetroFramework.Demo
 {
     public partial class AddNewUserForm : MetroForm
     {
-        
+
         public AddNewUserForm()
         {
             InitializeComponent();
@@ -40,37 +40,51 @@ namespace MetroFramework.Demo
 
         private void changeloginCredentials_Click(object sender, EventArgs e)
         {
-           
+
             try
             {
-                if (pass_word.Text.Equals(confirm_password.Text))
+                String username = user_name.Text;
+                String password = pass_word.Text;
+                String type = role.Text;
+                if (username.Length<=0)
                 {
-                    String username = user_name.Text;
-                    String password = pass_word.Text;
-                    String type = role.Text;
-                    if (AdminManager.Exists(username))
-                    {
-                        MetroMessageBox.Show(this, "User Name already Exists. Please try again", "ERROR");
-
-                    }
-                    else
-                    {
-                        Admin new_admin = new Admin(username, password, type);
-                        if (AdminManager.Save(new_admin))
-                        {
-                            MetroMessageBox.Show(this, "New User Created Successfully", "CONGRATULATIONS");
-                        }
-                        else
-                        {
-                            MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
-                        }
-
-                    }
+                    MetroMessageBox.Show(this, "Please Enter your Name", "ERROR");
+                }
+                else if (password.Length<= 0)
+                {
+                    MetroMessageBox.Show(this, "Please Enter Your Password", "ERROR");
                 }
                 else
                 {
-                    MetroMessageBox.Show(this, "Please try to confirm your Password\n Passwords dont Match", "ERROR");
+                    if (pass_word.Text.Equals(confirm_password.Text))
+                    {
+
+                        if (AdminManager.Exists(username))
+                        {
+                            MetroMessageBox.Show(this, "User Name already Exists. Please try again", "ERROR");
+
+                        }
+                        else
+                        {
+                            Admin new_admin = new Admin(username, password, type);
+                            if (AdminManager.Save(new_admin))
+                            {
+                                MetroMessageBox.Show(this, "New User Created Successfully", "CONGRATULATIONS");
+                            }
+                            else
+                            {
+                                MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Please try to confirm your Password\n Passwords dont Match", "ERROR");
+                    }
                 }
+
+
             }
             catch (Exception ex)
             {

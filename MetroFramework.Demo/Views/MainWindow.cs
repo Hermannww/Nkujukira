@@ -27,6 +27,7 @@ namespace MetroFramework.Demo
         private const string MESSAGE_BOX_TITLE           = "Message!!";
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
+        public static bool REMOVE_LOGIN_COMPONENT;
 
         public MainWindow()
         {

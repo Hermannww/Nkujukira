@@ -62,5 +62,17 @@ namespace MetroFramework.Demo.Views
                 MetroMessageBox.Show(this, "Changes not saved\n Please try Again", "ERROR");
             }
         }
+
+        private void remove_login_component_CheckedChanged(object sender, EventArgs e)
+        {
+            if (remove_login_component.Checked)
+            {
+                MainWindow.REMOVE_LOGIN_COMPONENT = true;
+            }
+            else 
+            {
+                MainWindow.REMOVE_LOGIN_COMPONENT = false;
+            }
+        }
     }
 }

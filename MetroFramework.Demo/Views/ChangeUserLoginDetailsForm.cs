@@ -41,26 +41,41 @@ namespace MetroFramework.Demo
         {
             try
             {
-                if (this.new_pass_word.Text.Equals(this.confirm_new_pass_word.Text))
+                Admin admin = Singletons.Singleton.ADMIN;
+                admin.password = new_pass_word.Text;
+                admin.user_name = new_user_name.Text;
+                if (admin.user_name.Length <= 0)
                 {
-                    Admin admin = Singletons.Singleton.ADMIN;
-                    admin.password = new_pass_word.Text;
-                    admin.user_name = new_user_name.Text;
-                    if (AdminManager.Update(admin))
-                    {
-                        MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
-                        //this.Hide();
-                        //this.Dispose();
-                    }
-                    else
-                    {
-                        MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
-                    }
+                    MetroMessageBox.Show(this, "Please Enter Your User Name", "ERROR");
+
+                }
+                else if (admin.password.Length <= 0)
+                {
+                    MetroMessageBox.Show(this, "Please Enter Your PassWord", "ERROR");
+                    
                 }
                 else
                 {
-                    MetroMessageBox.Show(this, "Please try to confirm your new Password\n They dont Match", "ERROR");
+                    if (this.new_pass_word.Text.Equals(this.confirm_new_pass_word.Text))
+                    {
+
+                        if (AdminManager.Update(admin))
+                        {
+                            MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
+                            //this.Hide();
+                            //this.Dispose();
+                        }
+                        else
+                        {
+                            MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                        }
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Please try to confirm your new Password\n They dont Match", "ERROR");
+                    }
                 }
+
             }
             catch (Exception ex)
             {

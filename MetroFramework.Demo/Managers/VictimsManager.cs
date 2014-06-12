@@ -6,36 +6,36 @@ using System.Diagnostics;
 
 namespace MetroFramework.Demo.Managers
 {
-    class VictimsManager :Manager
+    class VictimsManager : Manager
     {
-        public static int VICTIM_ID               = 0;
-        private static string TABLE_NAME          = "VICTIMS";
-        private const int ID                      = 0;
-        private const int NAME                    = 1;
-        private const int DOB                     = 2;
-        private const int GENDER                  = 3;
-        private const int IS_A_STUDENT            = 4;
-        private const int CRIME_ID                = 5;
-        private const int ITEMS_STOLEN            = 2;
-        private const int NAME_OF_ITEM            = 1;
-        private const int VICTIMS_ID              = 2;
+        public static int VICTIM_ID = 0;
+        private static string TABLE_NAME = "VICTIMS";
+        private const int ID = 0;
+        private const int NAME = 1;
+        private const int DOB = 2;
+        private const int GENDER = 3;
+        private const int IS_A_STUDENT = 4;
+        private const int CRIME_ID = 5;
+        private const int ITEMS_STOLEN = 2;
+        private const int NAME_OF_ITEM = 1;
+        private const int VICTIMS_ID = 2;
 
         public static void CreateTable()
         {
             try
             {
-                String create_sql                 = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),IS_A_STUDENT VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = create_sql;
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),IS_A_STUDENT VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
 
                 //create items stolen table
-                create_sql                        = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = create_sql;
+                create_sql = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -49,10 +49,10 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String drop_sql                   = "DROP TABLE IF EXISTS " + TABLE_NAME;
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = drop_sql;
+                String drop_sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
             }
@@ -74,32 +74,32 @@ namespace MetroFramework.Demo.Managers
             try
             {
                 //select sql
-                String select_sql                 = "SELECT * FROM " + TABLE_NAME;
+                String select_sql = "SELECT * FROM " + TABLE_NAME;
 
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = select_sql;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = select_sql;
                 sql_command.Prepare();
 
                 //get results in enum object
-                data_reader                       = database.Select(sql_command);
+                data_reader = database.Select(sql_command);
 
-                List<Victim> victims              = new List<Victim>();
+                List<Victim> victims = new List<Victim>();
 
                 //loop thru em 
                 while (data_reader.Read())
                 {
                     //create new student
 
-                    int id                        = data_reader.GetInt32(ID);
-                    String name                   = data_reader.GetString(NAME);
-                    StolenItem[] items_stolen     = GetItemsStolen(data_reader.GetString(ITEMS_STOLEN));
-                    bool is_a_student             = data_reader.GetBoolean(IS_A_STUDENT);
-                    String gender                 = data_reader.GetString(GENDER);
-                    String d_o_b                  = data_reader.GetString(DOB);
-                    int crime_id                  = data_reader.GetInt32(CRIME_ID);
+                    int id = data_reader.GetInt32(ID);
+                    String name = data_reader.GetString(NAME);
+                    StolenItem[] items_stolen = GetItemsStolen(data_reader.GetString(ITEMS_STOLEN));
+                    bool is_a_student = data_reader.GetBoolean(IS_A_STUDENT);
+                    String gender = data_reader.GetString(GENDER);
+                    String d_o_b = data_reader.GetString(DOB);
+                    int crime_id = data_reader.GetInt32(CRIME_ID);
 
-                    Victim victim                 = new Victim(id,name, d_o_b, items_stolen, gender, is_a_student, crime_id);
+                    Victim victim = new Victim(id, name, d_o_b, items_stolen, gender, is_a_student, crime_id);
 
                     //add student to list
                     victims.Add(victim);
@@ -121,38 +121,38 @@ namespace MetroFramework.Demo.Managers
             return null;
         }
 
-        public Victim GetVictim(int id) 
+        public Victim GetVictim(int id)
         {
             try
             {
                 //select sql
-                String select_sql                 = "SELECT * FROM " + TABLE_NAME + "WHERE ID=@id";
+                String select_sql = "SELECT * FROM " + TABLE_NAME + "WHERE ID=@id";
 
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = select_sql;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = select_sql;
                 sql_command.Parameters.AddWithValue("@id", id);
                 sql_command.Prepare();
-               
+
 
                 //get results in enum object
-                data_reader                       = database.Select(sql_command);
+                data_reader = database.Select(sql_command);
 
-               
+
 
                 //loop thru em 
                 if (data_reader.Read())
                 {
                     //create new victim
 
-                    String name                   = data_reader.GetString(NAME);
-                    StolenItem[] items_stolen     = GetItemsStolen(data_reader.GetString(ITEMS_STOLEN));
-                    bool is_a_student             = data_reader.GetBoolean(IS_A_STUDENT);
-                    String gender                 = data_reader.GetString(GENDER);
-                    String d_o_b                  = data_reader.GetString(DOB);
-                    int crime_id                  = data_reader.GetInt32(CRIME_ID);
+                    String name = data_reader.GetString(NAME);
+                    StolenItem[] items_stolen = GetItemsStolen(data_reader.GetString(ITEMS_STOLEN));
+                    bool is_a_student = data_reader.GetBoolean(IS_A_STUDENT);
+                    String gender = data_reader.GetString(GENDER);
+                    String d_o_b = data_reader.GetString(DOB);
+                    int crime_id = data_reader.GetInt32(CRIME_ID);
 
-                    Victim victim                 = new Victim(id,name, d_o_b, items_stolen, gender, is_a_student, crime_id);
+                    Victim victim = new Victim(id, name, d_o_b, items_stolen, gender, is_a_student, crime_id);
 
                     return victim;
                 }
@@ -180,16 +180,16 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String insert_sql                 = "INSERT INTO VICTIMS (NAME,DATE_OF_BIRTH,IS_A_STUDENT,GENDER,CRIME_ID) VALUES(@name,@dob,@is_student,@gender,@crime_id)";
+                String insert_sql = "INSERT INTO VICTIMS (NAME,DATE_OF_BIRTH,IS_A_STUDENT,GENDER,CRIME_ID) VALUES(@name,@dob,@is_student,@gender,@crime_id)";
 
                 //Sql command
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = insert_sql;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = insert_sql;
 
                 sql_command.Parameters.AddWithValue("@name", victim.name);
                 sql_command.Parameters.AddWithValue("@dob", victim.date_of_birth);
-                sql_command.Parameters.AddWithValue("@is_student", ""+victim.is_a_student);
+                sql_command.Parameters.AddWithValue("@is_student", "" + victim.is_a_student);
                 sql_command.Parameters.AddWithValue("@gender", victim.gender);
                 sql_command.Parameters.AddWithValue("@crime_id", victim.crime_id);
                 sql_command.Prepare();
@@ -200,7 +200,7 @@ namespace MetroFramework.Demo.Managers
 
                 return true;
             }
-            finally 
+            finally
             {
                 database.CloseConnection();
             }
@@ -210,12 +210,12 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String update_sql                 = "UPDATE " + TABLE_NAME + " SET NAME=@name ,DOB=@dob,IS_A_STUDENT=@student,GENDER=@gender,CRIME_ID=@crime_id WHERE ID=@id";
+                String update_sql = "UPDATE " + TABLE_NAME + " SET NAME=@name ,DOB=@dob,IS_A_STUDENT=@student,GENDER=@gender,CRIME_ID=@crime_id WHERE ID=@id";
 
                 //Sql command
-                sql_command                       = new MySqlCommand();
-                sql_command.Connection            = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText           = update_sql;
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = update_sql;
 
                 sql_command.Parameters.AddWithValue("@id", victim.id);
                 sql_command.Parameters.AddWithValue("@name", victim.name);
@@ -233,11 +233,11 @@ namespace MetroFramework.Demo.Managers
                 foreach (var stolen_item in victim.items_stolen)
                 {
                     //sql statement
-                    update_sql                    = "UPDATE ITEMS_STOLEN SET NAME=@item_name WHERE ID=@id";
+                    update_sql = "UPDATE ITEMS_STOLEN SET NAME=@item_name WHERE ID=@id";
 
                     //Sql command
-                    sql_command                   = new MySqlCommand();
-                    sql_command.CommandText       = update_sql;
+                    sql_command = new MySqlCommand();
+                    sql_command.CommandText = update_sql;
 
                     sql_command.Parameters.AddWithValue("@id", stolen_item.id);
                     sql_command.Parameters.AddWithValue("@name", stolen_item.name_of_item);
@@ -249,10 +249,37 @@ namespace MetroFramework.Demo.Managers
                 }
                 return true;
             }
-            finally 
+            finally
             {
                 database.CloseConnection();
             }
+        }
+        public static bool Delete(int crime_id)
+        {
+            try
+            {
+                String delete_sql = "DELETE FROM " + TABLE_NAME + " WHERE CRIME_ID=@id";
+                //Sql command
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = delete_sql;
+                sql_command.Parameters.AddWithValue("@id", crime_id);
+                sql_command.Prepare();
+
+                //execute command
+                database.Update(sql_command);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message + "ERROR form Delete Method VictimsManager");
+            }
+            finally
+            {
+                data_reader.Close();
+                database.CloseConnection();
+            }
+            return false;
         }
     }
 }
