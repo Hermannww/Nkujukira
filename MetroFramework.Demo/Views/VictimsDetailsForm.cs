@@ -171,7 +171,7 @@ namespace MetroFramework.Demo.Views
                     foreach (var face in perpetrator.faces) 
                     {
                         Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
-                        FaceRecognitionThread face_recognizer = new PerpetratorRecognitionThread(face);
+                        StudentRecognitionThread face_recognizer = new StudentRecognitionThread(face);
                         face_recognizer.StartWorking();
                     }
                 }

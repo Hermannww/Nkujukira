@@ -21,23 +21,13 @@ namespace MetroFramework.Demo
             //initialize forms
             LoginForm login_form   = new LoginForm();
             MainWindow main_window = new MainWindow();
-            /*Debug.WriteLine("\n\n Login component =" + MainWindow.REMOVE_LOGIN_COMPONENT);
-            if (MainWindow.REMOVE_LOGIN_COMPONENT == true)
-            {
-                login_is_enabled = true;
 
-            }
-            else
-            {
-                login_is_enabled = false;
-            }*/
-            //disable splash screen
-
-            if (login_is_enabled==true)
+            if (login_is_enabled)
             {
                 //run the login form 
                Application.Run(login_form);
             }
+
             //if user has been validated then show main window
             Application.Run(main_window);
             

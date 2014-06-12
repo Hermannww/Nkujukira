@@ -19,53 +19,16 @@ namespace MetroFramework.Demo
 {
     public partial class LoginForm : MetroForm
     {
-        public const int SC_CLOSE = 61536;
-        public const int WM_SYSCOMMAND = 274;
-        public bool close = false;
-        /// <summary>
-        /// to be used by splash screen
-        /// 
-        /// </summary>
-
-        private bool m_bLayoutCalled = false;
-        //private System.ComponentModel.IContainer components;
-        private DateTime m_dt;
+        Admin admin;
         private bool is_admin=false;
-        MainWindow main_window = new MainWindow();
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// 
+        
+       
 
         public LoginForm()
         {
             InitializeComponent();
             this.Style = MetroColorStyle.Red;
-            label4.Visible = false;
-            //this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Login_FormCosed);
-        }
-
-        private void Login_FormCosed(object sender, FormClosedEventArgs e)
-        {
-            try
-            {
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-        }
-        private void user_name_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Login_Load(object sender, EventArgs e)
-        {
-
+            label4.Visible = false;    
         }
 
         private void user_login_Click(object sender, EventArgs e)
@@ -91,7 +54,7 @@ namespace MetroFramework.Demo
             }
 
             //if user is an admin
-            Admin admin=AdminManager.GetAdmin(username, password);
+            admin=AdminManager.GetAdmin(username, password);
 
             if (admin != null)
             {
@@ -154,8 +117,8 @@ namespace MetroFramework.Demo
                 
                 //log admin
                 label4.Text     = "Welcome!! you are Authorised User.";
-             
-               
+
+                Singletons.Singleton.ADMIN = admin;
                 this.Close();
             }
 

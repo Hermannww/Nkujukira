@@ -21,16 +21,7 @@ namespace MetroFramework.Demo
             base.Dispose(disposing);
         }
 
-        private void TestSplashScreen_Layout(object sender, System.Windows.Forms.LayoutEventArgs e)
-        {
-            if (m_bLayoutCalled == false)
-            {
-                m_bLayoutCalled = true;
-                m_dt = DateTime.Now;
-                this.Activate();
-                SplashScreen.CloseForm();
-            }
-        }
+       
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -185,8 +176,6 @@ namespace MetroFramework.Demo
             this.Text = "Login";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.Load += new System.EventHandler(this.Login_Load);
-            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.TestSplashScreen_Layout);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

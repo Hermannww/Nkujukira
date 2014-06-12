@@ -33,6 +33,12 @@ namespace MetroFramework.Demo
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.live_stream_recognition_panel = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.turn_on_button = new MetroFramework.Controls.MetroButton();
+            this.stop_button_1 = new MetroFramework.Controls.MetroButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox7 = new Emgu.CV.UI.ImageBox();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
@@ -42,9 +48,6 @@ namespace MetroFramework.Demo
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.show_detected_faces = new MetroFramework.Controls.MetroCheckBox();
-            this.turn_on_button = new MetroFramework.Controls.MetroButton();
-            this.stop_button_1 = new MetroFramework.Controls.MetroButton();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.total_time_label = new System.Windows.Forms.Label();
             this.time_elapsed_label = new System.Windows.Forms.Label();
@@ -79,9 +82,12 @@ namespace MetroFramework.Demo
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.metroToolTip = new MetroFramework.Components.MetroToolTip();
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
+            this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.live_stream_recognition_panel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
@@ -93,7 +99,6 @@ namespace MetroFramework.Demo
             this.metroTabPage11.SuspendLayout();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
-            //this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -106,7 +111,10 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 2;
+            this.metroTabControl1.SelectedIndex = 0;
+            //add an event handler to the selection changed event
+    
+            metroTabControl1.SelectedIndexChanged += new System.EventHandler(metroTabControl1_SelectedIndexChanged);
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -114,10 +122,8 @@ namespace MetroFramework.Demo
             // metroTabPage1
             // 
             this.metroTabPage1.AutoScroll = true;
+            this.metroTabPage1.Controls.Add(this.panel2);
             this.metroTabPage1.Controls.Add(this.panel1);
-            this.metroTabPage1.Controls.Add(this.show_detected_faces);
-            this.metroTabPage1.Controls.Add(this.turn_on_button);
-            this.metroTabPage1.Controls.Add(this.stop_button_1);
             this.metroTabPage1.HorizontalScrollbar = true;
             this.metroTabPage1.HorizontalScrollbarBarColor = true;
             this.metroTabPage1.HorizontalScrollbarHighlightOnWheel = false;
@@ -132,6 +138,73 @@ namespace MetroFramework.Demo
             this.metroTabPage1.VerticalScrollbarBarColor = true;
             this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
+            // 
+            // panel2
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.panel2, true);
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.live_stream_recognition_panel);
+            this.panel2.Controls.Add(this.turn_on_button);
+            this.panel2.Controls.Add(this.stop_button_1);
+            this.panel2.Location = new System.Drawing.Point(553, 4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(362, 393);
+            this.panel2.TabIndex = 12;
+            // 
+            // live_stream_recognition_panel
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.live_stream_recognition_panel, true);
+            this.live_stream_recognition_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.live_stream_recognition_panel.Controls.Add(this.label8);
+            this.live_stream_recognition_panel.Controls.Add(this.label6);
+            this.live_stream_recognition_panel.Location = new System.Drawing.Point(13, 64);
+            this.live_stream_recognition_panel.Name = "live_stream_recognition_panel";
+            this.live_stream_recognition_panel.Size = new System.Drawing.Size(340, 319);
+            this.live_stream_recognition_panel.TabIndex = 27;
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Location = new System.Drawing.Point(-2, 28);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(335, 2);
+            this.label8.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label6, true);
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(68, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(212, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "FACE RECOGNITION PROGRESS";
+            // 
+            // turn_on_button
+            // 
+            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.turn_on_button.Location = new System.Drawing.Point(13, 7);
+            this.turn_on_button.Name = "turn_on_button";
+            this.turn_on_button.Size = new System.Drawing.Size(178, 44);
+            this.turn_on_button.TabIndex = 25;
+            this.turn_on_button.Text = "Turn On";
+            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
+            this.turn_on_button.UseSelectable = true;
+            this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
+            // 
+            // stop_button_1
+            // 
+            this.stop_button_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.stop_button_1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.stop_button_1.Location = new System.Drawing.Point(216, 7);
+            this.stop_button_1.Name = "stop_button_1";
+            this.stop_button_1.Size = new System.Drawing.Size(137, 44);
+            this.stop_button_1.TabIndex = 26;
+            this.stop_button_1.Text = "Stop";
+            this.metroToolTip.SetToolTip(this.stop_button_1, "Button Tooltip");
+            this.stop_button_1.UseSelectable = true;
             // 
             // panel1
             // 
@@ -234,43 +307,6 @@ namespace MetroFramework.Demo
             this.label2.TabIndex = 24;
             this.label2.Text = "Camera 1";
             // 
-            // show_detected_faces
-            // 
-            this.show_detected_faces.AutoSize = true;
-            this.show_detected_faces.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.show_detected_faces.Location = new System.Drawing.Point(571, 11);
-            this.show_detected_faces.Name = "show_detected_faces";
-            this.show_detected_faces.Size = new System.Drawing.Size(134, 15);
-            this.show_detected_faces.TabIndex = 10;
-            this.show_detected_faces.Text = "Show Detected Faces";
-            this.metroToolTip.SetToolTip(this.show_detected_faces, "Checkbox Tooltip");
-            this.show_detected_faces.UseSelectable = true;
-            // 
-            // turn_on_button
-            // 
-            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.turn_on_button.Location = new System.Drawing.Point(571, 50);
-            this.turn_on_button.Name = "turn_on_button";
-            this.turn_on_button.Size = new System.Drawing.Size(103, 37);
-            this.turn_on_button.TabIndex = 22;
-            this.turn_on_button.Text = "Turn On";
-            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
-            this.turn_on_button.UseSelectable = true;
-            this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
-            // 
-            // stop_button_1
-            // 
-            this.stop_button_1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.stop_button_1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop_button_1.Location = new System.Drawing.Point(571, 104);
-            this.stop_button_1.Name = "stop_button_1";
-            this.stop_button_1.Size = new System.Drawing.Size(98, 37);
-            this.stop_button_1.TabIndex = 23;
-            this.stop_button_1.Text = "Stop";
-            this.metroToolTip.SetToolTip(this.stop_button_1, "Button Tooltip");
-            this.stop_button_1.UseSelectable = true;
-            // 
             // metroTabPage2
             // 
             this.metroTabPage2.AutoScroll = true;
@@ -347,7 +383,6 @@ namespace MetroFramework.Demo
             this.panel_for_detected_faces.Name = "panel_for_detected_faces";
             this.panel_for_detected_faces.Size = new System.Drawing.Size(349, 338);
             this.panel_for_detected_faces.TabIndex = 22;
-            this.panel_for_detected_faces.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_for_detected_faces_Paint);
             // 
             // label_separator
             // 
@@ -605,9 +640,9 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-1710, 26);
+            this.tile1.Location = new System.Drawing.Point(-2073, 26);
             this.tile1.Name = "tile1";
-            this.tile1.Size = new System.Drawing.Size(231, 342);
+            this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
@@ -679,13 +714,27 @@ namespace MetroFramework.Demo
             // metroStyleManager
             // 
             this.metroStyleManager.Owner = this;
+            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
             // metroToolTip
             // 
             this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroToolTip.StyleManager = null;
             this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // linkLabel_logout
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.linkLabel_logout, true);
+            this.linkLabel_logout.AutoSize = true;
+            this.linkLabel_logout.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel_logout.LinkColor = System.Drawing.Color.Green;
+            this.linkLabel_logout.Location = new System.Drawing.Point(709, 34);
+            this.linkLabel_logout.Name = "linkLabel_logout";
+            this.linkLabel_logout.Size = new System.Drawing.Size(126, 23);
+            this.linkLabel_logout.TabIndex = 17;
+            this.linkLabel_logout.TabStop = true;
+            this.linkLabel_logout.Text = "Admin: Log out";
+            this.linkLabel_logout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // icons_list
             // 
@@ -707,16 +756,20 @@ namespace MetroFramework.Demo
             this.BackImagePadding = new System.Windows.Forms.Padding(210, 10, 0, 0);
             this.BackMaxSize = 50;
             this.ClientSize = new System.Drawing.Size(966, 525);
+            this.Controls.Add(this.linkLabel_logout);
             this.Controls.Add(this.metroTabControl1);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.StyleManager = this.metroStyleManager;
             this.Text = "Nkujukira";
+            this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
-            this.metroTabPage1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.live_stream_recognition_panel.ResumeLayout(false);
+            this.live_stream_recognition_panel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
@@ -732,8 +785,7 @@ namespace MetroFramework.Demo
             this.metroContextMenu1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
             this.ResumeLayout(false);
-            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
-            
+            this.PerformLayout();
 
         }
 
@@ -755,7 +807,6 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private Controls.MetroCheckBox show_detected_faces;
         public static Emgu.CV.UI.ImageBox live_stream_imageBox;
         #endregion
         private Controls.MetroTabPage metroTabPage2;
@@ -798,9 +849,14 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private Controls.MetroTile metroTile9;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel live_stream_recognition_panel;
         private Controls.MetroButton turn_on_button;
         private Controls.MetroButton stop_button_1;
-        private Controls.MetroTile metroTile9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel linkLabel_logout;
         
      
 

@@ -6,8 +6,10 @@ using MetroFramework.Demo.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
 {
@@ -15,6 +17,10 @@ namespace MetroFramework.Demo.Threads
     {
         //all active perpetrators
         private Perpetrator[] perpetrators = null;
+
+        //class variables that handle positioning of above controls
+        private static volatile int x = 15;
+        private static volatile int y = 50;
 
         //global count of all alerts raised
         private static int count=0;
@@ -143,5 +149,71 @@ namespace MetroFramework.Demo.Threads
             //return the perpetrator associated with that id
             return PerpetratorsManager.GetPerpetrator(Convert.ToInt32(id));
         }
+
+        public override void DisplayFaceRecognitionProgress()
+        {
+            {
+                if (known_faces.Count() != 0)
+                {
+
+                    //create picture box for face to be recognized
+                    unknown_face_pictureBox = new PictureBox();
+                    unknown_face_pictureBox.Location = new Point(x, y);
+                    unknown_face_pictureBox.Size = known_faces.ToArray()[0].Size;
+                    unknown_face_pictureBox.BorderStyle = BorderStyle.Fixed3D;
+                    unknown_face_pictureBox.Image = face_to_recognize.ToBitmap();
+
+                    //create picture box for perpetrators
+                    perpetrators_pictureBox = new PictureBox();
+                    perpetrators_pictureBox.Location = new Point(x + 170, y);
+                    perpetrators_pictureBox.Size = known_faces.ToArray()[0].Size;
+                    perpetrators_pictureBox.BorderStyle = BorderStyle.Fixed3D;
+
+                    //create Progress Label
+                    Label progress_label = new Label();
+                    progress_label.Location = new Point(x + 133, y + 50);
+                    progress_label.ForeColor = Color.Green;
+                    progress_label.Text = "0%";
+
+                    //create separator label
+                    Label separator = new Label();
+                    separator.Location = new Point(5, y + 132);
+                    separator.AutoSize = false;
+                    separator.Height = 2;
+                    separator.Width = 335;
+                    separator.BorderStyle = BorderStyle.Fixed3D;
+
+                    //add picture boxes to panel in a thread safe way
+                    Panel panel = (Panel) Singleton.MAIN_WINDOW.GetControl("live_stream_panel");
+                    if (panel.InvokeRequired)
+                    {
+                        Action action = () => panel.Controls.Add(unknown_face_pictureBox);
+                        panel.Invoke(action);
+                        action = () => panel.Controls.Add(perpetrators_pictureBox);
+                        panel.Invoke(action);
+                        action = () => panel.Controls.Add(progress_label);
+                        panel.Invoke(action);
+                        action = () => panel.Controls.Add(separator);
+                        panel.Invoke(action);
+                    }
+                    else
+                    {
+                        panel.Controls.Add(unknown_face_pictureBox);
+                        panel.Controls.Add(perpetrators_pictureBox);
+                        panel.Controls.Add(progress_label);
+                        panel.Controls.Add(separator);
+                    }
+
+                    //create a new progress thread to show face recog progress
+                    FaceRecognitionProgress progress = new FaceRecognitionProgress(this, perpetrators_pictureBox, progress_label);
+                    progress.StartWorking();
+
+
+                    y += 145;
+
+                }
+            }    
+        }
+             
     }
 }

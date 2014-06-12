@@ -112,7 +112,6 @@ namespace MetroFramework.Demo.Threads
         //GETS THE SYSTEM DATE AND TIME
         private static string GetSystemTimeAndDate()
         {
-
             return DateTime.Now.ToShortTimeString().Replace(':', '_').Replace(' ', '_') + " " + DateTime.Now.ToShortDateString().Replace('/', '_');
         }
 
