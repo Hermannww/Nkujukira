@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_getCrimes = new MetroFramework.Controls.MetroButton();
             this.comboBox_gender = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox_is_active = new System.Windows.Forms.TextBox();
-            this.done_button = new MetroFramework.Controls.MetroButton();
+            this.button_save = new MetroFramework.Controls.MetroButton();
             this.comboBox_is_a_student = new System.Windows.Forms.ComboBox();
             this.textBox_perpetrator_name = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.perpetrator_picture_box = new System.Windows.Forms.PictureBox();
-            this.button_getCrimes = new MetroFramework.Controls.MetroButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +51,7 @@
             this.panel1.Controls.Add(this.comboBox_gender);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.comboBox_is_active);
-            this.panel1.Controls.Add(this.done_button);
+            this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.comboBox_is_a_student);
             this.panel1.Controls.Add(this.textBox_perpetrator_name);
             this.panel1.Controls.Add(this.label3);
@@ -64,6 +64,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(516, 270);
             this.panel1.TabIndex = 0;
+            // 
+            // button_getCrimes
+            // 
+            this.button_getCrimes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_getCrimes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_getCrimes.Location = new System.Drawing.Point(15, 205);
+            this.button_getCrimes.Name = "button_getCrimes";
+            this.button_getCrimes.Size = new System.Drawing.Size(181, 48);
+            this.button_getCrimes.TabIndex = 32;
+            this.button_getCrimes.Text = "Get Crimes Committed";
+            this.button_getCrimes.UseSelectable = true;
+            this.button_getCrimes.Click += new System.EventHandler(this.button_getCrimes_Click);
             // 
             // comboBox_gender
             // 
@@ -88,28 +100,28 @@
             this.label4.TabIndex = 30;
             this.label4.Text = "Gender";
             // 
-            // is_active_combo_box
+            // comboBox_is_active
             // 
             this.comboBox_is_active.Enabled = false;
             this.comboBox_is_active.Location = new System.Drawing.Point(293, 104);
-            this.comboBox_is_active.Name = "is_active_combo_box";
+            this.comboBox_is_active.Name = "comboBox_is_active";
             this.comboBox_is_active.Size = new System.Drawing.Size(208, 27);
             this.comboBox_is_active.TabIndex = 29;
             this.comboBox_is_active.Text = "Yes";
             // 
             // done_button
             // 
-            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(310, 205);
-            this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(171, 48);
-            this.done_button.TabIndex = 27;
-            this.done_button.Text = "Save";
-            this.done_button.UseSelectable = true;
-            this.done_button.Click += new System.EventHandler(this.save_button_Click);
+            this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_save.Location = new System.Drawing.Point(310, 205);
+            this.button_save.Name = "done_button";
+            this.button_save.Size = new System.Drawing.Size(171, 48);
+            this.button_save.TabIndex = 27;
+            this.button_save.Text = "Save";
+            this.button_save.UseSelectable = true;
+            this.button_save.Click += new System.EventHandler(this.save_button_Click);
             // 
-            // is_a_student_combo_box
+            // comboBox_is_a_student
             // 
             this.comboBox_is_a_student.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_is_a_student.FormattingEnabled = true;
@@ -117,14 +129,14 @@
             "Yes",
             "No"});
             this.comboBox_is_a_student.Location = new System.Drawing.Point(293, 59);
-            this.comboBox_is_a_student.Name = "is_a_student_combo_box";
+            this.comboBox_is_a_student.Name = "comboBox_is_a_student";
             this.comboBox_is_a_student.Size = new System.Drawing.Size(208, 27);
             this.comboBox_is_a_student.TabIndex = 12;
             // 
-            // perpetrator_name_textbox
+            // textBox_perpetrator_name
             // 
             this.textBox_perpetrator_name.Location = new System.Drawing.Point(293, 13);
-            this.textBox_perpetrator_name.Name = "perpetrator_name_textbox";
+            this.textBox_perpetrator_name.Name = "textBox_perpetrator_name";
             this.textBox_perpetrator_name.Size = new System.Drawing.Size(208, 27);
             this.textBox_perpetrator_name.TabIndex = 11;
             // 
@@ -170,17 +182,6 @@
             this.perpetrator_picture_box.TabIndex = 0;
             this.perpetrator_picture_box.TabStop = false;
             // 
-            // button_getCrimes
-            // 
-            this.button_getCrimes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button_getCrimes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_getCrimes.Location = new System.Drawing.Point(39, 205);
-            this.button_getCrimes.Name = "button_getCrimes";
-            this.button_getCrimes.Size = new System.Drawing.Size(181, 48);
-            this.button_getCrimes.TabIndex = 32;
-            this.button_getCrimes.Text = "Get Crimes Committed";
-            this.button_getCrimes.UseSelectable = true;
-            // 
             // PerpetratorDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,7 +192,6 @@
             this.Name = "PerpetratorDetailsForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Perpetrators Details";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -212,7 +212,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox_is_a_student;
         private System.Windows.Forms.TextBox textBox_perpetrator_name;
-        private Controls.MetroButton done_button;
+        private Controls.MetroButton button_save;
         private System.Windows.Forms.TextBox comboBox_is_active;
         private System.Windows.Forms.ComboBox comboBox_gender;
         private System.Windows.Forms.Label label4;

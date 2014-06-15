@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
-            this.done_button = new MetroFramework.Controls.MetroButton();
+            this.button_save = new MetroFramework.Controls.MetroButton();
             this.date_of_birth = new System.Windows.Forms.DateTimePicker();
             this.is_a_student_comboBox = new System.Windows.Forms.ComboBox();
             this.gender_comoboBox = new System.Windows.Forms.ComboBox();
@@ -54,7 +54,7 @@
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.metroButton1);
-            this.panel1.Controls.Add(this.done_button);
+            this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.date_of_birth);
             this.panel1.Controls.Add(this.is_a_student_comboBox);
             this.panel1.Controls.Add(this.gender_comoboBox);
@@ -84,15 +84,15 @@
             // 
             // done_button
             // 
-            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(151, 296);
-            this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(178, 37);
-            this.done_button.TabIndex = 40;
-            this.done_button.Text = "Save";
-            this.done_button.UseSelectable = true;
-            this.done_button.Click += new System.EventHandler(this.save_button_Click);
+            this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_save.Location = new System.Drawing.Point(151, 296);
+            this.button_save.Name = "done_button";
+            this.button_save.Size = new System.Drawing.Size(178, 37);
+            this.button_save.TabIndex = 40;
+            this.button_save.Text = "Save";
+            this.button_save.UseSelectable = true;
+            this.button_save.Click += new System.EventHandler(this.save_button_Click);
             // 
             // date_of_birth
             // 
@@ -255,7 +255,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private Controls.MetroButton done_button;
+        private Controls.MetroButton button_save;
         private Controls.MetroButton metroButton1;
         private System.Windows.Forms.Label label1;
         private Controls.MetroProgressBar progressBar;

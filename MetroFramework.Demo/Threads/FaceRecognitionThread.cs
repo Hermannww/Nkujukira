@@ -65,7 +65,7 @@ namespace MetroFramework.Demo.Threads
             if (known_faces.Count()!= 0)
             {
                 //Termination criteria for face recognition
-                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(2, 0.01);
+                MCvTermCriteria termination_criteria                            = new MCvTermCriteria(maximum_iteration, 0.1);
 
                 //Eigen face recognizer
                 Emgu.CV.EigenObjectRecognizer recognizer = new Emgu.CV.EigenObjectRecognizer
@@ -83,10 +83,10 @@ namespace MetroFramework.Demo.Threads
                 int width                                                       = known_faces.ToArray()[0].Width;
                 int height                                                      = known_faces.ToArray()[0].Height;
 
-                Image<Gray, byte> resized_face                                  = FramesManager.ResizeGrayImage(face_to_recognize, new Size(width, height));
+                face_to_recognize                                               = FramesManager.ResizeGrayImage(face_to_recognize, new Size(width, height));
 
                 //attempt to recognize the perpetrator
-                name_of_recognized_face                                         = recognizer.Recognize(resized_face);
+                name_of_recognized_face                                         = recognizer.Recognize(face_to_recognize);
 
                 Debug.WriteLine("Name=" + name_of_recognized_face);
 
@@ -122,24 +122,29 @@ namespace MetroFramework.Demo.Threads
 
             public FaceRecognitionProgress(FaceRecognitionThread thread,PictureBox perp_picturebox,Label progress_label)
             {
+                //initialize some variables
+                this.known_faces                             = thread.known_faces;
+                this.perp_picturebox                         = perp_picturebox;
+                this.progress_label                          = progress_label;
+                this.thread                                  = thread;
 
-                background_worker = new BackgroundWorker();
-                background_worker.WorkerReportsProgress = true;
+                //initialize back ground worker
+                background_worker                            = new BackgroundWorker();
+                background_worker.WorkerReportsProgress      = true;
                 background_worker.WorkerSupportsCancellation = true;
 
-                background_worker.DoWork += new DoWorkEventHandler(DoWork);
-                background_worker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+                //set event handlers
+                background_worker.DoWork             += new DoWorkEventHandler(DoWork);
+                background_worker.ProgressChanged    += new ProgressChangedEventHandler(ProgressChanged);
                 background_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ThreadIsDone);
 
-                this.known_faces = thread.known_faces;
-                this.perp_picturebox = perp_picturebox;
-                this.progress_label = progress_label;
-                this.thread = thread;
+                
             }
 
             public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
             {
-                double i = 0;
+                //this keeps track of progress
+                double i = 1;
 
                 //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
                 foreach (var face in known_faces.ToArray())
@@ -147,7 +152,7 @@ namespace MetroFramework.Demo.Threads
                     //get the amount of work done
                     int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
 
-                    //set the current face
+                    //make the current face global access
                     current_face = face;
 
                     //report progress
@@ -155,6 +160,7 @@ namespace MetroFramework.Demo.Threads
 
                     //let the thread sleep
                     Thread.Sleep(SLEEP_TIME);
+
                     i++;
                 }
             }
@@ -164,17 +170,18 @@ namespace MetroFramework.Demo.Threads
                 //get percentage completed
                 int percentage_completed = e.ProgressPercentage;
 
+                if (percentage_completed >= 95)
+                {
+                    percentage_completed = 100;
+                }
+
                 //display perp facee
                 SetControlPropertyThreadSafe(perp_picturebox, "Image", current_face.ToBitmap());
 
                 //update progress label
                 SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
 
-
-                if (percentage_completed >= 97)
-                {
-                    percentage_completed = 100;
-                }
+               
             }
 
             public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)

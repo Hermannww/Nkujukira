@@ -185,8 +185,11 @@ namespace MetroFramework.Demo.Threads
 
                     //add picture boxes to panel in a thread safe way
                     Panel panel = (Panel) Singleton.MAIN_WINDOW.GetControl("live_stream_panel");
+
+                    //since this thread is started off the gui thread then invokes may be required
                     if (panel.InvokeRequired)
                     {
+                        //add gui controls using invokes
                         Action action = () => panel.Controls.Add(unknown_face_pictureBox);
                         panel.Invoke(action);
                         action = () => panel.Controls.Add(perpetrators_pictureBox);
@@ -196,8 +199,10 @@ namespace MetroFramework.Demo.Threads
                         action = () => panel.Controls.Add(separator);
                         panel.Invoke(action);
                     }
+                    //if no invokes are needed then
                     else
                     {
+                        //just add the controls
                         panel.Controls.Add(unknown_face_pictureBox);
                         panel.Controls.Add(perpetrators_pictureBox);
                         panel.Controls.Add(progress_label);

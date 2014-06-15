@@ -19,42 +19,45 @@ namespace MetroFramework.Demo
 {
     public partial class LoginForm : MetroForm
     {
-        Admin admin;
-        private bool is_admin=false;
+        //admin object 
+        private Admin admin;
+
+        //flag indicating if user is admin
+        private bool is_admin              =false;
         
        
 
         public LoginForm()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Red;
-            label4.Visible = false;    
+            status_label.Visible           = false;    
         }
 
         private void user_login_Click(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
+            //enable timer
+            timer1.Enabled                 = true;
 
             //get user input
-            String username = user_name.Text;
-            String password = pass_word.Text;
+            String username                = textbox_username.Text;
+            String password                = textbox_password.Text;
 
             //validate user input
-            if (username == "" && password == "")
+            if (String.IsNullOrEmpty(username)||String.IsNullOrEmpty(password))
             {
-                progressBar.Enabled = false;
-                timer1.Enabled      = false;
-                progressBar.Visible = false;
-                progressBar.Value   = 0;
+                progressBar.Enabled        = false;
+                timer1.Enabled             = false;
+                progressBar.Visible        = false;
+                progressBar.Value          = 0;
 
-                label4.Visible      = true;
-                label4.Text         = "Please Enter Your  A Valid Username or Password.";
+                status_label.Visible       = true;
+                status_label.Text          = "Please Enter Your  A Valid Username or Password.";
 
                 return;
             }
 
             //if user is an admin
-            admin=AdminManager.GetAdmin(username, password);
+            admin                          =AdminManager.GetAdmin(username, password);
 
             if (admin != null)
             {
@@ -62,7 +65,7 @@ namespace MetroFramework.Demo
                 Singletons.Singleton.ADMIN = admin;
 
                 //signal to show Main Winow
-                is_admin = true;
+                is_admin                   = true;
 
             }
 
@@ -71,7 +74,7 @@ namespace MetroFramework.Demo
             {
                 Debug.WriteLine("user is not admin");
                 //signal to display error message 
-                is_admin = false;
+                is_admin                   = false;
 
             }
         }
@@ -84,10 +87,10 @@ namespace MetroFramework.Demo
             {
                
                 //display loading progress bar
-                progressBar.Visible = true;
-                progressBar.Value   = progressBar.Value + 5;
-                label4.Visible      = true;
-                label4.Text         = "Please Wait While we are checking Authentication...";
+                progressBar.Visible        = true;
+                progressBar.Value          = progressBar.Value + 5;
+                status_label.Visible       = true;
+                status_label.Text          = "Please Wait While we are checking Authentication...";
             }
             else 
             {
@@ -96,7 +99,7 @@ namespace MetroFramework.Demo
                 DisplayResultsOfLogin();
 
                 //disable timer
-                timer1.Enabled = false;
+                timer1.Enabled             = false;
                 
             }
 
@@ -105,20 +108,23 @@ namespace MetroFramework.Demo
         private void DisplayResultsOfLogin()
         {
             //disable some stuff
-            progressBar.Enabled = false;
-            progressBar.Visible = false;
-            progressBar.Value   = 0;
-            user_name.Text      = "";
-            pass_word.Text      = "";
+            progressBar.Enabled            = false;
+            progressBar.Visible            = false;
+            progressBar.Value              = 0;
+            textbox_username.Text          = "";
+            textbox_password.Text          = "";
 
             //user is admin
             if (is_admin)
             {
                 
                 //log admin
-                label4.Text     = "Welcome!! you are Authorised User.";
+                status_label.Text          = "Welcome!! you are Authorised User.";
 
+                //set the admin object to be an admin object
                 Singletons.Singleton.ADMIN = admin;
+
+                //close this form
                 this.Close();
             }
 
@@ -126,15 +132,19 @@ namespace MetroFramework.Demo
             else
             {
                 //display error message
-                label4.Text     = "Sorry!! Username or Password is Wrong.";
+                status_label.Text          = "Sorry!! Username or Password is Wrong.";
             }
         }
 
-        private void metroButton1_Click(object sender, EventArgs e)
+        private void SetUpButton_Click(object sender, EventArgs e)
         {
-            SetUpForm form = new SetUpForm();
+            //create setup form
+            SetUpForm form                 = new SetUpForm();
+
+            //show the form
             form.Show();
         }
+
 
 
 

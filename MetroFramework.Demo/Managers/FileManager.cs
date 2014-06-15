@@ -85,7 +85,9 @@ namespace MetroFramework.Demo.Managers
         internal static Image<Gray, byte>[] GetAllImagesInDirectory(string path)
         {
             String[] file_paths = Directory.GetFiles(path, "*.png");
+
             List<Image<Gray, byte>> faces = new List<Image<Gray, byte>>();
+
             foreach (var file_path in file_paths)
             {
                 Image<Gray, byte> face = new Image<Gray, byte>(file_path);

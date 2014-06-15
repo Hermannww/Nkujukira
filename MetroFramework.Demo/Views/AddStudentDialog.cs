@@ -19,33 +19,45 @@ namespace MetroFramework.Demo.Views
 {
     public partial class AddStudentDialog : MetroForm
     {
+        List<Image<Gray, byte>> photos        = new List<Image<Gray, byte>>();
+        private const string FILE_FILTER      = "Image Files (*.bmp, *.jpg, *.png,*.jpeg)|*.bmp;*.jpg;*.png;*.jpeg";
+        private string SELECT_PICTURES_MESSAGE= "Please Select 5 pictures of the student";
 
         public AddStudentDialog()
         {
             InitializeComponent();
-            this.Style = MetroColorStyle.Red;
+           
         }
 
         private void AddStudentDialog_Load(object sender, EventArgs e)
         {
-
+            label_status.Visible          = false;
+            combobox_gender.SelectedIndex = 0;
+            combobox_day.SelectedIndex    = 0;
+            combobox_month.SelectedIndex  = 0;
+            
         }
 
         private void metroButton1_Click(object sender, EventArgs e)
         {
-            String file_name = null;
+            String[] file_names       = null;
             try
             {
 
                 OpenFileDialog dialog = new OpenFileDialog();
-                //dialog.Filter = FILE_FILTER;
-                //dialog.Title = SELECT_VIDEO_MESSAGE;
-                DialogResult result = dialog.ShowDialog();
+                dialog.Filter         = FILE_FILTER;
+                dialog.Title          = SELECT_PICTURES_MESSAGE;
+                dialog.Multiselect    = true;
+                DialogResult result   = dialog.ShowDialog();
 
-                if (result == DialogResult.OK)
+                if (result            == DialogResult.OK)
                 {
-                    file_name = dialog.FileName;
-                    photos.Items.Add(file_name);
+                    file_names        = dialog.FileNames;
+
+                    foreach (var file_name in file_names) 
+                    {
+                        photos.Add(new Image<Gray, byte>(file_name));
+                    }
 
 
                 }
@@ -56,15 +68,7 @@ namespace MetroFramework.Demo.Views
             }
         }
 
-        private void image_file_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void role_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void addStudent_Click(object sender, EventArgs e)
         {
@@ -72,47 +76,52 @@ namespace MetroFramework.Demo.Views
             try
             {
 
-                String first_name = this.firstName.Text;
-                String last_name = this.lastName.Text;
-                String middle_name = this.middleName.Text;
-                String student_no = this.studentNo.Text;
-                String reg_no = this.regNo.Text;
-                String course = this.course.Text;
-                String dob = this.date.Text + "/" + this.month.Text + "/" + year.Text;
-                String gender = this.gender.Text;
-                Image<Gray,byte>[] photos = null;
-                Student student = new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, photos);
+                String first_name  = this.textbox_firstname.Text;
+                String last_name   = this.textbox_lastname.Text;
+                String middle_name = this.textbox_middlename.Text;
+                String student_no  = this.textbox_studentno.Text;
+                String reg_no      = this.textbox_regno.Text;
+                String course      = this.textbox_course.Text;
+                String dob         = this.combobox_day.Text + "/" + this.combobox_month.Text + "/" +this.combobox_year.Text;
+                String gender      = this.combobox_gender.Text; 
 
-                if(first_name.Length<=0){
-                    MetroMessageBox.Show(this, "Please Enter Your First Name", "ERROR");
-                }else if(last_name.Length<=0){
-                    MetroMessageBox.Show(this, "Please Enter Your Last Name", "ERROR");
-                }else if(student_no.Length<=0){
-                    MetroMessageBox.Show(this, "Please Enter Your Student Number", "ERROR");
-                }else if(reg_no.Length<=0){
-                    MetroMessageBox.Show(this, "Please Enter Your Registration Number", "ERROR");
-                }
-                else if (course.Length <= 0)
+                if (String.IsNullOrEmpty(first_name) || String.IsNullOrEmpty(last_name) || String.IsNullOrEmpty(student_no) || String.IsNullOrEmpty(reg_no) || String.IsNullOrEmpty(course)||photos.Count<3)
                 {
-                }
-                else {
 
-                    if (StudentsManager.Save(student))
-                    {
-
-                        MetroMessageBox.Show(this, "Student Added Successfully", "CONGRATULATIONS");
-                    }
-                    else
-                    {
-                        MetroMessageBox.Show(this, "Operation Not Successfully\n Please try again", "ERROR");
-                    }
+                    label_status.Visible   = true;
+                    label_status.Text      = "Please fill in all the fields and pick atleast 5 pictures of the student:"+photos.Count();
+                    return;
                 }
+
+                Student student            = new Student(first_name, middle_name, last_name, student_no, reg_no, course, dob, gender, photos.ToArray());
+
+                if (StudentsManager.Save(student))
+                {
+                    label_status.Visible   = true;
+                    label_status.Text      ="Student Added Successfully";
+                }
+                else
+                {
+                    label_status.Visible   = true;
+                    label_status.Text      ="Operation Not Successfully\n Please try again";
+                }
+
 
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void addImageFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gender_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

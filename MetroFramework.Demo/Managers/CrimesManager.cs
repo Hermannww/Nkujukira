@@ -10,16 +10,16 @@ namespace MetroFramework.Demo.Managers
 {
     class CrimesManager : Manager
     {
-        public static int CRIME_ID = 0;
-        private static string TABLE_NAME = "CRIMES";
-        private int ID = 0;
-        private int DATE = 1;
-        private int TIME = 2;
-        private int TYPE = 3;
-        private int CRIME = 4;
-        private int DETAILS = 5;
-        private int PERPETRATOR_ID = 6;
-        private int CREATED_AT = 7;
+        public static int CRIME_ID        = 0;
+        private static string TABLE_NAME  = "CRIMES";
+        private static int ID             = 0;
+        private static int DATE           = 1;
+        private static int TIME           = 2;
+        private static int TYPE           = 3;
+        private static int CRIME          = 4;
+        private static int DETAILS        = 5;
+        private static int PERPETRATOR_ID = 6;
+        private static int CREATED_AT     = 7;
 
 
         public static void CreateTable()
@@ -66,7 +66,7 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public Crime GetCrime(int id)
+        public static Crime GetCrime(int id)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace MetroFramework.Demo.Managers
                     int perpetrator_id = data_reader.GetInt32(PERPETRATOR_ID);
                     String created_at = data_reader.GetString(CREATED_AT);
 
-                    Crime crime = new Crime(date, details, type, crime_committed, time, perpetrator_id);
+                    Crime crime = new Crime(id,date, details, type, crime_committed, time, perpetrator_id,created_at);
 
                     //add student to list
                     crimes.Add(crime);
@@ -115,7 +115,55 @@ namespace MetroFramework.Demo.Managers
             }
         }
 
-        public Crime[] GetAllCrimes()
+        public static Crime[] GetCrimesCommitted(int perpetrator_id)
+        {
+            try
+            {
+                //select sql
+                String select_sql = "SELECT * FROM " + TABLE_NAME + " WHERE PERPETRATOR_ID=@id";
+
+                //Sql command
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = select_sql;
+                sql_command.Parameters.AddWithValue("@id", perpetrator_id);
+                sql_command.Prepare();
+
+                //get results in enum object
+                data_reader = database.Select(sql_command);
+
+                List<Crime> crimes = new List<Crime>();
+
+                //loop thru em 
+                while (data_reader.Read())
+                {
+                    //create new student
+
+                    int id = data_reader.GetInt32(ID);
+                    String date = data_reader.GetString(DATE);
+                    String time = data_reader.GetString(TIME);
+                    String type = data_reader.GetString(TYPE);
+                    String crime_committed = data_reader.GetString(CRIME);
+                    String details = data_reader.GetString(DETAILS);
+                    String created_at = data_reader.GetString(CREATED_AT);
+
+                    Crime crime = new Crime(id,date, details, type, crime_committed, time, perpetrator_id,created_at);
+
+                    //add student to list
+                    crimes.Add(crime);
+                }
+
+                //return array of results
+                return crimes.ToArray();
+            }
+            finally
+            {
+                data_reader.Close();
+                database.CloseConnection();
+            }
+        }
+
+        public static Crime[] GetAllCrimes()
         {
 
             try

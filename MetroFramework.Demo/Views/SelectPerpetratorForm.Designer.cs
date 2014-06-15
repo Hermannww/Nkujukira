@@ -87,7 +87,6 @@
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;
             this.ShowInTaskbar = false;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "SelectPerpetrator";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_frame_picture_box)).EndInit();

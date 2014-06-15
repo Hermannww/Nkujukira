@@ -20,21 +20,47 @@ namespace MetroFramework.Demo.Views
         Perpetrator perpetrator;
         Crime crime;
         Victim victim;
-        private bool close_after_saving=false;
+        private bool close_after_saving                       = false;
 
         //constructor
         public VictimsDetailsForm(Perpetrator perp,Crime crime)
         {
-            this.perpetrator                    = perp;
-            this.crime                          = crime;
+            this.perpetrator                                  = perp;
+            this.crime                                        = crime;
             InitializeComponent();
+        }
+
+        public VictimsDetailsForm(Victim victim)
+        {
+            this.victim                                       = victim;
+            InitializeComponent();
+            SetVictimDetails(victim);
+            DisableControls();
+            
+        }
+
+        private void DisableControls()
+        {
+            this.name_text_box.Enabled                        = false;
+            this.date_of_birth.Enabled                        = false;
+            this.gender_comoboBox.Enabled                     = false;
+            this.button_save.Visible                          = false;
+            this.is_a_student_comboBox.Enabled                = false;
+        }
+
+        private void SetVictimDetails(Victim victim)
+        {
+            this.name_text_box.Text                           = victim.name;
+            this.date_of_birth.Text                           = victim.date_of_birth;
+            this.gender_comoboBox.Text                        = victim.gender;
+            this.is_a_student_comboBox.Text                   = victim.is_a_student.ToString();
         }
 
         private void save_button_Click(object sender, EventArgs e)
         {
             timer1.Start();
 
-            close_after_saving = true;
+            close_after_saving                                = true;
 
             //save victim details
             SaveVictimDetails();
@@ -46,25 +72,25 @@ namespace MetroFramework.Demo.Views
         private void SaveVictimDetails()
         {
             //get victim details
-            String name                         = name_text_box.Text;
-            String d_o_b                        = date_of_birth.Text;
-            String gender                       = gender_comoboBox.Text;
-            bool is_a_student                   = is_a_student_comboBox.Text.Equals("Yes") ? true : false;
+            String name                                       = name_text_box.Text;
+            String d_o_b                                      = date_of_birth.Text;
+            String gender                                     = gender_comoboBox.Text;
+            bool is_a_student                                 = is_a_student_comboBox.Text.Equals("Yes") ? true : false;
             
 
             //save perp
             PerpetratorsManager.Save(perpetrator);
 
             //set the perp id in the crime
-            crime.perpetrator_id                = perpetrator.id;
+            crime.perpetrator_id                              = perpetrator.id;
 
             //save crime
             CrimesManager.Save(crime);
 
-            StolenItem[] items_lost             = GetItemsLost();
+            StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            victim                              = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
             VictimsManager.Save(victim);
@@ -77,13 +103,13 @@ namespace MetroFramework.Demo.Views
 
         private StolenItem[] GetItemsLost()
         {
-            String items_stolen                 = items_lost_textbox.Text;
-            String[] items                      = items_stolen.Split(new string[]{","}, StringSplitOptions.RemoveEmptyEntries);
-            List<StolenItem> stolen             = new List<StolenItem>();
+            String items_stolen                               = items_lost_textbox.Text;
+            String[] items                                    = items_stolen.Split(new string[]{","}, StringSplitOptions.RemoveEmptyEntries);
+            List<StolenItem> stolen                           = new List<StolenItem>();
 
             foreach (var item in items) 
             {
-                StolenItem stolen_item          = new StolenItem(item, -1);
+                StolenItem stolen_item                        = new StolenItem(item, -1);
                 stolen.Add(stolen_item);
             }
 
@@ -95,7 +121,7 @@ namespace MetroFramework.Demo.Views
         {
             timer1.Start();
 
-            close_after_saving = false;
+            close_after_saving                                = false;
 
             //save the details of the victim
             SaveVictimDetails();
@@ -108,12 +134,12 @@ namespace MetroFramework.Demo.Views
         //resets the text values of all controls on form
         private void ResetTextValues()
         {
-            items_lost_textbox.Text             = "";
-            name_text_box.Text                  = "";
-            gender_comoboBox.SelectedIndex      = 0;
-            is_a_student_comboBox.SelectedIndex = 0;
-            label1.Text                         = "";
-            label1.Visible                      = false;
+            items_lost_textbox.Text                           = "";
+            name_text_box.Text                                = "";
+            gender_comoboBox.SelectedIndex                    = 0;
+            is_a_student_comboBox.SelectedIndex               = 0;
+            label1.Text                                       = "";
+            label1.Visible                                    = false;
             
         }
 
@@ -130,10 +156,10 @@ namespace MetroFramework.Demo.Views
             {
 
                 //display loading progress bar
-                progressBar.Visible             = true;
+                progressBar.Visible                           = true;
                 progressBar.Value++;
-                label1.Visible                  = true;
-                label1.Text                     = "Saving.Please Wait...";
+                label1.Visible                                = true;
+                label1.Text                                   = "Saving.Please Wait...";
             }
             else
             {
@@ -143,7 +169,7 @@ namespace MetroFramework.Demo.Views
 
                 //disable timer
                 timer1.Stop();
-                timer1.Enabled                  = false;
+                timer1.Enabled                                = false;
 
             }
         }
@@ -151,27 +177,27 @@ namespace MetroFramework.Demo.Views
         private void DisplayResultsOfSaving()
         {
             //DISABLE SOME STUFF
-            progressBar.Visible                 = false;
-            progressBar.Value                   = 0;
-            label1.Visible                      = true;
+            progressBar.Visible                               = false;
+            progressBar.Value                                 = 0;
+            label1.Visible                                    = true;
 
             //display results of operations
-            label1.ForeColor                    = Color.Green;
-            label1.Text                         = "Data Saved";
+            label1.ForeColor                                  = Color.Green;
+            label1.Text                                       = "Data Saved";
 
             //if details were saved
             if (close_after_saving) 
             {
                 if (perpetrator.is_a_student)
                 {
-                    LoadingScreen screen = new LoadingScreen();
-                    screen.STATUS_TEXT = "Student recognition starting...";
+                    LoadingScreen screen                      = new LoadingScreen();
+                    screen.STATUS_TEXT                        = "Student recognition starting...";
                     screen.StartWorking();
 
                     foreach (var face in perpetrator.faces) 
                     {
                         Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
-                        StudentRecognitionThread face_recognizer = new StudentRecognitionThread(face);
+                        FaceRecognitionThread face_recognizer = new PerpetratorRecognitionThread(face);
                         face_recognizer.StartWorking();
                     }
                 }

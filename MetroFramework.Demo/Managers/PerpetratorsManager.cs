@@ -4,6 +4,7 @@ using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Singletons;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -24,6 +25,7 @@ namespace MetroFramework.Demo.Managers
         private const int IS_ACTIVE            = 3;
         private static int GENDER              = 4;
         private static int CREATED_AT          = 5;
+        private static ConcurrentDictionary<int,Perpetrator> perpetrators_list = new ConcurrentDictionary<int,Perpetrator>();
 
         public static void CreateTable()
         {
@@ -190,42 +192,52 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                //select sql
-                String select_sql              = "SELECT * FROM " + TABLE_NAME + " WHERE IS_ACTIVE='True'";
-
-                //Sql command
-                sql_command                    = new MySqlCommand();
-                sql_command.Connection         = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText        = select_sql;
-                sql_command.Prepare();
-
-                //get results in enum object
-                data_reader                    = database.Select(sql_command);
-
-                List<Perpetrator> perpetrators = new List<Perpetrator>();
-
-                //loop thru em 
-                while (data_reader.Read())
+                if (perpetrators_list.Count() <= 0)
                 {
-                    //create new student
+                    //select sql
+                    String select_sql = "SELECT * FROM " + TABLE_NAME + " WHERE IS_ACTIVE='True'";
 
-                    int id                     = data_reader.GetInt32(ID);
-                    String name                = data_reader.GetString(NAME);
-                    Image<Gray, byte>[] faces  = GetPerpetratorFaces(id);
-                    bool is_a_student          = data_reader.GetBoolean(IS_A_STUDENT);
-                    bool is_active             = data_reader.GetBoolean(IS_ACTIVE);
-                    String gender              = data_reader.GetString(GENDER);
-                    String created_at          = data_reader.GetString(CREATED_AT);
+                    //Sql command
+                    sql_command = new MySqlCommand();
+                    sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                    sql_command.CommandText = select_sql;
+                    sql_command.Prepare();
 
-                    Perpetrator perp           = new Perpetrator(id, name, faces, is_a_student, is_active, gender, created_at);
+                    //get results in enum object
+                    data_reader = database.Select(sql_command);
 
-                    //add student to list
-                    perpetrators.Add(perp);
+                  
+
+                    //loop thru em 
+                    while (data_reader.Read())
+                    {
+                        //create new student
+
+                        int id = data_reader.GetInt32(ID);
+                        String name = data_reader.GetString(NAME);
+                        Image<Gray, byte>[] faces = GetPerpetratorFaces(id);
+                        bool is_a_student = data_reader.GetBoolean(IS_A_STUDENT);
+                        bool is_active = data_reader.GetBoolean(IS_ACTIVE);
+                        String gender = data_reader.GetString(GENDER);
+                        String created_at = data_reader.GetString(CREATED_AT);
+
+                        Perpetrator perp = new Perpetrator(id, name, faces, is_a_student, is_active, gender, created_at);
+
+                        //add student to list
+                        perpetrators_list.TryAdd(perp.id, perp);
+                    }
+
+                   
+
+                    //return array of results
+                    return GetArray(perpetrators_list.ToArray());
                 }
-
-                //return array of results
-                return perpetrators.ToArray();
+                else
+                {
+                    return GetArray(perpetrators_list.ToArray());
+                }
             }
+           
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
@@ -237,6 +249,18 @@ namespace MetroFramework.Demo.Managers
                 database.CloseConnection();
             }
             return null;
+        }
+
+        private static Perpetrator[] GetArray(KeyValuePair<int, Perpetrator>[] keyValuePair)
+        {
+            List<Perpetrator> perps = new List<Perpetrator>();
+
+            foreach (var key_value in keyValuePair) 
+            {
+                perps.Add(key_value.Value);
+            }
+
+            return perps.ToArray();
         }
 
 
@@ -262,7 +286,11 @@ namespace MetroFramework.Demo.Managers
                 //execute query
                 database.Insert(sql_command);
 
+                //set perp id
                 perp.id                        = (int)sql_command.LastInsertedId;
+
+                //cache object
+                perpetrators_list.TryAdd(perp.id, perp);
 
                 //create file path
                 String path                    = PATH_TO_IMAGES + perp.id + @"\";
@@ -274,7 +302,7 @@ namespace MetroFramework.Demo.Managers
                 for (int i                     = 0; i < perp.faces.Length; i++)
                 {
                     //save using the perps name plus a unique number 
-                    FileManager.SaveImage(path + perp.name + i + ".png", perp.faces[i]);
+                    FileManager.SaveImage(path + perp.name + " " + i + ".png", perp.faces[i]);
                 }
 
                 return true;
@@ -300,6 +328,10 @@ namespace MetroFramework.Demo.Managers
 
                 //execute command
                 database.Update(sql_command);
+
+                Perpetrator p;
+                //remove cached obj
+                perpetrators_list.TryRemove(perpetrator_id, out p);
                 return true;
             }
             catch (Exception ex)
@@ -333,6 +365,8 @@ namespace MetroFramework.Demo.Managers
 
                 //execute command
                 database.Update(sql_command);
+
+                //perpetrators_list.TryUpdate(perp.id, perp, perp);
                 return true;
             }
             finally

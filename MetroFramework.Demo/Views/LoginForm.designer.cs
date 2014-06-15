@@ -34,12 +34,12 @@ namespace MetroFramework.Demo
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.status_label = new System.Windows.Forms.Label();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.user_login = new MetroFramework.Controls.MetroButton();
-            this.pass_word = new System.Windows.Forms.TextBox();
-            this.user_name = new System.Windows.Forms.TextBox();
+            this.textbox_password = new System.Windows.Forms.TextBox();
+            this.textbox_username = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -61,12 +61,12 @@ namespace MetroFramework.Demo
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.status_label);
             this.panel1.Controls.Add(this.metroButton1);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.user_login);
-            this.panel1.Controls.Add(this.pass_word);
-            this.panel1.Controls.Add(this.user_name);
+            this.panel1.Controls.Add(this.textbox_password);
+            this.panel1.Controls.Add(this.textbox_username);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(23, 63);
@@ -74,16 +74,16 @@ namespace MetroFramework.Demo
             this.panel1.Size = new System.Drawing.Size(501, 220);
             this.panel1.TabIndex = 20;
             // 
-            // label4
+            // status_label
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(117, 179);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 19);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "label4";
+            this.status_label.AutoSize = true;
+            this.status_label.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.status_label.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.status_label.Location = new System.Drawing.Point(117, 179);
+            this.status_label.Name = "status_label";
+            this.status_label.Size = new System.Drawing.Size(49, 19);
+            this.status_label.TabIndex = 27;
+            this.status_label.Text = "label4";
             // 
             // metroButton1
             // 
@@ -95,7 +95,7 @@ namespace MetroFramework.Demo
             this.metroButton1.TabIndex = 26;
             this.metroButton1.Text = ">>";
             this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
+            this.metroButton1.Click += new System.EventHandler(this.SetUpButton_Click);
             // 
             // progressBar
             // 
@@ -120,23 +120,23 @@ namespace MetroFramework.Demo
             // 
             // pass_word
             // 
-            this.pass_word.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.pass_word.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pass_word.Location = new System.Drawing.Point(174, 60);
-            this.pass_word.Name = "pass_word";
-            this.pass_word.PasswordChar = '*';
-            this.pass_word.Size = new System.Drawing.Size(192, 30);
-            this.pass_word.TabIndex = 23;
+            this.textbox_password.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textbox_password.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textbox_password.Location = new System.Drawing.Point(174, 60);
+            this.textbox_password.Name = "pass_word";
+            this.textbox_password.PasswordChar = '*';
+            this.textbox_password.Size = new System.Drawing.Size(192, 30);
+            this.textbox_password.TabIndex = 23;
             // 
             // user_name
             // 
-            this.user_name.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.user_name.Font = new System.Drawing.Font("Trebuchet MS", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.user_name.Location = new System.Drawing.Point(174, 19);
-            this.user_name.Multiline = true;
-            this.user_name.Name = "user_name";
-            this.user_name.Size = new System.Drawing.Size(192, 27);
-            this.user_name.TabIndex = 22;
+            this.textbox_username.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textbox_username.Font = new System.Drawing.Font("Trebuchet MS", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textbox_username.Location = new System.Drawing.Point(174, 19);
+            this.textbox_username.Multiline = true;
+            this.textbox_username.Name = "user_name";
+            this.textbox_username.Size = new System.Drawing.Size(192, 27);
+            this.textbox_username.TabIndex = 22;
             // 
             // label2
             // 
@@ -172,7 +172,6 @@ namespace MetroFramework.Demo
             this.Name = "LoginForm";
             this.Resizable = false;
             this.ShowIcon = false;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Login";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -191,10 +190,10 @@ namespace MetroFramework.Demo
         private Controls.MetroButton metroButton1;
         private Controls.MetroProgressBar progressBar;
         private Controls.MetroButton user_login;
-        private System.Windows.Forms.TextBox pass_word;
-        private System.Windows.Forms.TextBox user_name;
+        private System.Windows.Forms.TextBox textbox_password;
+        private System.Windows.Forms.TextBox textbox_username;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label status_label;
     }
 }

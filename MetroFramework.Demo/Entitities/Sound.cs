@@ -12,24 +12,30 @@ namespace MetroFramework.Demo.Entitities
     {
         IWavePlayer wave_out_device;
         AudioFileReader audio_file_reader;
-        public  Boolean finished_playing = true;
+        public Boolean finished_playing = true;
 
-        public void PlaySound(String file_name) 
+        public void PlaySound(String file_name)
         {
             try
             {
-                finished_playing = false;
-                wave_out_device = new WaveOut();
-                wave_out_device.PlaybackStopped += wave_out_device_PlaybackStopped;
-                audio_file_reader = new AudioFileReader(file_name);
-                if (wave_out_device != null&&audio_file_reader!=null)
+                finished_playing                     = false;
+                lock (wave_out_device)
                 {
-                    wave_out_device.Init(audio_file_reader);
-                    wave_out_device.Play();
+                    lock (audio_file_reader)
+                    {
+                        if (wave_out_device == null && audio_file_reader == null)
+                        {
+                            wave_out_device = new WaveOut();
+                            wave_out_device.PlaybackStopped += wave_out_device_PlaybackStopped;
+                            audio_file_reader = new AudioFileReader(file_name);
+                            wave_out_device.Init(audio_file_reader);
+                            wave_out_device.Play();
+                        }
+                    }
                 }
-                
+
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
@@ -37,23 +43,25 @@ namespace MetroFramework.Demo.Entitities
 
         private void wave_out_device_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            finished_playing = true;
+            finished_playing  = true;
+            wave_out_device   = null;
+            audio_file_reader = null;
         }
 
-        public void Stop() 
+        public void Stop()
         {
             try
             {
                 if (wave_out_device != null)
                 {
-                    wave_out_device.Stop(); 
+                    wave_out_device.Stop();
                     audio_file_reader = null;
                     wave_out_device   = null;
                 }
             }
-            catch (Exception) 
+            catch (Exception)
             {
-            
+
             }
         }
     }

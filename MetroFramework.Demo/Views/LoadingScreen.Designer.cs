@@ -34,9 +34,9 @@
             // 
             // progress_bar
             // 
-            this.progress_bar.Location = new System.Drawing.Point(12, 49);
+            this.progress_bar.Location = new System.Drawing.Point(12, 58);
             this.progress_bar.Name = "progress_bar";
-            this.progress_bar.Size = new System.Drawing.Size(462, 29);
+            this.progress_bar.Size = new System.Drawing.Size(462, 10);
             this.progress_bar.TabIndex = 0;
             // 
             // label_status
@@ -54,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 101);
+            this.ClientSize = new System.Drawing.Size(487, 82);
             this.Controls.Add(this.label_status);
             this.Controls.Add(this.progress_bar);
             this.DisplayHeader = false;
@@ -65,7 +65,6 @@
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.ShowInTaskbar = false;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Loading....Please Wait";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;

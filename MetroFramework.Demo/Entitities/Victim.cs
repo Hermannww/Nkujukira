@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Entitities
 {
-    class Victim
+    public class Victim
     {
 
         public int id                    { get; set; }

@@ -29,14 +29,13 @@ namespace MetroFramework.Demo.Managers
         private const int D_O_B                  = 6;
         private const int COURSE                 = 7;
         private const int GENDER                 = 8;
-        //private const int PHOTOS                 = 9;
         private const string TABLE_NAME          = "STUDENTS";
 
         public static void CreateTable()
         {
             try
             {
-                String create_sql                = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(10),COURSE VARCHAR(30),GENDER VARCHAR(10),CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+                String create_sql                = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(30),MIDDLENAME VARCHAR(30),LASTNAME VARCHAR(30),STUDENT_NO VARCHAR(30),REG_NO VARCHAR(10),DATE_OF_BIRTH VARCHAR(30),COURSE VARCHAR(30),GENDER VARCHAR(30),CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
                 sql_command                      = new MySqlCommand();
                 sql_command.Connection           = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText          = create_sql;
@@ -225,11 +224,14 @@ namespace MetroFramework.Demo.Managers
                 //create students folder based on the students id
                 string photo_path                = PATH_TO_IMAGES + student.id + @"\";
 
+                //create folder for the perpetrator images
+                FileManager.CreateFolderIfMissing(photo_path);
+
                 //save each image
                 for (int i = 0; i < student.photos.Length; i++)
                 {
                     //save using the perps name plus a unique number 
-                    FileManager.SaveImage(photo_path + student.firstName + i + ".png", student.photos[i]);
+                    FileManager.SaveImage(photo_path + student.id + " " + i + ".png", student.photos[i]);
                 }
                 return true;
             }

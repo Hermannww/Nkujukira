@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.comboBox_crimeCommited = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
-            this.done_button = new MetroFramework.Controls.MetroButton();
-            this.details_of_crime_textfield = new System.Windows.Forms.RichTextBox();
-            this.type_of_crime_comboBox = new System.Windows.Forms.ComboBox();
+            this.button_getVictims = new MetroFramework.Controls.MetroButton();
+            this.button_save = new MetroFramework.Controls.MetroButton();
+            this.textfield_details_of_crime = new System.Windows.Forms.RichTextBox();
+            this.comboBox_type_of_crime = new System.Windows.Forms.ComboBox();
             this.comboBox_minutes = new System.Windows.Forms.ComboBox();
             this.comboBox_hours = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker_dateOfCrime = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,13 +52,13 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.comboBox_crimeCommited);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.metroButton1);
-            this.panel1.Controls.Add(this.done_button);
-            this.panel1.Controls.Add(this.details_of_crime_textfield);
-            this.panel1.Controls.Add(this.type_of_crime_comboBox);
+            this.panel1.Controls.Add(this.button_getVictims);
+            this.panel1.Controls.Add(this.button_save);
+            this.panel1.Controls.Add(this.textfield_details_of_crime);
+            this.panel1.Controls.Add(this.comboBox_type_of_crime);
             this.panel1.Controls.Add(this.comboBox_minutes);
             this.panel1.Controls.Add(this.comboBox_hours);
-            this.panel1.Controls.Add(this.dateTimePicker1);
+            this.panel1.Controls.Add(this.dateTimePicker_dateOfCrime);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -67,6 +67,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(534, 394);
             this.panel1.TabIndex = 0;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label6.Location = new System.Drawing.Point(234, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 19);
+            this.label6.TabIndex = 45;
+            this.label6.Text = ":";
             // 
             // comboBox_crimeCommited
             // 
@@ -90,55 +101,54 @@
             this.label5.TabIndex = 43;
             this.label5.Text = "Crime Commited";
             // 
-            // metroButton1
+            // button_getVictims
             // 
-            this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.metroButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroButton1.Location = new System.Drawing.Point(366, 332);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(152, 37);
-            this.metroButton1.TabIndex = 42;
-            this.metroButton1.Text = "Cancel";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.cancel_button_Click);
+            this.button_getVictims.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_getVictims.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_getVictims.Location = new System.Drawing.Point(366, 332);
+            this.button_getVictims.Name = "button_getVictims";
+            this.button_getVictims.Size = new System.Drawing.Size(152, 37);
+            this.button_getVictims.TabIndex = 42;
+            this.button_getVictims.Text = "Get Victims";
+            this.button_getVictims.UseSelectable = true;
+            this.button_getVictims.Click += new System.EventHandler(this.button_getVictims_Click);
             // 
             // done_button
             // 
-            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(174, 332);
-            this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(150, 37);
-            this.done_button.TabIndex = 41;
-            this.done_button.Text = "Save";
-            this.done_button.UseSelectable = true;
-            this.done_button.Click += new System.EventHandler(this.save_button_Click);
+            this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_save.Location = new System.Drawing.Point(174, 332);
+            this.button_save.Name = "done_button";
+            this.button_save.Size = new System.Drawing.Size(150, 37);
+            this.button_save.TabIndex = 41;
+            this.button_save.Text = "Save";
+            this.button_save.UseSelectable = true;
+            this.button_save.Click += new System.EventHandler(this.save_button_Click);
             // 
             // details_of_crime_textfield
             // 
-            this.details_of_crime_textfield.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.details_of_crime_textfield.Location = new System.Drawing.Point(174, 196);
-            this.details_of_crime_textfield.Name = "details_of_crime_textfield";
-            this.details_of_crime_textfield.Size = new System.Drawing.Size(344, 115);
-            this.details_of_crime_textfield.TabIndex = 8;
-            this.details_of_crime_textfield.Text = "";
-            this.details_of_crime_textfield.MouseDown += new System.Windows.Forms.MouseEventHandler(this.details_of_crime_textfield_MouseDown);
+            this.textfield_details_of_crime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textfield_details_of_crime.Location = new System.Drawing.Point(174, 196);
+            this.textfield_details_of_crime.Name = "details_of_crime_textfield";
+            this.textfield_details_of_crime.Size = new System.Drawing.Size(344, 115);
+            this.textfield_details_of_crime.TabIndex = 8;
+            this.textfield_details_of_crime.Text = "";
             // 
-            // type_of_crime_comboBox
+            // comboBox_type_of_crime
             // 
-            this.type_of_crime_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.type_of_crime_comboBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.type_of_crime_comboBox.FormattingEnabled = true;
-            this.type_of_crime_comboBox.Items.AddRange(new object[] {
+            this.comboBox_type_of_crime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_type_of_crime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox_type_of_crime.FormattingEnabled = true;
+            this.comboBox_type_of_crime.Items.AddRange(new object[] {
             "Crime againist Person",
             "Crime againist Property",
             "Crime againist Morality",
             "White-collar crime"});
-            this.type_of_crime_comboBox.Location = new System.Drawing.Point(174, 98);
-            this.type_of_crime_comboBox.Name = "type_of_crime_comboBox";
-            this.type_of_crime_comboBox.Size = new System.Drawing.Size(344, 27);
-            this.type_of_crime_comboBox.TabIndex = 7;
-            this.type_of_crime_comboBox.SelectedIndexChanged += new System.EventHandler(this.type_of_crime_comboBox_SelectedIndexChanged);
+            this.comboBox_type_of_crime.Location = new System.Drawing.Point(174, 98);
+            this.comboBox_type_of_crime.Name = "comboBox_type_of_crime";
+            this.comboBox_type_of_crime.Size = new System.Drawing.Size(344, 27);
+            this.comboBox_type_of_crime.TabIndex = 7;
+            this.comboBox_type_of_crime.SelectedIndexChanged += new System.EventHandler(this.type_of_crime_comboBox_SelectedIndexChanged);
             // 
             // comboBox_minutes
             // 
@@ -191,13 +201,13 @@
             this.comboBox_hours.Size = new System.Drawing.Size(54, 27);
             this.comboBox_hours.TabIndex = 5;
             // 
-            // dateTimePicker1
+            // dateTimePicker_dateOfCrime
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(174, 25);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(344, 27);
-            this.dateTimePicker1.TabIndex = 4;
+            this.dateTimePicker_dateOfCrime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker_dateOfCrime.Location = new System.Drawing.Point(174, 25);
+            this.dateTimePicker_dateOfCrime.Name = "dateTimePicker_dateOfCrime";
+            this.dateTimePicker_dateOfCrime.Size = new System.Drawing.Size(344, 27);
+            this.dateTimePicker_dateOfCrime.TabIndex = 4;
             // 
             // label4
             // 
@@ -243,27 +253,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Date Of Crime";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label6.Location = new System.Drawing.Point(234, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 19);
-            this.label6.TabIndex = 45;
-            this.label6.Text = ":";
-            // 
             // CrimeDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(555, 469);
             this.Controls.Add(this.panel1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CrimeDetailsForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Crime Details Form";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -277,17 +277,17 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RichTextBox details_of_crime_textfield;
-        private System.Windows.Forms.ComboBox type_of_crime_comboBox;
+        private System.Windows.Forms.RichTextBox textfield_details_of_crime;
+        private System.Windows.Forms.ComboBox comboBox_type_of_crime;
         private System.Windows.Forms.ComboBox comboBox_minutes;
         private System.Windows.Forms.ComboBox comboBox_hours;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_dateOfCrime;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private Controls.MetroButton done_button;
-        private Controls.MetroButton metroButton1;
+        private Controls.MetroButton button_save;
+        private Controls.MetroButton button_getVictims;
         private System.Windows.Forms.ComboBox comboBox_crimeCommited;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;

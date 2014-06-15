@@ -54,7 +54,6 @@ namespace MetroFramework.Demo
             this.review_footage_color_slider = new MB.Controls.ColorSlider();
             this.panel_for_detected_faces = new System.Windows.Forms.Panel();
             this.label_separator = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
             this.pick_video_button = new MetroFramework.Controls.MetroButton();
@@ -84,6 +83,7 @@ namespace MetroFramework.Demo
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
+            this.label_face_recognition_status = new System.Windows.Forms.Label();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -111,13 +111,11 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
-            //add an event handler to the selection changed event
-    
-            metroTabControl1.SelectedIndexChanged += new System.EventHandler(metroTabControl1_SelectedIndexChanged);
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
+            this.metroTabControl1.SelectedIndexChanged += new System.EventHandler(this.metroTabControl1_SelectedIndexChanged);
             // 
             // metroTabPage1
             // 
@@ -154,6 +152,7 @@ namespace MetroFramework.Demo
             // live_stream_recognition_panel
             // 
             this.metroStyleExtender.SetApplyMetroTheme(this.live_stream_recognition_panel, true);
+            this.live_stream_recognition_panel.AutoScroll = true;
             this.live_stream_recognition_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.live_stream_recognition_panel.Controls.Add(this.label8);
             this.live_stream_recognition_panel.Controls.Add(this.label6);
@@ -377,32 +376,21 @@ namespace MetroFramework.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.panel_for_detected_faces, true);
             this.panel_for_detected_faces.AutoScroll = true;
             this.panel_for_detected_faces.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_for_detected_faces.Controls.Add(this.label_face_recognition_status);
             this.panel_for_detected_faces.Controls.Add(this.label_separator);
-            this.panel_for_detected_faces.Controls.Add(this.label14);
             this.panel_for_detected_faces.Location = new System.Drawing.Point(439, 47);
             this.panel_for_detected_faces.Name = "panel_for_detected_faces";
             this.panel_for_detected_faces.Size = new System.Drawing.Size(349, 338);
             this.panel_for_detected_faces.TabIndex = 22;
+            this.panel_for_detected_faces.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_for_detected_faces_Paint);
             // 
             // label_separator
             // 
             this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_separator.Location = new System.Drawing.Point(3, 27);
+            this.label_separator.Location = new System.Drawing.Point(9, 40);
             this.label_separator.Name = "label_separator";
             this.label_separator.Size = new System.Drawing.Size(335, 2);
             this.label_separator.TabIndex = 2;
-            // 
-            // label14
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label14, true);
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label14.Location = new System.Drawing.Point(56, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(205, 19);
-            this.label14.TabIndex = 1;
-            this.label14.Text = "FACE COMPARISON ONGOING";
             // 
             // review_footage_image_box
             // 
@@ -640,7 +628,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-2073, 26);
+            this.tile1.Location = new System.Drawing.Point(-2799, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
@@ -727,7 +715,7 @@ namespace MetroFramework.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.linkLabel_logout, true);
             this.linkLabel_logout.AutoSize = true;
             this.linkLabel_logout.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel_logout.LinkColor = System.Drawing.Color.Green;
+            this.linkLabel_logout.LinkColor = System.Drawing.Color.DeepSkyBlue;
             this.linkLabel_logout.Location = new System.Drawing.Point(709, 34);
             this.linkLabel_logout.Name = "linkLabel_logout";
             this.linkLabel_logout.Size = new System.Drawing.Size(126, 23);
@@ -747,6 +735,18 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(4, "settings.png");
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
+            // 
+            // label14
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label_face_recognition_status, true);
+            this.label_face_recognition_status.AutoSize = true;
+            this.label_face_recognition_status.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_face_recognition_status.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label_face_recognition_status.Location = new System.Drawing.Point(59, 11);
+            this.label_face_recognition_status.Name = "label14";
+            this.label_face_recognition_status.Size = new System.Drawing.Size(205, 19);
+            this.label_face_recognition_status.TabIndex = 3;
+            this.label_face_recognition_status.Text = "FACE COMPARISON ONGOING";
             // 
             // MainWindow
             // 
@@ -818,7 +818,6 @@ namespace MetroFramework.Demo
         public static System.Windows.Forms.Label video_total_time_label;
         public static System.Windows.Forms.Label elapsed_time_label;
         private System.Windows.Forms.ImageList icons_list;
-        public static System.Windows.Forms.Panel detected_faces_panel;
         public static Emgu.CV.UI.ImageBox imageBox3;
         public static Emgu.CV.UI.ImageBox imageBox2;
         public static Emgu.CV.UI.ImageBox imageBox1;
@@ -828,7 +827,6 @@ namespace MetroFramework.Demo
         private MB.Controls.ColorSlider review_footage_color_slider;
         private System.Windows.Forms.Label total_time_label;
         private System.Windows.Forms.Label time_elapsed_label;
-        private System.Windows.Forms.Label label14;
         private Controls.MetroTabPage metroTabPage11;
         private Controls.MetroTile metroTile8;
         private Controls.MetroTile metroTile7;
@@ -857,6 +855,7 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel linkLabel_logout;
+        private System.Windows.Forms.Label label_face_recognition_status;
         
      
 

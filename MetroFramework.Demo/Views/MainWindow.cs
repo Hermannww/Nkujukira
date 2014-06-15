@@ -35,8 +35,6 @@ namespace MetroFramework.Demo
           
             this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             Singleton.MAIN_WINDOW        = this;
-            metroStyleManager.Style      = MetroColorStyle.Red;
-            this.MaximizeBox             = false;
 
             DisableControls();
         }
@@ -340,7 +338,7 @@ namespace MetroFramework.Demo
                     return imageBox4;
 
                 case "review_footage_panel":
-                    return detected_faces_panel;
+                    return panel_for_detected_faces;
 
                 case "live_stream_panel":
                     return live_stream_recognition_panel;
@@ -395,9 +393,11 @@ namespace MetroFramework.Demo
         void metroTabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //clear the detected faces panel when the user switches tabs
-            if (detected_faces_panel != null)
+            if (panel_for_detected_faces != null)
             {
-                detected_faces_panel.Controls.Clear();
+                panel_for_detected_faces.Controls.Clear();
+                panel_for_detected_faces.Controls.Add(label_face_recognition_status);
+                panel_for_detected_faces.Controls.Add(label_separator);
             }
         }
 
@@ -470,6 +470,11 @@ namespace MetroFramework.Demo
         {
             Singleton.ADMIN = null;
             this.Close();
+        }
+
+        private void panel_for_detected_faces_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }

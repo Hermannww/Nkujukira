@@ -37,14 +37,29 @@ namespace MetroFramework.Demo
             InitializeComponent();
 
             this.perpetrator                     = perpetrator;
-            textBox_perpetrator_name.Text        = perpetrator.name;
-            textBox_perpetrator_name.Enabled     = false;
-            comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;
-            comboBox_is_a_student.Enabled        = false;
-            comboBox_gender.SelectedIndex        = perpetrator.gender.Equals("Male") ? 0 : 1;
+            SetPerpetratorDetails();
+            DisableControls();
+        }
+
+        private void DisableControls()
+        {
             comboBox_gender.Enabled              = false;
             button_getCrimes.Visible             = true;
             button_getCrimes.Enabled             = true;
+            comboBox_is_a_student.Enabled        = false;
+            textBox_perpetrator_name.Enabled     = false;
+            button_save.Visible                  = false;
+
+        }
+
+        private void SetPerpetratorDetails()
+        {
+            textBox_perpetrator_name.Text        = perpetrator.name;
+            
+            comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;
+            
+            comboBox_gender.SelectedIndex        = perpetrator.gender.Equals("Male") ? 0 : 1;
+           
         }
 
         private void PerpetratorDetails_Load(object sender, EventArgs e)
@@ -58,7 +73,7 @@ namespace MetroFramework.Demo
         private void save_button_Click(object sender, EventArgs e)
         {
             //get more perpetrator details
-            String name                          = textBox_perpetrator_name.Text;
+            String name                          = textBox_perpetrator_name.Text.Trim();
             String is_a_student                  = comboBox_is_a_student.Text;
             String is_active                     = comboBox_is_active.Text;
             String gender                        = comboBox_gender.Text;
@@ -99,6 +114,18 @@ namespace MetroFramework.Demo
                     return null;
             }
         
+        }
+
+        private void button_getCrimes_Click(object sender, EventArgs e)
+        {
+
+            Crime[] crimes_committed             = CrimesManager.GetCrimesCommitted(perpetrator.id);
+
+            foreach (var crime in crimes_committed) 
+            {
+                CrimeDetailsForm form            = new CrimeDetailsForm(crime);
+                form.Show();
+            }
         }
 
     }

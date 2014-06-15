@@ -21,37 +21,68 @@ namespace MetroFramework.Demo.Views
         String[] crimes_againist_property            = { "theft", "burglary", "laceny", "auto theft", "arson" };
         String[] crimes_againist_morality            = { "prostitution", "illegal gambling", "drug use" };
         String[] white_collar_crimes                 = { "embezzling", "insider trading", "tax evasion" };
+        Crime crime;
         //internal List<Victim> victims_of_this_crime=new List<Victim>();
 
         public CrimeDetailsForm(Perpetrator perpetrator_id)
         {
             this.perpetrator                         = perpetrator_id;
             InitializeComponent();
+            this.button_getVictims.Visible           = false;
         }
 
-        private void cancel_button_Click(object sender, EventArgs e)
+        public CrimeDetailsForm(Crime crime)
         {
-            this.Close();
+            InitializeComponent();
+            SetCrimeDetails(crime);
+            DisableControls();
+            this.crime                               = crime;
+        }
+
+        private void DisableControls()
+        {
+            this.dateTimePicker_dateOfCrime.Enabled  = false;
+            this.comboBox_type_of_crime.Enabled      = false;
+            this.comboBox_crimeCommited.Enabled      = false;
+            this.textfield_details_of_crime.Enabled  = false;
+            this.button_save.Visible                 = false;
+        }
+
+        private void SetCrimeDetails(Crime crime)
+        {
+            this.dateTimePicker_dateOfCrime.Text     = crime.date_of_crime;
+            this.comboBox_type_of_crime.Text         = crime.type_of_crime;
+            this.comboBox_crimeCommited.Text         = crime.crime_committed;
+            this.textfield_details_of_crime.Text     = crime.details_of_crime;
+        }
+
+        private void button_getVictims_Click(object sender, EventArgs e)
+        {
+            Victim[] victims                         = VictimsManager.GetVictimsOfCrime(this.crime.id);
+            foreach (var victim in victims) 
+            {
+                VictimsDetailsForm form              = new VictimsDetailsForm(victim);
+                form.Show();
+            }
         }
 
         private void save_button_Click(object sender, EventArgs e)
         {
             //get crime details
-            String date_of_crime                     = dateTimePicker1.Text;
+            String date_of_crime                     = dateTimePicker_dateOfCrime.Text;
             String time_of_crime                     = GetTimeOfCrime();
-            String type_of_crime                     = type_of_crime_comboBox.Text;
+            String type_of_crime                     = comboBox_type_of_crime.Text;
             String crime_commited                    = comboBox_crimeCommited.Text;
-            String details_of_crime                  = details_of_crime_textfield.Text;
+            String details_of_crime                  = textfield_details_of_crime.Text;
 
             //create crime object
             Crime crime                              = new Crime(date_of_crime, details_of_crime, type_of_crime, crime_commited, time_of_crime, -1);
 
 
             //if the crime selected has victims
-            if (type_of_crime_comboBox.Text.Equals(types_of_crimes[0]) || type_of_crime_comboBox.Text.Equals(types_of_crimes[1]))
+            if (comboBox_type_of_crime.Text.Equals(types_of_crimes[0]) || comboBox_type_of_crime.Text.Equals(types_of_crimes[1]))
             {
-                
-                Debug.WriteLine("This Crime Has Victims");
+
                 //open victims form
                 VictimsDetailsForm form              = new VictimsDetailsForm(perpetrator, crime);
                 form.Show();
@@ -66,7 +97,7 @@ namespace MetroFramework.Demo.Views
             // we are dealing with a victimless crime
             else
             {
-                Debug.WriteLine("Text=" + comboBox_crimeCommited.Text);
+                Debug.WriteLine("Text                =" + comboBox_crimeCommited.Text);
                 Debug.WriteLine("This Crime Has No Victims");
                 //save perpetrator
                 PerpetratorsManager.Save(perpetrator);
@@ -86,34 +117,20 @@ namespace MetroFramework.Demo.Views
 
         }
 
-        private int GetPerpetratorId()
-        {
-            throw new NotImplementedException();
-        }
-
-        private int GetCrimeId()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         private string GetTimeOfCrime()
         {
-            return "";
-        }
-
-        public void details_of_crime_textfield_MouseDown(object sender, MouseEventArgs e)
-        {
-
+            return comboBox_hours.Text+":"+comboBox_minutes.Text;
         }
 
         private void type_of_crime_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (type_of_crime_comboBox.Text)
+            switch (comboBox_type_of_crime.Text)
             {
                 case "Crime againist Person":
                     comboBox_crimeCommited.Items.Clear();
                     comboBox_crimeCommited.Items.AddRange(crimes_againist_persons);
-                   
+
                     break;
                 case "Crime againist Property":
                     comboBox_crimeCommited.Items.Clear();
@@ -134,7 +151,7 @@ namespace MetroFramework.Demo.Views
 
         private void CrimeDetailsForm_Load(object sender, EventArgs e)
         {
-            type_of_crime_comboBox.SelectedIndex     = 0;
+            comboBox_type_of_crime.SelectedIndex     = 0;
             comboBox_hours.SelectedIndex             = 0;
             comboBox_minutes.SelectedIndex           = 0;
         }
