@@ -8,16 +8,18 @@ namespace MetroFramework.Demo.Factories
 {
     class ThreadFactory
     {
-        public const String ALERT_THREAD = "alert";
-        public const String CAMERA_THREAD = "camera_output";
-        public const String DISPLAY_UPDATER = "display_updater";
-        public const String REVIEW_FACE_DETECTOR = "review_face_detector";
-        public const String LIVE_FACE_DETECTOR = "live_face_detector";
-        public const String FACE_DRAWER = "face_drawer";
-        public const String FACE_TRACKER = "face_tracker";
-        public const String FOOTAGE_SAVER = "footage_saver";
-        public const String VIDEO_THREAD = "video_from_file";
-        public static String[] ALL_THREADS = { ALERT_THREAD, CAMERA_THREAD, DISPLAY_UPDATER, REVIEW_FACE_DETECTOR, LIVE_FACE_DETECTOR, FACE_DRAWER, FACE_TRACKER, FOOTAGE_SAVER, VIDEO_THREAD };
+        public const String ALERT_THREAD                = "alert";
+        public const String CAMERA_THREAD               = "camera_output";
+        public const String DISPLAY_UPDATER             = "display_updater";
+        public const String REVIEW_FACE_DETECTOR        = "review_face_detector";
+        public const String LIVE_FACE_DETECTOR          = "live_face_detector";
+        public const String FACE_DRAWER                 = "face_drawer";
+        public const String FACE_TRACKER                = "face_tracker";
+        public const String FOOTAGE_SAVER               = "footage_saver";
+        public const String VIDEO_THREAD                = "video_from_file";
+        public const string LIVE_FACE_RECOGNIZER       = "live_face_recognizer";
+        public static String[] ALL_THREADS              = { ALERT_THREAD, CAMERA_THREAD, DISPLAY_UPDATER, REVIEW_FACE_DETECTOR, LIVE_FACE_DETECTOR,LIVE_FACE_RECOGNIZER, FACE_DRAWER, FACE_TRACKER, FOOTAGE_SAVER, VIDEO_THREAD };
+        
 
 
         public static AbstractThread CreateThread(String thread_id, bool review_mode)
@@ -39,6 +41,9 @@ namespace MetroFramework.Demo.Factories
                 case LIVE_FACE_DETECTOR:
                     return CreateLiveFaceDetectingThread();
 
+                case LIVE_FACE_RECOGNIZER:
+                    return CreateNewLiveRecognitionThread();
+
                 case FACE_DRAWER:
                     break;
                 case FACE_TRACKER:
@@ -52,13 +57,20 @@ namespace MetroFramework.Demo.Factories
             return null;
         }
 
+        private static AbstractThread CreateNewLiveRecognitionThread()
+        {
+            PerpetratorRecognitionThread perp_recognizer = new PerpetratorRecognitionThread();
+            perp_recognizer.StartWorking();
+            return perp_recognizer;
+        }
+
 
         //STARTS A NEW ALERT GENERATION THREAD
         private static AbstractThread CreateNewAlertGenerationThread()
         {
-            AlertGenerationThread alert_thread = new AlertGenerationThread(null);
-            alert_thread.StartWorking();
-            return alert_thread;
+            //AlertGenerationThread alert_thread          = new AlertGenerationThread(null);
+            //alert_thread.StartWorking();
+            return null;
         }
 
 
@@ -66,7 +78,7 @@ namespace MetroFramework.Demo.Factories
         private static AbstractThread CreateNewCameraOutputGrabberThread()
         {
 
-            CameraOutputGrabberThread cam_output = new CameraOutputGrabberThread();
+            CameraOutputGrabberThread cam_output        = new CameraOutputGrabberThread();
             cam_output.StartWorking();
             return cam_output;
         }
@@ -82,7 +94,7 @@ namespace MetroFramework.Demo.Factories
         //STARTS THREAD TO DETECT FACES IN FRAME OFF THE MAIN THREAD
         private static AbstractThread CreateReviewFaceDetectingThread()
         {
-            FaceDetectingThread face_detector = new FaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height);
+            FaceDetectingThread face_detector           = new FaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height);
             face_detector.StartWorking();
             return face_detector;
         }
@@ -98,7 +110,7 @@ namespace MetroFramework.Demo.Factories
         //STARTS A NEW FOOTAGE SAVING THREAD
         private static AbstractThread CreateFootageSaverThread()
         {
-            FootageSavingThread footage_saver = new FootageSavingThread(CameraOutputGrabberThread.camera_capture);
+            FootageSavingThread footage_saver           = new FootageSavingThread(CameraOutputGrabberThread.camera_capture);
             footage_saver.StartWorking();
             return footage_saver;
         }
@@ -112,11 +124,11 @@ namespace MetroFramework.Demo.Factories
             if (review_mode)
             {
 
-                video_updater = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"), review_mode);
+                video_updater                           = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"), review_mode);
             }
             else
             {
-                video_updater = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"), review_mode);
+                video_updater                           = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"), review_mode);
             }
 
             video_updater.StartWorking();

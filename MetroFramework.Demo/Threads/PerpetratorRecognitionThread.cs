@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
@@ -25,9 +26,12 @@ namespace MetroFramework.Demo.Threads
         //global count of all alerts raised
         private static int count=0;
 
+        
+
         //constructor
-        public PerpetratorRecognitionThread(Image<Gray, byte> face_to_recognize) : base(face_to_recognize) 
+        public PerpetratorRecognitionThread():base(null)
         {
+            
             //get all active perpetrators
             perpetrators           = PerpetratorsManager.GetAllActivePerpetrators();
 
@@ -68,6 +72,35 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
+        public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            while (running) 
+            {
+                if (!paused) 
+                {
+                    Debug.WriteLine("Dequeueing datastore");
+                    //try dequeueing a frame from shared datastore
+                    bool sucessfull = Singleton.FACES_TO_RECOGNIZE.TryDequeue(out face_to_recognize);
+
+                    //if dequeue is ok
+                    if (sucessfull)
+                    {
+                        Debug.WriteLine("Recognizing face");
+                        //try to recognize the face
+                        RecognizeFace(face_to_recognize);
+
+                        Debug.WriteLine("Displaying progress");
+                        //display the recognition progress
+                        DisplayFaceRecognitionProgress();
+
+                        Debug.WriteLine("Generating Alarm");
+                        //Generate Alarm
+                        GenerateAlarm();
+                    }
+                }
+            }
+        }
+
         //gets the names of all active perpetrators as stored in the database
         private string[] GetNamesOfPerpetrators()
         {
@@ -92,7 +125,7 @@ namespace MetroFramework.Demo.Threads
         protected override void GenerateAlarm()
         {
             //if the recognition returns a name
-            if (name_of_recognized_face != null)
+            if (name_of_recognized_face != null && name_of_recognized_face.Length >= 3)
             {
                 //get the perpetrator associated with the name
                 Perpetrator identified_perp = GetIdentifiedPerp(name_of_recognized_face);
@@ -140,14 +173,18 @@ namespace MetroFramework.Demo.Threads
         //returns the perpetraor associated with given name
         private Perpetrator GetIdentifiedPerp(string name_of_recognized_face)
         {
-            //split the name up using the ' ' char
-            String[] items = name_of_recognized_face.Split(' ');
+            if (name_of_recognized_face!=null&&name_of_recognized_face.Length>=3)
+            {
+                //split the name up using the ' ' char
+                String[] items = name_of_recognized_face.Split(' ');
 
-            //get the second item in the array which is the id of the perpetrator
-            String id = items[1];
+                //get the second item in the array which is the id of the perpetrator
+                String id = items[1];
 
-            //return the perpetrator associated with that id
-            return PerpetratorsManager.GetPerpetrator(Convert.ToInt32(id));
+                //return the perpetrator associated with that id
+                return PerpetratorsManager.GetPerpetrator(Convert.ToInt32(id));
+            }
+            return null;
         }
 
         public override void DisplayFaceRecognitionProgress()
@@ -170,13 +207,13 @@ namespace MetroFramework.Demo.Threads
                     perpetrators_pictureBox.BorderStyle = BorderStyle.Fixed3D;
 
                     //create Progress Label
-                    Label progress_label = new Label();
+                    progress_label = new Label();
                     progress_label.Location = new Point(x + 133, y + 50);
                     progress_label.ForeColor = Color.Green;
                     progress_label.Text = "0%";
 
                     //create separator label
-                    Label separator = new Label();
+                    separator = new Label();
                     separator.Location = new Point(5, y + 132);
                     separator.AutoSize = false;
                     separator.Height = 2;
@@ -199,6 +236,7 @@ namespace MetroFramework.Demo.Threads
                         action = () => panel.Controls.Add(separator);
                         panel.Invoke(action);
                     }
+
                     //if no invokes are needed then
                     else
                     {
@@ -210,15 +248,58 @@ namespace MetroFramework.Demo.Threads
                     }
 
                     //create a new progress thread to show face recog progress
-                    FaceRecognitionProgress progress = new FaceRecognitionProgress(this, perpetrators_pictureBox, progress_label);
-                    progress.StartWorking();
-
+                    ShowFaceRecognitionProgress(null);
 
                     y += 145;
 
                 }
             }    
         }
+
+        private void ShowFaceRecognitionProgress(object state)
+        {
+            //this keeps track of progress
+            double i = 1;
+
+            //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
+            foreach (var face in known_faces.ToArray())
+            {
+                //get the amount of work done
+                int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
+
+
+                //display perp facee
+                SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", face.ToBitmap());
+
+                if (percentage_completed >= 100)
+                {
+                    if ((name_of_recognized_face != null && name_of_recognized_face.Length >= 3))
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Purple;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
+                    }
+                    else
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Red;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
+                    }
+                }
+                else 
+                {        
+                        //update progress label
+                        SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+                }
+
+                //let the thread sleep
+                Thread.Sleep(SLEEP_TIME);
+
+                i++;
+            }
+        }
+
+
              
     }
 }

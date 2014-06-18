@@ -66,10 +66,10 @@ namespace MetroFramework.Demo.Threads
             //create names list
             List<String> names_list = new List<String>();
 
-            //for each student add their name and std number to name lables
+            //for each student add their name and id to name lables
             foreach (var student in students)
             {
-                names_list.Add(student.firstName + " " + student.lastName + " std_no: " + student.studentNo);
+                names_list.Add(student.firstName+ " " + student.id);
             }
 
             //return array of names
@@ -78,10 +78,24 @@ namespace MetroFramework.Demo.Threads
 
         protected override void GenerateAlarm()
         {
-            if (name_of_recognized_face != null)
+            if (name_of_recognized_face != null&&name_of_recognized_face.Length>=3)
             {
-                //generate alarm
+                Student student = GetStudentIdentified(name_of_recognized_face);
+                AlertGenerationThread alert = new AlertGenerationThread(student);
+                alert.StartWorking();
             }
+        }
+
+        private Student GetStudentIdentified(string name_of_recognized_face)
+        {
+            //split the name returned up using the space char
+            String[] parts = name_of_recognized_face.Split(' ');
+
+            //get the second item in the array this should be the id
+            int id = Convert.ToInt32(parts[1]);
+
+            //get the student with the id
+            return StudentsManager.GetStudent(id);
         }
 
         public override void DisplayFaceRecognitionProgress()

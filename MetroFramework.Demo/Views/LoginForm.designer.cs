@@ -99,10 +99,10 @@ namespace MetroFramework.Demo
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(7, 156);
+            this.progressBar.Location = new System.Drawing.Point(7, 171);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(483, 10);
-            this.progressBar.Style = MetroFramework.MetroColorStyle.Red;
+            this.progressBar.Size = new System.Drawing.Size(483, 5);
+            this.progressBar.Style = MetroFramework.MetroColorStyle.Green;
             this.progressBar.TabIndex = 25;
             this.progressBar.Visible = false;
             // 
@@ -118,23 +118,23 @@ namespace MetroFramework.Demo
             this.user_login.UseSelectable = true;
             this.user_login.Click += new System.EventHandler(this.user_login_Click);
             // 
-            // pass_word
+            // textbox_password
             // 
             this.textbox_password.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.textbox_password.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textbox_password.Location = new System.Drawing.Point(174, 60);
-            this.textbox_password.Name = "pass_word";
+            this.textbox_password.Name = "textbox_password";
             this.textbox_password.PasswordChar = '*';
             this.textbox_password.Size = new System.Drawing.Size(192, 30);
             this.textbox_password.TabIndex = 23;
             // 
-            // user_name
+            // textbox_username
             // 
             this.textbox_username.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.textbox_username.Font = new System.Drawing.Font("Trebuchet MS", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textbox_username.Location = new System.Drawing.Point(174, 19);
             this.textbox_username.Multiline = true;
-            this.textbox_username.Name = "user_name";
+            this.textbox_username.Name = "textbox_username";
             this.textbox_username.Size = new System.Drawing.Size(192, 27);
             this.textbox_username.TabIndex = 22;
             // 

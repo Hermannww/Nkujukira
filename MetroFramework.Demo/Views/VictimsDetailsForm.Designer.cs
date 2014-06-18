@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.progressBar = new MetroFramework.Controls.MetroProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.button_save = new MetroFramework.Controls.MetroButton();
             this.date_of_birth = new System.Windows.Forms.DateTimePicker();
@@ -42,8 +44,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,6 +70,26 @@
             this.panel1.Size = new System.Drawing.Size(548, 418);
             this.panel1.TabIndex = 0;
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(151, 391);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(385, 5);
+            this.progressBar.Style = MetroFramework.MetroColorStyle.Green;
+            this.progressBar.TabIndex = 43;
+            this.progressBar.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(264, 356);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(156, 19);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "Enter The Details Here";
+            // 
             // metroButton1
             // 
             this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -82,12 +102,12 @@
             this.metroButton1.UseSelectable = true;
             this.metroButton1.Click += new System.EventHandler(this.another_victim_button_Click);
             // 
-            // done_button
+            // button_save
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_save.Location = new System.Drawing.Point(151, 296);
-            this.button_save.Name = "done_button";
+            this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(178, 37);
             this.button_save.TabIndex = 40;
             this.button_save.Text = "Save";
@@ -198,26 +218,6 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Name";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(264, 356);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(156, 19);
-            this.label1.TabIndex = 42;
-            this.label1.Text = "Enter The Details Here";
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(151, 391);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(385, 10);
-            this.progressBar.Style = MetroFramework.MetroColorStyle.Red;
-            this.progressBar.TabIndex = 43;
-            this.progressBar.Visible = false;
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -231,7 +231,6 @@
             this.Name = "VictimsDetailsForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
-            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Victims Details";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;

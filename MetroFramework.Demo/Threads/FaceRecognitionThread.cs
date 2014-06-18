@@ -24,7 +24,7 @@ namespace MetroFramework.Demo.Threads
         private const double EIGEN_DISTANCE_THRESHOLD                           = 100;
 
         //font for writing on images
-        private MCvFont font                                                    = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 0.5d, 0.5d);
+        //private MCvFont font                                                    = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 0.5d, 0.5d);
 
         //images of faces of people to be compared againist
         protected List<Image<Gray, byte>> known_faces                           = null;
@@ -34,21 +34,25 @@ namespace MetroFramework.Demo.Threads
 
         //face of the perpetrator to be recognized
         protected Image<Gray, byte> face_to_recognize                           = null;
-        protected string name_of_recognized_face                                = null;
+        protected static string name_of_recognized_face                         = null;
         protected int maximum_iteration, num_labels;
 
         //controls for displaying results
         protected PictureBox perpetrators_pictureBox                            = null;
         protected PictureBox unknown_face_pictureBox                            = null;
+        protected const int SLEEP_TIME                                          = 200;
+        protected Label separator                                               = null;
+        protected Label progress_label                                          = null;
 
         
        
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize): base()
         {
-            this.face_to_recognize                                              = face_to_recognize;
+            this.face_to_recognize                                              = face_to_recognize            ;
             known_faces                                                         = new List<Image<Gray, byte>>();
-            known_faces_labels                                                  = new List<string>();
+            known_faces_labels                                                  = new List<string>()           ;
+            name_of_recognized_face = null                                                                     ;
         }
 
         public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -56,12 +60,12 @@ namespace MetroFramework.Demo.Threads
             if (!paused)
             {
                 Debug.WriteLine("Recognizing face NOW");
-                RecognizeFace(); 
+                RecognizeFace(face_to_recognize); 
             }
         }
 
-        private String RecognizeFace()
-        {
+      public String RecognizeFace(Image<Gray,byte> face)
+      {
             if (known_faces.Count()!= 0)
             {
                 //Termination criteria for face recognition
@@ -83,7 +87,7 @@ namespace MetroFramework.Demo.Threads
                 int width                                                       = known_faces.ToArray()[0].Width;
                 int height                                                      = known_faces.ToArray()[0].Height;
 
-                face_to_recognize                                               = FramesManager.ResizeGrayImage(face_to_recognize, new Size(width, height));
+                face_to_recognize                                               = FramesManager.ResizeGrayImage(face, new Size(width, height));
 
                 //attempt to recognize the perpetrator
                 name_of_recognized_face                                         = recognizer.Recognize(face_to_recognize);
@@ -112,7 +116,7 @@ namespace MetroFramework.Demo.Threads
 
         public class FaceRecognitionProgress:AbstractThread
         {
-            private const int SLEEP_TIME = 200;
+            
 
             private List<Image<Gray,byte>> known_faces;
             private PictureBox perp_picturebox;
@@ -170,16 +174,31 @@ namespace MetroFramework.Demo.Threads
                 //get percentage completed
                 int percentage_completed = e.ProgressPercentage;
 
-                if (percentage_completed >= 95)
-                {
-                    percentage_completed = 100;
-                }
 
+                if (percentage_completed >= 100)
+                {
+                    if ((name_of_recognized_face != null && name_of_recognized_face.Length >= 3))
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Purple;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
+                    }
+                    else
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Red;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
+                    }
+                }
+                else
+                {
+                    //update progress label
+                    SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+                }
                 //display perp facee
                 SetControlPropertyThreadSafe(perp_picturebox, "Image", current_face.ToBitmap());
 
-                //update progress label
-                SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+                
 
                
             }

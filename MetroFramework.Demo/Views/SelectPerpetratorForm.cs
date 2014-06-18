@@ -80,7 +80,7 @@ namespace MetroFramework.Demo
             }
 
             SelectPerpetratorFacesForm form = new SelectPerpetratorFacesForm();
-            form.Show();
+            form.ShowDialog();
             this.Close();
         }
 

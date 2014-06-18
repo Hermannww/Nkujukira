@@ -83,13 +83,15 @@ namespace MetroFramework.Demo.Views
             if (comboBox_type_of_crime.Text.Equals(types_of_crimes[0]) || comboBox_type_of_crime.Text.Equals(types_of_crimes[1]))
             {
 
-                //open victims form
+                //create victims form
                 VictimsDetailsForm form              = new VictimsDetailsForm(perpetrator, crime);
-                form.Show();
 
                 //close this form
                 this.Close();
 
+                //show it
+                form.ShowDialog();
+                
                 //return
                 return;
             }

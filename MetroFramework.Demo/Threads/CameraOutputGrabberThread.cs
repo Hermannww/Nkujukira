@@ -18,7 +18,7 @@ namespace MetroFramework.Demo.Threads
         public CameraOutputGrabberThread()
             : base()
         {
-            camera_capture = new Capture();
+            camera_capture = new Capture(@"C:\Users\ken\Pictures\VDs\video1.AVI");
             WORK_DONE = false;
 
         }

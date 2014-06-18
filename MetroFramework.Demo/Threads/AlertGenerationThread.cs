@@ -11,10 +11,18 @@ namespace MetroFramework.Demo.Threads
     {
         private Perpetrator identified_perpetrator;
         private SoundPlayingThread sound_player;
+        private Student identified_student;
         
         public AlertGenerationThread(Perpetrator identified_perpetrator) :base()
         {
             this.identified_perpetrator=identified_perpetrator;
+            this.sound_player = new SoundPlayingThread();
+        }
+
+        public AlertGenerationThread(Student identified_student)
+            : base()
+        {
+            this.identified_student = identified_student;
             this.sound_player = new SoundPlayingThread();
         }
 
@@ -35,6 +43,11 @@ namespace MetroFramework.Demo.Threads
             return this.identified_perpetrator.id == perpetrator.id;
         }
 
+        public bool IsAboutSameStudent(Student student)
+        {
+            return this.identified_student.id == student.id;
+        }
+
         public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             DisplayDetails();
@@ -43,9 +56,15 @@ namespace MetroFramework.Demo.Threads
 
         public void DisplayDetails() 
         {
-            Debug.WriteLine("Displaying details NOW");
-            PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
-            form.Show();
+            if (identified_perpetrator != null)
+            {
+                Debug.WriteLine("Displaying details NOW");
+                PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
+                form.Show();
+                return;
+            }
+            
+
         }
 
         public override bool RequestStop()

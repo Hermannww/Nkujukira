@@ -87,11 +87,8 @@ namespace MetroFramework.Demo.Threads
                         //get the face
                         Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
 
-                        //create a new face recognition thread
-                        FaceRecognitionThread perpetrator_recognizer = new PerpetratorRecognitionThread(face);
-
-                        //start recognizing
-                        perpetrator_recognizer.StartWorking();
+                        //add face to shared datastore so face recog thread can access it
+                        Singleton.FACES_TO_RECOGNIZE.Enqueue(face);
                     }
                 }
 

@@ -44,14 +44,17 @@ namespace MetroFramework.Demo.Threads
         public static void SetControlPropertyThreadSafe(Control control, string propertyName, object propertyValue)
         {
             //IF AN INVOKE IS REQUIRED FOR THIS CONTROL
-            if (control.InvokeRequired)
+            if (control != null)
             {
-                //INVOKE THE UPDATE OPERATION
-                control.Invoke(new SetControlPropertyThreadSafeDelegate(SetControlPropertyThreadSafe), new object[] { control, propertyName, propertyValue });
-            }
-            else
-            {
-                control.GetType().InvokeMember(propertyName, BindingFlags.SetProperty, null, control, new object[] { propertyValue });
+                if (control.InvokeRequired)
+                {
+                    //INVOKE THE UPDATE OPERATION
+                    control.Invoke(new SetControlPropertyThreadSafeDelegate(SetControlPropertyThreadSafe), new object[] { control, propertyName, propertyValue });
+                }
+                else
+                {
+                    control.GetType().InvokeMember(propertyName, BindingFlags.SetProperty, null, control, new object[] { propertyValue });
+                }
             }
         }
 

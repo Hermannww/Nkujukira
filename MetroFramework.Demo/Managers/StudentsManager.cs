@@ -132,7 +132,7 @@ namespace MetroFramework.Demo.Managers
             return images;
         }
 
-        public static Student GetStudent(String id)
+        public static Student GetStudent(int id)
         {
             try
             {

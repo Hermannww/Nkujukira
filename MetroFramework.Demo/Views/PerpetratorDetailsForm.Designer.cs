@@ -109,12 +109,12 @@
             this.comboBox_is_active.TabIndex = 29;
             this.comboBox_is_active.Text = "Yes";
             // 
-            // done_button
+            // button_save
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_save.Location = new System.Drawing.Point(310, 205);
-            this.button_save.Name = "done_button";
+            this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(171, 48);
             this.button_save.TabIndex = 27;
             this.button_save.Text = "Save";
@@ -195,6 +195,7 @@
             this.Text = "Perpetrators Details";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.PerpetratorDetails_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -355,9 +355,12 @@ namespace MetroFramework.Demo
             {
                 if (review_footage_image_box.Image!=null)
                 {
+                    //pause the video
                     PauseVideo();
+
+                    //create new form
                     SelectPerpetratorForm form = new SelectPerpetratorForm((Image<Bgr, byte>)review_footage_image_box.Image);
-                    form.Show();
+                    form.ShowDialog();
                 }
             }
         }

@@ -77,6 +77,20 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
+        public static ConcurrentQueue<Image<Gray, byte>> faces_to_recognize=new ConcurrentQueue<Image<Gray,byte>>();
+
+        public static ConcurrentQueue<Image<Gray, byte>> FACES_TO_RECOGNIZE
+        {
+            get
+            {
+                return Singleton.faces_to_recognize;
+            }
+            set
+            {
+                Singleton.faces_to_recognize = value;
+            }
+        }
+
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_stored    = new ConcurrentQueue<Image<Bgr, byte>>();
 
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_STORED

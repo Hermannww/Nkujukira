@@ -53,6 +53,7 @@ namespace MetroFramework.Demo
             this.time_elapsed_label = new System.Windows.Forms.Label();
             this.review_footage_color_slider = new MB.Controls.ColorSlider();
             this.panel_for_detected_faces = new System.Windows.Forms.Panel();
+            this.label_face_recognition_status = new System.Windows.Forms.Label();
             this.label_separator = new System.Windows.Forms.Label();
             this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
@@ -83,7 +84,6 @@ namespace MetroFramework.Demo
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
-            this.label_face_recognition_status = new System.Windows.Forms.Label();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -384,6 +384,18 @@ namespace MetroFramework.Demo
             this.panel_for_detected_faces.TabIndex = 22;
             this.panel_for_detected_faces.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_for_detected_faces_Paint);
             // 
+            // label_face_recognition_status
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label_face_recognition_status, true);
+            this.label_face_recognition_status.AutoSize = true;
+            this.label_face_recognition_status.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_face_recognition_status.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label_face_recognition_status.Location = new System.Drawing.Point(59, 11);
+            this.label_face_recognition_status.Name = "label_face_recognition_status";
+            this.label_face_recognition_status.Size = new System.Drawing.Size(205, 19);
+            this.label_face_recognition_status.TabIndex = 3;
+            this.label_face_recognition_status.Text = "FACE COMPARISON ONGOING";
+            // 
             // label_separator
             // 
             this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -628,7 +640,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-2799, 26);
+            this.tile1.Location = new System.Drawing.Point(-3162, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
@@ -736,18 +748,6 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
-            // label14
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label_face_recognition_status, true);
-            this.label_face_recognition_status.AutoSize = true;
-            this.label_face_recognition_status.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_face_recognition_status.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label_face_recognition_status.Location = new System.Drawing.Point(59, 11);
-            this.label_face_recognition_status.Name = "label14";
-            this.label_face_recognition_status.Size = new System.Drawing.Size(205, 19);
-            this.label_face_recognition_status.TabIndex = 3;
-            this.label_face_recognition_status.Text = "FACE COMPARISON ONGOING";
-            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -758,12 +758,14 @@ namespace MetroFramework.Demo
             this.ClientSize = new System.Drawing.Size(966, 525);
             this.Controls.Add(this.linkLabel_logout);
             this.Controls.Add(this.metroTabControl1);
+            this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.StyleManager = this.metroStyleManager;
             this.Text = "Nkujukira";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);

@@ -18,16 +18,18 @@ namespace MetroFramework.Demo.Entitities
         {
             try
             {
-                finished_playing                     = false;
-                lock (wave_out_device)
+                finished_playing = false;
+
+                if (wave_out_device == null && audio_file_reader == null)
                 {
-                    lock (audio_file_reader)
+
+                    wave_out_device = new WaveOut();
+                    wave_out_device.PlaybackStopped += wave_out_device_PlaybackStopped;
+                    audio_file_reader = new AudioFileReader(file_name);
+                    lock (wave_out_device)
                     {
-                        if (wave_out_device == null && audio_file_reader == null)
+                        lock (audio_file_reader)
                         {
-                            wave_out_device = new WaveOut();
-                            wave_out_device.PlaybackStopped += wave_out_device_PlaybackStopped;
-                            audio_file_reader = new AudioFileReader(file_name);
                             wave_out_device.Init(audio_file_reader);
                             wave_out_device.Play();
                         }
@@ -43,8 +45,8 @@ namespace MetroFramework.Demo.Entitities
 
         private void wave_out_device_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            finished_playing  = true;
-            wave_out_device   = null;
+            finished_playing = true;
+            wave_out_device = null;
             audio_file_reader = null;
         }
 
@@ -56,7 +58,7 @@ namespace MetroFramework.Demo.Entitities
                 {
                     wave_out_device.Stop();
                     audio_file_reader = null;
-                    wave_out_device   = null;
+                    wave_out_device = null;
                 }
             }
             catch (Exception)

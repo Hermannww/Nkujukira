@@ -88,11 +88,13 @@ namespace MetroFramework.Demo
             //create crime details form
             CrimeDetailsForm form                = new CrimeDetailsForm(perpetrator);
 
-            //show the form
-            form.Show();
-
             //close this one
             this.Close();
+
+            //show the form
+            form.ShowDialog();
+
+           
 
         }
 

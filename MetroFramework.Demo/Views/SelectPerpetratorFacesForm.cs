@@ -95,16 +95,18 @@ namespace MetroFramework.Demo.Views
 
             Perpetrator perpetrator = new Perpetrator(perpetrator_faces, true, "");
 
-
             //clear datastore
             suspect_faces.Clear();
 
             //open perpetrator details box
             PerpetratorDetailsForm form = new PerpetratorDetailsForm(perpetrator);
-            form.Show();
 
             //close this form
             this.Close();
+
+            form.ShowDialog();
+
+          
         }
 
         public ImageListView GetImageListView()

@@ -50,9 +50,9 @@
             // 
             this.perpetrator_frame_picture_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.perpetrator_frame_picture_box.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.perpetrator_frame_picture_box.Location = new System.Drawing.Point(7, 61);
+            this.perpetrator_frame_picture_box.Location = new System.Drawing.Point(23, 61);
             this.perpetrator_frame_picture_box.Name = "perpetrator_frame_picture_box";
-            this.perpetrator_frame_picture_box.Size = new System.Drawing.Size(409, 281);
+            this.perpetrator_frame_picture_box.Size = new System.Drawing.Size(379, 281);
             this.perpetrator_frame_picture_box.TabIndex = 4;
             this.perpetrator_frame_picture_box.TabStop = false;
             this.perpetrator_frame_picture_box.Paint += new System.Windows.Forms.PaintEventHandler(this.perpetrator_frame_picture_box_Paint);
@@ -89,6 +89,7 @@
             this.ShowInTaskbar = false;
             this.Text = "SelectPerpetrator";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_frame_picture_box)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
