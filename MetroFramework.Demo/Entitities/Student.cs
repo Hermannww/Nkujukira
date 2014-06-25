@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Entitities
 {
-    public class Student
+    public class Student:Entity
     {
         public int id { get; set; }
         public String firstName { get; set; }

@@ -8,6 +8,7 @@ namespace MetroFramework.Demo.Managers
 {
     public class ThreadManager
     {
+        //ALL THREADS AVAILABLE
         private static CameraOutputGrabberThread              cam_output;
         private static VideoFromFileThread                    video_from_file_grabber;
         private static FaceDetectingThread                    review_face_detector;
@@ -19,7 +20,7 @@ namespace MetroFramework.Demo.Managers
         private static FootageSavingThread                    footage_saver;
         private static PerpetratorRecognitionThread           live_face_recognizer;
 
-
+        //STARTS THE THREADS DEPENDING ON THE STATE OF THE APP
         public static bool StartIntroThreads(bool review_mode)
         {
             if (review_mode)
@@ -31,16 +32,17 @@ namespace MetroFramework.Demo.Managers
             {
                 StartNewThread(ThreadFactory.CAMERA_THREAD, false);
                 StartNewThread(ThreadFactory.LIVE_FACE_DETECTOR, false);
-                Debug.WriteLine("STARTING FACE RECOG THREAD");
                 StartNewThread(ThreadFactory.LIVE_FACE_RECOGNIZER, false);
                 StartNewThread(ThreadFactory.FOOTAGE_SAVER, false);
+                StartNewThread(ThreadFactory.ALERT_THREAD, false);
             }
 
-            StartNewThread(ThreadFactory.DISPLAY_UPDATER, review_mode);
+            //StartNewThread(ThreadFactory.DISPLAY_UPDATER, review_mode);
 
             return false;
         }
 
+        //THIS CREATES AND STARTS A NEW THREAD DEPENDING ON ITS ID
         public static bool StartNewThread(String thread_id, bool review_mode)
         {
             switch (thread_id)
@@ -117,7 +119,7 @@ namespace MetroFramework.Demo.Managers
         }
 
 
-
+        //RETURNS A THREAD BASED ON ITS ID
         public static AbstractThread GetThread(String thread_id)
         {
             switch (thread_id)
@@ -152,6 +154,7 @@ namespace MetroFramework.Demo.Managers
             return null;
         }
 
+        //THIS PAUSES A THREAD GIVEN ITS ID
         public static bool PauseThread(String thread_id)
         {
             switch (thread_id)
@@ -193,6 +196,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //THIS PAUSES ALL RUNNING THREADS
         public static bool PauseAllThreads()
         {
             foreach (var thread in ThreadFactory.ALL_THREADS)
@@ -202,6 +206,7 @@ namespace MetroFramework.Demo.Managers
             return false;
         }
 
+        //THIS RESUMES A THREAD GIVEN ITS ID
         public static bool ResumeThread(String thread_id)
         {
             switch (thread_id)
@@ -244,6 +249,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //THIS RESUMES ALL RUNNING THREADS
         public static bool ResumeAllThreads()
         {
             foreach (var thread in ThreadFactory.ALL_THREADS)
@@ -253,6 +259,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //THIS STOPS A RUNNING THREAD GIVEN ITS iD
         public static bool StopThread(String thread_id)
         {
             switch (thread_id)
@@ -276,6 +283,10 @@ namespace MetroFramework.Demo.Managers
                     if (live_face_detector != null) { live_face_detector.RequestStop(); }
                     break;
 
+                case ThreadFactory.LIVE_FACE_RECOGNIZER:
+                    if (live_face_recognizer != null) { live_face_recognizer.RequestStop(); }
+                    break;
+
                 case ThreadFactory.FACE_DRAWER:
                     break;
 
@@ -294,6 +305,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //THIS STOPS ALL RUNNING THREADS
         public static bool StopAllThreads()
         {
 
@@ -304,6 +316,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //THIS RELEASES ALL RESOURCES CONSUMED BY A THREAD GIVEN ITS ID
         public static bool ReleaseThreadResources(String thread_id)
         {
             switch (thread_id)
@@ -328,6 +341,10 @@ namespace MetroFramework.Demo.Managers
                     live_face_detector = null;
                     break;
 
+                case ThreadFactory.LIVE_FACE_RECOGNIZER:
+                    live_face_recognizer= null;
+                    break;
+
                 case ThreadFactory.FACE_DRAWER:
                     face_drawer = null;
                     break;
@@ -347,6 +364,7 @@ namespace MetroFramework.Demo.Managers
             return true;
         }
 
+        //RELEASES ALL RESOURCES CONSUMED BY A THREAD
         public static bool ReleaseAllThreadResources()
         {
             foreach (var thread in ThreadFactory.ALL_THREADS)

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Entitities
 {
-    public class Perpetrator
+    public class Perpetrator:Entity
     {
 
         public int id { get; set; }

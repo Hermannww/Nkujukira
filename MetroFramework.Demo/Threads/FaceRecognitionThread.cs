@@ -40,7 +40,7 @@ namespace MetroFramework.Demo.Threads
         //controls for displaying results
         protected PictureBox perpetrators_pictureBox                            = null;
         protected PictureBox unknown_face_pictureBox                            = null;
-        protected const int SLEEP_TIME                                          = 200;
+        protected const int SLEEP_TIME                                          = 30;
         protected Label separator                                               = null;
         protected Label progress_label                                          = null;
 
@@ -49,17 +49,16 @@ namespace MetroFramework.Demo.Threads
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize): base()
         {
-            this.face_to_recognize                                              = face_to_recognize            ;
+            this.face_to_recognize                                              = face_to_recognize;
             known_faces                                                         = new List<Image<Gray, byte>>();
-            known_faces_labels                                                  = new List<string>()           ;
-            name_of_recognized_face = null                                                                     ;
+            known_faces_labels                                                  = new List<string>();
+            name_of_recognized_face                                             = null;
         }
 
         public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             if (!paused)
             {
-                Debug.WriteLine("Recognizing face NOW");
                 RecognizeFace(face_to_recognize); 
             }
         }
@@ -99,116 +98,13 @@ namespace MetroFramework.Demo.Threads
             return null;
         }
 
-        public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            DisplayFaceRecognitionProgress();
-        }
-
         protected abstract void LoadPreviousTrainedFaces();
 
-
-
-        public abstract void DisplayFaceRecognitionProgress();
-        
+        public abstract void DisplayFaceRecognitionProgress(int x_pos,int y_pos);
 
         protected abstract void GenerateAlarm();
        
-
-        public class FaceRecognitionProgress:AbstractThread
-        {
-            
-
-            private List<Image<Gray,byte>> known_faces;
-            private PictureBox perp_picturebox;
-            private Label progress_label;
-            private Image<Gray, byte> current_face;
-            private FaceRecognitionThread thread;
-
-            public FaceRecognitionProgress(FaceRecognitionThread thread,PictureBox perp_picturebox,Label progress_label)
-            {
-                //initialize some variables
-                this.known_faces                             = thread.known_faces;
-                this.perp_picturebox                         = perp_picturebox;
-                this.progress_label                          = progress_label;
-                this.thread                                  = thread;
-
-                //initialize back ground worker
-                background_worker                            = new BackgroundWorker();
-                background_worker.WorkerReportsProgress      = true;
-                background_worker.WorkerSupportsCancellation = true;
-
-                //set event handlers
-                background_worker.DoWork             += new DoWorkEventHandler(DoWork);
-                background_worker.ProgressChanged    += new ProgressChangedEventHandler(ProgressChanged);
-                background_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ThreadIsDone);
-
-                
-            }
-
-            public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-            {
-                //this keeps track of progress
-                double i = 1;
-
-                //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
-                foreach (var face in known_faces.ToArray())
-                {
-                    //get the amount of work done
-                    int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
-
-                    //make the current face global access
-                    current_face = face;
-
-                    //report progress
-                    background_worker.ReportProgress(percentage_completed);
-
-                    //let the thread sleep
-                    Thread.Sleep(SLEEP_TIME);
-
-                    i++;
-                }
-            }
-
-            public override void ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-            {
-                //get percentage completed
-                int percentage_completed = e.ProgressPercentage;
-
-
-                if (percentage_completed >= 100)
-                {
-                    if ((name_of_recognized_face != null && name_of_recognized_face.Length >= 3))
-                    {
-                        //update progress label
-                        progress_label.ForeColor = Color.Purple;
-                        SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
-                    }
-                    else
-                    {
-                        //update progress label
-                        progress_label.ForeColor = Color.Red;
-                        SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
-                    }
-                }
-                else
-                {
-                    //update progress label
-                    SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
-                }
-                //display perp facee
-                SetControlPropertyThreadSafe(perp_picturebox, "Image", current_face.ToBitmap());
-
-                
-
-               
-            }
-
-            public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)
-            {
-                thread.GenerateAlarm();
-            }
-        
-        }
+       
 
     }
 }

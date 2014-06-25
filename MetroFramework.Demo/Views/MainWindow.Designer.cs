@@ -111,7 +111,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 1;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 445);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -204,6 +204,7 @@ namespace MetroFramework.Demo
             this.stop_button_1.Text = "Stop";
             this.metroToolTip.SetToolTip(this.stop_button_1, "Button Tooltip");
             this.stop_button_1.UseSelectable = true;
+            this.stop_button_1.Click += new System.EventHandler(this.stop_button_1_Click);
             // 
             // panel1
             // 
@@ -358,8 +359,8 @@ namespace MetroFramework.Demo
             this.review_footage_color_slider.BackColor = System.Drawing.Color.Transparent;
             this.review_footage_color_slider.BarInnerColor = System.Drawing.Color.White;
             this.review_footage_color_slider.BorderRoundRectSize = new System.Drawing.Size(8, 8);
-            this.review_footage_color_slider.ElapsedInnerColor = System.Drawing.Color.Red;
-            this.review_footage_color_slider.ElapsedOuterColor = System.Drawing.Color.Maroon;
+            this.review_footage_color_slider.ElapsedInnerColor = System.Drawing.Color.Turquoise;
+            this.review_footage_color_slider.ElapsedOuterColor = System.Drawing.Color.Teal;
             this.review_footage_color_slider.LargeChange = ((uint)(5u));
             this.review_footage_color_slider.Location = new System.Drawing.Point(4, 317);
             this.review_footage_color_slider.Name = "review_footage_color_slider";
@@ -640,7 +641,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-3162, 26);
+            this.tile1.Location = new System.Drawing.Point(-3525, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;

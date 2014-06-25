@@ -1,6 +1,6 @@
 ﻿namespace MetroFramework.Demo.Views
 {
-    partial class AddStudentDialog
+    partial class StudentDetailsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentDetailsForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.picturebox_studentPic = new System.Windows.Forms.PictureBox();
             this.label_status = new System.Windows.Forms.Label();
             this.combobox_year = new System.Windows.Forms.TextBox();
             this.combobox_month = new MetroFramework.Controls.MetroComboBox();
             this.combobox_day = new MetroFramework.Controls.MetroComboBox();
-            this.addImageFile = new MetroFramework.Controls.MetroButton();
-            this.addStudent = new MetroFramework.Controls.MetroButton();
+            this.button_addphotos = new MetroFramework.Controls.MetroButton();
+            this.button_addStudent = new MetroFramework.Controls.MetroButton();
             this.textbox_lastname = new System.Windows.Forms.TextBox();
             this.combobox_gender = new MetroFramework.Controls.MetroComboBox();
             this.textbox_course = new System.Windows.Forms.TextBox();
@@ -42,7 +44,7 @@
             this.textbox_studentno = new System.Windows.Forms.TextBox();
             this.textbox_middlename = new System.Windows.Forms.TextBox();
             this.textbox_firstname = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label_photos = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,17 +54,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picturebox_studentPic)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.picturebox_studentPic);
             this.panel1.Controls.Add(this.label_status);
             this.panel1.Controls.Add(this.combobox_year);
             this.panel1.Controls.Add(this.combobox_month);
             this.panel1.Controls.Add(this.combobox_day);
-            this.panel1.Controls.Add(this.addImageFile);
-            this.panel1.Controls.Add(this.addStudent);
+            this.panel1.Controls.Add(this.button_addphotos);
+            this.panel1.Controls.Add(this.button_addStudent);
             this.panel1.Controls.Add(this.textbox_lastname);
             this.panel1.Controls.Add(this.combobox_gender);
             this.panel1.Controls.Add(this.textbox_course);
@@ -70,7 +74,7 @@
             this.panel1.Controls.Add(this.textbox_studentno);
             this.panel1.Controls.Add(this.textbox_middlename);
             this.panel1.Controls.Add(this.textbox_firstname);
-            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.label_photos);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
@@ -79,17 +83,28 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(14, 63);
+            this.panel1.Location = new System.Drawing.Point(14, 54);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 387);
+            this.panel1.Size = new System.Drawing.Size(482, 548);
             this.panel1.TabIndex = 0;
+            // 
+            // picturebox_studentsPictures
+            // 
+            this.picturebox_studentPic.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picturebox_studentPic.Image = ((System.Drawing.Image)(resources.GetObject("picturebox_studentsPictures.Image")));
+            this.picturebox_studentPic.Location = new System.Drawing.Point(170, 8);
+            this.picturebox_studentPic.Name = "picturebox_studentsPictures";
+            this.picturebox_studentPic.Size = new System.Drawing.Size(132, 132);
+            this.picturebox_studentPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picturebox_studentPic.TabIndex = 58;
+            this.picturebox_studentPic.TabStop = false;
             // 
             // label_status
             // 
             this.label_status.AutoSize = true;
             this.label_status.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_status.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label_status.Location = new System.Drawing.Point(32, 14);
+            this.label_status.Location = new System.Drawing.Point(31, 148);
             this.label_status.Name = "label_status";
             this.label_status.Size = new System.Drawing.Size(57, 19);
             this.label_status.TabIndex = 57;
@@ -98,9 +113,9 @@
             // combobox_year
             // 
             this.combobox_year.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.combobox_year.Location = new System.Drawing.Point(325, 236);
+            this.combobox_year.Location = new System.Drawing.Point(254, 373);
             this.combobox_year.Name = "combobox_year";
-            this.combobox_year.Size = new System.Drawing.Size(90, 30);
+            this.combobox_year.Size = new System.Drawing.Size(58, 30);
             this.combobox_year.TabIndex = 56;
             this.combobox_year.Text = "1990";
             // 
@@ -121,10 +136,10 @@
             "Oct",
             "Nov",
             "Dec"});
-            this.combobox_month.Location = new System.Drawing.Point(256, 237);
+            this.combobox_month.Location = new System.Drawing.Point(190, 374);
             this.combobox_month.Name = "combobox_month";
             this.combobox_month.PromptText = "Jan";
-            this.combobox_month.Size = new System.Drawing.Size(63, 29);
+            this.combobox_month.Size = new System.Drawing.Size(58, 29);
             this.combobox_month.TabIndex = 55;
             this.combobox_month.UseSelectable = true;
             // 
@@ -164,43 +179,43 @@
             "29",
             "30",
             "31"});
-            this.combobox_day.Location = new System.Drawing.Point(171, 237);
+            this.combobox_day.Location = new System.Drawing.Point(127, 374);
             this.combobox_day.Name = "combobox_day";
             this.combobox_day.PromptText = "1";
-            this.combobox_day.Size = new System.Drawing.Size(79, 29);
+            this.combobox_day.Size = new System.Drawing.Size(57, 29);
             this.combobox_day.TabIndex = 54;
             this.combobox_day.UseSelectable = true;
             // 
-            // addImageFile
+            // button_addphotos
             // 
-            this.addImageFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.addImageFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addImageFile.Location = new System.Drawing.Point(171, 304);
-            this.addImageFile.Name = "addImageFile";
-            this.addImageFile.Size = new System.Drawing.Size(128, 29);
-            this.addImageFile.TabIndex = 52;
-            this.addImageFile.Text = "Add Pictures";
-            this.addImageFile.UseSelectable = true;
-            this.addImageFile.Click += new System.EventHandler(this.metroButton1_Click);
+            this.button_addphotos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_addphotos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_addphotos.Location = new System.Drawing.Point(127, 444);
+            this.button_addphotos.Name = "button_addphotos";
+            this.button_addphotos.Size = new System.Drawing.Size(185, 29);
+            this.button_addphotos.TabIndex = 52;
+            this.button_addphotos.Text = "Add Pictures";
+            this.button_addphotos.UseSelectable = true;
+            this.button_addphotos.Click += new System.EventHandler(this.metroButton1_Click);
             // 
-            // addStudent
+            // button_addStudent
             // 
-            this.addStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.addStudent.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addStudent.Location = new System.Drawing.Point(180, 348);
-            this.addStudent.Name = "addStudent";
-            this.addStudent.Size = new System.Drawing.Size(217, 32);
-            this.addStudent.TabIndex = 51;
-            this.addStudent.Text = "Create Student";
-            this.addStudent.UseSelectable = true;
-            this.addStudent.Click += new System.EventHandler(this.addStudent_Click);
+            this.button_addStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_addStudent.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_addStudent.Location = new System.Drawing.Point(127, 488);
+            this.button_addStudent.Name = "button_addStudent";
+            this.button_addStudent.Size = new System.Drawing.Size(331, 50);
+            this.button_addStudent.TabIndex = 51;
+            this.button_addStudent.Text = "Create Student";
+            this.button_addStudent.UseSelectable = true;
+            this.button_addStudent.Click += new System.EventHandler(this.addStudent_Click);
             // 
             // textbox_lastname
             // 
             this.textbox_lastname.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_lastname.Location = new System.Drawing.Point(171, 76);
+            this.textbox_lastname.Location = new System.Drawing.Point(127, 214);
             this.textbox_lastname.Name = "textbox_lastname";
-            this.textbox_lastname.Size = new System.Drawing.Size(244, 26);
+            this.textbox_lastname.Size = new System.Drawing.Size(331, 26);
             this.textbox_lastname.TabIndex = 50;
             // 
             // combobox_gender
@@ -210,71 +225,70 @@
             this.combobox_gender.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.combobox_gender.Location = new System.Drawing.Point(171, 272);
+            this.combobox_gender.Location = new System.Drawing.Point(127, 409);
             this.combobox_gender.Name = "combobox_gender";
             this.combobox_gender.PromptText = "Male";
-            this.combobox_gender.Size = new System.Drawing.Size(244, 29);
+            this.combobox_gender.Size = new System.Drawing.Size(121, 29);
             this.combobox_gender.TabIndex = 49;
             this.combobox_gender.UseSelectable = true;
-            this.combobox_gender.SelectedIndexChanged += new System.EventHandler(this.gender_SelectedIndexChanged);
             // 
             // textbox_course
             // 
             this.textbox_course.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_course.Location = new System.Drawing.Point(171, 204);
+            this.textbox_course.Location = new System.Drawing.Point(127, 342);
             this.textbox_course.Name = "textbox_course";
-            this.textbox_course.Size = new System.Drawing.Size(244, 26);
+            this.textbox_course.Size = new System.Drawing.Size(331, 26);
             this.textbox_course.TabIndex = 48;
             // 
             // textbox_regno
             // 
             this.textbox_regno.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_regno.Location = new System.Drawing.Point(171, 172);
+            this.textbox_regno.Location = new System.Drawing.Point(127, 310);
             this.textbox_regno.Name = "textbox_regno";
-            this.textbox_regno.Size = new System.Drawing.Size(244, 26);
+            this.textbox_regno.Size = new System.Drawing.Size(331, 26);
             this.textbox_regno.TabIndex = 47;
             // 
             // textbox_studentno
             // 
             this.textbox_studentno.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_studentno.Location = new System.Drawing.Point(171, 142);
+            this.textbox_studentno.Location = new System.Drawing.Point(127, 278);
             this.textbox_studentno.Name = "textbox_studentno";
-            this.textbox_studentno.Size = new System.Drawing.Size(244, 26);
+            this.textbox_studentno.Size = new System.Drawing.Size(331, 26);
             this.textbox_studentno.TabIndex = 46;
             // 
             // textbox_middlename
             // 
             this.textbox_middlename.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_middlename.Location = new System.Drawing.Point(171, 110);
+            this.textbox_middlename.Location = new System.Drawing.Point(127, 246);
             this.textbox_middlename.Name = "textbox_middlename";
-            this.textbox_middlename.Size = new System.Drawing.Size(244, 26);
+            this.textbox_middlename.Size = new System.Drawing.Size(331, 26);
             this.textbox_middlename.TabIndex = 45;
             // 
             // textbox_firstname
             // 
             this.textbox_firstname.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textbox_firstname.Location = new System.Drawing.Point(171, 44);
+            this.textbox_firstname.Location = new System.Drawing.Point(127, 182);
             this.textbox_firstname.Name = "textbox_firstname";
-            this.textbox_firstname.Size = new System.Drawing.Size(244, 26);
+            this.textbox_firstname.Size = new System.Drawing.Size(331, 26);
             this.textbox_firstname.TabIndex = 44;
             // 
-            // label9
+            // label_photos
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label9.Location = new System.Drawing.Point(65, 304);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 19);
-            this.label9.TabIndex = 43;
-            this.label9.Text = "Photo (s)";
+            this.label_photos.AutoSize = true;
+            this.label_photos.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_photos.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label_photos.Location = new System.Drawing.Point(21, 445);
+            this.label_photos.Name = "label_photos";
+            this.label_photos.Size = new System.Drawing.Size(67, 19);
+            this.label_photos.TabIndex = 43;
+            this.label_photos.Text = "Photo (s)";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label8.Location = new System.Drawing.Point(65, 269);
+            this.label8.Location = new System.Drawing.Point(21, 407);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 19);
             this.label8.TabIndex = 42;
@@ -285,7 +299,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label7.Location = new System.Drawing.Point(65, 240);
+            this.label7.Location = new System.Drawing.Point(21, 375);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(39, 19);
             this.label7.TabIndex = 41;
@@ -296,7 +310,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label6.Location = new System.Drawing.Point(65, 211);
+            this.label6.Location = new System.Drawing.Point(21, 342);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 19);
             this.label6.TabIndex = 40;
@@ -307,7 +321,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label5.Location = new System.Drawing.Point(65, 179);
+            this.label5.Location = new System.Drawing.Point(21, 310);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 19);
             this.label5.TabIndex = 39;
@@ -318,7 +332,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label4.Location = new System.Drawing.Point(65, 149);
+            this.label4.Location = new System.Drawing.Point(21, 280);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(86, 19);
             this.label4.TabIndex = 38;
@@ -329,7 +343,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label3.Location = new System.Drawing.Point(65, 115);
+            this.label3.Location = new System.Drawing.Point(21, 248);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 19);
             this.label3.TabIndex = 37;
@@ -340,7 +354,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label2.Location = new System.Drawing.Point(65, 83);
+            this.label2.Location = new System.Drawing.Point(21, 214);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 19);
             this.label2.TabIndex = 36;
@@ -351,28 +365,28 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label1.Location = new System.Drawing.Point(65, 51);
+            this.label1.Location = new System.Drawing.Point(21, 182);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 19);
             this.label1.TabIndex = 35;
             this.label1.Text = "First Name";
             // 
-            // AddStudentDialog
+            // AddStudentDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 473);
+            this.ClientSize = new System.Drawing.Size(509, 615);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
-            this.Name = "AddStudentDialog";
+            this.Name = "AddStudentDetailsForm";
             this.Resizable = false;
             this.ShowInTaskbar = false;
             this.Text = "Add Student";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.Load += new System.EventHandler(this.AddStudentDialog_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picturebox_studentPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -383,8 +397,8 @@
         private System.Windows.Forms.TextBox combobox_year;
         private Controls.MetroComboBox combobox_month;
         private Controls.MetroComboBox combobox_day;
-        private Controls.MetroButton addImageFile;
-        private Controls.MetroButton addStudent;
+        private Controls.MetroButton button_addphotos;
+        private Controls.MetroButton button_addStudent;
         private System.Windows.Forms.TextBox textbox_lastname;
         private Controls.MetroComboBox combobox_gender;
         private System.Windows.Forms.TextBox textbox_course;
@@ -392,7 +406,7 @@
         private System.Windows.Forms.TextBox textbox_studentno;
         private System.Windows.Forms.TextBox textbox_middlename;
         private System.Windows.Forms.TextBox textbox_firstname;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label_photos;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -402,6 +416,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_status;
+        private System.Windows.Forms.PictureBox picturebox_studentPic;
 
     }
 }

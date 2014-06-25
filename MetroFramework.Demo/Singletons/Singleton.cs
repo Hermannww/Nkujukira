@@ -15,19 +15,25 @@ namespace MetroFramework.Demo.Singletons
 {
     class Singleton
     {
+        //THIS STORES INFORMATION ABOUT THE CURRENTLY LOGGED IN ADMIN
         public static Admin ADMIN { get; set; }
 
+        //FOLDER WHERE THE APPLIACTION IS RUN FROM
         public static String START_UP_FOLDER                                    = Application.StartupPath;
 
+        //FOLDER WHERE RESOURCES ARE BEING STORED
         public static String RESOURCES_DIRECTORY                                = START_UP_FOLDER + @"\Resources\";
 
-
+        //REFERENCE TO THE MAIN WINDOW
         public static MainWindow MAIN_WINDOW { get; set; }
 
+        //A REFERENCE TO THE SELECT PERPETRATOR FORM
         public static SelectPerpetratorFacesForm SELECT_PERP_FACES { get; set; }
 
+        //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
         private static String current_file_name                                 = "";
 
+        //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
         public static String CURRENT_FILE_NAME
         {
             get
@@ -40,8 +46,10 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
+        //THIS HOLDS FRAMES AWAITING FACE DETECTION
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_processed = new ConcurrentQueue<Image<Bgr, byte>>();
 
+        //THIS HOLDS FRAMES AWAITING FACE DETECTION
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_PROCESSED
         {
             get
@@ -54,16 +62,30 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
-        private static ConcurrentDictionary<int, AlertGenerationThread> all_alerts = new ConcurrentDictionary<int, AlertGenerationThread>();
+        //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED AS STUDENTS
+        private static ConcurrentQueue<Student> identified_students = new ConcurrentQueue<Student>();
 
-        public static ConcurrentDictionary<int, AlertGenerationThread> ALL_ALERTS 
+        //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED AS STUDENTS
+        public static ConcurrentQueue<Student> IDENTIFIED_STUDENTS 
         {
-            get { return all_alerts; }
-            set { all_alerts = value; }
+            get { return identified_students; }
+            set { identified_students = value; }
         }
 
+        //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED 
+        private static ConcurrentQueue<Perpetrator> identified_perpetrators = new ConcurrentQueue<Perpetrator>();
+
+        //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED 
+        public static ConcurrentQueue<Perpetrator> IDENTIFIED_PERPETRATORS
+        {
+            get { return identified_perpetrators; }
+            set { identified_perpetrators = value; }
+        }
+
+        //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();
 
+        //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_DISPLAYED
         {
             get
@@ -77,8 +99,10 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
+        //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
         public static ConcurrentQueue<Image<Gray, byte>> faces_to_recognize=new ConcurrentQueue<Image<Gray,byte>>();
 
+        //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
         public static ConcurrentQueue<Image<Gray, byte>> FACES_TO_RECOGNIZE
         {
             get
@@ -91,8 +115,10 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
+        //THIS HOLDS FRAMES AWAITING STORAGE IN A VIDEO FILE ON THE HDD
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_stored    = new ConcurrentQueue<Image<Bgr, byte>>();
 
+        //THIS HOLDS FRAMES AWAITING STORAGE IN A VIDEO FILE ON THE HDD
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_STORED
         {
             get
@@ -102,8 +128,10 @@ namespace MetroFramework.Demo.Singletons
             set { Singleton.frames_to_be_stored                                 = value; }
         }
 
+        //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
         private static ConcurrentDictionary<int, Face> detected_faces_datastore = new ConcurrentDictionary<int, Face>();
 
+        //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
         public static ConcurrentDictionary<int, Face> DETECTED_FACES_DATASTORE
         {
             get

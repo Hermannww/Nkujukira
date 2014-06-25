@@ -20,28 +20,27 @@ namespace MetroFramework.Demo.Threads
         public static bool WORK_DONE;
         public static double VIDEO_LENGTH;
         public static string VIDEO_LENGTH_STRING;
-        private FootageSavingThread footage_saver;
         private const int SLEEP_TIME = 30;
 
 
 
 
-        public VideoFromFileThread(String file_name)
-            : base()
+        public VideoFromFileThread(String file_name): base()
         {
             if (file_name == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentException();
             }
 
+            //CREATE HANDLE TO VIDEO FILE
             video_capture              = new Capture(file_name);
+            //GET PROPERTIES OF THE VIDEO FILE
             MediaFile video_properties = new MediaFile(file_name);
 
             //VIDEO LENGTH IN SECONDS
             VIDEO_LENGTH               = video_properties.General.DurationMillis;
             VIDEO_LENGTH_STRING        = video_properties.General.DurationString;
             WORK_DONE                  = false;
-            //StartFootageStorageThread();
         }
 
 
@@ -75,12 +74,12 @@ namespace MetroFramework.Demo.Threads
         public bool AddNextFrameToQueueForProcessing()
         {
 
-            using (current_frame = FramesManager.GetNextFrame(VideoFromFileThread.video_capture))
+            using (current_frame   = FramesManager.GetNextFrame(VideoFromFileThread.video_capture))
             {
                 if (current_frame != null)
                 {
-                    int width =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
-                    int height=Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
+                    int width      =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
+                    int height     =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
 
                     Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame,width,height));
                 
@@ -90,12 +89,11 @@ namespace MetroFramework.Demo.Threads
                 //MEANING END OF FILE IS REACHED
                 else
                 {
-                    Debug.WriteLine("FRAME IS NULL");
                     //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
                     //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
                     AddBlackFrame();
-                    WORK_DONE = true;
-                    running = false;
+                    WORK_DONE      = true;
+                    running        = false;
                     Debug.WriteLine("Terminating video from file");
                 }
                 return false;
@@ -106,24 +104,22 @@ namespace MetroFramework.Demo.Threads
 
         public override bool Pause()
         {
-            if (footage_saver != null)
-            {
-                footage_saver.Pause();
-            }
             return base.Pause();
         }
 
         //ADDS BLACK FRAME TO FRAMES DATASTORE
         private void AddBlackFrame()
         {
-            int width = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width;
-            int height = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height;
+            int width                    = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width;
+            int height                   = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height;
             Image<Bgr, byte> black_image = new Image<Bgr, byte>(width, height, new Bgr(0, 0, 0));
             Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(black_image);
         }
 
+        //JUMPS FORWARD OR BACKWARDS IN THE VIDEO PLAYING
         public void RewindOrForwardVideo(double millisecond_to_jump_to)
         {
+            //SETS THE POINTER TO THE FRAME BEFORE THE SPECIFIED MILLISECOND
             bool sucess = FramesManager.PerformSeekOperationInVideo(millisecond_to_jump_to, video_capture);
         }
 
@@ -131,12 +127,8 @@ namespace MetroFramework.Demo.Threads
         //DISPOSE OF ALL CAMERA OBJECTS
         public override bool RequestStop()
         {
+            paused  = true;
             running = false;
-            if (footage_saver != null)
-            {
-                footage_saver.RequestStop();
-            }
-
             return true;
         }
     }

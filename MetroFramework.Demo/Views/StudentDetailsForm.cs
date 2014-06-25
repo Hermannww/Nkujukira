@@ -17,27 +17,60 @@ using Emgu.CV.Structure;
 
 namespace MetroFramework.Demo.Views
 {
-    public partial class AddStudentDialog : MetroForm
+    public partial class StudentDetailsForm : MetroForm
     {
         List<Image<Gray, byte>> photos        = new List<Image<Gray, byte>>();
         private const string FILE_FILTER      = "Image Files (*.bmp, *.jpg, *.png,*.jpeg)|*.bmp;*.jpg;*.png;*.jpeg";
         private string SELECT_PICTURES_MESSAGE= "Please Select 5 pictures of the student";
 
-        public AddStudentDialog()
+        //constructor called when u want to gather student details
+        public StudentDetailsForm()
         {
             InitializeComponent();
+            label_status.Visible = false;
+            combobox_gender.SelectedIndex = 0;
+            combobox_day.SelectedIndex = 0;
+            combobox_month.SelectedIndex = 0;
            
         }
 
-        private void AddStudentDialog_Load(object sender, EventArgs e)
+        //constructor called when u want to display student details
+        public StudentDetailsForm(Student student) 
         {
-            label_status.Visible          = false;
-            combobox_gender.SelectedIndex = 0;
-            combobox_day.SelectedIndex    = 0;
-            combobox_month.SelectedIndex  = 0;
-            
+            InitializeComponent();
+            SetStudentDetails(student);
+            DisableControls();
         }
 
+        private void DisableControls()
+        {
+            label_photos.Visible       = false;
+            button_addphotos.Visible   = false;
+            button_addStudent.Visible  = false;
+            textbox_firstname.Enabled  = false;
+            textbox_lastname.Enabled   = false;
+            textbox_middlename.Enabled = false;
+            textbox_studentno.Enabled  = false;
+            textbox_regno.Enabled      = false;
+            textbox_course.Enabled     = false;
+            combobox_gender.Enabled    = false;
+        }
+
+        private void SetStudentDetails(Student student)
+        {
+            textbox_firstname.Text            = student.firstName;
+            textbox_lastname.Text             = student.lastName;
+            textbox_middlename.Text           = student.middleName;
+            textbox_studentno.Text            = student.studentNo;
+            textbox_regno.Text                = student.regNo;
+            textbox_course.Text               = student.course;
+            picturebox_studentPic.Image       = student.photos[0].ToBitmap();
+            combobox_gender.SelectedIndex     = student.gender.Equals("Male") ? 0 : 1;
+            label_status.Text                 = "Perpetrator has been identified as a student".ToUpper();
+
+        }
+
+       
         private void metroButton1_Click(object sender, EventArgs e)
         {
             String[] file_names       = null;
@@ -112,16 +145,6 @@ namespace MetroFramework.Demo.Views
             {
                 Debug.WriteLine(ex.Message);
             }
-        }
-
-        private void addImageFile_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gender_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
     }

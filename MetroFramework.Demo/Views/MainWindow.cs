@@ -251,10 +251,6 @@ namespace MetroFramework.Demo
             {
                 pause_button.Enabled          = false;
             }
-            if (stop_button_1 != null)
-            {
-                stop_button_1.Enabled         = false;
-            }
             if (stop_button_2 != null)
             {
                 stop_button_2.Enabled         = false;
@@ -379,7 +375,7 @@ namespace MetroFramework.Demo
 
         private void metroButton4_Click_1(object sender, EventArgs e)
         {
-            AddStudentDialog dialog = new AddStudentDialog();
+            StudentDetailsForm dialog = new StudentDetailsForm();
             dialog.ShowDialog();
         }
 
@@ -414,7 +410,7 @@ namespace MetroFramework.Demo
         // show dialog when add student tile is clicked
         private void metroTile2_Click(object sender, EventArgs e)
         {
-            AddStudentDialog dialog = new AddStudentDialog();
+            StudentDetailsForm dialog = new StudentDetailsForm();
             dialog.ShowDialog(null);
         }
 
@@ -478,6 +474,11 @@ namespace MetroFramework.Demo
         private void panel_for_detected_faces_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void stop_button_1_Click(object sender, EventArgs e)
+        {
+            ThreadManager.StopAllThreads();
         }
 
     }

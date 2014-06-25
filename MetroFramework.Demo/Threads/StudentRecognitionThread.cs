@@ -5,10 +5,12 @@ using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
@@ -20,6 +22,7 @@ namespace MetroFramework.Demo.Threads
         //class variables that handle positioning of above controls
         private static volatile int x = 15;
         private static volatile int y = 50;
+
 
         public StudentRecognitionThread(Image<Gray, byte> face_to_recognize)
             : base(face_to_recognize)
@@ -69,21 +72,42 @@ namespace MetroFramework.Demo.Threads
             //for each student add their name and id to name lables
             foreach (var student in students)
             {
-                names_list.Add(student.firstName+ " " + student.id);
+                names_list.Add(student.firstName + " " + student.id);
             }
 
             //return array of names
             return names_list.ToArray();
         }
 
+        public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            DisplayFaceRecognitionProgress(x, y);
+            y = y + 145;
+        }
+
         protected override void GenerateAlarm()
         {
-            if (name_of_recognized_face != null&&name_of_recognized_face.Length>=3)
+            //if face recognition returns a result
+            if (name_of_recognized_face != null && name_of_recognized_face.Length >= 3)
             {
+                //get the student who has been identified
                 Student student = GetStudentIdentified(name_of_recognized_face);
-                AlertGenerationThread alert = new AlertGenerationThread(student);
-                alert.StartWorking();
+
+                //if there is no alert already about the same student
+                if (!ThereIsSimilarAlert(student))
+                {
+                    //add the alert to the globals watch list
+                    Singleton.IDENTIFIED_STUDENTS.Enqueue(student);
+                }
             }
+        }
+
+
+        private bool ThereIsSimilarAlert(Student student)
+        {
+
+            //else return false
+            return false;
         }
 
         private Student GetStudentIdentified(string name_of_recognized_face)
@@ -98,7 +122,7 @@ namespace MetroFramework.Demo.Threads
             return StudentsManager.GetStudent(id);
         }
 
-        public override void DisplayFaceRecognitionProgress()
+        public override void DisplayFaceRecognitionProgress(int x_pos,int y_pos)
         {
             {
                 if (known_faces.Count() != 0)
@@ -106,26 +130,26 @@ namespace MetroFramework.Demo.Threads
 
                     //create picture box for face to be recognized
                     unknown_face_pictureBox = new PictureBox();
-                    unknown_face_pictureBox.Location = new Point(x, y);
+                    unknown_face_pictureBox.Location = new Point(x_pos, y_pos);
                     unknown_face_pictureBox.Size = known_faces.ToArray()[0].Size;
                     unknown_face_pictureBox.BorderStyle = BorderStyle.Fixed3D;
                     unknown_face_pictureBox.Image = face_to_recognize.ToBitmap();
 
                     //create picture box for perpetrators
                     perpetrators_pictureBox = new PictureBox();
-                    perpetrators_pictureBox.Location = new Point(x + 170, y);
+                    perpetrators_pictureBox.Location = new Point(x_pos + 170, y_pos);
                     perpetrators_pictureBox.Size = known_faces.ToArray()[0].Size;
                     perpetrators_pictureBox.BorderStyle = BorderStyle.Fixed3D;
 
                     //create Progress Label
                     Label progress_label = new Label();
-                    progress_label.Location = new Point(x + 133, y + 50);
+                    progress_label.Location = new Point(x_pos + 133, y_pos + 50);
                     progress_label.ForeColor = Color.Green;
                     progress_label.Text = "0%";
 
                     //create separator label
                     Label separator = new Label();
-                    separator.Location = new Point(5, y + 132);
+                    separator.Location = new Point(5, y_pos + 132);
                     separator.AutoSize = false;
                     separator.Height = 2;
                     separator.Width = 335;
@@ -142,11 +166,104 @@ namespace MetroFramework.Demo.Threads
                     FaceRecognitionProgress progress = new FaceRecognitionProgress(this, perpetrators_pictureBox, progress_label);
                     progress.StartWorking();
 
-
-                    y += 145;
-
                 }
             }
         }
+
+        public class FaceRecognitionProgress : AbstractThread
+        {
+
+            private List<Image<Gray, byte>> known_faces;
+            private PictureBox perp_picturebox;
+            private Label progress_label;
+            private Image<Gray, byte> current_face;
+            private StudentRecognitionThread thread;
+
+            public FaceRecognitionProgress(StudentRecognitionThread thread, PictureBox perp_picturebox, Label progress_label)
+            {
+                //initialize some variables
+                this.known_faces = thread.known_faces;
+                this.perp_picturebox = perp_picturebox;
+                this.progress_label = progress_label;
+                this.thread = thread;
+
+                //initialize back ground worker
+                background_worker = new BackgroundWorker();
+                background_worker.WorkerReportsProgress = true;
+                background_worker.WorkerSupportsCancellation = true;
+
+                //set event handlers
+                background_worker.DoWork += new DoWorkEventHandler(DoWork);
+                background_worker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+                background_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ThreadIsDone);
+
+
+            }
+
+            public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+            {
+                //this keeps track of progress
+                double i = 1;
+
+                //display each of his faces in the perpetrators picture box for a fleeting momemnt;repeat till faces are done
+                foreach (var face in known_faces.ToArray())
+                {
+                    //get the amount of work done
+                    int percentage_completed = (int)(((i / (known_faces.Count())) * 100));
+
+                    //make the current face global access
+                    current_face = face;
+
+                    //report progress
+                    background_worker.ReportProgress(percentage_completed);
+
+                    //let the thread sleep
+                    Thread.Sleep(SLEEP_TIME);
+
+                    i++;
+                }
+            }
+
+            public override void ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+            {
+                //get percentage completed
+                int percentage_completed = e.ProgressPercentage;
+
+
+                if (percentage_completed >= 100)
+                {
+                    if ((name_of_recognized_face != null && name_of_recognized_face.Length >= 3))
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Purple;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
+                    }
+                    else
+                    {
+                        //update progress label
+                        progress_label.ForeColor = Color.Red;
+                        SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
+                    }
+                }
+                else
+                {
+                    //update progress label
+                    SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+                }
+                //display perp facee
+                SetControlPropertyThreadSafe(perp_picturebox, "Image", current_face.ToBitmap());
+
+
+
+
+            }
+
+            public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)
+            {
+                thread.GenerateAlarm();
+            }
+
+        }
     }
 }
+

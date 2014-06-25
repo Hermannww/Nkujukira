@@ -1,5 +1,7 @@
 ﻿using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
+using MetroFramework.Demo.Singletons;
+using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
 using System;
 using System.Diagnostics;
@@ -7,70 +9,123 @@ using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
 {
-    public class AlertGenerationThread:AbstractThread
+    public class AlertGenerationThread : AbstractThread
     {
-        private Perpetrator identified_perpetrator;
-        private SoundPlayingThread sound_player;
-        private Student identified_student;
-        
-        public AlertGenerationThread(Perpetrator identified_perpetrator) :base()
-        {
-            this.identified_perpetrator=identified_perpetrator;
-            this.sound_player = new SoundPlayingThread();
-        }
+        private Perpetrator identified_perpetrator = null;
+        private SoundPlayingThread sound_player    = null;
+        private Student identified_student         = null;
+        private bool sucess                        = false;
 
-        public AlertGenerationThread(Student identified_student)
+
+        //CONSTRUCTOR
+        public AlertGenerationThread()
             : base()
         {
-            this.identified_student = identified_student;
-            this.sound_player = new SoundPlayingThread();
+            //CREATE A NEW SOUND PLAYING THREAD
+            sound_player = new SoundPlayingThread();
         }
+
 
         public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             try
             {
-                sound_player.StartWorking();               
+                while (running)
+                {
+                    if (!paused)
+                    {
+                        //CHECK TO SEE IF AN ALERT HAS BEEN SIGNALED FOR
+                        sucess = GetIdentifiedStudentOrPerpetrator();
+
+                        //IF AN ALERT HAS BEEN SIGNALED
+                        if (sucess)
+                        {
+                            //PLAY THE ALARM SOUND
+                            PlayAlarmSound();
+                
+                            //DISPLAY DETAILS OF THE ALERT
+                            DisplayDetails();
+                         }
+                    }
+                }
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
         }
 
-        public bool IsAboutSamePerpetrator(Perpetrator perpetrator) 
+        //CHECKS THE SHARED DATASTORE TO SEE IF A STUDENT OR PERPETRATOR HAS BEEN IDENTIFIED
+        private bool GetIdentifiedStudentOrPerpetrator()
         {
-            return this.identified_perpetrator.id == perpetrator.id;
+            //IF THE ATTEMPT TO DEQUEUE FROM 1 OF THE SHARED DATASTORES RETURNS TRUE THEN PROCEED ELSE FALSE
+            return Singleton.IDENTIFIED_STUDENTS.TryDequeue(out identified_student) || Singleton.IDENTIFIED_PERPETRATORS.TryDequeue(out identified_perpetrator);
         }
 
-        public bool IsAboutSameStudent(Student student)
+        //THIS STARTS A THREAD THAT PLAYS AN ALARM SOUND CONTINUOUSLY
+        private void PlayAlarmSound()
         {
-            return this.identified_student.id == student.id;
+            if (!sound_player.IsRunning())
+            {
+                this.sound_player.StartWorking();
+            }
         }
 
-        public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        //THIS CHECKS IF THE CURRENT ALERT IS ABOUT THE SAME PERPETRATOR AS THAT GIVEN
+        public bool AlertIsAboutSamePerpetrator(Perpetrator perpetrator)
         {
-            DisplayDetails();
+            if (identified_perpetrator != null) return this.identified_perpetrator.id == perpetrator.id;
+            return false;
         }
-       
 
-        public void DisplayDetails() 
+        public bool AlertIsAboutSameStudent(Student student)
         {
+            if (identified_student != null) return this.identified_student.id == student.id;
+            return false;
+        }
+
+        //THIS DISPLAYS DETAILS PERTAINING TO THE ALERT GENERATED
+        public void DisplayDetails()
+        {
+
+            //IF THIS ALERT IS BECOZ A PERP HAS BEEN IDENTIFIED
             if (identified_perpetrator != null)
             {
-                Debug.WriteLine("Displaying details NOW");
+                //create form
                 PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
-                form.Show();
+
+                //show details form
+                form.ShowDialog();
+
                 return;
             }
-            
+
+            //IF ITS BECOZ A STUDENT HAS BEEN IDENTIFIED
+            if (identified_student != null)
+            {
+                //create form
+                StudentDetailsForm form = new StudentDetailsForm(identified_student);
+
+                //show details form
+                form.ShowDialog();
+
+                return;
+            }
+
+            identified_perpetrator = null;
+            identified_student = null;
 
         }
 
+        //CALLED TO STOP THE THREAD
         public override bool RequestStop()
         {
-            SoundManager.StopPlayingSound();
+            //TERMINATE SOUND PLAYING THREAD
+            sound_player.RequestStop();
             return base.RequestStop();
         }
+
+
     }
 }

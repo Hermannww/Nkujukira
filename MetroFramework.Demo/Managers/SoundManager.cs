@@ -13,12 +13,14 @@ namespace MetroFramework.Demo.Managers
     public class SoundManager
     {
         public static String ALARM_SOUND = Application.StartupPath + @"\Resources\Sounds\Siren.mp3";
-        public static Sound siren = new Sound();
+        public static Sound siren = new Sound(ALARM_SOUND);
+
         public static void PlaySound() 
         {
-            if (siren.finished_playing)
+            if (!Sound.playing_sound)
             {
-                siren.PlaySound(ALARM_SOUND);
+                Debug.WriteLine("Playing sound");
+                siren.PlaySound();
             }
         }
 

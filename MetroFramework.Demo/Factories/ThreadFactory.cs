@@ -68,9 +68,9 @@ namespace MetroFramework.Demo.Factories
         //STARTS A NEW ALERT GENERATION THREAD
         private static AbstractThread CreateNewAlertGenerationThread()
         {
-            //AlertGenerationThread alert_thread          = new AlertGenerationThread(null);
-            //alert_thread.StartWorking();
-            return null;
+            AlertGenerationThread alert_thread          = new AlertGenerationThread();
+            alert_thread.StartWorking();
+            return alert_thread;
         }
 
 

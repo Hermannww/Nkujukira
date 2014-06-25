@@ -214,11 +214,11 @@
     <Compile Include="Views\AddNewUserForm.designer.cs">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddStudentDialog.cs">
+    <Compile Include="Views\StudentDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\AddStudentDialog.Designer.cs">
-      <DependentUpon>AddStudentDialog.cs</DependentUpon>
+    <Compile Include="Views\StudentDetailsForm.Designer.cs">
+      <DependentUpon>StudentDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeUserLoginDetailsForm.cs">
       <SubType>Form</SubType>
@@ -354,8 +354,8 @@
     <EmbeddedResource Include="Views\AddNewUserForm.resx">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\AddStudentDialog.resx">
-      <DependentUpon>AddStudentDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Views\StudentDetailsForm.resx">
+      <DependentUpon>StudentDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ChangeUserLoginDetailsForm.resx">
       <DependentUpon>ChangeUserLoginDetailsForm.cs</DependentUpon>
