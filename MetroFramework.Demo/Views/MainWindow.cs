@@ -27,7 +27,8 @@ namespace MetroFramework.Demo
         private const string MESSAGE_BOX_TITLE           = "Message!!";
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
-        public static bool REMOVE_LOGIN_COMPONENT;
+        private bool cctv_cameras_are_on                 = false;
+        private CCTVDisplayForm cctv_display_form        = new CCTVDisplayForm();
 
         public MainWindow()
         {
@@ -271,13 +272,10 @@ namespace MetroFramework.Demo
         //THIS ENABLES THE NECESSARY CONTROLS
         public void EnableControls()
         {
+        
             if (pause_button != null)
             {
                 pause_button.Enabled          = true;
-            }
-            if (stop_button_1 != null)
-            {
-                stop_button_1.Enabled         = true;
             }
             if (stop_button_2 != null)
             {
@@ -438,10 +436,23 @@ namespace MetroFramework.Demo
 
         private void turn_on_button_Click(object sender, EventArgs e)
         {
-            ThreadManager.StopAllThreads();
-            Singleton.ClearDataStores();
-            ThreadManager.ReleaseAllThreadResources();
-            StartLiveFootageThreads();
+            if (!cctv_cameras_are_on)
+            {
+                ThreadManager.StopAllThreads();
+                Singleton.ClearDataStores();
+                ThreadManager.ReleaseAllThreadResources();
+                StartLiveFootageThreads();
+                turn_on_button.Text="Turn Off";
+                cctv_cameras_are_on = true;
+            }
+            else 
+            {
+                ThreadManager.StopAllThreads();
+                Singleton.ClearDataStores();
+                ThreadManager.ReleaseAllThreadResources();
+                turn_on_button.Text = "Turn On";
+                cctv_cameras_are_on = false;
+            }
         }
 
         private void metroTile9_Click(object sender, EventArgs e)
@@ -476,9 +487,15 @@ namespace MetroFramework.Demo
 
         }
 
-        private void stop_button_1_Click(object sender, EventArgs e)
+
+        private void imageBox4_Click(object sender, EventArgs e)
         {
-            ThreadManager.StopAllThreads();
+
+        }
+
+        private void imageBox4_MouseHover(object sender, EventArgs e)
+        {
+            cctv_display_form.StartWorking();
         }
 
     }

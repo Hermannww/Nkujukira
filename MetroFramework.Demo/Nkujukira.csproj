@@ -214,6 +214,12 @@
     <Compile Include="Views\AddNewUserForm.designer.cs">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CCTVDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CCTVDisplayForm.Designer.cs">
+      <DependentUpon>CCTVDisplayForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\StudentDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -353,6 +359,9 @@
     </Compile>
     <EmbeddedResource Include="Views\AddNewUserForm.resx">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CCTVDisplayForm.resx">
+      <DependentUpon>CCTVDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentDetailsForm.resx">
       <DependentUpon>StudentDetailsForm.cs</DependentUpon>

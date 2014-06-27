@@ -54,7 +54,7 @@ namespace MetroFramework.Demo.Threads
             if (current_frame != null)
             {
                 //add frame to queue for display
-                //Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+                Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
 
                 //add frame to queue for storage
                 Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());

@@ -100,7 +100,7 @@ namespace MetroFramework.Demo.Threads
 
         protected abstract void LoadPreviousTrainedFaces();
 
-        public abstract void DisplayFaceRecognitionProgress(int x_pos,int y_pos);
+        public virtual void DisplayFaceRecognitionProgress(int x_pos, int y_pos) { }
 
         protected abstract void GenerateAlarm();
        

@@ -28,6 +28,7 @@ namespace MetroFramework.Demo.Managers
                 StartNewThread(ThreadFactory.VIDEO_THREAD, review_mode);
                 StartNewThread(ThreadFactory.REVIEW_FACE_DETECTOR, review_mode);
             }
+
             else
             {
                 StartNewThread(ThreadFactory.CAMERA_THREAD, false);
@@ -37,7 +38,7 @@ namespace MetroFramework.Demo.Managers
                 StartNewThread(ThreadFactory.ALERT_THREAD, false);
             }
 
-            //StartNewThread(ThreadFactory.DISPLAY_UPDATER, review_mode);
+            StartNewThread(ThreadFactory.DISPLAY_UPDATER, review_mode);
 
             return false;
         }

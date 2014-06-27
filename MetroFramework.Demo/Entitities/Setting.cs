@@ -7,6 +7,7 @@ namespace MetroFramework.Demo.Entitities
 {
     public class Setting : Entity
     {
+        public static string DISABLE_LOGIN_COMPONENT="disable_login_compoent";
 
 
         public int id       { get; set; }
