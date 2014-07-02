@@ -54,9 +54,9 @@ namespace MetroFramework.Demo
         {
             try
             {
-                ThreadManager.StopAllThreads();
+                ThreadFactory.StopAllThreads();
                 Singleton.ClearDataStores();
-                ThreadManager.ReleaseAllThreadResources();
+                ThreadFactory.ReleaseAllThreadResources();
 
                 String file_name = LoadVideoFromFile();
 
@@ -101,13 +101,13 @@ namespace MetroFramework.Demo
             try
             {
                 //STOP ALL RUNNING THREADS
-                ThreadManager.StopAllThreads();
+                ThreadFactory.StopAllThreads();
 
                 //CLEARS DATASTORES
                 Singleton.ClearDataStores();
 
                 //RELEASES ALL RESOURCES BEING HELD BY THREADS
-                ThreadManager.ReleaseAllThreadResources();
+                ThreadFactory.ReleaseAllThreadResources();
             }
             catch (Exception)
             {
@@ -158,26 +158,26 @@ namespace MetroFramework.Demo
         private void StartReviewFootageThreads(String file_name)
         {
             Singleton.CURRENT_FILE_NAME = file_name;
-            ThreadManager.StartIntroThreads(true);
+            ThreadFactory.StartIntroThreads(true);
         }
 
         //STARTS ALL NECESSARY THREADS
         private void StartLiveFootageThreads()
         {
-            ThreadManager.StartIntroThreads(false);
+            ThreadFactory.StartIntroThreads(false);
         }
 
         //ATTEMPTS TO PAUSE A RUNNING VIDEO
         public void PauseVideo()
         {
-            ThreadManager.PauseAllThreads();
+            ThreadFactory.PauseAllThreads();
             AbstractThread.SetControlPropertyThreadSafe(pause_button, "Text", PLAY_BUTTON_TEXT);
         }
 
         //ATTEMPTS TO RESUME A PREVIOUSLY PAUSED VIDEO
         public void ResumeVideo()
         {
-            ThreadManager.ResumeAllThreads();
+            ThreadFactory.ResumeAllThreads();
             AbstractThread.SetControlPropertyThreadSafe(pause_button, "Text", PAUSE_BUTTON_TEXT);
            
         }
@@ -192,7 +192,7 @@ namespace MetroFramework.Demo
         private void GoToThatPartOfTheVideo(double ratio)
         {
             //PAUSE THE VIDEO
-            ThreadManager.PauseAllThreads();
+            ThreadFactory.PauseAllThreads();
 
             //CLEAR ALL THE DATA STORES 
             Singleton.ClearDataStores();
@@ -201,13 +201,13 @@ namespace MetroFramework.Demo
             double millescond_to_jump_to = ratio * VideoFromFileThread.VIDEO_LENGTH;
 
             //FORWARD THE VIDEO
-            ((VideoFromFileThread)ThreadManager.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
+            ((VideoFromFileThread)ThreadFactory.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
 
             //SET THE TIME ELAPSED ON THE VIDEO
-            ((DisplayUpdaterThread)ThreadManager.GetThread(ThreadFactory.DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
+            ((DisplayUpdaterThread)ThreadFactory.GetThread(ThreadFactory.DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
             
             //RESUME PLAYING THE VIDEO
-            ThreadManager.ResumeAllThreads();
+            ThreadFactory.ResumeAllThreads();
         }
 
 
@@ -345,7 +345,7 @@ namespace MetroFramework.Demo
         //HANDLES A CLICK EVENT IN THE REVIEW FOOTAGE BOX
         private void review_footage_image_box_Click(object sender, EventArgs e)
         {
-            if (((DisplayUpdaterThread)ThreadManager.GetThread(ThreadFactory.DISPLAY_UPDATER)) != null)
+            if ((ThreadFactory.GetThread(ThreadFactory.DISPLAY_UPDATER) as DisplayUpdaterThread) != null)
             {
                 if (review_footage_image_box.Image!=null)
                 {
@@ -378,13 +378,13 @@ namespace MetroFramework.Demo
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
-        {
-            
-
+        {         
             if (Singleton.ADMIN != null) 
             {
                 linkLabel_logout.Text = Singleton.ADMIN.user_name + ": Log out";
+                return;
             }
+            linkLabel_logout.Visible = false;
         }
 
         void metroTabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -438,20 +438,22 @@ namespace MetroFramework.Demo
         {
             if (!cctv_cameras_are_on)
             {
-                ThreadManager.StopAllThreads();
+                turn_on_button.Enabled = false;
+                ThreadFactory.StopAllThreads();
                 Singleton.ClearDataStores();
-                ThreadManager.ReleaseAllThreadResources();
+                ThreadFactory.ReleaseAllThreadResources();
                 StartLiveFootageThreads();
-                turn_on_button.Text="Turn Off";
-                cctv_cameras_are_on = true;
+                turn_on_button.Text    ="Turn Off";
+                cctv_cameras_are_on    = true;
+                turn_on_button.Enabled = true;
             }
             else 
             {
-                ThreadManager.StopAllThreads();
+                ThreadFactory.StopAllThreads();
                 Singleton.ClearDataStores();
-                ThreadManager.ReleaseAllThreadResources();
-                turn_on_button.Text = "Turn On";
-                cctv_cameras_are_on = false;
+                ThreadFactory.ReleaseAllThreadResources();
+                turn_on_button.Text    = "Turn On";
+                cctv_cameras_are_on    = false;
             }
         }
 
@@ -495,8 +497,16 @@ namespace MetroFramework.Demo
 
         private void imageBox4_MouseHover(object sender, EventArgs e)
         {
-            cctv_display_form.StartWorking();
+            if (review_footage_image_box.Image != null)
+            {
+                cctv_display_form.StartWorking();
+            }
         }
 
+
+        internal ImageBox GetLiveStreamImageBox()
+        {
+            return imageBox4;
+        }
     }
 }

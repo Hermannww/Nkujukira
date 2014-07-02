@@ -156,6 +156,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\nkujukira\nkujukira\bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
+    <Reference Include="FaceSDK.NET">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Luxand\FaceSDK\bin\win32\FaceSDK.NET.dll</HintPath>
+    </Reference>
     <Reference Include="ImageListView">
       <HintPath>..\..\..\..\Desktop\ours\net35\ImageListView.dll</HintPath>
     </Reference>
@@ -190,6 +193,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entitities\FaceRecognitionResult.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
     <Compile Include="Entitities\StolenItem.cs" />
@@ -201,9 +205,11 @@
     <Compile Include="Managers\AdminManager.cs" />
     <Compile Include="Managers\CrimesManager.cs" />
     <Compile Include="Managers\DatabaseManager.cs" />
+    <Compile Include="Managers\FacesManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Managers\StudentsManager.cs" />
+    <Compile Include="Threads\FaceRecognitionProgressThread.cs" />
     <Compile Include="Threads\LiveStreamFaceDetectingThread.cs" />
     <Compile Include="Threads\PerpetratorRecognitionThread.cs" />
     <Compile Include="Threads\SoundPlayingThread.cs" />
@@ -290,7 +296,6 @@
     <Compile Include="Factories\AbstractFactory.cs" />
     <Compile Include="Managers\FramesManager.cs" />
     <Compile Include="Managers\SoundManager.cs" />
-    <Compile Include="Managers\ThreadManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\WindowDecorator.cs">
@@ -425,6 +430,8 @@
       <DependentUpon>VictimsDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Default.srprofile">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

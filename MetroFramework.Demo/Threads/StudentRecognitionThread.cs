@@ -1,174 +1,259 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
-
+using Nkujukira;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
 {
+    //THIS THREAD ATTEMPTS TO RECOGNIZE A PERPETRATOR OF A CRIME FROM THE STUDENTS REG DATABASE
     public class StudentRecognitionThread : FaceRecognitionThread
     {
+        //CONTROLS FOR DISPLAYING RESULTS
+        protected PictureBox perpetrators_pictureBox          = null;
+        protected PictureBox unknown_face_pictureBox          = null;
+
+        protected Label separator                             = null;
+        protected Label progress_label                        = null;
+
+        //ADD CONTROLS TO PANEL IN A THREAD SAFE WAY
+        Panel panel_review_stream                             = (Panel)Singleton.MAIN_WINDOW.GetControl("review_footage_panel");
+
         //STUDENTS TO BE COMPARED AGAINIST
-        private Student[] students                           = null;
+        private Student[] students                            = null;
 
         //CLASS VARIABLES THAT HANDLE POSITIONING OF CONTROLS
-        private static volatile int x                        = 15;
-        private static volatile int y                        = 50;
+        private  int x                                        = 15;
+        private  int y                                        = 40;
 
+        //RESULT OF FACE RECOGNITION OPERATION
+        private FaceRecognitionResult face_recognition_result = null;
+
+        private List<Image<Gray, byte>> faces_to_recognize = new List<Image<Gray,byte>>();
 
         //CONSTRUCTOR
-        public StudentRecognitionThread(Image<Gray, byte> face_to_recognize)
-            : base(face_to_recognize)
+        public StudentRecognitionThread(Image<Gray, byte>[] faces_to_recognize)
+            : base(null)
         {
-            students                                         = StudentsManager.GetAllStudents();
-            LoadPreviousTrainedFaces();
+            running = true;
+            paused = false;
+            this.faces_to_recognize.AddRange(faces_to_recognize);
+
+            //GET ALL STUDENTS
+            students = StudentsManager.GetAllStudents();
+
+            //ENROLL STUDENT FACES
+            EnrollFacesToBeComparedAgainst();
+
         }
 
-
-        protected override void LoadPreviousTrainedFaces()
-        {
-            try
-            {
-
-                //LOAD OF PREVIUS TRAINNED FACES AND LABELS FOR EACH IMAGE
-                string[] labels                              = GetNamesOfStudents(students);
-
-                //GET THE NUMBER OF LABELS
-                num_labels                                   = Convert.ToInt32(labels.Length);
-
-                maximum_iteration                            = num_labels;
-
-
-                for (int i                                   = 0; i < students.Length; i++)
-                {
-                    //ADD THE FACE
-                    known_faces.AddRange(students[i].photos);
-
-                    foreach (var face in students[i].photos)
-                    {
-                        //ADD THE NAME OF THE FACE
-                        known_faces_labels.Add(labels[i]);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-        }
-
-        private string[] GetNamesOfStudents(Student[] stuents)
-        {
-            //CREATE NAMES LIST
-            List<String> names_list                          = new List<String>();
-
-            //FOR EACH STUDENT ADD THEIR NAME AND ID TO NAME LABLES
+        //THIS ENROLS STUDENT FACES FOR LATER COMPARISON 
+        protected override void EnrollFacesToBeComparedAgainst()
+        {        
+            //FOR EACH ACTIVE PERPETRATOR ENROLL HIS FACE SO IT CAN BE USED FOR COMPARISON
             foreach (var student in students)
             {
-                names_list.Add(student.firstName + " " + student.id);
-            }
-
-            //RETURN NAMES AS ARRAY
-            return names_list.ToArray();
+                faces_manager.EnrollFaces(student);
+            }   
         }
-
-        public override void ThreadIsDone(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        protected override void RecognizeFace(Image<Gray, byte> face)
         {
-            DisplayFaceRecognitionProgress(x, y);
-            y                                                = y + 145;
+          
+            if (students.Length != 0)
+            {
+
+                //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
+                int width  = 120;
+                int height = 120;
+
+                face       = FramesManager.ResizeGrayImage(face, new Size(width, height));
+
+                //ATTEMPT TO RECOGNIZE THE PERPETRATOR
+                face_recognition_result     = faces_manager.MatchFace(face);
+
+                //IF A VALID ID IS RETURMED
+                if (face_recognition_result.match_was_found)
+                {
+                    //GET STUDENT ASSOCIATED WITH ID
+                    foreach (var student in students)
+                    {
+                        if (student.id == face_recognition_result.id)
+                        {
+                            face_recognition_result.identified_student = student;
+                            break;
+                        }
+                    }
+                }
+
+                return;
+            }
         }
 
-        protected override void GenerateAlarm()
+        //THIS  THREAD RECOGNIZES A FACE IN THE BACKGROUND
+        public override void DoWork(object sender, DoWorkEventArgs e)
+        {
+            Debug.WriteLine("Student Recognition Thread Starting");
+            //while (running)
+            {
+                Debug.WriteLine("Student Recognition Thread running");
+                Debug.WriteLine("Count=" + faces_to_recognize.Count);
+                if (!paused)
+                {
+                    List<Image<Gray,byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
+
+                    while (enumerator.MoveNext())
+                    {
+                        Debug.WriteLine("Student Recognition Thread is not paused");
+                        face_to_recognize = enumerator.Current;
+                        RecognizeFace(face_to_recognize);
+
+                        DisplayFaceRecognitionProgress();
+                    }
+                    Debug.WriteLine("Dequeue Failed");
+                }
+            }
+           
+        }
+
+       
+
+        //GENERATES AN ALARM IF FACE RECOGNITION IS SUCESSFULL
+        protected void GenerateAlarm()
         {
             //IF FACE RECOGNITION RETURNS A RESULT
-            if (name_of_recognized_face != null && name_of_recognized_face.Length >= 3)
+            if (face_recognition_result.match_was_found)
             {
-                //GET THE STUDENT WHO HAS BEEN IDENTIFIED
-                Student student                              = GetStudentIdentified(name_of_recognized_face);
-
                 //IF THERE IS NO ALERT ALREADY ABOUT THE SAME STUDENT
-                if (!ThereIsSimilarAlert(student))
+                if (!ThereIsSimilarAlert(face_recognition_result.identified_student))
                 {
                     //ADD THE ALERT TO THE GLOBALS WATCH LIST
-                    Singleton.IDENTIFIED_STUDENTS.Enqueue(student);
+                    Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result.identified_student);
                 }
             }
         }
 
+
+         private void ShowFaceRecognitionProgress()
+        {
+            //THIS KEEPS TRACK OF PROGRESS
+            double progress_decimal = 1;
+
+            //DISPLAY EACH OF PERPETRATORS' FACES IN THE PERPETRATORS PICTURE BOX FOR A FLEETING MOMEMNT;REPEAT TILL ALL FACES ARE DONE
+            foreach (var student in students)
+            {
+                for (int i = 0; i < student.photos.Length;i++ )
+                {
+                    //GET THE AMOUNT OF WORK DONE                           PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
+                    int percentage_completed = (int)(((progress_decimal / (students.Length * 5) * 100)));
+
+                    //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
+                    int width = 120;
+                    int height = 120;
+
+                    student.photos[i] = FramesManager.ResizeGrayImage(student.photos[i], new Size(width, height));
+
+                    //DISPLAY STUDENT FACE
+                    SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", student.photos[i].ToBitmap());
+
+                    if (percentage_completed >= 100)
+                    {
+                        if (face_recognition_result.match_was_found)
+                        {
+                            //UPDATE PROGRESS LABEL
+                            progress_label.ForeColor = Color.Purple;
+                            SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
+                        }
+                        else
+                        {
+                            //UPDATE PROGRESS LABEL
+                            progress_label.ForeColor = Color.Red;
+                            SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
+                        }
+                    }
+                    else
+                    {
+                        //UPDATE PROGRESS LABEL
+                        SetControlPropertyThreadSafe(progress_label, "Text", "" + percentage_completed + "%");
+                    }
+
+                    //LET THE THREAD SLEEP
+                    Thread.Sleep(SLEEP_TIME);
+
+                    progress_decimal++;
+                }
+            }
+        }
 
         private bool ThereIsSimilarAlert(Student student)
         {
-
             //else return false
             return false;
         }
 
-        private Student GetStudentIdentified(string name_of_recognized_face)
-        {
-            //SPLIT THE NAME RETURNED UP USING THE SPACE CHAR
-            String[] parts                                   = name_of_recognized_face.Split(' ');
 
-            //GET THE SECOND ITEM IN THE ARRAY THIS SHOULD BE THE ID
-            int id                                           = Convert.ToInt32(parts[1]);
-
-            //GET THE STUDENT WITH THE ID
-            return StudentsManager.GetStudent(id);
-        }
-
-        public override void DisplayFaceRecognitionProgress(int x_pos,int y_pos)
+        protected  void DisplayFaceRecognitionProgress()
         {
             {
-                if (known_faces.Count() != 0)
+                if (students.Length != 0)
                 {
 
                     //CREATE PICTURE BOX FOR FACE TO BE RECOGNIZED
-                    unknown_face_pictureBox                  = new PictureBox();
-                    unknown_face_pictureBox.Location         = new Point(x_pos, y_pos);
-                    unknown_face_pictureBox.Size             = known_faces.ToArray()[0].Size;
-                    unknown_face_pictureBox.BorderStyle      = BorderStyle.Fixed3D;
-                    unknown_face_pictureBox.Image            = face_to_recognize.ToBitmap();
+                    unknown_face_pictureBox = new PictureBox();
+                    unknown_face_pictureBox.Location = new Point(10, 10);
+                    unknown_face_pictureBox.Size = new Size(120, 120);
+                    unknown_face_pictureBox.BorderStyle = BorderStyle.Fixed3D;
+                    unknown_face_pictureBox.Image = face_to_recognize.ToBitmap();
 
                     //CREATE PICTURE BOX FOR PERPETRATORS
-                    perpetrators_pictureBox                  = new PictureBox();
-                    perpetrators_pictureBox.Location         = new Point(x_pos + 170, y_pos);
-                    perpetrators_pictureBox.Size             = known_faces.ToArray()[0].Size;
-                    perpetrators_pictureBox.BorderStyle      = BorderStyle.Fixed3D;
+                    perpetrators_pictureBox = new PictureBox();
+                    perpetrators_pictureBox.Location = new Point(185, 10);
+                    perpetrators_pictureBox.Size = new Size(120, 120);
+                    perpetrators_pictureBox.BorderStyle = BorderStyle.Fixed3D;
 
                     //CREATE PROGRESS LABEL
-                    Label progress_label                     = new Label();
-                    progress_label.Location                  = new Point(x_pos + 133, y_pos + 50);
-                    progress_label.ForeColor                 = Color.Green;
-                    progress_label.Text                      = "0%";
+                    progress_label = new Label();
+                    progress_label.Location = new Point(143, 60);
+                    progress_label.ForeColor = Color.Green;
+                    progress_label.Text = "0%";
 
-                    //CREATE SEPARATOR LABEL
-                    Label separator                          = new Label();
-                    separator.Location                       = new Point(5, y_pos + 132);
-                    separator.AutoSize                       = false;
-                    separator.Height                         = 2;
-                    separator.Width                          = 335;
-                    separator.BorderStyle                    = BorderStyle.Fixed3D;
+                    //CREATE PANEL CONTAINER FOR THE ABOVE CONTROLS
+                    Panel panel = new Panel();
+                    panel.AutoSize = true;
+                    panel.Location = new Point(x, y);
+                    panel.BorderStyle = BorderStyle.FixedSingle;
+                    panel.Padding = new Padding(10);
+                    panel.Controls.AddRange(new Control[] { unknown_face_pictureBox, perpetrators_pictureBox, progress_label });
 
-                    //ADD CONTROLS TO PANEL IN A THREAD SAFE WAY
-                    Panel panel                              = (Panel)Singleton.MAIN_WINDOW.GetControl("review_footage_panel");
-                    panel.Controls.Add(unknown_face_pictureBox);
-                    panel.Controls.Add(perpetrators_pictureBox);
-                    panel.Controls.Add(progress_label);
-                    panel.Controls.Add(separator);
+               
 
-                    //CREATE A NEW PROGRESS THREAD TO SHOW FACE RECOG PROGRESS
-                    FaceRecognitionProgress progress         = new FaceRecognitionProgress(this, perpetrators_pictureBox, progress_label);
-                    progress.StartWorking();
+                    //SINCE THIS THREAD IS STARTED OFF THE GUI THREAD THEN INVOKES MAY BE REQUIRED
+                    if (panel_review_stream.InvokeRequired)
+                    {
+                        //ADD GUI CONTROLS USING INVOKES
+                        Action action = () => panel_review_stream.Controls.Add(panel);
+                        panel_review_stream.Invoke(action);
+                    }
 
+                    //IF NO INVOKES ARE NEEDED THEN
+                    else
+                    {
+                        //JUST ADD THE CONTROLS
+                        panel_review_stream.Controls.Add(panel);
+                    }
+
+
+
+                    ShowFaceRecognitionProgress();
+
+                    y += 145;
                 }
             }
         }
@@ -176,18 +261,20 @@ namespace MetroFramework.Demo.Threads
         public class FaceRecognitionProgress : AbstractThread
         {
 
-            private List<Image<Gray, byte>> known_faces;
-            private PictureBox students_picturebox;
-            private Label progress_label;
-            private Image<Gray, byte> current_face;
-            private StudentRecognitionThread thread;
+            private Student[]                 students;
+            private PictureBox                students_picturebox;
+            private Label                     progress_label;
+            private Image<Gray, byte>         current_face;
+            private StudentRecognitionThread  thread;
+            private Student                   identified_student;
 
-            public FaceRecognitionProgress(StudentRecognitionThread thread, PictureBox perp_picturebox, Label progress_label)
+            public FaceRecognitionProgress(StudentRecognitionThread thread)
             {
                 //INITIALIZE SOME VARIABLES
-                this.known_faces                             = thread.known_faces;
-                this.students_picturebox                         = perp_picturebox;
-                this.progress_label                          = progress_label;
+                this.identified_student                      = thread.face_recognition_result.identified_student;
+                this.students                                = thread.students;
+                this.students_picturebox                     = thread.perpetrators_pictureBox;
+                this.progress_label                          = thread.progress_label;
                 this.thread                                  = thread;
 
                 //INITIALIZE BACKGROUND WORKER
@@ -206,45 +293,48 @@ namespace MetroFramework.Demo.Threads
             public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
             {
                 //THIS KEEPS TRACK OF PROGRESS
-                double progress_decimal                                     = 1;
+                double progress_decimal = 1;
 
                 //DISPLAY EACH OF HIS FACES IN THE PERPETRATORS PICTURE BOX FOR A FLEETING MOMEMNT;REPEAT TILL FACES ARE DONE
-                foreach (var face in known_faces.ToArray())
+                foreach (var student in students)
                 {
-                    //GET THE AMOUNT OF WORK DONE
-                    int percentage_completed                 = (int)(((progress_decimal / (known_faces.Count())) * 100));
+                    foreach (var face in student.photos)
+                    {
+                        //GET THE AMOUNT OF WORK DONE                          STUDENTS_lENGTH*5 COZ EACH STUDENT HAS 5 PICS
+                        int percentage_completed = (int)(((progress_decimal / (students.Length * 5) * 100)));
 
-                    //MAKE THE CURRENT FACE GLOBAL ACCESS
-                    current_face                             = face;
+                        //MAKE THE CURRENT FACE GLOBAL ACCESS
+                        current_face = face;
 
-                    //REPORT PROGRESS
-                    background_worker.ReportProgress(percentage_completed);
+                        //REPORT PROGRESS
+                        background_worker.ReportProgress(percentage_completed);
 
-                    //LET THE THREAD SLEEP
-                    Thread.Sleep(SLEEP_TIME);
+                        //LET THE THREAD SLEEP
+                        Thread.Sleep(SLEEP_TIME);
 
-                    progress_decimal++;
+                        progress_decimal++;
+                    }
                 }
             }
 
             public override void ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
             {
                 //GET PERCENTAGE COMPLETED
-                int percentage_completed                     = e.ProgressPercentage;
+                int percentage_completed = e.ProgressPercentage;
 
 
                 if (percentage_completed >= 100)
                 {
-                    if ((name_of_recognized_face != null && name_of_recognized_face.Length >= 3))
+                    if (identified_student != null)
                     {
                         //UPDATE PROGRESS LABEL
-                        progress_label.ForeColor             = Color.Purple;
+                        progress_label.ForeColor = Color.Purple;
                         SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
                     }
                     else
                     {
                         //UPDATE PROGRESS LABEL
-                        progress_label.ForeColor             = Color.Red;
+                        progress_label.ForeColor = Color.Red;
                         SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
                     }
                 }

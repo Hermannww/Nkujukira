@@ -5,6 +5,7 @@ using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
@@ -21,8 +22,7 @@ namespace MetroFramework.Demo.Threads
         public AlertGenerationThread()
             : base()
         {
-            //CREATE A NEW SOUND PLAYING THREAD
-            sound_player = new SoundPlayingThread();
+ 
         }
 
 
@@ -30,6 +30,7 @@ namespace MetroFramework.Demo.Threads
         {
             try
             {
+                Debug.WriteLine("ALERT THREAD RUNNING");
                 while (running)
                 {
                     if (!paused)
@@ -47,6 +48,7 @@ namespace MetroFramework.Demo.Threads
                             DisplayDetails();
                          }
                     }
+                    Thread.Sleep(200);
                 }
 
             }
@@ -66,22 +68,25 @@ namespace MetroFramework.Demo.Threads
         //THIS STARTS A THREAD THAT PLAYS AN ALARM SOUND CONTINUOUSLY
         private void PlayAlarmSound()
         {
-            if (!sound_player.IsRunning())
-            {
-                this.sound_player.StartWorking();
-            }
+            SoundManager.PlaySound();
         }
 
         //THIS CHECKS IF THE CURRENT ALERT IS ABOUT THE SAME PERPETRATOR AS THAT GIVEN
         public bool AlertIsAboutSamePerpetrator(Perpetrator perpetrator)
         {
-            if (identified_perpetrator != null) return this.identified_perpetrator.id == perpetrator.id;
+            if (identified_perpetrator != null)
+            {
+                return this.identified_perpetrator.id == perpetrator.id;
+            }
             return false;
         }
 
         public bool AlertIsAboutSameStudent(Student student)
         {
-            if (identified_student != null) return this.identified_student.id == student.id;
+            if (identified_student != null) 
+            {
+                return this.identified_student.id == student.id;
+            }
             return false;
         }
 
@@ -105,7 +110,7 @@ namespace MetroFramework.Demo.Threads
             if (identified_student != null)
             {
                 //create form
-                StudentDetailsForm form = new StudentDetailsForm(identified_student);
+                StudentDetailsForm form     = new StudentDetailsForm(identified_student);
 
                 //show details form
                 form.ShowDialog();
@@ -114,7 +119,7 @@ namespace MetroFramework.Demo.Threads
             }
 
             identified_perpetrator = null;
-            identified_student = null;
+            identified_student     = null;
 
         }
 
@@ -123,7 +128,7 @@ namespace MetroFramework.Demo.Threads
         {
             //TERMINATE SOUND PLAYING THREAD
             sound_player.RequestStop();
-            return base.RequestStop();
+            return  base.RequestStop();
         }
 
 

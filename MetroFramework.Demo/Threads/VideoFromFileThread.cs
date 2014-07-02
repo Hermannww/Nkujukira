@@ -20,7 +20,7 @@ namespace MetroFramework.Demo.Threads
         public static bool WORK_DONE;
         public static double VIDEO_LENGTH;
         public static string VIDEO_LENGTH_STRING;
-        private const int SLEEP_TIME = 30;
+       
 
 
 

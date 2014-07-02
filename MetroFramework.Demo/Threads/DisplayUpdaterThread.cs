@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Linq.Expressions;
 using System.Reflection;
 using Emgu.CV.UI;
+using System.Threading;
 
 namespace MetroFramework.Demo.Threads
 {
@@ -50,6 +51,7 @@ namespace MetroFramework.Demo.Threads
         public DisplayUpdaterThread(ImageBox image_box,bool review_mode)
             : base()
         {
+            Debug.WriteLine("display updater starting");
             this.review_mode                                        = review_mode;
             this.image_box                                          = image_box;
             WORK_DONE                                               = false;
@@ -144,13 +146,14 @@ namespace MetroFramework.Demo.Threads
                     //ENABLE TIMER
                     timer.Enabled = true;
                 }
-
+                Debug.WriteLine("Display Thread Running");
                 //IF THREAD IS ALIVE
                 while (running)
                 {
                     //AND NOT PAUSED
                     if (!paused)
                     {
+                        
                         //DISPLAY THE NEXT FRAME
                         DisplayNextFrame();
 
@@ -166,7 +169,10 @@ namespace MetroFramework.Demo.Threads
                             }
                         }
                     }
+                    Thread.Sleep(50);
                 }
+
+                MakeBackGroundBlack();
             }
             catch (Exception e)
             {
@@ -208,6 +214,7 @@ namespace MetroFramework.Demo.Threads
 
             //DISPLAY FRAME
             Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Image = black_image;
+            Singleton.MAIN_WINDOW.GetLiveStreamImageBox().Image = black_image;
         }
 
 

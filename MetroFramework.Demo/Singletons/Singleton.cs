@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Entitities;
+using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Threads;
 using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
@@ -26,6 +27,9 @@ namespace MetroFramework.Demo.Singletons
 
         //REFERENCE TO THE MAIN WINDOW
         public static MainWindow MAIN_WINDOW { get; set; }
+
+        public static Perpetrator[] ACTIVE_PERPETRATORS { get; set; }
+
 
         //A REFERENCE TO THE SELECT PERPETRATOR FORM
         public static SelectPerpetratorFacesForm SELECT_PERP_FACES { get; set; }
@@ -115,6 +119,22 @@ namespace MetroFramework.Demo.Singletons
             }
         }
 
+        //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
+        public static ConcurrentQueue<FaceRecognitionResult> face_recognition_results = new ConcurrentQueue<FaceRecognitionResult>();
+
+        //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
+        public static ConcurrentQueue<FaceRecognitionResult> FACE_RECOGNITION_RESULTS
+        {
+            get
+            {
+                return Singleton.face_recognition_results;
+            }
+            set
+            {
+                Singleton.face_recognition_results = value;
+            }
+        }
+
         //THIS HOLDS FRAMES AWAITING STORAGE IN A VIDEO FILE ON THE HDD
         private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_stored    = new ConcurrentQueue<Image<Bgr, byte>>();
 
@@ -153,6 +173,11 @@ namespace MetroFramework.Demo.Singletons
             Singleton.DETECTED_FACES_DATASTORE.Clear();
             image                                                               = null;
 
+        }
+
+        public static void InitializeStuff() 
+        {
+            ACTIVE_PERPETRATORS = PerpetratorsManager.GetAllActivePerpetrators();
         }
     }
 }

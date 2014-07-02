@@ -20,7 +20,10 @@ namespace MetroFramework.Demo.Entitities
         public String gender { get; set; }
         public String created_at { get; set; }
 
-
+        public Perpetrator() 
+        {
+        
+        }
 
         public Perpetrator(Image<Gray, byte>[] faces, bool is_active, String gender)
         {

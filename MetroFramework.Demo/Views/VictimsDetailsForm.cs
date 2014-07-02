@@ -79,21 +79,21 @@ namespace MetroFramework.Demo.Views
             
 
             //save perp
-            PerpetratorsManager.Save(perpetrator);
+            //PerpetratorsManager.Save(perpetrator);
 
             //set the perp id in the crime
-            crime.perpetrator_id                              = perpetrator.id;
+            //crime.perpetrator_id                              = perpetrator.id;
 
             //save crime
-            CrimesManager.Save(crime);
+            //CrimesManager.Save(crime);
 
-            StolenItem[] items_lost                           = GetItemsLost();
+            //StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            //victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            VictimsManager.Save(victim);
+            //VictimsManager.Save(victim);
 
           
 
@@ -194,12 +194,11 @@ namespace MetroFramework.Demo.Views
                     screen.STATUS_TEXT                        = "Student recognition starting...";
                     screen.StartWorking();
 
-                    foreach (var face in perpetrator.faces) 
-                    {
-                        Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
-                        FaceRecognitionThread face_recognizer = new StudentRecognitionThread(face);
-                        face_recognizer.StartWorking();
-                    }
+                    
+                    Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
+                    FaceRecognitionThread face_recognizer = new StudentRecognitionThread(perpetrator.faces);
+                    face_recognizer.StartWorking();
+                   
                 }
 
                 //close this form

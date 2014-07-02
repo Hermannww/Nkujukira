@@ -34,6 +34,9 @@ namespace MetroFramework.Demo
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.live_stream_recognition_panel = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.imageBox7 = new Emgu.CV.UI.ImageBox();
@@ -80,12 +83,10 @@ namespace MetroFramework.Demo
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
-            this.label6 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.live_stream_recognition_panel = new System.Windows.Forms.Panel();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.live_stream_recognition_panel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
@@ -97,7 +98,6 @@ namespace MetroFramework.Demo
             this.metroTabPage11.SuspendLayout();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
-            this.live_stream_recognition_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroTabControl1
@@ -110,7 +110,7 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Location = new System.Drawing.Point(20, 60);
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 1;
             this.metroTabControl1.Size = new System.Drawing.Size(926, 572);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -145,6 +145,37 @@ namespace MetroFramework.Demo
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(378, 519);
             this.panel2.TabIndex = 12;
+            // 
+            // live_stream_recognition_panel
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.live_stream_recognition_panel, true);
+            this.live_stream_recognition_panel.AutoScroll = true;
+            this.live_stream_recognition_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.live_stream_recognition_panel.Controls.Add(this.label8);
+            this.live_stream_recognition_panel.Controls.Add(this.label6);
+            this.live_stream_recognition_panel.Location = new System.Drawing.Point(13, 6);
+            this.live_stream_recognition_panel.Name = "live_stream_recognition_panel";
+            this.live_stream_recognition_panel.Size = new System.Drawing.Size(351, 499);
+            this.live_stream_recognition_panel.TabIndex = 27;
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Location = new System.Drawing.Point(-2, 28);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(335, 2);
+            this.label8.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label6, true);
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(68, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(212, 19);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "FACE RECOGNITION PROGRESS";
             // 
             // panel1
             // 
@@ -366,9 +397,9 @@ namespace MetroFramework.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.review_footage_image_box, true);
             this.review_footage_image_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.review_footage_image_box.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.review_footage_image_box.Location = new System.Drawing.Point(4, 16);
+            this.review_footage_image_box.Location = new System.Drawing.Point(65, 71);
             this.review_footage_image_box.Name = "review_footage_image_box";
-            this.review_footage_image_box.Size = new System.Drawing.Size(419, 396);
+            this.review_footage_image_box.Size = new System.Drawing.Size(310, 278);
             this.review_footage_image_box.TabIndex = 2;
             this.review_footage_image_box.TabStop = false;
             this.review_footage_image_box.Click += new System.EventHandler(this.review_footage_image_box_Click);
@@ -597,7 +628,7 @@ namespace MetroFramework.Demo
             this.tile1.BackColor = System.Drawing.SystemColors.GrayText;
             this.tile1.ContextMenuStrip = this.metroContextMenu1;
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.tile1.Location = new System.Drawing.Point(-4251, 26);
+            this.tile1.Location = new System.Drawing.Point(-4614, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
@@ -705,37 +736,6 @@ namespace MetroFramework.Demo
             this.icons_list.Images.SetKeyName(5, "thief1.png");
             this.icons_list.Images.SetKeyName(6, "wanted1.png");
             // 
-            // label6
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.label6, true);
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(68, 9);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(212, 19);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "FACE RECOGNITION PROGRESS";
-            // 
-            // label8
-            // 
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label8.Location = new System.Drawing.Point(-2, 28);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(335, 2);
-            this.label8.TabIndex = 3;
-            // 
-            // live_stream_recognition_panel
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.live_stream_recognition_panel, true);
-            this.live_stream_recognition_panel.AutoScroll = true;
-            this.live_stream_recognition_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.live_stream_recognition_panel.Controls.Add(this.label8);
-            this.live_stream_recognition_panel.Controls.Add(this.label6);
-            this.live_stream_recognition_panel.Location = new System.Drawing.Point(13, 6);
-            this.live_stream_recognition_panel.Name = "live_stream_recognition_panel";
-            this.live_stream_recognition_panel.Size = new System.Drawing.Size(351, 499);
-            this.live_stream_recognition_panel.TabIndex = 27;
-            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -758,6 +758,8 @@ namespace MetroFramework.Demo
             this.metroTabControl1.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.live_stream_recognition_panel.ResumeLayout(false);
+            this.live_stream_recognition_panel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
@@ -772,8 +774,6 @@ namespace MetroFramework.Demo
             this.metroTabPage11.ResumeLayout(false);
             this.metroContextMenu1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
-            this.live_stream_recognition_panel.ResumeLayout(false);
-            this.live_stream_recognition_panel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

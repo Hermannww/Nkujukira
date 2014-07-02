@@ -132,6 +132,7 @@ namespace MetroFramework.Demo.Views
                 {
                     label_status.Visible   = true;
                     label_status.Text      ="Student Added Successfully";
+                    ResetForm();
                 }
                 else
                 {
@@ -145,6 +146,17 @@ namespace MetroFramework.Demo.Views
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void ResetForm()
+        {
+            textbox_firstname.Text  = "";
+            textbox_middlename.Text = "";
+            textbox_lastname.Text   = "";
+            textbox_studentno.Text  = "";
+            textbox_regno.Text      = "";
+            textbox_course.Text     = "";
+            photos.Clear();
         }
 
     }

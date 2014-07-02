@@ -13,7 +13,6 @@ namespace MetroFramework.Demo.Threads
     {
         public Image<Bgr, byte> current_frame;
         public Rectangle[] detected_faces_in_frame;
-      
         private int frame_id;
         private int previous_id;
 

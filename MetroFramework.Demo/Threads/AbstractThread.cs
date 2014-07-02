@@ -16,6 +16,7 @@ namespace MetroFramework.Demo.Threads
         protected bool running= false;
         protected bool paused = false;
         protected BackgroundWorker background_worker;
+        protected int SLEEP_TIME = 50;
 
         //CONSTRUCTOR
         public AbstractThread()
@@ -58,14 +59,15 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
-        public void StartWorking()
+        public virtual void StartWorking()
         {
             running = true;
             paused  = false;
             background_worker.RunWorkerAsync();
+            while (!background_worker.IsBusy) ;
         }
 
-        public bool IsRunning()
+        public virtual bool IsRunning()
         {
             return running;
         }

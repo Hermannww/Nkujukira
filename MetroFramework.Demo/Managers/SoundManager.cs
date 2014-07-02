@@ -12,24 +12,28 @@ namespace MetroFramework.Demo.Managers
 {
     public class SoundManager
     {
-        public static String ALARM_SOUND = Application.StartupPath + @"\Resources\Sounds\Siren.mp3";
-        public static Sound siren = new Sound(ALARM_SOUND);
+        private static String ALARM_SOUND = Application.StartupPath + @"\Resources\Sounds\Siren.mp3";
+        private static WMPLib.WindowsMediaPlayer windows_media_player;
+        private static String WMP_MODE    = "loop";
 
         public static void PlaySound() 
         {
-            if (!Sound.playing_sound)
+            if (windows_media_player      == null)
             {
-                Debug.WriteLine("Playing sound");
-                siren.PlaySound();
+                windows_media_player      = new WMPLib.WindowsMediaPlayer();
+                windows_media_player.URL  = ALARM_SOUND;
+                windows_media_player.settings.setMode(WMP_MODE, true);
+                windows_media_player.controls.play();
             }
         }
 
         public static void StopPlayingSound() 
         {
-            if (siren != null) 
+            if (windows_media_player != null) 
             {
-                siren.Stop();
+                windows_media_player.controls.stop();
             }
+            windows_media_player          = null;
         }
     }
 }

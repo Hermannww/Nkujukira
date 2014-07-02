@@ -36,6 +36,7 @@ namespace MetroFramework.Demo
                 //if the users session has been started
                 if (Singleton.ADMIN != null)
                 {
+                    Singleton.InitializeStuff();
                     //if user has been validated then show main window
                     Application.Run(main_window);
                 }

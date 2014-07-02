@@ -82,7 +82,7 @@ namespace MetroFramework.Demo.Threads
 
                         for (int j = 0; j < faces_array.Length; j++)
                         {
-                            if (faces_array[j].GetCurrentPositionOfFace(current_frame, out sucess).IntersectsWith(detected_faces[i]))
+                            //if (faces_array[j].GetCurrentPositionOfFace(current_frame, out sucess).IntersectsWith(detected_faces[i]))
                             {
                                 //UPDATE POSITION OF THAT FACE PLUS TRACKER
                                 //faces_array[j].UpdateFaceAndTracker(current_frame, detected_faces[i]);
@@ -95,8 +95,8 @@ namespace MetroFramework.Demo.Threads
                         if (!face_is_found)
                         {
                             Debug.WriteLine("NEW FACE FOUND");
-                            Face a_face = new Face("No Name", detected_faces[i], current_frame);
-                            Singleton.DETECTED_FACES_DATASTORE.TryAdd(a_face.GetId(), a_face);
+                            //Face a_face = new Face("No Name", detected_faces[i], current_frame);
+                            //Singleton.DETECTED_FACES_DATASTORE.TryAdd(a_face.GetId(), a_face);
                         }
 
                     });

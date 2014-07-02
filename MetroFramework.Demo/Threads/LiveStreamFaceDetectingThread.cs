@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
@@ -36,7 +37,7 @@ namespace MetroFramework.Demo.Threads
         private int frame_height;
 
         //indicates whether frame grabbing from the cameras has been successfull
-        private bool sucessfull;
+        //private bool sucessfull;
 
         public LiveStreamFaceDetectingThread(int frame_width, int frame_height)
             : base()
@@ -51,17 +52,20 @@ namespace MetroFramework.Demo.Threads
 
         public override void DoWork(object sender, DoWorkEventArgs ex)
         {
+            Debug.WriteLine("Live Face Dectecting Thread Running");
             while (running)
             {
                 if (!paused)
                 {
+                    //Debug.WriteLine("Face Detecting Running");
                     //GET NEXT FRAME
                     //GET DETECTED FACES IN FRAME
                     DetectFacesInFrame();
 
                     //ADD FRAME TO THE QUEUE FOR DISPLAY
-                    StartRecognitionForEachDetectedFace();
+                    //StartRecognitionForEachDetectedFace();
                 }
+                //Thread.Sleep(SLEEP_TIME);
             }
         }
 
@@ -77,10 +81,12 @@ namespace MetroFramework.Demo.Threads
         public void StartRecognitionForEachDetectedFace()
         {
             //if frame grabbing was sucessfull
-            if (sucessfull)
+            //if (sucessfull)
             {
+                //and faces were detected 
                 if (detected_faces != null)
                 {
+                    Debug.WriteLine("Enqueueing faces");
                     //for each face we have detected in the frame
                     foreach (var detected_face in detected_faces)
                     {
@@ -101,7 +107,7 @@ namespace MetroFramework.Demo.Threads
         public void DetectFacesInFrame()
         {
             //try to get a frame from the shared datastore for captured frames
-            sucessfull = Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
+            bool sucessfull = Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
 
 
             //if ok
@@ -109,9 +115,25 @@ namespace MetroFramework.Demo.Threads
             {
                 //detect faces in frame
                 detected_faces = FramesManager.DetectFacesInFrame(current_frame.Clone(), haarcascade);
+                if (detected_faces != null)
+                {
+                    Debug.WriteLine("Enqueueing faces");
+                    //for each face we have detected in the frame
+                    foreach (var detected_face in detected_faces)
+                    {
+                        //get the face
+                        Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
+
+                        //add face to shared datastore so face recog thread can access it
+                        Singleton.FACES_TO_RECOGNIZE.Enqueue(face);
+                    }
+                    detected_faces = null;
+                }
+      
 
             }
-            //IF NO FRAMES IN DATA STORE
+
+            //IF NO FRAMES IN DATA STORE THEN CHECK SUPPLIER THREAD FOR LIFE
             else
             {
                 //IF OUTPUT GRABBER THREAD IS DONE THEN IT MEANS THE FRAMES ARE DONE
@@ -120,6 +142,7 @@ namespace MetroFramework.Demo.Threads
                 {
                     WORK_DONE = true;
                     running = false;
+                    Debug.WriteLine("Terminating live face detection");
                 }
             }
         }
