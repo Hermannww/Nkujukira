@@ -16,7 +16,8 @@ namespace MetroFramework.Demo.Interfaces
       
         //open connection to database
         DbConnection OpenConnection();
-        
+
+        DbConnection GetConnection();
 
         //Close connection
         bool CloseConnection();

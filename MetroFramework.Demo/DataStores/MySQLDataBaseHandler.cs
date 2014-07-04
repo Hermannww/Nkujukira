@@ -279,5 +279,11 @@ namespace MetroFramework.Demo.DataStores
                 MessageBox.Show("Error , unable to Restore!");
             }
         }
+
+
+        public DbConnection GetConnection()
+        {
+            return connection;
+        }
     }
 }

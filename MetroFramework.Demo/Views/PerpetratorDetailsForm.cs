@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Entitities;
+using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Views;
@@ -21,6 +22,7 @@ namespace MetroFramework.Demo
     {
         private Perpetrator perpetrator;
 
+        //CONSTRUCTOR USED WHEN U WANT TO CAPTURE DETAILS ABOUT A PERP
         public PerpetratorDetailsForm(Perpetrator perpetrator)
         {
             InitializeComponent();
@@ -30,8 +32,10 @@ namespace MetroFramework.Demo
             comboBox_gender.SelectedIndex        = 0;
             button_getCrimes.Visible             = false;
             button_getCrimes.Enabled             = false;
+            button_is_apprehended.Visible        = false;
         }
 
+        //CoNSTRUCTOR USED WHEN DISPLAYING DETAILS ABOUT A PERPETRATOR
         public PerpetratorDetailsForm(Perpetrator perpetrator,bool alert_mode)
         {
             InitializeComponent();
@@ -41,6 +45,7 @@ namespace MetroFramework.Demo
             DisableControls();
         }
 
+        //DISABLES NECESSARY CONTROLS WHEN IN ALERT MODE
         private void DisableControls()
         {
             comboBox_gender.Enabled              = false;
@@ -52,8 +57,10 @@ namespace MetroFramework.Demo
 
         }
 
+        //SET PERSONAL DETAILS ABOUT THE PERPTRATOR INTO THE TEXTFIELDS
         private void SetPerpetratorDetails()
         {
+            //SET PERSONAL DETAILS ABOUT THE PERPTRATOR
             textBox_perpetrator_name.Text        = perpetrator.name;
             
             comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;
@@ -70,6 +77,7 @@ namespace MetroFramework.Demo
             
         }
 
+        //EVENT HANDLER
         private void save_button_Click(object sender, EventArgs e)
         {
             //get more perpetrator details
@@ -98,26 +106,7 @@ namespace MetroFramework.Demo
 
         }
 
-        public Control GetControl(String name) 
-        {
-            switch (name) 
-            {
-                case "name":
-                    return textBox_perpetrator_name;
-                case "is_a_student":
-                    return comboBox_is_a_student;
-                case "is_active":
-                    return comboBox_is_active;
-                case "gender":
-                    return comboBox_gender;
-                case "get crimes":
-                    return button_getCrimes;
-                default:
-                    return null;
-            }
-        
-        }
-
+        //EVENT HANDLER
         private void button_getCrimes_Click(object sender, EventArgs e)
         {
 
@@ -126,8 +115,19 @@ namespace MetroFramework.Demo
             foreach (var crime in crimes_committed) 
             {
                 CrimeDetailsForm form            = new CrimeDetailsForm(crime);
+                SoundManager.StopPlayingSound();
                 form.Show();
             }
+        }
+
+        //EVENT HANDLER
+        private void is_apprehended_button_Click(object sender, EventArgs e)
+        {
+            SoundManager.StopPlayingSound();
+            this.perpetrator.is_still_active = false;
+            PerpetratorsManager.Update(this.perpetrator);
+            Singleton.Delete(this.perpetrator.id);
+            this.Close();
         }
 
     }

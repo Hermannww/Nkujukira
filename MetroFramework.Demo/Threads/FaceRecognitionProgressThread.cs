@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Controls;
+using MetroFramework.Demo.Custom_Controls;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
@@ -22,8 +23,8 @@ namespace MetroFramework.Demo.Threads
         FaceRecognitionResult face_recognition_result;
 
         //CONTROLS FOR DISPLAYING RESULTS
-        protected PictureBox perpetrators_pictureBox  = null;
-        protected PictureBox unknown_face_pictureBox  = null;
+        protected MyPictureBox perpetrators_pictureBox  = null;
+        protected MyPictureBox unknown_face_pictureBox  = null;
 
         protected Label separator                     = null;
         protected Label progress_label                = null;
@@ -38,8 +39,7 @@ namespace MetroFramework.Demo.Threads
         //MAXIMUM NUMBER OF CONTROLS THAT CAN BE SHOWN ON ABOVE PANEL BEFORE SCROLL BARS APPEAR
         private const int MAX_NUM_OF_CONTROLS_ALLOWED = 4;
 
-        Perpetrator[] perpetrators;
-        Student[] students;
+        Perpetrator[] active_perpetrators;
 
         public static bool WORKDONE = false;
 
@@ -47,7 +47,9 @@ namespace MetroFramework.Demo.Threads
             : base()
         {
             Debug.WriteLine("Progress Thread is starting");
-            perpetrators = Singleton.ACTIVE_PERPETRATORS;
+
+            //GET ACTIVE PERPETRATORS
+            active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
 
             //SET X AND Y
             ResetXAndY();
@@ -73,8 +75,10 @@ namespace MetroFramework.Demo.Threads
                     //GENERATE ALARM IF RECOGNITION IS SUCESSFULL
 
                     bool sucessful = Singleton.FACE_RECOGNITION_RESULTS.TryDequeue(out face_recognition_result);
+
                     if (sucessful) 
                     {
+                        active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
                         DisplayFaceRecognitionProgress(face_recognition_result.original_detected_face);
                         GenerateAlarm();
                     }
@@ -96,7 +100,7 @@ namespace MetroFramework.Demo.Threads
         {
             {
                 //IF THERE ARE PERPETRATORS TO COMPARE AGAINIST
-                if (perpetrators.Length != 0)
+                if (active_perpetrators.Length != 0)
                 {
                     //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
                     int width  = 120;
@@ -108,17 +112,17 @@ namespace MetroFramework.Demo.Threads
                     ClearPanelIfItemsAreMany();
 
                     //CREATE PICTURE BOX FOR FACE TO BE RECOGNIZED
-                    unknown_face_pictureBox             = new PictureBox();
+                    unknown_face_pictureBox             = new MyPictureBox();
                     unknown_face_pictureBox.Location    = new Point(10, 10);
                     unknown_face_pictureBox.Size        = new Size(120, 120);
-                    unknown_face_pictureBox.BorderStyle = BorderStyle.Fixed3D;
+                    unknown_face_pictureBox.BorderStyle = BorderStyle.FixedSingle;
                     unknown_face_pictureBox.Image       = face.ToBitmap();
 
                     //CREATE PICTURE BOX FOR PERPETRATORS
-                    perpetrators_pictureBox             = new PictureBox();
+                    perpetrators_pictureBox             = new MyPictureBox();
                     perpetrators_pictureBox.Location    = new Point(185, 10);
                     perpetrators_pictureBox.Size        = new Size(120, 120);
-                    perpetrators_pictureBox.BorderStyle = BorderStyle.Fixed3D;
+                    perpetrators_pictureBox.BorderStyle = BorderStyle.FixedSingle;
 
                     //CREATE PROGRESS LABEL
                     progress_label                      = new Label();
@@ -132,6 +136,7 @@ namespace MetroFramework.Demo.Threads
                     panel.Location                      = new Point(x, y);
                     panel.BorderStyle                   = BorderStyle.FixedSingle;
                     panel.Padding                       = new Padding(10);
+
                     panel.Controls.AddRange(new Control[] { unknown_face_pictureBox, perpetrators_pictureBox, progress_label });
 
                     //SINCE THIS THREAD IS STARTED OFF THE GUI THREAD THEN INVOKES MAY BE REQUIRED
@@ -219,12 +224,12 @@ namespace MetroFramework.Demo.Threads
             double progress_decimal = 1;
 
             //DISPLAY EACH OF PERPETRATORS' FACES IN THE PERPETRATORS PICTURE BOX FOR A FLEETING MOMEMNT;REPEAT TILL ALL FACES ARE DONE
-            foreach (var perpetrator in perpetrators)
+            foreach (var perpetrator in active_perpetrators)
             {
                 foreach (var face in perpetrator.faces)
                 {
                     //GET THE AMOUNT OF WORK DONE                           PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
-                    int percentage_completed = (int)(((progress_decimal / (perpetrators.Length * 5) * 100)));
+                    int percentage_completed = (int)(((progress_decimal / (active_perpetrators.Length * 5) * 100)));
 
 
                     //DISPLAY PERP FACE
@@ -237,6 +242,10 @@ namespace MetroFramework.Demo.Threads
                             //UPDATE PROGRESS LABEL
                             progress_label.ForeColor = Color.Purple;
                             SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
+
+                            //DISPLAY IDENTIFIED PERPETRATORS FACE
+                            SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", face_recognition_result.identified_perpetrator.faces[0].ToBitmap());
+                      
                         }
                         else
                         {
@@ -244,6 +253,8 @@ namespace MetroFramework.Demo.Threads
                             progress_label.ForeColor = Color.Red;
                             SetControlPropertyThreadSafe(progress_label, "Text", "No\nMatch\nFound");
                         }
+
+                       
                     }
                     else
                     {

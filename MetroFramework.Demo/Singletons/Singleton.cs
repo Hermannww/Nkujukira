@@ -20,10 +20,10 @@ namespace MetroFramework.Demo.Singletons
         public static Admin ADMIN { get; set; }
 
         //FOLDER WHERE THE APPLIACTION IS RUN FROM
-        public static String START_UP_FOLDER                                    = Application.StartupPath;
+        public static String START_UP_FOLDER = Application.StartupPath;
 
         //FOLDER WHERE RESOURCES ARE BEING STORED
-        public static String RESOURCES_DIRECTORY                                = START_UP_FOLDER + @"\Resources\";
+        public static String RESOURCES_DIRECTORY = START_UP_FOLDER + @"\Resources\";
 
         //REFERENCE TO THE MAIN WINDOW
         public static MainWindow MAIN_WINDOW { get; set; }
@@ -35,7 +35,7 @@ namespace MetroFramework.Demo.Singletons
         public static SelectPerpetratorFacesForm SELECT_PERP_FACES { get; set; }
 
         //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
-        private static String current_file_name                                 = "";
+        private static String current_file_name = "";
 
         //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
         public static String CURRENT_FILE_NAME
@@ -46,7 +46,7 @@ namespace MetroFramework.Demo.Singletons
             }
             set
             {
-                Singleton.current_file_name                                     = value;
+                Singleton.current_file_name = value;
             }
         }
 
@@ -62,7 +62,7 @@ namespace MetroFramework.Demo.Singletons
             }
             set
             {
-                Singleton.frames_to_be_processed                                = value;
+                Singleton.frames_to_be_processed = value;
             }
         }
 
@@ -70,7 +70,7 @@ namespace MetroFramework.Demo.Singletons
         private static ConcurrentQueue<Student> identified_students = new ConcurrentQueue<Student>();
 
         //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED AS STUDENTS
-        public static ConcurrentQueue<Student> IDENTIFIED_STUDENTS 
+        public static ConcurrentQueue<Student> IDENTIFIED_STUDENTS
         {
             get { return identified_students; }
             set { identified_students = value; }
@@ -99,12 +99,12 @@ namespace MetroFramework.Demo.Singletons
             }
             set
             {
-                Singleton.frames_to_be_displayed                                = value;
+                Singleton.frames_to_be_displayed = value;
             }
         }
 
         //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
-        public static ConcurrentQueue<Image<Gray, byte>> faces_to_recognize=new ConcurrentQueue<Image<Gray,byte>>();
+        public static ConcurrentQueue<Image<Gray, byte>> faces_to_recognize = new ConcurrentQueue<Image<Gray, byte>>();
 
         //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
         public static ConcurrentQueue<Image<Gray, byte>> FACES_TO_RECOGNIZE
@@ -136,7 +136,7 @@ namespace MetroFramework.Demo.Singletons
         }
 
         //THIS HOLDS FRAMES AWAITING STORAGE IN A VIDEO FILE ON THE HDD
-        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_stored    = new ConcurrentQueue<Image<Bgr, byte>>();
+        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_stored = new ConcurrentQueue<Image<Bgr, byte>>();
 
         //THIS HOLDS FRAMES AWAITING STORAGE IN A VIDEO FILE ON THE HDD
         public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_STORED
@@ -145,7 +145,7 @@ namespace MetroFramework.Demo.Singletons
             {
                 return Singleton.frames_to_be_stored;
             }
-            set { Singleton.frames_to_be_stored                                 = value; }
+            set { Singleton.frames_to_be_stored = value; }
         }
 
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
@@ -160,7 +160,7 @@ namespace MetroFramework.Demo.Singletons
             }
             set
             {
-                Singleton.detected_faces_datastore                              = value;
+                Singleton.detected_faces_datastore = value;
             }
         }
 
@@ -171,13 +171,46 @@ namespace MetroFramework.Demo.Singletons
             while (Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
             while (Singleton.FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
             Singleton.DETECTED_FACES_DATASTORE.Clear();
-            image                                                               = null;
+            image = null;
 
         }
 
-        public static void InitializeStuff() 
+        public static void InitializeStuff()
         {
             ACTIVE_PERPETRATORS = PerpetratorsManager.GetAllActivePerpetrators();
+        }
+
+        //THIS UPDATES A PERP FROM THE ACTIVE_PERPETRATORS ARRAY
+        public static void Update(Perpetrator perp)
+        {
+            for (int i = 0; i < ACTIVE_PERPETRATORS.Length; i++)
+            {
+                if (perp.id == ACTIVE_PERPETRATORS[i].id)
+                {
+                    ACTIVE_PERPETRATORS[i] = perp;
+                }
+            }
+        }
+
+        //THIS DELETES A PERP FROM THE ACTIVE_PERPETRATORS ARRAY
+        public static void Delete(int perp_id)
+        {
+            List<Perpetrator> perpetrators=new List<Perpetrator>();
+
+            //ADD EVERY PERPETRATOR TO A LIST EXCERPT 
+            //THE ONE WITH THE SAME ID AS THE GIVEN ID
+            for (int i = 0; i < ACTIVE_PERPETRATORS.Length; i++)
+            {
+                if (perp_id == ACTIVE_PERPETRATORS[i].id)
+                {
+                    //SKIP THAT ELEMENT
+                    continue;
+                }
+
+                perpetrators.Add(ACTIVE_PERPETRATORS[i]);
+            }
+
+            ACTIVE_PERPETRATORS = perpetrators.ToArray();
         }
     }
 }

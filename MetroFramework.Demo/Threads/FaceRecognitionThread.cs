@@ -12,14 +12,14 @@ namespace MetroFramework.Demo.Threads
         protected Image<Gray, byte> face_to_recognize = null;
         protected Entity perp_or_student              = null;
         protected const int SLEEP_TIME                = 30;
-        protected FacesManager faces_manager;
+        
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize)
             : base()
         {
             this.face_to_recognize                    = face_to_recognize;
             this.perp_or_student                      = null;
-            this.faces_manager                        = new FacesManager();
+            
         }
         
         protected abstract void RecognizeFace(Image<Gray, byte> face);

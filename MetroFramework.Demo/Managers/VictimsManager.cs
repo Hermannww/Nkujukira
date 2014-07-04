@@ -17,24 +17,13 @@ namespace MetroFramework.Demo.Managers
         private const int GENDER                = 4;
         private const int CRIME_ID              = 5;
       
-        //fields for items stolen table
-        public const int ITEM_ID                = 0;
-        private const int NAME_OF_ITEM          = 1;
-        private const int VICTIMS_ID            = 2;
+      
 
         public static void CreateTable()
         {
             try
             {
                 String create_sql               = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (ID INT AUTO_INCREMENT PRIMARY KEY,NAME VARCHAR(30),DATE_OF_BIRTH VARCHAR(30),IS_A_STUDENT VARCHAR(30),GENDER VARCHAR(10),CRIME_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
-                sql_command                     = new MySqlCommand();
-                sql_command.Connection          = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText         = create_sql;
-                sql_command.Prepare();
-                database.Update(sql_command);
-
-                //create items stolen table
-                create_sql                      = "CREATE TABLE IF NOT EXISTS STOLEN_ITEMS (ID INT AUTO_INCREMENT PRIMARY KEY,NAME_OF_ITEM VARCHAR(30),VICTIM_ID INT )";
                 sql_command                     = new MySqlCommand();
                 sql_command.Connection          = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText         = create_sql;
@@ -95,7 +84,7 @@ namespace MetroFramework.Demo.Managers
 
                     int id                      = data_reader.GetInt32(ID);
                     String name                 = data_reader.GetString(NAME);
-                    StolenItem[] items_stolen   = GetItemsStolen(id);
+                    StolenItem[] items_stolen   = null;
                     bool is_a_student           = data_reader.GetBoolean(IS_A_STUDENT);
                     String gender               = data_reader.GetString(GENDER);
                     String d_o_b                = data_reader.GetString(DOB);
@@ -148,7 +137,7 @@ namespace MetroFramework.Demo.Managers
                     //create new victim
 
                     String name                 = data_reader.GetString(NAME);
-                    StolenItem[] items_stolen   = GetItemsStolen(id);
+                    StolenItem[] items_stolen   = null;
                     bool is_a_student           = data_reader.GetBoolean(IS_A_STUDENT);
                     String gender               = data_reader.GetString(GENDER);
                     String d_o_b                = data_reader.GetString(DOB);
@@ -173,16 +162,13 @@ namespace MetroFramework.Demo.Managers
             return null;
         }
 
-        private static StolenItem[] GetItemsStolen(int victim_id)
-        {
-            return new StolenItem[] { };
-        }
+        
 
         public static bool Save(Victim victim)
         {
             try
             {
-                String insert_sql               = "INSERT INTO VICTIMS (NAME,DATE_OF_BIRTH,IS_A_STUDENT,GENDER,CRIME_ID) VALUES(@name,@dob,@is_student,@gender,@crime_id)";
+                String insert_sql               = "INSERT INTO " + TABLE_NAME + " (NAME,DATE_OF_BIRTH,IS_A_STUDENT,GENDER,CRIME_ID) VALUES(@name,@dob,@is_student,@gender,@crime_id)";
 
                 //Sql command
                 sql_command                     = new MySqlCommand();
@@ -200,12 +186,14 @@ namespace MetroFramework.Demo.Managers
 
                 victim.id                       = Convert.ToInt32(sql_command.LastInsertedId);
 
-                return true;
+               
             }
             finally
             {
                 database.CloseConnection();
             }
+
+            return true;
         }
 
         public static bool Update(Victim victim)
@@ -230,32 +218,15 @@ namespace MetroFramework.Demo.Managers
 
                 //execute command
                 database.Update(sql_command);
-
-                //update each stolen item
-                foreach (var stolen_item in victim.items_stolen)
-                {
-                    //sql statement
-                    update_sql                  = "UPDATE ITEMS_STOLEN SET NAME=@item_name WHERE ID=@id";
-
-                    //Sql command
-                    sql_command                 = new MySqlCommand();
-                    sql_command.CommandText     = update_sql;
-
-                    sql_command.Parameters.AddWithValue("@id", stolen_item.id);
-                    sql_command.Parameters.AddWithValue("@name", stolen_item.name_of_item);
-
-                    sql_command.Prepare();
-
-                    //execute command
-                    database.Update(sql_command);
-                }
-                return true;
             }
             finally
             {
                 database.CloseConnection();
             }
+
+            return true;
         }
+
         public static bool Delete(int crime_id)
         {
             try
@@ -284,7 +255,7 @@ namespace MetroFramework.Demo.Managers
             return false;
         }
 
-        internal static Victim[] GetVictimsOfCrime(int crime_id) 
+        public static Victim[] GetVictimsOfCrime(int crime_id) 
         {
             try
             {
@@ -294,7 +265,7 @@ namespace MetroFramework.Demo.Managers
                 sql_command                     = new MySqlCommand();
                 sql_command.Connection          = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText         = select_sql;
-                sql_command.Parameters.AddWithValue("@id", ""+crime_id);
+                sql_command.Parameters.AddWithValue("@id", crime_id);
                 sql_command.Prepare();
 
                 //get results in enum object
@@ -309,7 +280,7 @@ namespace MetroFramework.Demo.Managers
 
                     int id                      = data_reader.GetInt32(ID);
                     String name                 = data_reader.GetString(NAME);
-                    StolenItem[] items_stolen   = GetItemsStolen(id);
+                    StolenItem[] items_stolen   = null;
                     bool is_a_student           = data_reader.GetBoolean(IS_A_STUDENT);
                     String gender               = data_reader.GetString(GENDER);
                     String d_o_b                = data_reader.GetString(DOB);

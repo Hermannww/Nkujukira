@@ -72,7 +72,7 @@ namespace MetroFramework.Demo.Threads
                     //ADD FRAME TO THE QUEUE FOR DISPLAY
                     AddFrameToQueueForDisplay();
                  }
-                Thread.Sleep(SLEEP_TIME);
+                //Thread.Sleep(SLEEP_TIME);
             }
         }
         int count = 0;

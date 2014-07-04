@@ -193,6 +193,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom Controls\MyPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Entitities\FaceRecognitionResult.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
@@ -208,11 +211,11 @@
     <Compile Include="Managers\FacesManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\SettingsManager.cs" />
+    <Compile Include="Managers\StolenItemsManager.cs" />
     <Compile Include="Managers\StudentsManager.cs" />
     <Compile Include="Threads\FaceRecognitionProgressThread.cs" />
     <Compile Include="Threads\LiveStreamFaceDetectingThread.cs" />
     <Compile Include="Threads\PerpetratorRecognitionThread.cs" />
-    <Compile Include="Threads\SoundPlayingThread.cs" />
     <Compile Include="Threads\StudentRecognitionThread.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
@@ -429,7 +432,9 @@
     <EmbeddedResource Include="Views\VictimsDetailsForm.resx">
       <DependentUpon>VictimsDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="Default.srprofile">

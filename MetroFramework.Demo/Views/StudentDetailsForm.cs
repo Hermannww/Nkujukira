@@ -159,5 +159,10 @@ namespace MetroFramework.Demo.Views
             photos.Clear();
         }
 
+        private void StudentDetailsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SoundManager.StopPlayingSound();
+        }
+
     }
 }

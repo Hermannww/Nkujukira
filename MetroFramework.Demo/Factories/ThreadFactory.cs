@@ -21,19 +21,19 @@ namespace MetroFramework.Demo.Factories
         public const String PROGRESS_THREAD                                 = "face_recog_progress";
 
         public static String[] ALL_THREADS                                  = { 
-                                                              ALERT_THREAD,
-                                                              CAMERA_THREAD,
-                                                              DISPLAY_UPDATER, 
-                                                              REVIEW_FACE_DETECTOR,
-                                                              LIVE_FACE_DETECTOR,
-                                                              PERP_RECOGNIZER, 
-                                                              FACE_DRAWER, 
-                                                              FACE_TRACKER,
-                                                              FOOTAGE_SAVER, 
-                                                              VIDEO_THREAD,
-                                                              PERP_RECOGNIZER,
-                                                              PROGRESS_THREAD
-                                                          };
+                                                                                ALERT_THREAD,
+                                                                                CAMERA_THREAD,
+                                                                                DISPLAY_UPDATER, 
+                                                                                REVIEW_FACE_DETECTOR,
+                                                                                LIVE_FACE_DETECTOR,
+                                                                                PERP_RECOGNIZER, 
+                                                                                FACE_DRAWER, 
+                                                                                FACE_TRACKER,
+                                                                                FOOTAGE_SAVER, 
+                                                                                VIDEO_THREAD,
+                                                                                PERP_RECOGNIZER,
+                                                                                PROGRESS_THREAD
+                                                                              };
 
         //ALL THREADS AVAILABLE
         private static CameraOutputGrabberThread     cam_output             = null;
@@ -55,6 +55,7 @@ namespace MetroFramework.Demo.Factories
             {
                 CreateVideoFileGrabberThread();
                 CreateReviewFaceDetectingThread();
+                CreateNewAlertGenerationThread();
             }
 
             else
@@ -97,7 +98,7 @@ namespace MetroFramework.Demo.Factories
         //STARTS A NEW ALERT GENERATION THREAD
         private static AlertGenerationThread CreateNewAlertGenerationThread()
         {
-            if (alert_thread                                                == null)
+            if (alert_thread== null)
             {
                 alert_thread                                                = new AlertGenerationThread();
                 alert_thread.StartWorking();
@@ -205,6 +206,12 @@ namespace MetroFramework.Demo.Factories
 
                 case ThreadFactory.FACE_DRAWER:
                     return face_drawer;
+
+                case ThreadFactory.PERP_RECOGNIZER:
+                    return perp_recognizer;
+
+                case ThreadFactory.PROGRESS_THREAD:
+                    return face_recog_progress;
 
                 case ThreadFactory.FACE_TRACKER:
                     return face_tracker;

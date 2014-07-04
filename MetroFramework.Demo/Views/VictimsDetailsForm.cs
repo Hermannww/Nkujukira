@@ -16,20 +16,28 @@ namespace MetroFramework.Demo.Views
 {
     public partial class VictimsDetailsForm : MetroForm
     {
-        //the id of the crime commited againist this victim
+        //THE PERPETRATOR OF THE CRIME COMMITED AGAINIST THE VICTIM
         Perpetrator perpetrator;
+
+        //THE CRIME COMMITTED AGAINIST THE VICTIM
         Crime crime;
+
+        //THE VICTIM OF THE CRIME
         Victim victim;
+
+        //FLAG INDICATING WHETHER THERE ARE OTHER VICTIMS OF THIS CRIME
         private bool close_after_saving                       = false;
 
-        //constructor
+        //NEW VICTIM CONSTRUCTOR
         public VictimsDetailsForm(Perpetrator perp,Crime crime)
         {
             this.perpetrator                                  = perp;
             this.crime                                        = crime;
             InitializeComponent();
+            ResetTextValues();
         }
 
+        //DISPLAY VICTIMS DETAILS CONSTRUCTOR
         public VictimsDetailsForm(Victim victim)
         {
             this.victim                                       = victim;
@@ -39,6 +47,8 @@ namespace MetroFramework.Demo.Views
             
         }
 
+        //DISABLES NECESSARY CONTROLS ON FORM WHEN DISPLAYING DETAILS 
+        //OF VICTIM
         private void DisableControls()
         {
             this.name_text_box.Enabled                        = false;
@@ -46,16 +56,38 @@ namespace MetroFramework.Demo.Views
             this.gender_comoboBox.Enabled                     = false;
             this.button_save.Visible                          = false;
             this.is_a_student_comboBox.Enabled                = false;
+            this.items_lost_textbox.Enabled                   = false;
+            this.label1.Visible                               = false;
+            this.another_victim_button.Visible                = false;
+            this.panel1.Size = new Size(548, 350);
+            this.Size = new Size(568, 400);
         }
 
+        //SETS TEXT OF CONTROLS WHEN DISPLAYING DETAILS OF VICTIMS
         private void SetVictimDetails(Victim victim)
         {
+            if (victim == null) { throw new ArgumentNullException(); }
+
+            //SET HIS PERSONAL DETAILS
             this.name_text_box.Text                           = victim.name;
             this.date_of_birth.Text                           = victim.date_of_birth;
             this.gender_comoboBox.Text                        = victim.gender;
             this.is_a_student_comboBox.Text                   = victim.is_a_student.ToString();
+
+            //SET THE ITEMS STOLEN FIELD
+            for(int i=0;i<victim.items_stolen.Length;i++)
+            {
+                if (i == 0)
+                {
+                    this.items_lost_textbox.Text += victim.items_stolen[i].name_of_item;
+                    continue;
+                }
+
+                this.items_lost_textbox.Text += "," + victim.items_stolen[i].name_of_item;
+            }
         }
 
+        //HANDLER FOR WHEN THE SAVE BUTTON IS CLICKED
         private void save_button_Click(object sender, EventArgs e)
         {
             timer1.Start();
@@ -63,12 +95,11 @@ namespace MetroFramework.Demo.Views
             close_after_saving                                = true;
 
             //save victim details
-            SaveVictimDetails();
-
-            
+            SaveVictimDetails();        
 
         }
 
+        //SAVES THE VICTIMS DETAILS AND THE CRIMES AGAINIST HIM IN THE DATABASE
         private void SaveVictimDetails()
         {
             //get victim details
@@ -79,28 +110,34 @@ namespace MetroFramework.Demo.Views
             
 
             //save perp
-            //PerpetratorsManager.Save(perpetrator);
+            PerpetratorsManager.Save(perpetrator);
 
             //set the perp id in the crime
-            //crime.perpetrator_id                              = perpetrator.id;
+            crime.perpetrator_id = 1;//perpetrator.id;
 
             //save crime
-            //CrimesManager.Save(crime);
+            CrimesManager.Save(crime);
 
-            //StolenItem[] items_lost                           = GetItemsLost();
+            StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            //victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            //VictimsManager.Save(victim);
+            VictimsManager.Save(victim);
 
-          
+            //SAVE EACH STOLEN ITEM IN THE DATABASE
+            foreach (var item in items_lost) 
+            {
+                item.victims_id = victim.id;
+                StolenItemsManager.Save(item);
+            }
 
     
         }
 
 
+        //GETS THE ITEMS LOST OR STOLEN FROM THE VICTIM
         private StolenItem[] GetItemsLost()
         {
             String items_stolen                               = items_lost_textbox.Text;
@@ -117,6 +154,7 @@ namespace MetroFramework.Demo.Views
 
         }
 
+        //
         private void another_victim_button_Click(object sender, EventArgs e)
         {
             timer1.Start();
@@ -146,7 +184,6 @@ namespace MetroFramework.Demo.Views
         private void VictimsDetailsForm_Load(object sender, EventArgs e)
         {
             timer1.Stop();
-            ResetTextValues();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -59,11 +59,15 @@ namespace MetroFramework.Demo.Views
         private void button_getVictims_Click(object sender, EventArgs e)
         {
             Victim[] victims                         = VictimsManager.GetVictimsOfCrime(this.crime.id);
+
             foreach (var victim in victims) 
             {
-                VictimsDetailsForm form              = new VictimsDetailsForm(victim);
+                victim.items_stolen=StolenItemsManager.GetVictimsStolenItems(victim.id);
+                VictimsDetailsForm form = new VictimsDetailsForm(victim);
                 form.Show();
             }
+
+            
         }
 
         private void save_button_Click(object sender, EventArgs e)

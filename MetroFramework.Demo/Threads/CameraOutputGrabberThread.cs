@@ -20,12 +20,14 @@ namespace MetroFramework.Demo.Threads
         //SIGNALS TO OTHER THREADS THAT THIS THREAD HAS FINIHSED WORK
         public static bool WORK_DONE = false;
 
+        private const String FILE_NAME = @"C:\Users\ken\Pictures\VDs\video4.mp4";
+
         //CONSTRUCTOR
         public CameraOutputGrabberThread()
             : base()
         {
             Debug.WriteLine("Cam output thread starting");
-            camera_capture = new Capture(@"C:\Users\ken\Pictures\VDs\video4.mp4");
+            camera_capture = new Capture(FILE_NAME);
             WORK_DONE= false;
 
         }

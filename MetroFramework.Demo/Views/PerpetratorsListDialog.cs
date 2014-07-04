@@ -84,6 +84,7 @@ namespace MetroFramework.Demo.Views
                     int selected_row = dataGridViewX1.CurrentRow.Index;
                     int id = Convert.ToInt32(dataGridViewX1[0, selected_row].Value);
                     bool victim_deleted = VictimsManager.Delete(CrimesManager.GetCrimeId(id));
+                    
                     if (victim_deleted)
                     {
                         Debug.WriteLine("Deleting Victims of crime");

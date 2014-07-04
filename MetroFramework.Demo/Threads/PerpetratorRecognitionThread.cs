@@ -21,8 +21,9 @@ namespace MetroFramework.Demo.Threads
     //IF RECOGNITION IS SUCCESSFULL AN ALERT IS GENERATED
     public class PerpetratorRecognitionThread : FaceRecognitionThread
     {
+        private FacesManager faces_manager;
         //ARRAY OF ALL ACTIVE PERPETRATORS
-        private Perpetrator[] perpetrators = null;
+        private Perpetrator[] active_perpetrators = null;
         public static bool WORKDONE=false;
 
         //CONSTRUCTOR
@@ -30,8 +31,11 @@ namespace MetroFramework.Demo.Threads
             : base(null)
         {
             WORKDONE = false;
+
+            faces_manager = new FacesManager();
+
             //GET ALL ACTIVE PERPETRATORS
-            perpetrators = Singleton.ACTIVE_PERPETRATORS;
+            active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
 
             //LOAD FACES OF PERPETRATORS
             EnrollFacesToBeComparedAgainst();
@@ -47,7 +51,7 @@ namespace MetroFramework.Demo.Threads
             try
             {
                 //FOR EACH ACTIVE PERPETRATOR ENROLL HIS FACE SO IT CAN BE USED FOR COMPARISON
-                foreach (var perpetrator in perpetrators)
+                foreach (var perpetrator in active_perpetrators)
                 {
                     faces_manager.EnrollFaces(perpetrator);
                 }
@@ -61,7 +65,7 @@ namespace MetroFramework.Demo.Threads
 
         protected override void RecognizeFace(Image<Gray, byte> face)
         {
-            if (perpetrators.Length != 0)
+            if (active_perpetrators.Length != 0)
             {
 
                 //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
@@ -77,7 +81,7 @@ namespace MetroFramework.Demo.Threads
                 if (result.match_was_found)
                 {
                     //GET PERPETRATOR ASSOCIATED WITH ID
-                    foreach (var perp in perpetrators)
+                    foreach (var perp in active_perpetrators)
                     {
                         if (perp.id == result.id)
                         {
@@ -107,7 +111,7 @@ namespace MetroFramework.Demo.Threads
                     //IF DEQUEUE IS OK
                     if (sucessfull)
                     {
-                        Debug.WriteLine("Dequeue sucessfull:Face Recog");
+                        active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
                         //TRY TO RECOGNIZE THE FACE
                         RecognizeFace(face_to_recognize);
                     }
@@ -126,5 +130,7 @@ namespace MetroFramework.Demo.Threads
                 Thread.Sleep(SLEEP_TIME);
             }
         }
+
+      
     }
 }

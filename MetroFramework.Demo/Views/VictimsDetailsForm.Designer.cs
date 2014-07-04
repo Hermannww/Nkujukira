@@ -32,7 +32,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.another_victim_button = new MetroFramework.Controls.MetroButton();
             this.button_save = new MetroFramework.Controls.MetroButton();
             this.date_of_birth = new System.Windows.Forms.DateTimePicker();
             this.is_a_student_comboBox = new System.Windows.Forms.ComboBox();
@@ -53,7 +53,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.metroButton1);
+            this.panel1.Controls.Add(this.another_victim_button);
             this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.date_of_birth);
             this.panel1.Controls.Add(this.is_a_student_comboBox);
@@ -90,17 +90,17 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "Enter The Details Here";
             // 
-            // metroButton1
+            // another_victim_button
             // 
-            this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.metroButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroButton1.Location = new System.Drawing.Point(380, 296);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(156, 37);
-            this.metroButton1.TabIndex = 41;
-            this.metroButton1.Text = "Another Victim";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.another_victim_button_Click);
+            this.another_victim_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.another_victim_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.another_victim_button.Location = new System.Drawing.Point(380, 296);
+            this.another_victim_button.Name = "another_victim_button";
+            this.another_victim_button.Size = new System.Drawing.Size(156, 37);
+            this.another_victim_button.TabIndex = 41;
+            this.another_victim_button.Text = "Another Victim";
+            this.another_victim_button.UseSelectable = true;
+            this.another_victim_button.Click += new System.EventHandler(this.another_victim_button_Click);
             // 
             // button_save
             // 
@@ -228,6 +228,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(568, 492);
             this.Controls.Add(this.panel1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "VictimsDetailsForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
@@ -255,7 +257,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private Controls.MetroButton button_save;
-        private Controls.MetroButton metroButton1;
+        private Controls.MetroButton another_victim_button;
         private System.Windows.Forms.Label label1;
         private Controls.MetroProgressBar progressBar;
         private System.Windows.Forms.Timer timer1;

@@ -508,5 +508,10 @@ namespace MetroFramework.Demo
         {
             return imageBox4;
         }
+
+        private void metroTabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

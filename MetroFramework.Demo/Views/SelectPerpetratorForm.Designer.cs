@@ -83,6 +83,7 @@
             this.Controls.Add(this.label1);
             this.DisplayHeader = false;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SelectPerpetratorForm";
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;

@@ -20,10 +20,6 @@ namespace MetroFramework.Demo.Threads
         public static bool WORK_DONE;
         public static double VIDEO_LENGTH;
         public static string VIDEO_LENGTH_STRING;
-       
-
-
-
 
         public VideoFromFileThread(String file_name): base()
         {
@@ -34,6 +30,7 @@ namespace MetroFramework.Demo.Threads
 
             //CREATE HANDLE TO VIDEO FILE
             video_capture              = new Capture(file_name);
+
             //GET PROPERTIES OF THE VIDEO FILE
             MediaFile video_properties = new MediaFile(file_name);
 
@@ -91,7 +88,6 @@ namespace MetroFramework.Demo.Threads
                 {
                     //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
                     //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
-                    AddBlackFrame();
                     WORK_DONE      = true;
                     running        = false;
                     Debug.WriteLine("Terminating video from file");
@@ -105,15 +101,6 @@ namespace MetroFramework.Demo.Threads
         public override bool Pause()
         {
             return base.Pause();
-        }
-
-        //ADDS BLACK FRAME TO FRAMES DATASTORE
-        private void AddBlackFrame()
-        {
-            int width                    = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Width;
-            int height                   = Singleton.MAIN_WINDOW.GetReviewFootageImageBox().Height;
-            Image<Bgr, byte> black_image = new Image<Bgr, byte>(width, height, new Bgr(0, 0, 0));
-            Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(black_image);
         }
 
         //JUMPS FORWARD OR BACKWARDS IN THE VIDEO PLAYING

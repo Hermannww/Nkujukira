@@ -13,7 +13,6 @@ namespace MetroFramework.Demo.Threads
     public class AlertGenerationThread : AbstractThread
     {
         private Perpetrator identified_perpetrator = null;
-        private SoundPlayingThread sound_player    = null;
         private Student identified_student         = null;
         private bool sucess                        = false;
 
@@ -22,7 +21,8 @@ namespace MetroFramework.Demo.Threads
         public AlertGenerationThread()
             : base()
         {
- 
+            running = true;
+            paused = false;
         }
 
 
@@ -30,11 +30,14 @@ namespace MetroFramework.Demo.Threads
         {
             try
             {
-                Debug.WriteLine("ALERT THREAD RUNNING");
                 while (running)
                 {
+                    Debug.WriteLine("ALERT THREAD RUNNING");
+
                     if (!paused)
                     {
+                        Debug.WriteLine("ALERT THREAD IS NOT PAUSED");
+
                         //CHECK TO SEE IF AN ALERT HAS BEEN SIGNALED FOR
                         sucess = GetIdentifiedStudentOrPerpetrator();
 
@@ -47,6 +50,7 @@ namespace MetroFramework.Demo.Threads
                             //DISPLAY DETAILS OF THE ALERT
                             DisplayDetails();
                          }
+                       
                     }
                     Thread.Sleep(200);
                 }
@@ -68,6 +72,7 @@ namespace MetroFramework.Demo.Threads
         //THIS STARTS A THREAD THAT PLAYS AN ALARM SOUND CONTINUOUSLY
         private void PlayAlarmSound()
         {
+            Debug.WriteLine("Playing Alarm sound");
             SoundManager.PlaySound();
         }
 
@@ -121,14 +126,6 @@ namespace MetroFramework.Demo.Threads
             identified_perpetrator = null;
             identified_student     = null;
 
-        }
-
-        //CALLED TO STOP THE THREAD
-        public override bool RequestStop()
-        {
-            //TERMINATE SOUND PLAYING THREAD
-            sound_player.RequestStop();
-            return  base.RequestStop();
         }
 
 

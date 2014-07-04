@@ -169,7 +169,7 @@ namespace MetroFramework.Demo.Threads
                             }
                         }
                     }
-                    Thread.Sleep(50);
+                    //Thread.Sleep(50);
                 }
 
                 MakeBackGroundBlack();

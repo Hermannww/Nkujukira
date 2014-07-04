@@ -88,12 +88,12 @@
             this.panel1.Size = new System.Drawing.Size(482, 548);
             this.panel1.TabIndex = 0;
             // 
-            // picturebox_studentsPictures
+            // picturebox_studentPic
             // 
             this.picturebox_studentPic.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picturebox_studentPic.Image = ((System.Drawing.Image)(resources.GetObject("picturebox_studentsPictures.Image")));
+            this.picturebox_studentPic.Image = ((System.Drawing.Image)(resources.GetObject("picturebox_studentPic.Image")));
             this.picturebox_studentPic.Location = new System.Drawing.Point(170, 8);
-            this.picturebox_studentPic.Name = "picturebox_studentsPictures";
+            this.picturebox_studentPic.Name = "picturebox_studentPic";
             this.picturebox_studentPic.Size = new System.Drawing.Size(132, 132);
             this.picturebox_studentPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picturebox_studentPic.TabIndex = 58;
@@ -371,19 +371,22 @@
             this.label1.TabIndex = 35;
             this.label1.Text = "First Name";
             // 
-            // AddStudentDetailsForm
+            // StudentDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(509, 615);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
-            this.Name = "AddStudentDetailsForm";
+            this.MinimizeBox = false;
+            this.Name = "StudentDetailsForm";
             this.Resizable = false;
             this.ShowInTaskbar = false;
             this.Text = "Add Student";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StudentDetailsForm_FormClosed);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_studentPic)).EndInit();

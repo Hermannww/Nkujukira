@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.perpetrator_picture_box = new System.Windows.Forms.PictureBox();
+            this.button_is_apprehended = new MetroFramework.Controls.MetroButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +48,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button_is_apprehended);
             this.panel1.Controls.Add(this.button_getCrimes);
             this.panel1.Controls.Add(this.comboBox_gender);
             this.panel1.Controls.Add(this.label4);
@@ -71,9 +73,9 @@
             this.button_getCrimes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_getCrimes.Location = new System.Drawing.Point(15, 205);
             this.button_getCrimes.Name = "button_getCrimes";
-            this.button_getCrimes.Size = new System.Drawing.Size(181, 48);
+            this.button_getCrimes.Size = new System.Drawing.Size(134, 48);
             this.button_getCrimes.TabIndex = 32;
-            this.button_getCrimes.Text = "Get Crimes Committed";
+            this.button_getCrimes.Text = "Crimes Committed";
             this.button_getCrimes.UseSelectable = true;
             this.button_getCrimes.Click += new System.EventHandler(this.button_getCrimes_Click);
             // 
@@ -113,9 +115,9 @@
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_save.Location = new System.Drawing.Point(310, 205);
+            this.button_save.Location = new System.Drawing.Point(332, 205);
             this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(171, 48);
+            this.button_save.Size = new System.Drawing.Size(149, 48);
             this.button_save.TabIndex = 27;
             this.button_save.Text = "Save";
             this.button_save.UseSelectable = true;
@@ -182,6 +184,20 @@
             this.perpetrator_picture_box.TabIndex = 0;
             this.perpetrator_picture_box.TabStop = false;
             // 
+            // is_apprehended_button
+            // 
+            this.button_is_apprehended.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_is_apprehended.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_is_apprehended.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_is_apprehended.ForeColor = System.Drawing.Color.Black;
+            this.button_is_apprehended.Location = new System.Drawing.Point(155, 205);
+            this.button_is_apprehended.Name = "is_apprehended_button";
+            this.button_is_apprehended.Size = new System.Drawing.Size(171, 48);
+            this.button_is_apprehended.TabIndex = 33;
+            this.button_is_apprehended.Text = "Has Been Apprehended";
+            this.button_is_apprehended.UseSelectable = true;
+            this.button_is_apprehended.Click += new System.EventHandler(this.is_apprehended_button_Click);
+            // 
             // PerpetratorDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,5 +234,6 @@
         private System.Windows.Forms.ComboBox comboBox_gender;
         private System.Windows.Forms.Label label4;
         private Controls.MetroButton button_getCrimes;
+        private Controls.MetroButton button_is_apprehended;
     }
 }

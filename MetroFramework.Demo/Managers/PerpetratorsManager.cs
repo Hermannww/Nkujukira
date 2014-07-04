@@ -25,7 +25,7 @@ namespace MetroFramework.Demo.Managers
         private const int IS_ACTIVE            = 3;
         private static int GENDER              = 4;
         private static int CREATED_AT          = 5;
-        private static ConcurrentDictionary<int,Perpetrator> perpetrators_list = new ConcurrentDictionary<int,Perpetrator>();
+        //private static ConcurrentDictionary<int,Perpetrator> perpetrators_list = new ConcurrentDictionary<int,Perpetrator>();
 
         public static void CreateTable()
         {
@@ -192,8 +192,6 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                if (perpetrators_list.Count() <= 0)
-                {
                     //select sql
                     String select_sql = "SELECT * FROM " + TABLE_NAME + " WHERE IS_ACTIVE='True'";
 
@@ -206,7 +204,7 @@ namespace MetroFramework.Demo.Managers
                     //get results in enum object
                     data_reader = database.Select(sql_command);
 
-                  
+                  List<Perpetrator> perpetrators_list=new List<Perpetrator>();
 
                     //loop thru em 
                     while (data_reader.Read())
@@ -224,18 +222,14 @@ namespace MetroFramework.Demo.Managers
                         Perpetrator perp = new Perpetrator(id, name, faces, is_a_student, is_active, gender, created_at);
 
                         //add student to list
-                        perpetrators_list.TryAdd(perp.id, perp);
+                        perpetrators_list.Add(perp);
                     }
 
                    
 
                     //return array of results
-                    return GetArray(perpetrators_list.ToArray());
-                }
-                else
-                {
-                    return GetArray(perpetrators_list.ToArray());
-                }
+                    return perpetrators_list.ToArray();
+                
             }
            
             catch (Exception e)
@@ -250,19 +244,6 @@ namespace MetroFramework.Demo.Managers
             }
             return null;
         }
-
-        private static Perpetrator[] GetArray(KeyValuePair<int, Perpetrator>[] keyValuePair)
-        {
-            List<Perpetrator> perps = new List<Perpetrator>();
-
-            foreach (var key_value in keyValuePair) 
-            {
-                perps.Add(key_value.Value);
-            }
-
-            return perps.ToArray();
-        }
-
 
 
         public static bool Save(Perpetrator perp)
@@ -289,8 +270,6 @@ namespace MetroFramework.Demo.Managers
                 //set perp id
                 perp.id                        = (int)sql_command.LastInsertedId;
 
-                //cache object
-                perpetrators_list.TryAdd(perp.id, perp);
 
                 //create file path
                 String path                    = PATH_TO_IMAGES + perp.id + @"\";
@@ -319,6 +298,7 @@ namespace MetroFramework.Demo.Managers
             try
             {
                 String delete_sql              = "DELETE FROM " + TABLE_NAME + " WHERE ID=@id";
+
                 //Sql command
                 sql_command                    = new MySqlCommand();
                 sql_command.Connection         = (MySqlConnection)database.OpenConnection();
@@ -329,9 +309,7 @@ namespace MetroFramework.Demo.Managers
                 //execute command
                 database.Update(sql_command);
 
-                Perpetrator p;
-                //remove cached obj
-                perpetrators_list.TryRemove(perpetrator_id, out p);
+                Singleton.Delete(perpetrator_id);
                 return true;
             }
             catch (Exception ex)
@@ -357,8 +335,8 @@ namespace MetroFramework.Demo.Managers
                 sql_command.Parameters.AddWithValue("@id", perp.id);
                 sql_command.Parameters.AddWithValue("@name", perp.name);
 
-                sql_command.Parameters.AddWithValue("@student", perp.is_a_student);
-                sql_command.Parameters.AddWithValue("@active", perp.is_still_active);
+                sql_command.Parameters.AddWithValue("@student", ""+perp.is_a_student);
+                sql_command.Parameters.AddWithValue("@active", ""+perp.is_still_active);
                 sql_command.Parameters.AddWithValue("@gender", perp.gender);
 
                 sql_command.Prepare();
@@ -366,7 +344,7 @@ namespace MetroFramework.Demo.Managers
                 //execute command
                 database.Update(sql_command);
 
-                //perpetrators_list.TryUpdate(perp.id, perp, perp);
+                Singleton.Update(perp);
                 return true;
             }
             finally
