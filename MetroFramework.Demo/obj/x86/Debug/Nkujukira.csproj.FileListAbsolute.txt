@@ -188,3 +188,6 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\DevCom
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.StudentDetailsForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.CCTVDisplayForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\FaceSDK.NET.dll
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\ProgressControls.dll
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\ProgressControls.pdb
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\ProgressControls.xml

@@ -45,6 +45,7 @@ namespace MetroFramework.Demo.Views
             this.comboBox_type_of_crime.Enabled      = false;
             this.comboBox_crimeCommited.Enabled      = false;
             this.textfield_details_of_crime.Enabled  = false;
+            this.textfield_crime_location.Enabled = false;
             this.button_save.Visible                 = false;
         }
 
@@ -54,6 +55,7 @@ namespace MetroFramework.Demo.Views
             this.comboBox_type_of_crime.Text         = crime.type_of_crime;
             this.comboBox_crimeCommited.Text         = crime.crime_committed;
             this.textfield_details_of_crime.Text     = crime.details_of_crime;
+            this.textfield_crime_location.Text = crime.location;
         }
 
         private void button_getVictims_Click(object sender, EventArgs e)
@@ -78,9 +80,10 @@ namespace MetroFramework.Demo.Views
             String type_of_crime                     = comboBox_type_of_crime.Text;
             String crime_commited                    = comboBox_crimeCommited.Text;
             String details_of_crime                  = textfield_details_of_crime.Text;
+            String location_of_crime = textfield_crime_location.Text;
 
             //create crime object
-            Crime crime                              = new Crime(date_of_crime, details_of_crime, type_of_crime, crime_commited, time_of_crime, -1);
+            Crime crime                              = new Crime(date_of_crime, details_of_crime, type_of_crime, crime_commited, time_of_crime,location_of_crime,-1);
 
 
             //if the crime selected has victims

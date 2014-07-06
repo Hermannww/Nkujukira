@@ -144,7 +144,7 @@ namespace MetroFramework.Demo.Managers
                 unknown_face.face_position = unknown_face.image.DetectFace();
                 unknown_face.face_image = unknown_face.image;
 
-                FSDK.TFacePosition face_pos = unknown_face.face_position;
+                FSDK.TFacePosition face_pos = unknown_face.Clone().face_position;
 
                 //CHECK IF A FACE HAS BEEN DETECTED
                 if (0 == face_pos.w)
@@ -153,8 +153,11 @@ namespace MetroFramework.Demo.Managers
                     return face_recog_results;
                 }
 
+
                 //GET THE FACIAL FEATURES OF THE FACE LIKE EYES NOSE ETC
                 unknown_face.facial_features = unknown_face.image.DetectEyesInRegion(ref face_pos);
+
+                face_pos = unknown_face.Clone().face_position;
 
                 //GET A TEMPLATE OF THE FACE TO BE USED FOR COMPARISON
                 unknown_face.face_template = unknown_face.image.GetFaceTemplateInRegion(ref face_pos);

@@ -128,6 +128,12 @@ namespace MetroFramework.Demo.Threads
 
         }
 
+        public override bool RequestStop()
+        {
+            SoundManager.StopPlayingSound();
+            return base.RequestStop();
+        }
+
 
     }
 }

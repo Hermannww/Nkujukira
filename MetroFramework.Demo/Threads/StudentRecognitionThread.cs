@@ -6,6 +6,7 @@ using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using Nkujukira;
+using ProgressControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,6 +72,7 @@ namespace MetroFramework.Demo.Threads
                 faces_manager.EnrollFaces(student);
             }
         }
+
         protected override void RecognizeFace(Image<Gray, byte> face)
         {
 
@@ -112,6 +114,7 @@ namespace MetroFramework.Demo.Threads
             Debug.WriteLine("Count=" + faces_to_recognize.Count);
             if (!paused)
             {
+                DisableProgress();
                 //GET ALL FACES TO BE RECOGNIZED
                 List<Image<Gray, byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
 
@@ -136,6 +139,11 @@ namespace MetroFramework.Demo.Threads
             }
 
 
+        }
+
+        private void DisableProgress()
+        {
+            Singleton.MAIN_WINDOW.EnableReviewControls(true);
         }
 
 

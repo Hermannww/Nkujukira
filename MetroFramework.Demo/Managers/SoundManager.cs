@@ -18,12 +18,19 @@ namespace MetroFramework.Demo.Managers
 
         public static void PlaySound() 
         {
-            if (windows_media_player      == null)
+            try
             {
-                windows_media_player      = new WMPLib.WindowsMediaPlayer();
-                windows_media_player.URL  = ALARM_SOUND;
-                windows_media_player.settings.setMode(WMP_MODE, true);
-                windows_media_player.controls.play();
+                if (windows_media_player == null)
+                {
+                    windows_media_player = new WMPLib.WindowsMediaPlayer();
+                    windows_media_player.URL = ALARM_SOUND;
+                    windows_media_player.settings.setMode(WMP_MODE, true);
+                    windows_media_player.controls.play();
+                }
+            }
+            catch (Exception) 
+            {
+            
             }
         }
 

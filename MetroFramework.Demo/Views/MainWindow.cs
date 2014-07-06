@@ -16,6 +16,8 @@ using MetroFramework.Demo.Views;
 using MetroFramework.Demo.Threads;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Interfaces;
+using MetroFramework.Controls;
+using System.Threading;
 
 namespace MetroFramework.Demo
 {
@@ -108,6 +110,9 @@ namespace MetroFramework.Demo
 
                 //RELEASES ALL RESOURCES BEING HELD BY THREADS
                 ThreadFactory.ReleaseAllThreadResources();
+
+                //CLEAR FACE_COMPARISON_PANEL
+                ClearPanel(panel_for_detected_faces);
             }
             catch (Exception)
             {
@@ -116,7 +121,56 @@ namespace MetroFramework.Demo
             }
         }
 
-        
+
+
+        private void ClearPanel(Panel panel)
+        {
+                //CREATE TITLE LABEL
+                MetroLabel title_label = new MetroLabel();
+                title_label.Theme = MetroThemeStyle.Dark;
+                title_label.ForeColor = Color.White;
+                title_label.AutoSize = true;
+                title_label.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                title_label.Location = new System.Drawing.Point(68, 9);
+                title_label.Name = "label6";
+                title_label.Size = new System.Drawing.Size(212, 19);
+                title_label.TabIndex = 0;
+                title_label.Text = "FACE RECOGNITION PROGRESS";
+
+                //CREATE LINE SEPARATOR 
+                MetroLabel separator_label = new MetroLabel();
+                separator_label.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+                separator_label.Location = new System.Drawing.Point(-2, 28);
+                separator_label.Name = "label8";
+                separator_label.Size = new System.Drawing.Size(335, 2);
+                separator_label.TabIndex = 3;
+                
+
+                //COZ THIS IS NOT ON THE UI THREAD
+                if (panel.InvokeRequired)
+                {
+                    //CLEAR THE PANEL
+                    Action action = () => panel.Controls.Clear();
+                    panel.Invoke(action);
+
+                    //ADD TITLE AND SEPARATOR LINE TO PANEL
+                    action = () => panel.Controls.AddRange(new Control[] { title_label, separator_label });
+                    panel.Invoke(action);
+                }
+
+                //IF ON UI THREAD::HIGHLY UNLIKELY
+                else
+                {
+                    //CLEAR THE PANEL
+                    panel.Controls.Clear();
+
+                    //ADD TITLE AND SEPARATOR LINE TO PANEL
+                    panel.Controls.AddRange(new Control[] { title_label, separator_label });
+                }
+
+                
+        }
+
         //THIS HANDLES THE REVIEW FOOTAGE IMAGE BOX SLIDER SCROLL EVENT
         private void SlidersScroll(object sender, ScrollEventArgs e)
         {
@@ -336,6 +390,9 @@ namespace MetroFramework.Demo
 
                 case "live_stream_panel":
                     return live_stream_recognition_panel;
+
+                case "spining_progress_review":
+                    return spining_progress_review;
                    
             }
             return null;
@@ -378,13 +435,18 @@ namespace MetroFramework.Demo
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
-        {         
+        {
+            spining_progress_review.Start();
+            spining_progress_live.Start();
+            spining_progress_review.Visible = false;
+            spining_progress_live.Visible = false;
             if (Singleton.ADMIN != null) 
             {
                 linkLabel_logout.Text = Singleton.ADMIN.user_name + ": Log out";
                 return;
             }
             linkLabel_logout.Visible = false;
+
         }
 
         void metroTabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -434,27 +496,62 @@ namespace MetroFramework.Demo
             
         }
 
+        LoadingScreen screen = new LoadingScreen();
         private void turn_on_button_Click(object sender, EventArgs e)
         {
+           
+
             if (!cctv_cameras_are_on)
             {
-                turn_on_button.Enabled = false;
-                ThreadFactory.StopAllThreads();
-                Singleton.ClearDataStores();
-                ThreadFactory.ReleaseAllThreadResources();
-                StartLiveFootageThreads();
-                turn_on_button.Text    ="Turn Off";
-                cctv_cameras_are_on    = true;
-                turn_on_button.Enabled = true;
+                EnableLiveStreamControls(false);
+                ThreadPool.QueueUserWorkItem(TurnOnCameras);
             }
             else 
             {
-                ThreadFactory.StopAllThreads();
-                Singleton.ClearDataStores();
-                ThreadFactory.ReleaseAllThreadResources();
-                turn_on_button.Text    = "Turn On";
-                cctv_cameras_are_on    = false;
+
+                EnableLiveStreamControls(false);
+                ThreadPool.QueueUserWorkItem(TurnOffCameras);
+                turn_on_button.Text      = "Turn On";
+                spining_progress_live.Visible = false;
+                turn_on_button.Enabled   = true;
+                cctv_cameras_are_on      = false;
             }
+        }
+
+        private void TurnOnCameras(object state)
+        {
+            ThreadFactory.StopAllThreads();
+            Singleton.ClearDataStores();
+            ThreadFactory.ReleaseAllThreadResources();
+            StartLiveFootageThreads();
+            EnableLiveStreamControls(true);
+        }
+
+        private void TurnOffCameras(object state)
+        {
+            ThreadFactory.StopAllThreads();
+            Singleton.ClearDataStores();
+            ClearPanel(live_stream_recognition_panel);
+            ThreadFactory.ReleaseAllThreadResources();
+        }
+
+        private void EnableLiveStreamControls(bool enable)
+        {
+            if (enable)
+            {
+                Action action        = () => turn_on_button.Text = "Turn Off";
+                turn_on_button.Invoke(action);
+                action               = () => turn_on_button.Enabled = true;
+                turn_on_button.Invoke(action);
+                action               = () => spining_progress_live.Visible = false;
+                spining_progress_live.Invoke(action);             
+                cctv_cameras_are_on  = true;
+                return;
+            }
+
+            turn_on_button.Enabled   = false;
+            spining_progress_live.Visible = true;
+            
         }
 
         private void metroTile9_Click(object sender, EventArgs e)
@@ -484,16 +581,6 @@ namespace MetroFramework.Demo
             this.Close();
         }
 
-        private void panel_for_detected_faces_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void imageBox4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void imageBox4_MouseHover(object sender, EventArgs e)
         {
@@ -512,6 +599,57 @@ namespace MetroFramework.Demo
         private void metroTabPage2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void spining_progress_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void live_stream_recognition_panel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        internal void EnableReviewControls(bool enable)
+        {
+            if (enable)
+            {
+
+                if (spining_progress_review.InvokeRequired)
+                {
+                   Action action=()=> spining_progress_review.Visible = false;
+                   spining_progress_review.Invoke(action);
+                   action = () => pick_video_button.Enabled = true;
+                   pick_video_button.Invoke(action);
+                   action = () => pause_button.Enabled = true;
+                   pause_button.Invoke(action);
+                }
+                else
+                {
+                    spining_progress_review.Enabled = false;
+                    pick_video_button.Enabled = true;
+                    pause_button.Enabled = true;
+                }
+            }
+            else 
+            {
+                if (spining_progress_review.InvokeRequired) 
+                {
+                    Action action = () => spining_progress_review.Enabled = true;
+                    spining_progress_review.Invoke(action);
+                    action = () => pick_video_button.Enabled = false;
+                    pick_video_button.Invoke(action);
+                    action = () => pause_button.Enabled = false;
+                    pause_button.Invoke(action);
+                }
+                else 
+                {
+                    spining_progress_review.Visible = true;
+                    pick_video_button.Enabled = false;
+                    pause_button.Enabled = false;
+                }
+            }
         }
     }
 }

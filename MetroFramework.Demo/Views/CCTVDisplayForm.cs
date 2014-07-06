@@ -52,7 +52,7 @@ namespace MetroFramework.Demo.Views
             {
                 if (!paused) 
                 {
-                    image_box.Image = (IImage)((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).Image;
+                   // image_box.Image = (IImage)((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).Image;
                 }
             }
         }

@@ -18,6 +18,7 @@ namespace MetroFramework.Demo.Managers
         private static int TYPE           = 3;
         private static int CRIME          = 4;
         private static int DETAILS        = 5;
+        private static int LOCATION = 8;
         private static int PERPETRATOR_ID = 6;
         private static int CREATED_AT     = 7;
 
@@ -27,7 +28,7 @@ namespace MetroFramework.Demo.Managers
             try
             {
                 //sql statement
-                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "  (ID INT AUTO_INCREMENT PRIMARY KEY,DATE VARCHAR(30),TIME VARCHAR(30),TYPE VARCHAR(10),CRIME VARCHAR(10),DETAILS VARCHAR(100),PERPETRATOR_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+                String create_sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "  (ID INT AUTO_INCREMENT PRIMARY KEY,DATE VARCHAR(30),TIME VARCHAR(30),TYPE VARCHAR(10),CRIME VARCHAR(10),DETAILS VARCHAR(100),PERPETRATOR_ID INT,CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,LOCATION VARCHAR(300))";
 
                 //sql command
                 sql_command = new MySqlCommand();
@@ -98,8 +99,8 @@ namespace MetroFramework.Demo.Managers
                     String details = data_reader.GetString(DETAILS);
                     int perpetrator_id = data_reader.GetInt32(PERPETRATOR_ID);
                     String created_at = data_reader.GetString(CREATED_AT);
-
-                    Crime crime = new Crime(id,date, details, type, crime_committed, time, perpetrator_id,created_at);
+                    String location = data_reader.GetString(LOCATION);
+                    Crime crime = new Crime(id,date, details, type, crime_committed, time,location, perpetrator_id,created_at);
 
                     //add student to list
                     crimes.Add(crime);
@@ -146,8 +147,9 @@ namespace MetroFramework.Demo.Managers
                     String crime_committed = data_reader.GetString(CRIME);
                     String details = data_reader.GetString(DETAILS);
                     String created_at = data_reader.GetString(CREATED_AT);
+                    String location = data_reader.GetString(LOCATION);
 
-                    Crime crime = new Crime(id,date, details, type, crime_committed, time, perpetrator_id,created_at);
+                    Crime crime = new Crime(id,date, details, type, crime_committed, time, location,perpetrator_id,created_at);
 
                     //add student to list
                     crimes.Add(crime);
@@ -196,8 +198,9 @@ namespace MetroFramework.Demo.Managers
                     String details = data_reader.GetString(DETAILS);
                     int perpetrator_id = data_reader.GetInt32(PERPETRATOR_ID);
                     String created_at = data_reader.GetString(CREATED_AT);
+                    String location = data_reader.GetString(LOCATION);
 
-                    Crime crime = new Crime(id, date, details, type, crime_committed, time, perpetrator_id, created_at);
+                    Crime crime = new Crime(id, date, details, type, crime_committed, time, location,perpetrator_id, created_at);
 
                     //add student to list
                     crimes.Add(crime);

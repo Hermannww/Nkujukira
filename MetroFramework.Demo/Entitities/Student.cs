@@ -20,6 +20,11 @@ namespace MetroFramework.Demo.Entitities
         public String DOB { get; set; }
         public String gender { get; set; }
         public Image<Gray,byte>[] photos { get; set; }
+
+        public Student() 
+        {
+        
+        }
        
 
         public Student(String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Image<Gray,byte>[] photos)
@@ -47,6 +52,11 @@ namespace MetroFramework.Demo.Entitities
             this.DOB        = DOB;
             this.gender     = gender;
             this.photos     = photos;
+        }
+
+        public Student Clone() 
+        {
+            return new Student(id, firstName, lastName, middleName, studentNo, regNo, course, DOB, gender, photos);
         }
     }
 

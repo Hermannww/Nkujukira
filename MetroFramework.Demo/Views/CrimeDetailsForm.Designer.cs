@@ -43,12 +43,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textfield_crime_location = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.textfield_crime_location);
+            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.comboBox_crimeCommited);
             this.panel1.Controls.Add(this.label5);
@@ -65,7 +69,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(13, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(534, 394);
+            this.panel1.Size = new System.Drawing.Size(534, 419);
             this.panel1.TabIndex = 0;
             // 
             // label6
@@ -105,7 +109,7 @@
             // 
             this.button_getVictims.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_getVictims.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_getVictims.Location = new System.Drawing.Point(366, 332);
+            this.button_getVictims.Location = new System.Drawing.Point(366, 370);
             this.button_getVictims.Name = "button_getVictims";
             this.button_getVictims.Size = new System.Drawing.Size(152, 37);
             this.button_getVictims.TabIndex = 42;
@@ -113,23 +117,23 @@
             this.button_getVictims.UseSelectable = true;
             this.button_getVictims.Click += new System.EventHandler(this.button_getVictims_Click);
             // 
-            // done_button
+            // button_save
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_save.Location = new System.Drawing.Point(174, 332);
-            this.button_save.Name = "done_button";
+            this.button_save.Location = new System.Drawing.Point(174, 370);
+            this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(150, 37);
             this.button_save.TabIndex = 41;
             this.button_save.Text = "Save";
             this.button_save.UseSelectable = true;
             this.button_save.Click += new System.EventHandler(this.save_button_Click);
             // 
-            // details_of_crime_textfield
+            // textfield_details_of_crime
             // 
             this.textfield_details_of_crime.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textfield_details_of_crime.Location = new System.Drawing.Point(174, 196);
-            this.textfield_details_of_crime.Name = "details_of_crime_textfield";
+            this.textfield_details_of_crime.Location = new System.Drawing.Point(174, 240);
+            this.textfield_details_of_crime.Name = "textfield_details_of_crime";
             this.textfield_details_of_crime.Size = new System.Drawing.Size(344, 115);
             this.textfield_details_of_crime.TabIndex = 8;
             this.textfield_details_of_crime.Text = "";
@@ -253,11 +257,30 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Date Of Crime";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label7.Location = new System.Drawing.Point(24, 194);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(123, 19);
+            this.label7.TabIndex = 46;
+            this.label7.Text = "Location of Crime";
+            // 
+            // textfield_crime_location
+            // 
+            this.textfield_crime_location.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textfield_crime_location.Location = new System.Drawing.Point(174, 192);
+            this.textfield_crime_location.Name = "textfield_crime_location";
+            this.textfield_crime_location.Size = new System.Drawing.Size(344, 27);
+            this.textfield_crime_location.TabIndex = 47;
+            // 
             // CrimeDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 469);
+            this.ClientSize = new System.Drawing.Size(555, 494);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -291,5 +314,7 @@
         private System.Windows.Forms.ComboBox comboBox_crimeCommited;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textfield_crime_location;
+        private System.Windows.Forms.Label label7;
     }
 }

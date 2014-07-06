@@ -1,7 +1,9 @@
 ﻿using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
+using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Threads;
 using MetroFramework.Forms;
+using ProgressControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +12,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Views
@@ -110,27 +113,27 @@ namespace MetroFramework.Demo.Views
             
 
             //save perp
-            PerpetratorsManager.Save(perpetrator);
+            //PerpetratorsManager.Save(perpetrator);
 
             //set the perp id in the crime
-            crime.perpetrator_id = 1;//perpetrator.id;
+            //crime.perpetrator_id = 1;//perpetrator.id;
 
             //save crime
-            CrimesManager.Save(crime);
+            //CrimesManager.Save(crime);
 
-            StolenItem[] items_lost                           = GetItemsLost();
+            //StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            //victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            VictimsManager.Save(victim);
+            //VictimsManager.Save(victim);
 
             //SAVE EACH STOLEN ITEM IN THE DATABASE
-            foreach (var item in items_lost) 
+            //foreach (var item in items_lost) 
             {
-                item.victims_id = victim.id;
-                StolenItemsManager.Save(item);
+                //item.victims_id = victim.id;
+                //StolenItemsManager.Save(item);
             }
 
     
@@ -227,15 +230,13 @@ namespace MetroFramework.Demo.Views
             {
                 if (perpetrator.is_a_student)
                 {
-                    LoadingScreen screen                      = new LoadingScreen();
-                    screen.STATUS_TEXT                        = "Student recognition starting...";
-                    screen.StartWorking();
+                    //ProgressIndicator progress_indicator = 
+                    Singleton.MAIN_WINDOW.EnableReviewControls(false);
+                    //Action action = () => progress_indicator.Visible = true;
+                    //progress_indicator.Invoke(action);
 
-                    
-                    Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
-                    FaceRecognitionThread face_recognizer = new StudentRecognitionThread(perpetrator.faces);
-                    face_recognizer.StartWorking();
-                   
+                    //START FACE RECOGNITION  OFF THE GUI THREAD
+                    ThreadPool.QueueUserWorkItem(StartFaceRecognition);   
                 }
 
                 //close this form
@@ -243,6 +244,13 @@ namespace MetroFramework.Demo.Views
                 
             }
 
+        }
+
+        public void StartFaceRecognition(Object state) 
+        {
+            Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
+            FaceRecognitionThread face_recognizer = new StudentRecognitionThread(perpetrator.faces);
+            face_recognizer.StartWorking();
         }
 
 

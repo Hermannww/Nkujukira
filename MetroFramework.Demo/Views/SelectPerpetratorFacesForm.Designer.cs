@@ -33,30 +33,32 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.image_list_view = new Manina.Windows.Forms.ImageListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.done_button = new MetroFramework.Controls.MetroButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.done_button);
             this.panel1.Controls.Add(this.image_list_view);
-            this.panel1.Location = new System.Drawing.Point(12, 47);
+            this.panel1.Location = new System.Drawing.Point(11, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(508, 434);
+            this.panel1.Size = new System.Drawing.Size(503, 515);
             this.panel1.TabIndex = 0;
             // 
             // image_list_view
             // 
-            this.image_list_view.BackColor = System.Drawing.SystemColors.ControlText;
+            this.image_list_view.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.image_list_view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.image_list_view.Cursor = System.Windows.Forms.Cursors.Hand;
             this.image_list_view.DefaultImage = ((System.Drawing.Image)(resources.GetObject("image_list_view.DefaultImage")));
             this.image_list_view.ErrorImage = ((System.Drawing.Image)(resources.GetObject("image_list_view.ErrorImage")));
             this.image_list_view.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.image_list_view.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.image_list_view.Location = new System.Drawing.Point(3, 3);
+            this.image_list_view.Location = new System.Drawing.Point(11, 17);
             this.image_list_view.Name = "image_list_view";
-            this.image_list_view.Size = new System.Drawing.Size(505, 428);
+            this.image_list_view.Size = new System.Drawing.Size(477, 428);
             this.image_list_view.TabIndex = 0;
             this.image_list_view.Text = "";
             this.image_list_view.SelectionChanged += new System.EventHandler(this.ImageListView1_SelectionChanged);
@@ -67,22 +69,11 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(96, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(329, 29);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Select 5 faces Of the Perpetrator";
-            // 
             // done_button
             // 
             this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(155, 487);
+            this.done_button.Location = new System.Drawing.Point(158, 451);
             this.done_button.Name = "done_button";
             this.done_button.Size = new System.Drawing.Size(204, 48);
             this.done_button.TabIndex = 28;
@@ -94,27 +85,24 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 548);
-            this.Controls.Add(this.done_button);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(526, 589);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectPerpetratorFacesForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
+            this.Text = "Select 5 faces Of the Perpetrator";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ImageList imageList1;
         private Manina.Windows.Forms.ImageListView image_list_view;
         private Controls.MetroButton done_button;

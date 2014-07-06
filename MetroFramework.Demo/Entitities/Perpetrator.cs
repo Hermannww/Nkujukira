@@ -45,5 +45,10 @@ namespace MetroFramework.Demo.Entitities
             this.created_at = created_at;
         }
 
+        public Perpetrator Clone() 
+        {
+            return new Perpetrator(id, name, faces, is_a_student, is_still_active, gender, created_at);
+        }
+
     }
 }

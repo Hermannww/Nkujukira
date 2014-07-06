@@ -130,7 +130,5 @@ namespace MetroFramework.Demo.Threads
                 Thread.Sleep(SLEEP_TIME);
             }
         }
-
-      
     }
 }
