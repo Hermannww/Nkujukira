@@ -1,9 +1,11 @@
-﻿using MetroFramework.Demo.Entitities;
+﻿using MetroFramework.Demo.Custom_Controls;
+using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Managers;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Views;
 using Nkujukira.Entities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,6 +17,8 @@ namespace MetroFramework.Demo.Threads
         private Perpetrator identified_perpetrator = null;
         private Student identified_student         = null;
         private bool sucess                        = false;
+        private List<int> ids_of_perps = null;
+        private List<int> ids_of_students = null;
 
 
         //CONSTRUCTOR
@@ -23,6 +27,8 @@ namespace MetroFramework.Demo.Threads
         {
             running = true;
             paused = false;
+            ids_of_perps = new List<int>();
+            ids_of_students = new List<int>();
         }
 
 
@@ -42,7 +48,7 @@ namespace MetroFramework.Demo.Threads
                         sucess = GetIdentifiedStudentOrPerpetrator();
 
                         //IF AN ALERT HAS BEEN SIGNALED
-                        if (sucess)
+                        if (sucess&&!ThereIsSimilarAlert())
                         {
                             //PLAY THE ALARM SOUND
                             PlayAlarmSound();
@@ -62,6 +68,20 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
+
+        private bool ThereIsSimilarAlert()
+        {
+            if (identified_perpetrator != null)
+            {
+                return ids_of_perps.Contains(identified_perpetrator.id);
+            }
+            else if (identified_student != null) 
+            {
+                return ids_of_students.Contains(identified_student.id);
+            }
+            return false;
+        }
+
         //CHECKS THE SHARED DATASTORE TO SEE IF A STUDENT OR PERPETRATOR HAS BEEN IDENTIFIED
         private bool GetIdentifiedStudentOrPerpetrator()
         {
@@ -79,20 +99,12 @@ namespace MetroFramework.Demo.Threads
         //THIS CHECKS IF THE CURRENT ALERT IS ABOUT THE SAME PERPETRATOR AS THAT GIVEN
         public bool AlertIsAboutSamePerpetrator(Perpetrator perpetrator)
         {
-            if (identified_perpetrator != null)
-            {
-                return this.identified_perpetrator.id == perpetrator.id;
-            }
-            return false;
+            return this.ids_of_perps.Contains(perpetrator.id);       
         }
 
         public bool AlertIsAboutSameStudent(Student student)
         {
-            if (identified_student != null) 
-            {
-                return this.identified_student.id == student.id;
-            }
-            return false;
+            return this.ids_of_students.Contains(student.id);
         }
 
         //THIS DISPLAYS DETAILS PERTAINING TO THE ALERT GENERATED
@@ -102,6 +114,11 @@ namespace MetroFramework.Demo.Threads
             //IF THIS ALERT IS BECOZ A PERP HAS BEEN IDENTIFIED
             if (identified_perpetrator != null)
             {
+                //ADD THE ID OF THE PERP SO WE CAN TRACK IT FOR LATER
+                ids_of_perps.Add(identified_perpetrator.id);
+
+                //DISPLAY VISUAL CUES ON THE MAIN GUI THAT AN ALERT HAS BEEN TRIGGERED
+                ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).EnableAlertMode();
                 //create form
                 PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
 
@@ -114,6 +131,9 @@ namespace MetroFramework.Demo.Threads
             //IF ITS BECOZ A STUDENT HAS BEEN IDENTIFIED
             if (identified_student != null)
             {
+                //ADD THE ID OF THE STUDENT SO WE CAN TRACK IT FOR LATER
+                ids_of_students.Add(identified_student.id);
+
                 //create form
                 StudentDetailsForm form     = new StudentDetailsForm(identified_student);
 
@@ -131,9 +151,8 @@ namespace MetroFramework.Demo.Threads
         public override bool RequestStop()
         {
             SoundManager.StopPlayingSound();
+            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).DisableAlertMode();
             return base.RequestStop();
         }
-
-
     }
 }

@@ -12,6 +12,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Demo.Singletons;
 using MetroFramework.Demo.Views;
+using Nkujukira;
 
 namespace MetroFramework.Demo
 {
@@ -27,10 +28,9 @@ namespace MetroFramework.Demo
         public SelectPerpetratorForm(Image<Bgr, byte> perpetrator_frame)
         {
             InitializeComponent();
-            perpetrator_frame_picture_box.Image      = perpetrator_frame.ToBitmap(); 
-            this.frame_with_perpetrator              = perpetrator_frame;
-            this.MaximizeBox                         = false;
-            this.MinimizeBox                         = false;
+            Size new_size                       = new Size(perpetrator_frame_picture_box.Width,perpetrator_frame_picture_box.Height);
+            perpetrator_frame_picture_box.Image = FramesManager.ResizeBitmap(perpetrator_frame.ToBitmap(), new_size);
+            this.frame_with_perpetrator         = perpetrator_frame;
         }
 
 

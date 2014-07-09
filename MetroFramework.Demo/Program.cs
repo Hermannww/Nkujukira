@@ -7,15 +7,14 @@ namespace MetroFramework.Demo
 {
     static class Program
     {
-        private static bool login_is_enabled = true;
-        public static bool running { get; set; }
+        public static bool Running { get; set; }
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            running = true;
+            Running = true;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -23,7 +22,7 @@ namespace MetroFramework.Demo
 
 
 
-            while (running)
+            while (Running)
             {
                 //initialize forms
                 LoginForm login_form = new LoginForm();
@@ -44,7 +43,7 @@ namespace MetroFramework.Demo
                 else
                 {
                     //set running to false and allow program to exit
-                    running = false;
+                    Running = false;
                 }
             }
 

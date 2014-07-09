@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_is_apprehended = new MetroFramework.Controls.MetroButton();
             this.button_getCrimes = new MetroFramework.Controls.MetroButton();
             this.comboBox_gender = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.perpetrator_picture_box = new System.Windows.Forms.PictureBox();
-            this.button_is_apprehended = new MetroFramework.Controls.MetroButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +66,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(516, 270);
             this.panel1.TabIndex = 0;
+            // 
+            // button_is_apprehended
+            // 
+            this.button_is_apprehended.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_is_apprehended.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_is_apprehended.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_is_apprehended.ForeColor = System.Drawing.Color.Black;
+            this.button_is_apprehended.Location = new System.Drawing.Point(155, 205);
+            this.button_is_apprehended.Name = "button_is_apprehended";
+            this.button_is_apprehended.Size = new System.Drawing.Size(171, 48);
+            this.button_is_apprehended.TabIndex = 33;
+            this.button_is_apprehended.Text = "Has Been Apprehended";
+            this.button_is_apprehended.UseSelectable = true;
+            this.button_is_apprehended.Click += new System.EventHandler(this.is_apprehended_button_Click);
             // 
             // button_getCrimes
             // 
@@ -184,20 +198,6 @@
             this.perpetrator_picture_box.TabIndex = 0;
             this.perpetrator_picture_box.TabStop = false;
             // 
-            // is_apprehended_button
-            // 
-            this.button_is_apprehended.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button_is_apprehended.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button_is_apprehended.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_is_apprehended.ForeColor = System.Drawing.Color.Black;
-            this.button_is_apprehended.Location = new System.Drawing.Point(155, 205);
-            this.button_is_apprehended.Name = "is_apprehended_button";
-            this.button_is_apprehended.Size = new System.Drawing.Size(171, 48);
-            this.button_is_apprehended.TabIndex = 33;
-            this.button_is_apprehended.Text = "Has Been Apprehended";
-            this.button_is_apprehended.UseSelectable = true;
-            this.button_is_apprehended.Click += new System.EventHandler(this.is_apprehended_button_Click);
-            // 
             // PerpetratorDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +212,7 @@
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.TransparencyKey = System.Drawing.Color.Empty;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PerpetratorDetailsForm_FormClosing);
             this.Load += new System.EventHandler(this.PerpetratorDetails_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -24,15 +24,15 @@ namespace MetroFramework.Demo.Threads
         private FacesManager faces_manager;
         //ARRAY OF ALL ACTIVE PERPETRATORS
         private Perpetrator[] active_perpetrators = null;
-        public static bool WORKDONE=false;
+        public static bool WORKDONE               = false;
 
         //CONSTRUCTOR
         public PerpetratorRecognitionThread()
             : base(null)
         {
-            WORKDONE = false;
+            WORKDONE            = false;
 
-            faces_manager = new FacesManager();
+            this.faces_manager  = new FacesManager();
 
             //GET ALL ACTIVE PERPETRATORS
             active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
@@ -69,28 +69,32 @@ namespace MetroFramework.Demo.Threads
             {
 
                 //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
-                int width = 120;
-                int height = 120;
+                int width                    = 120;
+                int height                   = 120;
 
-                face = FramesManager.ResizeGrayImage(face, new Size(width, height));
+                face                         = FramesManager.ResizeGrayImage(face, new Size(width, height));
 
                 //GET ID OF MOST SIMILAR PERPETRATOR
                 FaceRecognitionResult result = faces_manager.MatchFace(face);
 
-                //IF A VALID ID IS RETURMED
-                if (result.match_was_found)
+                //IF A VALID RESULT IS RETURNED
+                if (result != null)
                 {
-                    //GET PERPETRATOR ASSOCIATED WITH ID
-                    foreach (var perp in active_perpetrators)
+                    //IF A VALID ID IS RETURMED
+                    if (result.match_was_found)
                     {
-                        if (perp.id == result.id)
+                        //GET PERPETRATOR ASSOCIATED WITH ID
+                        foreach (var perp in active_perpetrators)
                         {
-                            result.identified_perpetrator = perp;
-                            break;
+                            if (perp.id == result.id)
+                            {
+                                result.identified_perpetrator = perp;
+                                break;
+                            }
                         }
                     }
+                    Singleton.FACE_RECOGNITION_RESULTS.Enqueue(result);
                 }
-                Singleton.FACE_RECOGNITION_RESULTS.Enqueue(result);
                 return;
             }
         }
@@ -106,7 +110,7 @@ namespace MetroFramework.Demo.Threads
 
 
                     //TRY DEQUEUEING A FACE TO RECOGNIZE FROM SHARED DATASTORE
-                    bool sucessfull = Singleton.FACES_TO_RECOGNIZE.TryDequeue(out face_to_recognize);
+                    bool sucessfull         = Singleton.FACES_TO_RECOGNIZE.TryDequeue(out face_to_recognize);
 
                     //IF DEQUEUE IS OK
                     if (sucessfull)
@@ -122,8 +126,8 @@ namespace MetroFramework.Demo.Threads
                         //IF BOTH HAVE TERMINATED THEN TERMINATE THIS ONE ALSO
                         if (CameraOutputGrabberThread.WORK_DONE && LiveStreamFaceDetectingThread.WORK_DONE) 
                         {
-                            running = false;
-                            WORKDONE = true;
+                            running         = false;
+                            WORKDONE        = true;
                         }
                     }
                 }

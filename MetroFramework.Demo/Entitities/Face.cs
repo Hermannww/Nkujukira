@@ -47,7 +47,7 @@ namespace Nkujukira.Entities
 
         public Face Clone() 
         {
-            return new Face(face_template, face_position, facial_features, face_image);
+            return new Face(face_template, face_position, facial_features, image);
         }
 
     }

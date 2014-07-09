@@ -1,5 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using MetroFramework.Demo.Custom_Controls;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Managers;
@@ -128,6 +129,12 @@ namespace MetroFramework.Demo
             PerpetratorsManager.Update(this.perpetrator);
             Singleton.Delete(this.perpetrator.id);
             this.Close();
+        }
+
+        private void PerpetratorDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SoundManager.StopPlayingSound();
+            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).DisableAlertMode();
         }
 
     }

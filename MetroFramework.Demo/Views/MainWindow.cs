@@ -30,13 +30,12 @@ namespace MetroFramework.Demo
         private const string PAUSE_BUTTON_TEXT           = "Pause";
         private const string PLAY_BUTTON_TEXT            = "Play";
         private bool cctv_cameras_are_on                 = false;
-        private CCTVDisplayForm cctv_display_form        = new CCTVDisplayForm();
+        
 
         public MainWindow()
         {
             InitializeComponent();
           
-            this.metroStyleManager.Theme = MetroFramework.MetroThemeStyle.Dark;
             Singleton.MAIN_WINDOW        = this;
 
             DisableControls();
@@ -296,7 +295,7 @@ namespace MetroFramework.Demo
             Singleton.FRAMES_TO_BE_PROCESSED   = new ConcurrentQueue<Image<Bgr, byte>>();
             Singleton.FRAMES_TO_BE_DISPLAYED   = new ConcurrentQueue<Image<Bgr, byte>>();
             Singleton.DETECTED_FACES_DATASTORE = new ConcurrentDictionary<int, Face>();
-            show_detected_faces2.Checked       = false;
+            //show_detected_faces2.Checked       = false;
         }
 
         //THIS DISABLES UNECESSARY CONTROLS
@@ -418,7 +417,7 @@ namespace MetroFramework.Demo
 
         private void metroButton6_Click_1(object sender, EventArgs e)
         {
-            AddNewUserForm form = new AddNewUserForm();
+            AddNewUserForm form         = new AddNewUserForm();
             form.ShowDialog();
         }
 
@@ -426,11 +425,13 @@ namespace MetroFramework.Demo
         {
             ChangeUserTypeDialog dialog = new ChangeUserTypeDialog();
             dialog.ShowDialog();
+            
         }
-
+        
+        
         private void metroButton4_Click_1(object sender, EventArgs e)
         {
-            StudentDetailsForm dialog = new StudentDetailsForm();
+            StudentDetailsForm dialog   = new StudentDetailsForm();
             dialog.ShowDialog();
         }
 
@@ -439,13 +440,13 @@ namespace MetroFramework.Demo
             spining_progress_review.Start();
             spining_progress_live.Start();
             spining_progress_review.Visible = false;
-            spining_progress_live.Visible = false;
+            spining_progress_live.Visible   = false;
             if (Singleton.ADMIN != null) 
             {
-                linkLabel_logout.Text = Singleton.ADMIN.user_name + ": Log out";
+                linkLabel_logout.Text       = Singleton.ADMIN.user_name + ": Log out";
                 return;
             }
-            linkLabel_logout.Visible = false;
+            linkLabel_logout.Visible        = false;
 
         }
 
@@ -463,21 +464,21 @@ namespace MetroFramework.Demo
         // show add new user dialog on clicking addnew user dialog
         private void tile1_Click(object sender, EventArgs e)
         {
-            AddNewUserForm form = new AddNewUserForm();
+            AddNewUserForm form             = new AddNewUserForm();
             form.ShowDialog(null);
         }
 
         // show dialog when add student tile is clicked
         private void metroTile2_Click(object sender, EventArgs e)
         {
-            StudentDetailsForm dialog = new StudentDetailsForm();
+            StudentDetailsForm dialog       = new StudentDetailsForm();
             dialog.ShowDialog(null);
         }
 
         // show dialog when change user role tile is clicked
         private void metroTile4_Click(object sender, EventArgs e)
         {
-            ChangeUserTypeDialog dialog = new ChangeUserTypeDialog();
+            ChangeUserTypeDialog dialog     = new ChangeUserTypeDialog();
             dialog.ShowDialog(null);
         }
 
@@ -490,8 +491,8 @@ namespace MetroFramework.Demo
 
         private void metroTile5_Click(object sender, EventArgs e)
         {
-            DashBoardDialog dashBoard = new DashBoardDialog();
-            dashBoard.Visible = true;
+            DashBoardDialog dashBoard       = new DashBoardDialog();
+            dashBoard.Visible               = true;
             dashBoard.Show();
             
         }
@@ -511,10 +512,10 @@ namespace MetroFramework.Demo
 
                 EnableLiveStreamControls(false);
                 ThreadPool.QueueUserWorkItem(TurnOffCameras);
-                turn_on_button.Text      = "Turn On";
+                turn_on_button.Text           = "Turn On";
                 spining_progress_live.Visible = false;
-                turn_on_button.Enabled   = true;
-                cctv_cameras_are_on      = false;
+                turn_on_button.Enabled        = true;
+                cctv_cameras_are_on           = false;
             }
         }
 
@@ -539,17 +540,17 @@ namespace MetroFramework.Demo
         {
             if (enable)
             {
-                Action action        = () => turn_on_button.Text = "Turn Off";
+                Action action             = () => turn_on_button.Text = "Turn Off";
                 turn_on_button.Invoke(action);
-                action               = () => turn_on_button.Enabled = true;
+                action                    = () => turn_on_button.Enabled = true;
                 turn_on_button.Invoke(action);
-                action               = () => spining_progress_live.Visible = false;
+                action                    = () => spining_progress_live.Visible = false;
                 spining_progress_live.Invoke(action);             
-                cctv_cameras_are_on  = true;
+                cctv_cameras_are_on       = true;
                 return;
             }
 
-            turn_on_button.Enabled   = false;
+            turn_on_button.Enabled        = false;
             spining_progress_live.Visible = true;
             
         }
@@ -582,34 +583,10 @@ namespace MetroFramework.Demo
         }
 
 
-        private void imageBox4_MouseHover(object sender, EventArgs e)
-        {
-            if (review_footage_image_box.Image != null)
-            {
-                cctv_display_form.StartWorking();
-            }
-        }
-
-
         internal ImageBox GetLiveStreamImageBox()
         {
             return imageBox4;
-        }
-
-        private void metroTabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void spining_progress_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void live_stream_recognition_panel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        }        
 
         internal void EnableReviewControls(bool enable)
         {
@@ -618,38 +595,53 @@ namespace MetroFramework.Demo
 
                 if (spining_progress_review.InvokeRequired)
                 {
-                   Action action=()=> spining_progress_review.Visible = false;
+                   Action action                    = () => spining_progress_review.Visible = false;
                    spining_progress_review.Invoke(action);
-                   action = () => pick_video_button.Enabled = true;
+                   action                           = () => pick_video_button.Enabled = true;
                    pick_video_button.Invoke(action);
-                   action = () => pause_button.Enabled = true;
+                   action                           = () => pause_button.Enabled = true;
                    pause_button.Invoke(action);
                 }
                 else
                 {
                     spining_progress_review.Enabled = false;
-                    pick_video_button.Enabled = true;
-                    pause_button.Enabled = true;
+                    pick_video_button.Enabled       = true;
+                    pause_button.Enabled            = true;
                 }
             }
             else 
             {
                 if (spining_progress_review.InvokeRequired) 
                 {
-                    Action action = () => spining_progress_review.Enabled = true;
+                    Action action                   = () => spining_progress_review.Enabled = true;
                     spining_progress_review.Invoke(action);
-                    action = () => pick_video_button.Enabled = false;
+                    action                          = () => pick_video_button.Enabled = false;
                     pick_video_button.Invoke(action);
-                    action = () => pause_button.Enabled = false;
+                    action                          = () => pause_button.Enabled = false;
                     pause_button.Invoke(action);
                 }
                 else 
                 {
                     spining_progress_review.Visible = true;
-                    pick_video_button.Enabled = false;
-                    pause_button.Enabled = false;
+                    pick_video_button.Enabled       = false;
+                    pause_button.Enabled            = false;
                 }
             }
         }
+
+        private void imageBox4_Click(object sender, EventArgs e)
+        {
+            
+                CCTVDetailsForm cctv_display_form = new CCTVDetailsForm(new Camera());
+                cctv_display_form.ShowDialog();
+           
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Program.Running = false;
+        }
+
+       
     }
 }

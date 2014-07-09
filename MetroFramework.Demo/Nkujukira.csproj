@@ -176,6 +176,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MetroFramework.Fonts\bin\Debug\MetroFramework.Fonts.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.UnitTestFramework.Extensions">
+      <HintPath>packages\Microsoft.UnitTestFramework.Extensions.1.0.0.3\lib\net40\Microsoft.UnitTestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MySql.Data, Version=6.1.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Desktop\New folder\Nkujukira\MetroFramework.Demo\bin\Debug\MySql.Data.dll</HintPath>
@@ -190,15 +194,23 @@
       <HintPath>..\..\..\..\Downloads\ProgressIndicator1.2_source (1)\ProgressIndicator\ProgressIndicator\bin\Debug\ProgressControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnitTestUtilities">
+      <HintPath>packages\UnitTestUtilities.1.0.1\lib\UnitTestUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom Controls\MyImageBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Custom Controls\MyPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Entitities\Camera.cs" />
     <Compile Include="Entitities\FaceRecognitionResult.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
@@ -226,11 +238,11 @@
     <Compile Include="Views\AddNewUserForm.designer.cs">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CCTVDisplayForm.cs">
+    <Compile Include="Views\CCTVDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CCTVDisplayForm.Designer.cs">
-      <DependentUpon>CCTVDisplayForm.cs</DependentUpon>
+    <Compile Include="Views\CCTVDetailsForm.Designer.cs">
+      <DependentUpon>CCTVDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\StudentDetailsForm.cs">
       <SubType>Form</SubType>
@@ -371,8 +383,8 @@
     <EmbeddedResource Include="Views\AddNewUserForm.resx">
       <DependentUpon>AddNewUserForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CCTVDisplayForm.resx">
-      <DependentUpon>CCTVDisplayForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\CCTVDetailsForm.resx">
+      <DependentUpon>CCTVDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentDetailsForm.resx">
       <DependentUpon>StudentDetailsForm.cs</DependentUpon>

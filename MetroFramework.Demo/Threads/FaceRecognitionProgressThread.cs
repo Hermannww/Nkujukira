@@ -275,19 +275,13 @@ namespace MetroFramework.Demo.Threads
         {
             //IF THE RECOGNITION RETURNS A VALID NAME
             if (face_recognition_result.match_was_found)
-            {
-                if (!ThereIsSimilarAlert(face_recognition_result.identified_perpetrator))
-                {
+            {              
                     //ADD THE ALERT TO THE GLOBALS WATCH LIST
                     Singleton.IDENTIFIED_PERPETRATORS.Enqueue(face_recognition_result.identified_perpetrator);
-                }
             }
 
         }
 
-        private bool ThereIsSimilarAlert(Perpetrator identified_perp)
-        {
-            return false;
-        }
+     
     }
 }

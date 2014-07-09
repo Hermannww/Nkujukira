@@ -48,15 +48,15 @@ namespace MetroFramework.Demo.Threads
         public StudentRecognitionThread(Image<Gray, byte>[] faces_to_recognize)
             : base(null)
         {
-            running = true;
-            paused = false;
+            running            = true;
+            paused             = false;
 
             this.faces_manager = new FacesManager();
 
             this.faces_to_recognize.AddRange(faces_to_recognize);
 
             //GET ALL STUDENTS
-            students = StudentsManager.GetAllStudents();
+            students           = StudentsManager.GetAllStudents();
 
             //ENROLL STUDENT FACES
             EnrollFacesToBeComparedAgainst();
@@ -80,10 +80,10 @@ namespace MetroFramework.Demo.Threads
             {
 
                 //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
-                int width = 120;
-                int height = 120;
+                int width               = 120;
+                int height              = 120;
 
-                face = FramesManager.ResizeGrayImage(face, new Size(width, height));
+                face                    = FramesManager.ResizeGrayImage(face, new Size(width, height));
 
                 //ATTEMPT TO RECOGNIZE THE PERPETRATOR
                 face_recognition_result = faces_manager.MatchFace(face);
@@ -111,10 +111,10 @@ namespace MetroFramework.Demo.Threads
         {
             Debug.WriteLine("Student Recognition Thread Starting");
 
-            Debug.WriteLine("Count=" + faces_to_recognize.Count);
+            Debug.WriteLine("Count = " + faces_to_recognize.Count);
             if (!paused)
             {
-                DisableProgress();
+                DisableSpinningProgressIndicator();
                 //GET ALL FACES TO BE RECOGNIZED
                 List<Image<Gray, byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
 
@@ -141,7 +141,7 @@ namespace MetroFramework.Demo.Threads
 
         }
 
-        private void DisableProgress()
+        private void DisableSpinningProgressIndicator()
         {
             Singleton.MAIN_WINDOW.EnableReviewControls(true);
         }
@@ -155,13 +155,9 @@ namespace MetroFramework.Demo.Threads
             if (face_recognition_result.match_was_found)
             {
                 //IF THERE IS NO ALERT ALREADY ABOUT THE SAME STUDENT
-                if (!ThereIsSimilarAlert(face_recognition_result.identified_student))
-                {
-                    Debug.WriteLine("Enqueueing Identified Face");
-
-                    //ADD THE ALERT TO THE GLOBALS WATCH LIST
-                    Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result.identified_student);
-                }
+                
+                //ADD THE ALERT TO THE GLOBALS WATCH LIST
+                Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result.identified_student);
             }
         }
 
@@ -169,21 +165,21 @@ namespace MetroFramework.Demo.Threads
         private void ShowFaceRecognitionProgress()
         {
             //THIS KEEPS TRACK OF PROGRESS
-            double progress_decimal = 1;
+            double progress_decimal                  = 1;
 
             //DISPLAY EACH OF PERPETRATORS' FACES IN THE PERPETRATORS PICTURE BOX FOR A FLEETING MOMEMNT;REPEAT TILL ALL FACES ARE DONE
             foreach (var student in students)
             {
-                for (int i = 0; i < student.photos.Length; i++)
+                for (int i                           = 0; i < student.photos.Length; i++)
                 {
                     //GET THE AMOUNT OF WORK DONE                           PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
-                    int percentage_completed = (int)(((progress_decimal / (students.Length * 5) * 100)));
+                    int percentage_completed         = (int)(((progress_decimal / (students.Length * 5) * 100)));
 
                     //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
-                    int width = 120;
-                    int height = 120;
+                    int width                        = 120;
+                    int height                       = 120;
 
-                    student.photos[i] = FramesManager.ResizeGrayImage(student.photos[i], new Size(width, height));
+                    student.photos[i]                = FramesManager.ResizeGrayImage(student.photos[i], new Size(width, height));
 
                     //DISPLAY STUDENT FACE
                     SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", student.photos[i].ToBitmap());
@@ -223,11 +219,7 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
-        private bool ThereIsSimilarAlert(Student student)
-        {
-            //else return false
-            return false;
-        }
+      
 
 
         protected void DisplayFaceRecognitionProgress()
@@ -237,30 +229,30 @@ namespace MetroFramework.Demo.Threads
                 {
 
                     //CREATE PICTURE BOX FOR FACE TO BE RECOGNIZED
-                    unknown_face_pictureBox = new MyPictureBox();
-                    unknown_face_pictureBox.Location = new Point(10, 10);
-                    unknown_face_pictureBox.Size = new Size(120, 120);
+                    unknown_face_pictureBox             = new MyPictureBox();
+                    unknown_face_pictureBox.Location    = new Point(10, 10);
+                    unknown_face_pictureBox.Size        = new Size(120, 120);
                     unknown_face_pictureBox.BorderStyle = BorderStyle.FixedSingle;
-                    unknown_face_pictureBox.Image = face_to_recognize.ToBitmap();
+                    unknown_face_pictureBox.Image       = face_to_recognize.ToBitmap();
 
                     //CREATE PICTURE BOX FOR PERPETRATORS
-                    perpetrators_pictureBox = new MyPictureBox();
-                    perpetrators_pictureBox.Location = new Point(185, 10);
-                    perpetrators_pictureBox.Size = new Size(120, 120);
+                    perpetrators_pictureBox             = new MyPictureBox();
+                    perpetrators_pictureBox.Location    = new Point(185, 10);
+                    perpetrators_pictureBox.Size        = new Size(120, 120);
                     perpetrators_pictureBox.BorderStyle = BorderStyle.FixedSingle;
 
                     //CREATE PROGRESS LABEL
-                    progress_label = new Label();
-                    progress_label.Location = new Point(143, 60);
-                    progress_label.ForeColor = Color.Green;
-                    progress_label.Text = "0%";
+                    progress_label                      = new Label();
+                    progress_label.Location             = new Point(143, 60);
+                    progress_label.ForeColor            = Color.Green;
+                    progress_label.Text                 = "0%";
 
                     //CREATE PANEL CONTAINER FOR THE ABOVE CONTROLS
-                    Panel panel = new Panel();
-                    panel.AutoSize = true;
-                    panel.Location = new Point(x, y);
-                    panel.BorderStyle = BorderStyle.FixedSingle;
-                    panel.Padding = new Padding(10);
+                    Panel panel                         = new Panel();
+                    panel.AutoSize                      = true;
+                    panel.Location                      = new Point(x, y);
+                    panel.BorderStyle                   = BorderStyle.FixedSingle;
+                    panel.Padding                       = new Padding(10);
                     panel.Controls.AddRange(new Control[] { unknown_face_pictureBox, perpetrators_pictureBox, progress_label });
 
 
