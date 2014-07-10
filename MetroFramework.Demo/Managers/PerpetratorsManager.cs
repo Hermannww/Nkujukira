@@ -297,6 +297,13 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
+                Perpetrator perp = GetPerpetrator(perpetrator_id);
+
+                if (perp != null) 
+                {
+                    Singleton.Delete(perp);
+                }
+
                 String delete_sql              = "DELETE FROM " + TABLE_NAME + " WHERE ID=@id";
 
                 //Sql command
@@ -309,7 +316,7 @@ namespace MetroFramework.Demo.Managers
                 //execute command
                 database.Update(sql_command);
 
-                Singleton.Delete(perpetrator_id);
+                
                 return true;
             }
             catch (Exception ex)

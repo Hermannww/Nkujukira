@@ -28,7 +28,9 @@ namespace MetroFramework.Demo.Singletons
         //REFERENCE TO THE MAIN WINDOW
         public static MainWindow MAIN_WINDOW { get; set; }
 
-        public static Perpetrator[] ACTIVE_PERPETRATORS { get; set; }
+        private static List<Perpetrator> active_perpetrators = new List<Perpetrator>();
+
+        public static Perpetrator[] ACTIVE_PERPETRATORS { get { return active_perpetrators.ToArray(); } set { ACTIVE_PERPETRATORS = value; } }
 
 
         //A REFERENCE TO THE SELECT PERPETRATOR FORM
@@ -177,40 +179,28 @@ namespace MetroFramework.Demo.Singletons
 
         public static void InitializeStuff()
         {
-            ACTIVE_PERPETRATORS = PerpetratorsManager.GetAllActivePerpetrators();
+            Perpetrator[] perps = PerpetratorsManager.GetAllActivePerpetrators();
+            foreach (var perp in perps) 
+            {
+                active_perpetrators.Add(perp);
+            }
         }
 
         //THIS UPDATES A PERP FROM THE ACTIVE_PERPETRATORS ARRAY
         public static void Update(Perpetrator perp)
         {
-            for (int i = 0; i < ACTIVE_PERPETRATORS.Length; i++)
+            if (active_perpetrators.Contains(perp))
             {
-                if (perp.id == ACTIVE_PERPETRATORS[i].id)
-                {
-                    ACTIVE_PERPETRATORS[i] = perp;
-                }
+                int index = active_perpetrators.IndexOf(perp);
+                active_perpetrators[index] = perp;
             }
         }
 
         //THIS DELETES A PERP FROM THE ACTIVE_PERPETRATORS ARRAY
-        public static void Delete(int perp_id)
+        public static void Delete(Perpetrator perp)
         {
-            List<Perpetrator> perpetrators=new List<Perpetrator>();
-
-            //ADD EVERY PERPETRATOR TO A LIST EXCERPT 
-            //THE ONE WITH THE SAME ID AS THE GIVEN ID
-            for (int i = 0; i < ACTIVE_PERPETRATORS.Length; i++)
-            {
-                if (perp_id == ACTIVE_PERPETRATORS[i].id)
-                {
-                    //SKIP THAT ELEMENT
-                    continue;
-                }
-
-                perpetrators.Add(ACTIVE_PERPETRATORS[i]);
-            }
-
-            ACTIVE_PERPETRATORS = perpetrators.ToArray();
+            active_perpetrators.Remove(perp);
+            PerpetratorRecognitionThread.enroll_again = true;
         }
     }
 }

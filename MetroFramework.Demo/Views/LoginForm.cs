@@ -14,6 +14,7 @@ using MetroFramework.Demo.Factories;
 using MetroFramework.Demo.Interfaces;
 using MetroFramework.Demo.Entitities;
 using MetroFramework.Demo.Views;
+using MetroFramework.Demo.Singletons;
 
 namespace MetroFramework.Demo
 {
@@ -24,37 +25,40 @@ namespace MetroFramework.Demo
 
         //flag indicating if user is admin
         private bool is_admin              =false;
+        private Color ERROR_COLOR=Color.Purple;
+        private Color SUCCESS_COLOR = Color.Green;
         
        
 
         public LoginForm()
         {
             InitializeComponent();
-            status_label.Visible           = false;    
         }
 
         private void user_login_Click(object sender, EventArgs e)
         {
-            //enable timer
-            timer1.Enabled                 = true;
-
+            button_login.Enabled = false;
             //get user input
             String username                = textbox_username.Text;
             String password                = textbox_password.Text;
 
             //validate user input
-            if (String.IsNullOrEmpty(username)||String.IsNullOrEmpty(password))
+            if (IsNullOrEmpty(username)||IsNullOrEmpty(password))
             {
-                progressBar.Enabled        = false;
-                timer1.Enabled             = false;
-                progressBar.Visible        = false;
-                progressBar.Value          = 0;
-
-                status_label.Visible       = true;
-                status_label.Text          = "Please Enter Your  A Valid Username or Password.";
-
+                
+                status_label.ForeColor       = ERROR_COLOR;
+                status_label.Text          = "Please Enter A Valid Username or Password.";
+                button_login.Enabled = true;
                 return;
             }
+
+            //enable timer
+            timer1.Enabled = true;
+            timer1.Start();
+
+            //ENABLE PROGRESS INDICATOR
+            spining_progress_indicator.Visible = true;
+            spining_progress_indicator.Start();
 
             //if user is an admin
             admin                          =AdminManager.GetAdmin(username, password);
@@ -72,54 +76,52 @@ namespace MetroFramework.Demo
             //wrong credentials provided
             else
             {
-                Debug.WriteLine("user is not admin");
                 //signal to display error message 
                 is_admin                   = false;
 
             }
         }
 
+        private bool IsNullOrEmpty(string text)
+        {
+            if (text == null) 
+            {
+                return true;
+            }
+            if (text.Length < 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
-        {
-           
-            if (progressBar.Value < progressBar.Maximum)
-            {
-               
-                //display loading progress bar
-                progressBar.Visible        = true;
-                progressBar.Value          = progressBar.Value + 5;
-                status_label.Visible       = true;
-                status_label.Text          = "Please Wait While we are checking Authentication...";
-            }
-            else 
-            {
-                
+        {         
                 //log user in or display error msg
                 DisplayResultsOfLogin();
 
+                //STOP TIMER
+                timer1.Stop();
+
                 //disable timer
                 timer1.Enabled             = false;
-                
-            }
-
         }
 
         private void DisplayResultsOfLogin()
         {
             //disable some stuff
-            progressBar.Enabled            = false;
-            progressBar.Visible            = false;
-            progressBar.Value              = 0;
+            spining_progress_indicator.Stop();
+            spining_progress_indicator.Visible = false;
             textbox_username.Text          = "";
             textbox_password.Text          = "";
 
             //user is admin
             if (is_admin)
             {
-                
+                status_label.ForeColor = Color.Green;
                 //log admin
-                status_label.Text          = "Welcome!! you are Authorised User.";
+                status_label.Text          = "Welcome "+admin.user_name+" !! You Are An Authorised User.";
 
                 //set the admin object to be an admin object
                 Singletons.Singleton.ADMIN = admin;
@@ -131,8 +133,12 @@ namespace MetroFramework.Demo
             //wrong credentials
             else
             {
+                button_login.Enabled = true;
+
+                status_label.ForeColor = ERROR_COLOR;
+
                 //display error message
-                status_label.Text          = "Sorry!! Username or Password is Wrong.";
+                status_label.Text          = "Sorry!! Username/Password Combination Is Wrong.";
             }
         }
 
@@ -145,7 +151,13 @@ namespace MetroFramework.Demo
             form.Show();
         }
 
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            //HIDE THE SPINING PROGRESS INDICATOR
+            spining_progress_indicator.Visible = false;
+        }
 
+       
 
 
     }

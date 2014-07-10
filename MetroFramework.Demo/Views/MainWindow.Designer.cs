@@ -42,11 +42,11 @@ namespace MetroFramework.Demo
             this.label1 = new System.Windows.Forms.Label();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
             this.metroToolTip = new MetroFramework.Components.MetroToolTip();
-            this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
             this.pick_video_button = new MetroFramework.Controls.MetroButton();
             this.show_detected_faces2 = new MetroFramework.Controls.MetroCheckBox();
             this.pause_button = new MetroFramework.Controls.MetroButton();
+            this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.panel_for_detected_faces = new System.Windows.Forms.Panel();
@@ -54,6 +54,7 @@ namespace MetroFramework.Demo
             this.label_separator = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
+            this.imageBox4 = new MetroFramework.Demo.Custom_Controls.MyImageBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,6 +74,7 @@ namespace MetroFramework.Demo
             this.time_elapsed_label = new System.Windows.Forms.Label();
             this.review_footage_color_slider = new MB.Controls.ColorSlider();
             this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
             this.metroTabPage11 = new MetroFramework.Controls.MetroTabPage();
             this.metroTile9 = new MetroFramework.Controls.MetroTile();
@@ -89,24 +91,24 @@ namespace MetroFramework.Demo
             this.panel3 = new System.Windows.Forms.Panel();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
-            this.imageBox4 = new MetroFramework.Demo.Custom_Controls.MyImageBox();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             this.panel_for_detected_faces.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             this.panel2.SuspendLayout();
             this.live_stream_recognition_panel.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
+            this.panel5.SuspendLayout();
             this.metroTabPage11.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // metroContextMenu1
@@ -178,24 +180,11 @@ namespace MetroFramework.Demo
             this.metroToolTip.StyleManager = null;
             this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
-            // turn_on_button
-            // 
-            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.turn_on_button.Location = new System.Drawing.Point(180, 474);
-            this.turn_on_button.Name = "turn_on_button";
-            this.turn_on_button.Size = new System.Drawing.Size(178, 44);
-            this.turn_on_button.TabIndex = 33;
-            this.turn_on_button.Text = "Turn On";
-            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
-            this.turn_on_button.UseSelectable = true;
-            this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
-            // 
             // stop_button_2
             // 
             this.stop_button_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.stop_button_2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop_button_2.Location = new System.Drawing.Point(141, 467);
+            this.stop_button_2.Location = new System.Drawing.Point(141, 487);
             this.stop_button_2.Name = "stop_button_2";
             this.stop_button_2.Size = new System.Drawing.Size(103, 43);
             this.stop_button_2.TabIndex = 31;
@@ -208,7 +197,7 @@ namespace MetroFramework.Demo
             // 
             this.pick_video_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pick_video_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pick_video_button.Location = new System.Drawing.Point(325, 467);
+            this.pick_video_button.Location = new System.Drawing.Point(328, 487);
             this.pick_video_button.Name = "pick_video_button";
             this.pick_video_button.Size = new System.Drawing.Size(123, 43);
             this.pick_video_button.TabIndex = 30;
@@ -220,7 +209,7 @@ namespace MetroFramework.Demo
             // show_detected_faces2
             // 
             this.show_detected_faces2.AutoSize = true;
-            this.show_detected_faces2.Location = new System.Drawing.Point(173, 421);
+            this.show_detected_faces2.Location = new System.Drawing.Point(160, 446);
             this.show_detected_faces2.Name = "show_detected_faces2";
             this.show_detected_faces2.Size = new System.Drawing.Size(134, 15);
             this.show_detected_faces2.TabIndex = 29;
@@ -233,7 +222,7 @@ namespace MetroFramework.Demo
             // 
             this.pause_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pause_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pause_button.Location = new System.Drawing.Point(32, 467);
+            this.pause_button.Location = new System.Drawing.Point(32, 487);
             this.pause_button.Name = "pause_button";
             this.pause_button.Size = new System.Drawing.Size(103, 43);
             this.pause_button.TabIndex = 28;
@@ -241,6 +230,19 @@ namespace MetroFramework.Demo
             this.metroToolTip.SetToolTip(this.pause_button, "Button Tooltip");
             this.pause_button.UseSelectable = true;
             this.pause_button.Click += new System.EventHandler(this.pause_button_Click);
+            // 
+            // turn_on_button
+            // 
+            this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.turn_on_button.Location = new System.Drawing.Point(166, 10);
+            this.turn_on_button.Name = "turn_on_button";
+            this.turn_on_button.Size = new System.Drawing.Size(178, 44);
+            this.turn_on_button.TabIndex = 34;
+            this.turn_on_button.Text = "Turn On";
+            this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
+            this.turn_on_button.UseSelectable = true;
+            this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
             // 
             // linkLabel_logout
             // 
@@ -265,7 +267,7 @@ namespace MetroFramework.Demo
             this.panel_for_detected_faces.Controls.Add(this.label_separator);
             this.panel_for_detected_faces.Location = new System.Drawing.Point(12, 8);
             this.panel_for_detected_faces.Name = "panel_for_detected_faces";
-            this.panel_for_detected_faces.Size = new System.Drawing.Size(372, 503);
+            this.panel_for_detected_faces.Size = new System.Drawing.Size(372, 510);
             this.panel_for_detected_faces.TabIndex = 23;
             // 
             // label_face_recognition_status
@@ -294,7 +296,6 @@ namespace MetroFramework.Demo
             // 
             this.metroStyleExtender.SetApplyMetroTheme(this.panel1, true);
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.turn_on_button);
             this.panel1.Controls.Add(this.imageBox6);
             this.panel1.Controls.Add(this.imageBox4);
             this.panel1.Controls.Add(this.label5);
@@ -305,7 +306,7 @@ namespace MetroFramework.Demo
             this.panel1.Controls.Add(this.imageBox7);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(514, 523);
+            this.panel1.Size = new System.Drawing.Size(514, 481);
             this.panel1.TabIndex = 11;
             // 
             // imageBox6
@@ -319,6 +320,19 @@ namespace MetroFramework.Demo
             this.imageBox6.Size = new System.Drawing.Size(230, 208);
             this.imageBox6.TabIndex = 29;
             this.imageBox6.TabStop = false;
+            // 
+            // imageBox4
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox4, true);
+            this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBox4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox4.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            this.imageBox4.Location = new System.Drawing.Point(12, 17);
+            this.imageBox4.Name = "imageBox4";
+            this.imageBox4.Size = new System.Drawing.Size(230, 219);
+            this.imageBox4.TabIndex = 21;
+            this.imageBox4.TabStop = false;
+            this.imageBox4.Click += new System.EventHandler(this.imageBox4_Click);
             // 
             // label5
             // 
@@ -391,7 +405,7 @@ namespace MetroFramework.Demo
             this.panel2.Controls.Add(this.live_stream_recognition_panel);
             this.panel2.Location = new System.Drawing.Point(537, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(378, 519);
+            this.panel2.Size = new System.Drawing.Size(378, 549);
             this.panel2.TabIndex = 12;
             // 
             // live_stream_recognition_panel
@@ -403,7 +417,7 @@ namespace MetroFramework.Demo
             this.live_stream_recognition_panel.Controls.Add(this.label6);
             this.live_stream_recognition_panel.Location = new System.Drawing.Point(13, 6);
             this.live_stream_recognition_panel.Name = "live_stream_recognition_panel";
-            this.live_stream_recognition_panel.Size = new System.Drawing.Size(351, 499);
+            this.live_stream_recognition_panel.Size = new System.Drawing.Size(351, 509);
             this.live_stream_recognition_panel.TabIndex = 27;
             // 
             // label8
@@ -422,9 +436,9 @@ namespace MetroFramework.Demo
             this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(68, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(212, 19);
+            this.label6.Size = new System.Drawing.Size(205, 19);
             this.label6.TabIndex = 0;
-            this.label6.Text = "FACE RECOGNITION PROGRESS";
+            this.label6.Text = "FACE COMPARISON ONGOING";
             // 
             // spining_progress_live
             // 
@@ -459,7 +473,7 @@ namespace MetroFramework.Demo
             this.panel4.Controls.Add(this.review_footage_image_box);
             this.panel4.Location = new System.Drawing.Point(4, 4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(479, 519);
+            this.panel4.Size = new System.Drawing.Size(479, 544);
             this.panel4.TabIndex = 28;
             // 
             // label9
@@ -477,7 +491,7 @@ namespace MetroFramework.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.label7, true);
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(0, 444);
+            this.label7.Location = new System.Drawing.Point(0, 471);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(477, 2);
             this.label7.TabIndex = 36;
@@ -500,7 +514,7 @@ namespace MetroFramework.Demo
             // total_time_label
             // 
             this.total_time_label.AutoSize = true;
-            this.total_time_label.Location = new System.Drawing.Point(399, 423);
+            this.total_time_label.Location = new System.Drawing.Point(399, 446);
             this.total_time_label.Name = "total_time_label";
             this.total_time_label.Size = new System.Drawing.Size(49, 13);
             this.total_time_label.TabIndex = 34;
@@ -509,7 +523,7 @@ namespace MetroFramework.Demo
             // time_elapsed_label
             // 
             this.time_elapsed_label.AutoSize = true;
-            this.time_elapsed_label.Location = new System.Drawing.Point(29, 423);
+            this.time_elapsed_label.Location = new System.Drawing.Point(29, 446);
             this.time_elapsed_label.Name = "time_elapsed_label";
             this.time_elapsed_label.Size = new System.Drawing.Size(49, 13);
             this.time_elapsed_label.TabIndex = 33;
@@ -523,7 +537,7 @@ namespace MetroFramework.Demo
             this.review_footage_color_slider.ElapsedInnerColor = System.Drawing.Color.Turquoise;
             this.review_footage_color_slider.ElapsedOuterColor = System.Drawing.Color.Teal;
             this.review_footage_color_slider.LargeChange = ((uint)(5u));
-            this.review_footage_color_slider.Location = new System.Drawing.Point(32, 397);
+            this.review_footage_color_slider.Location = new System.Drawing.Point(32, 408);
             this.review_footage_color_slider.Name = "review_footage_color_slider";
             this.review_footage_color_slider.Size = new System.Drawing.Size(419, 23);
             this.review_footage_color_slider.SmallChange = ((uint)(1u));
@@ -544,6 +558,17 @@ namespace MetroFramework.Demo
             this.review_footage_image_box.TabIndex = 27;
             this.review_footage_image_box.TabStop = false;
             this.review_footage_image_box.Click += new System.EventHandler(this.review_footage_image_box_Click);
+            // 
+            // panel5
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.panel5, true);
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.turn_on_button);
+            this.panel5.Location = new System.Drawing.Point(4, 491);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(514, 62);
+            this.panel5.TabIndex = 13;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
             // icons_list
             // 
@@ -575,7 +600,7 @@ namespace MetroFramework.Demo
             this.metroTabPage11.HorizontalScrollbarSize = 10;
             this.metroTabPage11.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage11.Name = "metroTabPage11";
-            this.metroTabPage11.Size = new System.Drawing.Size(918, 527);
+            this.metroTabPage11.Size = new System.Drawing.Size(918, 580);
             this.metroTabPage11.Style = MetroFramework.MetroColorStyle.Magenta;
             this.metroTabPage11.TabIndex = 6;
             this.metroTabPage11.Text = "Settings";
@@ -732,7 +757,7 @@ namespace MetroFramework.Demo
             this.tile1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.tile1.Location = new System.Drawing.Point(-6429, 26);
             this.tile1.Name = "tile1";
-            this.tile1.Size = new System.Drawing.Size(231, 0);
+            this.tile1.Size = new System.Drawing.Size(231, 10);
             this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
@@ -755,7 +780,7 @@ namespace MetroFramework.Demo
             this.metroTabPage2.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage2.Name = "metroTabPage2";
             this.metroTabPage2.Padding = new System.Windows.Forms.Padding(25);
-            this.metroTabPage2.Size = new System.Drawing.Size(918, 527);
+            this.metroTabPage2.Size = new System.Drawing.Size(918, 580);
             this.metroTabPage2.Style = MetroFramework.MetroColorStyle.Black;
             this.metroTabPage2.TabIndex = 2;
             this.metroTabPage2.Text = "Review Footage";
@@ -772,12 +797,13 @@ namespace MetroFramework.Demo
             this.panel3.Controls.Add(this.panel_for_detected_faces);
             this.panel3.Location = new System.Drawing.Point(507, 4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(397, 519);
+            this.panel3.Size = new System.Drawing.Size(397, 541);
             this.panel3.TabIndex = 27;
             // 
             // metroTabPage1
             // 
             this.metroTabPage1.AutoScroll = true;
+            this.metroTabPage1.Controls.Add(this.panel5);
             this.metroTabPage1.Controls.Add(this.spining_progress_live);
             this.metroTabPage1.Controls.Add(this.panel2);
             this.metroTabPage1.Controls.Add(this.panel1);
@@ -788,7 +814,7 @@ namespace MetroFramework.Demo
             this.metroTabPage1.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage1.Name = "metroTabPage1";
             this.metroTabPage1.Padding = new System.Windows.Forms.Padding(25);
-            this.metroTabPage1.Size = new System.Drawing.Size(918, 527);
+            this.metroTabPage1.Size = new System.Drawing.Size(918, 580);
             this.metroTabPage1.TabIndex = 0;
             this.metroTabPage1.Text = "Live Stream";
             this.metroTabPage1.VerticalScrollbar = true;
@@ -807,23 +833,10 @@ namespace MetroFramework.Demo
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
-            this.metroTabControl1.Size = new System.Drawing.Size(926, 572);
+            this.metroTabControl1.Size = new System.Drawing.Size(926, 625);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
             this.metroTabControl1.SelectedIndexChanged += new System.EventHandler(this.metroTabControl1_SelectedIndexChanged);
-            // 
-            // imageBox4
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox4, true);
-            this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox4.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.imageBox4.Location = new System.Drawing.Point(12, 17);
-            this.imageBox4.Name = "imageBox4";
-            this.imageBox4.Size = new System.Drawing.Size(230, 219);
-            this.imageBox4.TabIndex = 21;
-            this.imageBox4.TabStop = false;
-            this.imageBox4.Click += new System.EventHandler(this.imageBox4_Click);
             // 
             // MainWindow
             // 
@@ -832,7 +845,7 @@ namespace MetroFramework.Demo
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackImagePadding = new System.Windows.Forms.Padding(210, 10, 0, 0);
             this.BackMaxSize = 50;
-            this.ClientSize = new System.Drawing.Size(966, 652);
+            this.ClientSize = new System.Drawing.Size(966, 705);
             this.Controls.Add(this.linkLabel_logout);
             this.Controls.Add(this.metroTabControl1);
             this.IsMdiContainer = true;
@@ -852,6 +865,7 @@ namespace MetroFramework.Demo
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -860,12 +874,12 @@ namespace MetroFramework.Demo
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).EndInit();
+            this.panel5.ResumeLayout(false);
             this.metroTabPage11.ResumeLayout(false);
             this.metroTabPage2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -908,7 +922,6 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel1;
-        private Controls.MetroButton turn_on_button;
         private ImageBox imageBox6;
         private MyImageBox imageBox4;
         private System.Windows.Forms.Label label5;
@@ -945,6 +958,8 @@ namespace MetroFramework.Demo
         private Controls.MetroTile tile1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel5;
+        private Controls.MetroButton turn_on_button;
         
      
 

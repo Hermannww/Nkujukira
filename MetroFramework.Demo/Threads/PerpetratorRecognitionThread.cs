@@ -21,16 +21,25 @@ namespace MetroFramework.Demo.Threads
     //IF RECOGNITION IS SUCCESSFULL AN ALERT IS GENERATED
     public class PerpetratorRecognitionThread : FaceRecognitionThread
     {
+        //FACES MANAGER FOR ENROLLMENT AND COMPARISON OF FACES 
         private FacesManager faces_manager;
+
         //ARRAY OF ALL ACTIVE PERPETRATORS
         private Perpetrator[] active_perpetrators = null;
+
+        //USED TO SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
         public static bool WORKDONE               = false;
+
+        //FLAG USED TO SIGNAL TO THE THREAD THAT IT SHOULD ENROLL PERP FACES AGAIN
+        //BECAUSE THEY HAVE CHANGED IN THE DATABASE
+        public static volatile bool enroll_again  = false;
 
         //CONSTRUCTOR
         public PerpetratorRecognitionThread()
             : base(null)
         {
             WORKDONE            = false;
+            enroll_again        = false;
 
             this.faces_manager  = new FacesManager();
 
@@ -115,7 +124,18 @@ namespace MetroFramework.Demo.Threads
                     //IF DEQUEUE IS OK
                     if (sucessfull)
                     {
-                        active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
+                        if (enroll_again)
+                        {
+                            //CLEAR ALREADY ENROLLED FACES
+                            faces_manager.ClearEnrolledFaces();
+
+                            //GET THE LATEST ACTIVE PERPS
+                            active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
+
+                            //ENROLL FACES OF THE PERPS
+                            EnrollFacesToBeComparedAgainst();
+                        }
+
                         //TRY TO RECOGNIZE THE FACE
                         RecognizeFace(face_to_recognize);
                     }

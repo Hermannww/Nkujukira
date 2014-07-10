@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,8 @@ namespace MetroFramework.Demo
         //DISABLES NECESSARY CONTROLS WHEN IN ALERT MODE
         private void DisableControls()
         {
+            this.RemoveCloseButton();
+            this.TopMost = true;
             comboBox_gender.Enabled              = false;
             button_getCrimes.Visible             = true;
             button_getCrimes.Enabled             = true;
@@ -127,7 +130,7 @@ namespace MetroFramework.Demo
             SoundManager.StopPlayingSound();
             this.perpetrator.is_still_active = false;
             PerpetratorsManager.Update(this.perpetrator);
-            Singleton.Delete(this.perpetrator.id);
+            Singleton.Delete(this.perpetrator);
             this.Close();
         }
 

@@ -38,11 +38,10 @@ namespace MetroFramework.Demo.Threads
             {
                 while (running)
                 {
-                    Debug.WriteLine("ALERT THREAD RUNNING");
 
                     if (!paused)
                     {
-                        Debug.WriteLine("ALERT THREAD IS NOT PAUSED");
+                        
 
                         //CHECK TO SEE IF AN ALERT HAS BEEN SIGNALED FOR
                         sucess = GetIdentifiedStudentOrPerpetrator();
@@ -50,6 +49,7 @@ namespace MetroFramework.Demo.Threads
                         //IF AN ALERT HAS BEEN SIGNALED
                         if (sucess&&!ThereIsSimilarAlert())
                         {
+                            Debug.WriteLine("NEW ALERT");
                             //PLAY THE ALARM SOUND
                             PlayAlarmSound();
                 
@@ -93,18 +93,10 @@ namespace MetroFramework.Demo.Threads
         private void PlayAlarmSound()
         {
             Debug.WriteLine("Playing Alarm sound");
-            SoundManager.PlaySound();
-        }
-
-        //THIS CHECKS IF THE CURRENT ALERT IS ABOUT THE SAME PERPETRATOR AS THAT GIVEN
-        public bool AlertIsAboutSamePerpetrator(Perpetrator perpetrator)
-        {
-            return this.ids_of_perps.Contains(perpetrator.id);       
-        }
-
-        public bool AlertIsAboutSameStudent(Student student)
-        {
-            return this.ids_of_students.Contains(student.id);
+            if (identified_perpetrator != null || identified_student != null)
+            {
+                SoundManager.PlaySound();
+            }
         }
 
         //THIS DISPLAYS DETAILS PERTAINING TO THE ALERT GENERATED
@@ -114,11 +106,13 @@ namespace MetroFramework.Demo.Threads
             //IF THIS ALERT IS BECOZ A PERP HAS BEEN IDENTIFIED
             if (identified_perpetrator != null)
             {
+                Debug.WriteLine("ALERT IS FOR PERP WITH ID=" + identified_perpetrator.id);
                 //ADD THE ID OF THE PERP SO WE CAN TRACK IT FOR LATER
                 ids_of_perps.Add(identified_perpetrator.id);
 
                 //DISPLAY VISUAL CUES ON THE MAIN GUI THAT AN ALERT HAS BEEN TRIGGERED
                 ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).EnableAlertMode();
+
                 //create form
                 PerpetratorDetailsForm form = new PerpetratorDetailsForm(identified_perpetrator, true);
 
@@ -131,6 +125,7 @@ namespace MetroFramework.Demo.Threads
             //IF ITS BECOZ A STUDENT HAS BEEN IDENTIFIED
             if (identified_student != null)
             {
+                Debug.WriteLine("ALERT IS FOR STUDENT WITH ID=" + identified_student.id);
                 //ADD THE ID OF THE STUDENT SO WE CAN TRACK IT FOR LATER
                 ids_of_students.Add(identified_student.id);
 
@@ -150,6 +145,7 @@ namespace MetroFramework.Demo.Threads
 
         public override bool RequestStop()
         {
+            
             SoundManager.StopPlayingSound();
             ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).DisableAlertMode();
             return base.RequestStop();

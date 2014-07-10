@@ -42,6 +42,7 @@ namespace MetroFramework.Demo.Threads
         Perpetrator[] active_perpetrators;
 
         public static bool WORKDONE = false;
+        private const int SLEEP_TIME_MILLISEC=50;
 
         public FaceRecognitionProgressThread()
             : base()
@@ -176,19 +177,17 @@ namespace MetroFramework.Demo.Threads
                 title_label.ForeColor       = Color.White;
                 title_label.AutoSize        = true;
                 title_label.Font            = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                title_label.Location        = new System.Drawing.Point(68, 9);
-                title_label.Name            = "label6";
-                title_label.Size            = new System.Drawing.Size(212, 19);
-                title_label.TabIndex        = 0;
-                title_label.Text            = "FACE RECOGNITION PROGRESS";
+                title_label.Location        = new System.Drawing.Point(74, 11);
+                title_label.Size            = new System.Drawing.Size(205, 19);
+                title_label.TabIndex        = 3;
+                title_label.Text            = "FACE COMPARISON ONGOING";
 
                 //CREATE LINE SEPARATOR 
                 MetroLabel separator_label  = new MetroLabel();
-                separator_label.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-                separator_label.Location    = new System.Drawing.Point(-2, 28);
-                separator_label.Name        = "label8";
+                separator_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                separator_label.Location    = new System.Drawing.Point(19, 39);
                 separator_label.Size        = new System.Drawing.Size(335, 2);
-                separator_label.TabIndex    = 3;
+                separator_label.TabIndex    = 2;
 
 
                 //COZ THIS IS NOT ON THE UI THREAD
@@ -243,8 +242,18 @@ namespace MetroFramework.Demo.Threads
                             progress_label.ForeColor = Color.Purple;
                             SetControlPropertyThreadSafe(progress_label, "Text", "Match\nFound");
 
-                            //DISPLAY IDENTIFIED PERPETRATORS FACE
-                            SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", face_recognition_result.identified_perpetrator.faces[0].ToBitmap());
+                            //IS THERE AN IDENTIFIED PERP
+                            if (face_recognition_result.identified_perpetrator!=null)
+                            {
+                                //GET IDENTIFIED PERPETRATORS FACE
+                                Image<Gray, byte> perps_face = face_recognition_result.identified_perpetrator.faces[0];
+
+                                if (perps_face != null)
+                                {
+                                    //DISPLAY IDENTIFIED PERPETRATORS FACE SO ITS THE LAST FACE INORDER TO SHOW SIMILARITY
+                                    SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", perps_face.ToBitmap());
+                                }
+                            }
                       
                         }
                         else
@@ -263,7 +272,7 @@ namespace MetroFramework.Demo.Threads
                     }
 
                     //LET THE THREAD SLEEP
-                    Thread.Sleep(SLEEP_TIME);
+                    Thread.Sleep(SLEEP_TIME_MILLISEC);
 
                     progress_decimal++;
                 }

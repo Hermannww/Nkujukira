@@ -270,7 +270,7 @@ namespace MetroFramework.Demo.Managers
         }
 
 
-        public void ClearDataStores()
+        public void ClearEnrolledFaces()
         {
             known_faces_list.Clear();
         }

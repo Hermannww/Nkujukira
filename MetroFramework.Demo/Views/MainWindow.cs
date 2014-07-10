@@ -130,20 +130,17 @@ namespace MetroFramework.Demo
                 title_label.ForeColor = Color.White;
                 title_label.AutoSize = true;
                 title_label.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                title_label.Location = new System.Drawing.Point(68, 9);
-                title_label.Name = "label6";
-                title_label.Size = new System.Drawing.Size(212, 19);
-                title_label.TabIndex = 0;
-                title_label.Text = "FACE RECOGNITION PROGRESS";
+                title_label.Location = new System.Drawing.Point(74, 11);
+                title_label.Size = new System.Drawing.Size(205, 19);
+                title_label.TabIndex = 3;
+                title_label.Text = "FACE COMPARISON ONGOING";
 
                 //CREATE LINE SEPARATOR 
                 MetroLabel separator_label = new MetroLabel();
-                separator_label.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-                separator_label.Location = new System.Drawing.Point(-2, 28);
-                separator_label.Name = "label8";
+                separator_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                separator_label.Location = new System.Drawing.Point(19, 39);
                 separator_label.Size = new System.Drawing.Size(335, 2);
-                separator_label.TabIndex = 3;
-                
+                separator_label.TabIndex = 2;
 
                 //COZ THIS IS NOT ON THE UI THREAD
                 if (panel.InvokeRequired)
@@ -509,7 +506,6 @@ namespace MetroFramework.Demo
             }
             else 
             {
-
                 EnableLiveStreamControls(false);
                 ThreadPool.QueueUserWorkItem(TurnOffCameras);
                 turn_on_button.Text           = "Turn On";
@@ -580,6 +576,7 @@ namespace MetroFramework.Demo
         {
             Singleton.ADMIN = null;
             this.Close();
+            Program.Running = true;
         }
 
 
@@ -640,6 +637,11 @@ namespace MetroFramework.Demo
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.Running = false;
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
        
