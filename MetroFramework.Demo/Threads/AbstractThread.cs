@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
 {
-    public abstract class AbstractThread:ThreadInterface
+    public abstract class AbstractThread:ThreadInterface,IDisposable
     {
         //VOLATILE BOOL BECOZ MULTIPLE THREADS WILL ACCESS IT
         protected bool running= false;
@@ -106,6 +106,12 @@ namespace MetroFramework.Demo.Threads
         {
             running = false;
             return true;
+        }
+
+        public void Dispose()
+        {
+            background_worker.Dispose();
+            this.RequestStop();
         }
     }
 }

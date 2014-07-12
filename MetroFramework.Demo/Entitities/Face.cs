@@ -18,7 +18,7 @@ namespace Nkujukira.Entities
         //Face Template;
         public byte[] face_template             { get; set; }
 
-        public FSDK.TFacePosition face_position { get; set; }
+        public FacePosition face_position { get; set; }
 
         //Facial Features;
         public FSDK.TPoint[] facial_features    { get; set; }
@@ -39,7 +39,7 @@ namespace Nkujukira.Entities
         public Face(byte[] face_template, FSDK.TFacePosition face_pos, FSDK.TPoint[] facial_features, FSDK.CImage face_image) 
         {
             this.face_template   = face_template;
-            this.face_position   = face_pos;
+            this.face_position   = FacePosition.FromFSDK(face_pos);
             this.facial_features = facial_features;
             this.image           = face_image;
             this.face_image      = face_image;

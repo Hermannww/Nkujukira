@@ -31,6 +31,7 @@
             this.perpetrator_frame_picture_box = new System.Windows.Forms.PictureBox();
             this.done_button = new MetroFramework.Controls.MetroButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_separator = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_frame_picture_box)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -53,9 +54,9 @@
             // 
             this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(140, 312);
+            this.done_button.Location = new System.Drawing.Point(133, 321);
             this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(103, 37);
+            this.done_button.Size = new System.Drawing.Size(141, 37);
             this.done_button.TabIndex = 20;
             this.done_button.Text = "Done!!";
             this.done_button.UseSelectable = true;
@@ -64,12 +65,21 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label_separator);
             this.panel1.Controls.Add(this.perpetrator_frame_picture_box);
             this.panel1.Controls.Add(this.done_button);
             this.panel1.Location = new System.Drawing.Point(8, 54);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(401, 367);
             this.panel1.TabIndex = 21;
+            // 
+            // label_separator
+            // 
+            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_separator.Location = new System.Drawing.Point(-1, 307);
+            this.label_separator.Name = "label_separator";
+            this.label_separator.Size = new System.Drawing.Size(401, 2);
+            this.label_separator.TabIndex = 22;
             // 
             // SelectPerpetratorForm
             // 
@@ -98,6 +108,7 @@
         private System.Windows.Forms.PictureBox perpetrator_frame_picture_box;
         private Controls.MetroButton done_button;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label_separator;
 
     }
 }

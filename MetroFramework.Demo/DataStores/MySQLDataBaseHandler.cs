@@ -15,7 +15,7 @@ using System.Data.Common;
 
 namespace MetroFramework.Demo.DataStores
 {
-    class MySQLDatabaseHandler : DatabaseInterface
+    class MySQLDatabaseHandler : DatabaseInterface,IDisposable
     {
         private MySqlConnection connection;
         private String server;
@@ -242,7 +242,7 @@ namespace MetroFramework.Demo.DataStores
                 file.Close();
                 process.Close();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("Error , unable to backup!");
             }
@@ -274,7 +274,7 @@ namespace MetroFramework.Demo.DataStores
                 process.WaitForExit();
                 process.Close();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("Error , unable to Restore!");
             }
@@ -284,6 +284,11 @@ namespace MetroFramework.Demo.DataStores
         public DbConnection GetConnection()
         {
             return connection;
+        }
+
+        void IDisposable.Dispose()
+        {
+            connection.Dispose();
         }
     }
 }

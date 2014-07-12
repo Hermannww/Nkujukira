@@ -22,6 +22,8 @@ namespace MetroFramework.Demo.Views
         String[] crimes_againist_morality            = { "prostitution", "illegal gambling", "drug use" };
         String[] white_collar_crimes                 = { "embezzling", "insider trading", "tax evasion" };
         Crime crime;
+         //create victims form
+        VictimsDetailsForm victim_details_form;
         //internal List<Victim> victims_of_this_crime=new List<Victim>();
 
         public CrimeDetailsForm(Perpetrator perpetrator_id)
@@ -60,6 +62,8 @@ namespace MetroFramework.Demo.Views
 
         private void button_getVictims_Click(object sender, EventArgs e)
         {
+            button_getVictims.Enabled = false;
+
             Victim[] victims                         = VictimsManager.GetVictimsOfCrime(this.crime.id);
 
             foreach (var victim in victims) 
@@ -74,6 +78,9 @@ namespace MetroFramework.Demo.Views
 
         private void save_button_Click(object sender, EventArgs e)
         {
+            //DISABLE BUTTON
+            button_save.Enabled = false;
+
             //get crime details
             String date_of_crime                     = dateTimePicker_dateOfCrime.Text;
             String time_of_crime                     = GetTimeOfCrime();
@@ -163,6 +170,14 @@ namespace MetroFramework.Demo.Views
             comboBox_type_of_crime.SelectedIndex     = 0;
             comboBox_hours.SelectedIndex             = 0;
             comboBox_minutes.SelectedIndex           = 0;
+        }
+
+        private void CrimeDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel)
+            {
+                PerpetratorDetailsForm.another_crime = false;
+            }
         }
     }
 }

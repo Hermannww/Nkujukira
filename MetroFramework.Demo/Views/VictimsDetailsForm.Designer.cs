@@ -30,9 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button_another_crime = new MetroFramework.Controls.MetroButton();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.another_victim_button = new MetroFramework.Controls.MetroButton();
+            this.button_another_victim = new MetroFramework.Controls.MetroButton();
             this.button_save = new MetroFramework.Controls.MetroButton();
             this.date_of_birth = new System.Windows.Forms.DateTimePicker();
             this.is_a_student_comboBox = new System.Windows.Forms.ComboBox();
@@ -51,9 +52,10 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button_another_crime);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.another_victim_button);
+            this.panel1.Controls.Add(this.button_another_victim);
             this.panel1.Controls.Add(this.button_save);
             this.panel1.Controls.Add(this.date_of_birth);
             this.panel1.Controls.Add(this.is_a_student_comboBox);
@@ -69,6 +71,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(548, 418);
             this.panel1.TabIndex = 0;
+            // 
+            // button_another_crime
+            // 
+            this.button_another_crime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_another_crime.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_another_crime.Location = new System.Drawing.Point(303, 296);
+            this.button_another_crime.Name = "button_another_crime";
+            this.button_another_crime.Size = new System.Drawing.Size(112, 37);
+            this.button_another_crime.TabIndex = 44;
+            this.button_another_crime.Text = "Another Crime";
+            this.button_another_crime.UseSelectable = true;
+            this.button_another_crime.Click += new System.EventHandler(this.button_another_crime_Click);
             // 
             // progressBar
             // 
@@ -90,17 +104,17 @@
             this.label1.TabIndex = 42;
             this.label1.Text = "Enter The Details Here";
             // 
-            // another_victim_button
+            // button_another_victim
             // 
-            this.another_victim_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.another_victim_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.another_victim_button.Location = new System.Drawing.Point(380, 296);
-            this.another_victim_button.Name = "another_victim_button";
-            this.another_victim_button.Size = new System.Drawing.Size(156, 37);
-            this.another_victim_button.TabIndex = 41;
-            this.another_victim_button.Text = "Another Victim";
-            this.another_victim_button.UseSelectable = true;
-            this.another_victim_button.Click += new System.EventHandler(this.another_victim_button_Click);
+            this.button_another_victim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_another_victim.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_another_victim.Location = new System.Drawing.Point(428, 296);
+            this.button_another_victim.Name = "button_another_victim";
+            this.button_another_victim.Size = new System.Drawing.Size(108, 37);
+            this.button_another_victim.TabIndex = 41;
+            this.button_another_victim.Text = "Another Victim";
+            this.button_another_victim.UseSelectable = true;
+            this.button_another_victim.Click += new System.EventHandler(this.another_victim_button_Click);
             // 
             // button_save
             // 
@@ -108,7 +122,7 @@
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_save.Location = new System.Drawing.Point(151, 296);
             this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(178, 37);
+            this.button_save.Size = new System.Drawing.Size(133, 37);
             this.button_save.TabIndex = 40;
             this.button_save.Text = "Save";
             this.button_save.UseSelectable = true;
@@ -226,6 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(568, 492);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
@@ -257,9 +272,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private Controls.MetroButton button_save;
-        private Controls.MetroButton another_victim_button;
+        private Controls.MetroButton button_another_victim;
         private System.Windows.Forms.Label label1;
         private Controls.MetroProgressBar progressBar;
         private System.Windows.Forms.Timer timer1;
+        private Controls.MetroButton button_another_crime;
     }
 }

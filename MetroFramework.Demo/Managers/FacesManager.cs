@@ -58,7 +58,7 @@ namespace MetroFramework.Demo.Managers
 
                     //CREATE NEW FACE OBJECT
                     Face a_face                 = new Face();
-                    a_face.face_position        = new FSDK.TFacePosition();
+                    a_face.face_position        = new FacePosition();
                     a_face.facial_features      = new FSDK.TPoint[2];
                     a_face.face_template        = new byte[FSDK.TemplateSize];
                     a_face.image                = new FSDK.CImage(face.ToBitmap());
@@ -66,7 +66,7 @@ namespace MetroFramework.Demo.Managers
                     a_face.id                   = perpetrator.id;
 
                     //GET POSITION OF FACE IN IMAGE
-                    a_face.face_position        = a_face.Clone().image.DetectFace();
+                    a_face.face_position        = FacePosition.FromFSDK(a_face.Clone().image.DetectFace());
                     a_face.face_image           = a_face.Clone().image;
 
                     //GET THE FACIAL FEATURES OF THE FACE
@@ -98,7 +98,7 @@ namespace MetroFramework.Demo.Managers
 
                     //CREATE NEW FACE OBJECT
                     Face a_face                 = new Face();
-                    a_face.face_position        = new FSDK.TFacePosition();
+                    a_face.face_position        = new FacePosition();
                     a_face.facial_features      = new FSDK.TPoint[2];
                     a_face.face_template        = new byte[FSDK.TemplateSize];
                     a_face.image                = new FSDK.CImage(image.ToBitmap());
@@ -106,7 +106,7 @@ namespace MetroFramework.Demo.Managers
                     a_face.id                   = student.id;
 
                     //GET POSITION OF FACE IN IMAGE
-                    a_face.face_position        = a_face.Clone().image.DetectFace();
+                    a_face.face_position        =  FacePosition.FromFSDK(a_face.Clone().image.DetectFace());
                     a_face.face_image           = a_face.Clone().image.CopyRect((int)(a_face.face_position.xc - Math.Round(a_face.face_position.w * 0.5)), (int)(a_face.face_position.yc - Math.Round(a_face.face_position.w * 0.5)), (int)(a_face.face_position.xc + Math.Round(a_face.face_position.w * 0.5)), (int)(a_face.face_position.yc + Math.Round(a_face.face_position.w * 0.5)));
 
                     //GET THE FACIAL FEATURES OF THE FACE
@@ -135,16 +135,17 @@ namespace MetroFramework.Demo.Managers
 
                 //CREATE A FACE OBJECT 
                 Face unknown_face            = new Face();
-                unknown_face.face_position   = new FSDK.TFacePosition();
+                unknown_face.face_position   = new FacePosition();
                 unknown_face.facial_features = new FSDK.TPoint[FSDK.FSDK_FACIAL_FEATURE_COUNT];
                 unknown_face.face_template   = new byte[FSDK.TemplateSize];
                 unknown_face.image           = new FSDK.CImage(a_face.ToBitmap());
 
                 //GET THE POSITION OF THE FACE IN THE IAGE
-                unknown_face.face_position   = unknown_face.image.DetectFace();
+                unknown_face.face_position   =  FacePosition.FromFSDK(unknown_face.image.DetectFace());
                 unknown_face.face_image      = unknown_face.Clone().image;
 
-                FSDK.TFacePosition face_pos  = unknown_face.Clone().face_position;
+                FSDK.TFacePosition face_pos  = unknown_face.face_position.Clone();
+                
 
                 //CHECK IF A FACE HAS BEEN DETECTED
                 if (0                        == face_pos.w)
@@ -153,18 +154,32 @@ namespace MetroFramework.Demo.Managers
                     return face_recog_results;
                 }
 
-             
-                face_pos                     = unknown_face.Clone().face_position;
+                try
+                {
+                    FSDK.TFacePosition face_pos_1 = unknown_face.face_position.Clone();
 
-                //GET THE FACIAL FEATURES OF THE FACE LIKE EYES NOSE ETC
-                unknown_face.facial_features = unknown_face.Clone().image.DetectEyesInRegion(ref face_pos);
+                    //GET THE FACIAL FEATURES OF THE FACE LIKE EYES NOSE ETC
+                    unknown_face.facial_features = unknown_face.Clone().image.DetectEyesInRegion(ref face_pos_1);
 
-                face_pos                     = unknown_face.Clone().face_position;
+                    face_pos_1 = null;
+                }
+                catch (Exception) { }
 
-                //GET A TEMPLATE OF THE FACE TO BE USED FOR COMPARISON
-                unknown_face.face_template   = unknown_face.Clone().image.GetFaceTemplateInRegion(ref face_pos);
+                try
+                {
+                    FSDK.TFacePosition face_pos_2 = unknown_face.face_position.Clone();
 
-                face_pos = null;
+                    //GET A TEMPLATE OF THE FACE TO BE USED FOR COMPARISON
+                    unknown_face.face_template = unknown_face.Clone().image.GetFaceTemplateInRegion(ref face_pos_2);
+
+                    face_pos_2 = null;
+                   
+                }
+                catch (Exception) { }
+
+                //NULL THESE REFERENCES
+                face_pos   = null;
+               
 
                 //THRESHOLD INDICATING HOW SIMILAR THE TWO FACS MUST BE TO BE CONSIDERED SAME
                 float similarity_threshold   = 0.0f;
@@ -201,6 +216,9 @@ namespace MetroFramework.Demo.Managers
                     //COMPARE THE 2 FACES FOR SIMILARITY BETWEEN THEM
                     FSDK.MatchFaces(ref unknown_face_template, ref current_face_template, ref similarity);
 
+                    unknown_face_template = null;
+                    current_face_template = null;
+
                     if (similarity >= similarity_threshold)
                     {
                         similarities[matches_count] = similarity;
@@ -221,6 +239,7 @@ namespace MetroFramework.Demo.Managers
                 face_recog_results                        = GetOfMostSimilarFace(similarities, face_to_similarity_map);
                 face_recog_results.original_detected_face = a_face;
                 face_to_similarity_map                    = null;
+
                 //RETURN RESULTS OF FACE RECOGNITION OPERATION
                 return face_recog_results;
             }

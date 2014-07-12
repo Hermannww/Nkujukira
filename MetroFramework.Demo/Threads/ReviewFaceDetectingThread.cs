@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace MetroFramework.Demo.Threads
 {
-    public class FaceDetectingThread : AbstractThread
+    public class ReviewFaceDetectingThread : AbstractThread
     {
         public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
         
@@ -34,7 +34,7 @@ namespace MetroFramework.Demo.Threads
         private int counter ;
 
       
-        public FaceDetectingThread(int frame_width, int frame_height)
+        public ReviewFaceDetectingThread(int frame_width, int frame_height)
             : base()
         {
             haarcascade                        = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
@@ -143,7 +143,7 @@ namespace MetroFramework.Demo.Threads
             {
                 if (!draw_detected_faces)
                 {
-                    Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
+                    Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace MetroFramework.Demo.Threads
         public void DetectFacesInFrame()
         {
             //try to get a frame from the shared datastore for captured frames
-            sucessfull = Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
+            sucessfull = Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
             
             
             //if ok

@@ -53,18 +53,34 @@ namespace MetroFramework.Demo.Singletons
         }
 
         //THIS HOLDS FRAMES AWAITING FACE DETECTION
-        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_processed = new ConcurrentQueue<Image<Bgr, byte>>();
+        private static ConcurrentQueue<Image<Bgr, byte>> live_frames_to_be_processed = new ConcurrentQueue<Image<Bgr, byte>>();
 
         //THIS HOLDS FRAMES AWAITING FACE DETECTION
-        public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_PROCESSED
+        public static ConcurrentQueue<Image<Bgr, byte>> LIVE_FRAMES_TO_BE_PROCESSED
         {
             get
             {
-                return Singleton.frames_to_be_processed;
+                return Singleton.live_frames_to_be_processed;
             }
             set
             {
-                Singleton.frames_to_be_processed = value;
+                Singleton.live_frames_to_be_processed = value;
+            }
+        }
+
+        //THIS HOLDS FRAMES AWAITING FACE DETECTION
+        private static ConcurrentQueue<Image<Bgr, byte>> review_frames_to_be_processed = new ConcurrentQueue<Image<Bgr, byte>>();
+
+        //THIS HOLDS FRAMES AWAITING FACE DETECTION
+        public static ConcurrentQueue<Image<Bgr, byte>> REVIEW_FRAMES_TO_BE_PROCESSED
+        {
+            get
+            {
+                return Singleton.review_frames_to_be_processed;
+            }
+            set
+            {
+                Singleton.review_frames_to_be_processed = value;
             }
         }
 
@@ -89,19 +105,36 @@ namespace MetroFramework.Demo.Singletons
         }
 
         //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
-        private static ConcurrentQueue<Image<Bgr, byte>> frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();
+        private static ConcurrentQueue<Image<Bgr, byte>> live_frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();
 
         //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
-        public static ConcurrentQueue<Image<Bgr, byte>> FRAMES_TO_BE_DISPLAYED
+        public static ConcurrentQueue<Image<Bgr, byte>> LIVE_FRAMES_TO_BE_DISPLAYED
         {
             get
             {
 
-                return Singleton.frames_to_be_displayed;
+                return Singleton.live_frames_to_be_displayed;
             }
             set
             {
-                Singleton.frames_to_be_displayed = value;
+                Singleton.live_frames_to_be_displayed = value;
+            }
+        }
+
+        //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
+        private static ConcurrentQueue<Image<Bgr, byte>> review_frames_to_be_displayed = new ConcurrentQueue<Image<Bgr, byte>>();
+
+        //THIS HOLDS FRAMES WAITING TO BE DISPLAYED
+        public static ConcurrentQueue<Image<Bgr, byte>> REVIEW_FRAMES_TO_BE_DISPLAYED
+        {
+            get
+            {
+
+                return Singleton.review_frames_to_be_displayed;
+            }
+            set
+            {
+                Singleton.review_frames_to_be_displayed = value;
             }
         }
 
@@ -151,28 +184,55 @@ namespace MetroFramework.Demo.Singletons
         }
 
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
-        private static ConcurrentDictionary<int, Face> detected_faces_datastore = new ConcurrentDictionary<int, Face>();
+        private static ConcurrentDictionary<int, Face> live_detected_faces_datastore = new ConcurrentDictionary<int, Face>();
 
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
-        public static ConcurrentDictionary<int, Face> DETECTED_FACES_DATASTORE
+        public static ConcurrentDictionary<int, Face> LIVE_DETECTED_FACES_DATASTORE
         {
             get
             {
-                return Singleton.detected_faces_datastore;
+                return Singleton.live_detected_faces_datastore;
             }
             set
             {
-                Singleton.detected_faces_datastore = value;
+                Singleton.live_detected_faces_datastore = value;
+            }
+        }
+
+        //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
+        private static ConcurrentDictionary<int, Face> review_detected_faces_datastore = new ConcurrentDictionary<int, Face>();
+
+        //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
+        public static ConcurrentDictionary<int, Face> REVIEW_DETECTED_FACES_DATASTORE
+        {
+            get
+            {
+                return Singleton.review_detected_faces_datastore;
+            }
+            set
+            {
+                Singleton.review_detected_faces_datastore = value;
             }
         }
 
         //THIS EMPTIES ALL DATASTORES
-        public static void ClearDataStores()
+        public static void ClearLiveStreamDataStores()
         {
             Image<Bgr, byte> image;
-            while (Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
-            while (Singleton.FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
-            Singleton.DETECTED_FACES_DATASTORE.Clear();
+            while (Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
+            while (Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
+            while (Singleton.FRAMES_TO_BE_STORED.TryDequeue(out image)) ;
+            Singleton.LIVE_DETECTED_FACES_DATASTORE.Clear();
+            image = null;
+
+        }
+
+        public static void ClearReviewFootageDataStores()
+        {
+            Image<Bgr, byte> image;
+            while (Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
+            while (Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
+            Singleton.REVIEW_DETECTED_FACES_DATASTORE.Clear();
             image = null;
 
         }

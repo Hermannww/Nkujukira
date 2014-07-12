@@ -28,7 +28,7 @@ namespace MetroFramework.Demo.Threads
         private Perpetrator[] active_perpetrators = null;
 
         //USED TO SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
-        public static bool WORKDONE               = false;
+        public static bool WORK_DONE               = false;
 
         //FLAG USED TO SIGNAL TO THE THREAD THAT IT SHOULD ENROLL PERP FACES AGAIN
         //BECAUSE THEY HAVE CHANGED IN THE DATABASE
@@ -38,7 +38,7 @@ namespace MetroFramework.Demo.Threads
         public PerpetratorRecognitionThread()
             : base(null)
         {
-            WORKDONE            = false;
+            WORK_DONE            = false;
             enroll_again        = false;
 
             this.faces_manager  = new FacesManager();
@@ -147,7 +147,7 @@ namespace MetroFramework.Demo.Threads
                         if (CameraOutputGrabberThread.WORK_DONE && LiveStreamFaceDetectingThread.WORK_DONE) 
                         {
                             running         = false;
-                            WORKDONE        = true;
+                            WORK_DONE        = true;
                         }
                     }
                 }

@@ -41,13 +41,13 @@ namespace MetroFramework.Demo.Threads
 
         Perpetrator[] active_perpetrators;
 
-        public static bool WORKDONE = false;
+        public static bool WORKDONE;
         private const int SLEEP_TIME_MILLISEC=50;
 
         public FaceRecognitionProgressThread()
             : base()
         {
-            Debug.WriteLine("Progress Thread is starting");
+            WORKDONE = false;
 
             //GET ACTIVE PERPETRATORS
             active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
@@ -85,7 +85,7 @@ namespace MetroFramework.Demo.Threads
                     }
                     else 
                     {
-                        if (PerpetratorRecognitionThread.WORKDONE) 
+                        if (PerpetratorRecognitionThread.WORK_DONE) 
                         {
                             running = false;
                             WORKDONE = true;

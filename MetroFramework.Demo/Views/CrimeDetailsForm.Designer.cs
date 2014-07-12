@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textfield_crime_location = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox_crimeCommited = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -43,8 +45,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textfield_crime_location = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,6 +71,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(534, 419);
             this.panel1.TabIndex = 0;
+            // 
+            // textfield_crime_location
+            // 
+            this.textfield_crime_location.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textfield_crime_location.Location = new System.Drawing.Point(174, 192);
+            this.textfield_crime_location.Name = "textfield_crime_location";
+            this.textfield_crime_location.Size = new System.Drawing.Size(344, 27);
+            this.textfield_crime_location.TabIndex = 47;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label7.Location = new System.Drawing.Point(24, 194);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(123, 19);
+            this.label7.TabIndex = 46;
+            this.label7.Text = "Location of Crime";
             // 
             // label6
             // 
@@ -257,29 +276,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Date Of Crime";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label7.Location = new System.Drawing.Point(24, 194);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(123, 19);
-            this.label7.TabIndex = 46;
-            this.label7.Text = "Location of Crime";
-            // 
-            // textfield_crime_location
-            // 
-            this.textfield_crime_location.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textfield_crime_location.Location = new System.Drawing.Point(174, 192);
-            this.textfield_crime_location.Name = "textfield_crime_location";
-            this.textfield_crime_location.Size = new System.Drawing.Size(344, 27);
-            this.textfield_crime_location.TabIndex = 47;
-            // 
             // CrimeDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(555, 494);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
@@ -290,6 +291,7 @@
             this.Text = "Crime Details Form";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CrimeDetailsForm_FormClosing);
             this.Load += new System.EventHandler(this.CrimeDetailsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

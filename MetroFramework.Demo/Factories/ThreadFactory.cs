@@ -8,110 +8,146 @@ namespace MetroFramework.Demo.Factories
 {
     class ThreadFactory
     {
-        public const String ALERT_THREAD                                 = "alert";
-        public const String CAMERA_THREAD                                = "camera_output";
-        public const String DISPLAY_UPDATER                              = "display_updater";
-        public const String REVIEW_FACE_DETECTOR                         = "review_face_detector";
-        public const String LIVE_FACE_DETECTOR                           = "live_face_detector";
-        public const String FACE_DRAWER                                  = "face_drawer";
-        public const String FACE_TRACKER                                 = "face_tracker";
-        public const String FOOTAGE_SAVER                                = "footage_saver";
-        public const String VIDEO_THREAD                                 = "video_from_file";
-        public const String PERP_RECOGNIZER                              = "perpetrator_recognizer";
-        public const String PROGRESS_THREAD                              = "face_recog_progress";
+        public const String PERP_ALERT_THREAD = "perp_alert";
+        public const String STUDENT_ALERT_THREAD = "student_alert";
+        public const String CAMERA_THREAD = "camera_output";
+        public const String REVIEW_DISPLAY_UPDATER = "review_display_updater";
+        public const String LIVE_DISPLAY_UPDATER = "livedisplay_updater";
+        public const String REVIEW_FACE_DETECTOR = "review_face_detector";
+        public const String LIVE_FACE_DETECTOR = "live_face_detector";
+        public const String FACE_DRAWER = "face_drawer";
+        public const String FOOTAGE_SAVER = "footage_saver";
+        public const String VIDEO_THREAD = "video_from_file";
+        public const String PERP_RECOGNIZER = "perpetrator_recognizer";
+        public const String PROGRESS_THREAD = "face_recog_progress";
 
-        public static String[] ALL_THREADS                               = { 
-                                                                                ALERT_THREAD,
+        public static String[] ALL_THREADS = { 
+                                                                                PERP_ALERT_THREAD,
+                                                                                STUDENT_ALERT_THREAD,
                                                                                 CAMERA_THREAD,
-                                                                                DISPLAY_UPDATER, 
+                                                                                REVIEW_DISPLAY_UPDATER,
+                                                                                LIVE_DISPLAY_UPDATER, 
                                                                                 REVIEW_FACE_DETECTOR,
                                                                                 LIVE_FACE_DETECTOR,
-                                                                                PERP_RECOGNIZER, 
-                                                                                FACE_DRAWER, 
-                                                                                FACE_TRACKER,
+                                                                                FACE_DRAWER,       
                                                                                 FOOTAGE_SAVER, 
                                                                                 VIDEO_THREAD,
-                                                                                PROGRESS_THREAD
+                                                                                PROGRESS_THREAD,
+                                                                                 PERP_RECOGNIZER
+                                                                              };
+        public static String[] ALL_LIVE_THREADS = { 
+                                                                                PERP_ALERT_THREAD,                                                                                
+                                                                                CAMERA_THREAD,                                                                               
+                                                                                LIVE_DISPLAY_UPDATER,                                                                                 
+                                                                                LIVE_FACE_DETECTOR,                                                                                       
+                                                                                FOOTAGE_SAVER,                                                                                
+                                                                                PROGRESS_THREAD,
+                                                                                PERP_RECOGNIZER
+                                                                              };
+
+        public static String[] ALL_REVIEW_THREADS = {                                                                                
+                                                                                STUDENT_ALERT_THREAD,                                                                               
+                                                                                REVIEW_DISPLAY_UPDATER,                                                                                 
+                                                                                REVIEW_FACE_DETECTOR,                                                                                
+                                                                                FACE_DRAWER,                                                                                       
+                                                                                VIDEO_THREAD,                                                                                                                                                               
                                                                               };
 
         //ALL THREADS AVAILABLE
-        private static CameraOutputGrabberThread cam_output              = null;
-        private static VideoFromFileThread video_from_file_grabber       = null;
-        private static FaceDetectingThread review_face_detector          = null;
-        private static LiveStreamFaceDetectingThread live_face_detector  = null;
-        private static DisplayUpdaterThread display_updater              = null;
-        private static FaceTrackingThread face_tracker                   = null;
-        private static AlertGenerationThread alert_thread                = null;
-        private static FaceDrawingThread face_drawer                     = null;
-        private static FootageSavingThread footage_saver                 = null;
-        private static PerpetratorRecognitionThread perp_recognizer      = null;
+        private static CameraOutputGrabberThread cam_output = null;
+        private static VideoFromFileThread video_from_file_grabber = null;
+        private static ReviewFaceDetectingThread review_face_detector = null;
+        private static LiveStreamFaceDetectingThread live_face_detector = null;
+        private static DisplayUpdaterThread live_display_updater = null;
+        private static DisplayUpdaterThread review_display_updater = null;
+        private static PerpetratorAlertThread perp_alert_thread = null;
+        private static StudentAlertThread student_alert_thread = null;
+        private static FaceDrawingThread face_drawer = null;
+        private static FootageSavingThread footage_saver = null;
+        private static PerpetratorRecognitionThread perp_recognizer = null;
         private static FaceRecognitionProgressThread face_recog_progress = null;
 
-        //STARTS THE THREADS DEPENDING ON THE STATE OF THE APP
-        public static bool StartIntroThreads(bool review_mode)
+        //STARTS THE THREADS RESPONSIBLEFOR STREAMING LIVE FOOTAGE FROM CCTV CAMERAS
+        public static bool StartLiveStreamThreads()
         {
-            if (review_mode)
-            {
-                CreateVideoFileGrabberThread();
-                CreateReviewFaceDetectingThread();
-                CreateNewAlertGenerationThread();
-            }
+            bool review_mode = false;
 
-            else
-            {
-                CreateNewPerpetratorRecognizerThread();
-                CreateNewCameraOutputGrabberThread();
-                CreateLiveStreamFaceDetectorThread();
-                CreateFaceRecogProgressThread();
-                //CreateFootageSaverThread();
-                CreateNewAlertGenerationThread();
-
-            }
-
+            CreateNewPerpetratorRecognitionThread();
+            CreateNewCameraOutputGrabberThread();
+            CreateLiveStreamFaceDetectorThread();
+            CreateFaceRecogProgressThread();
+            //CreateFootageSaverThread();
+            CreateNewPerpAlertThread();
             CreateDisplayUpdaterThread(review_mode);
 
-            return false;
+            return true;
         }
 
-        private static FaceRecognitionProgressThread CreateFaceRecogProgressThread()
+        //STARTS THREADS RESPONSIBLE FOR STREAMING FRAMES FROM A VIDEO FILE
+        public static bool StartReviewFootageThreads()
         {
-            if (face_recog_progress     == null)
+            bool review_mode = true;
+
+            CreateVideoFileGrabberThread();
+            CreateReviewFaceDetectingThread();
+            CreateNewStudentAlertThread();
+            CreateDisplayUpdaterThread(review_mode);
+
+            return true;
+        }
+
+
+
+        public static FaceRecognitionProgressThread CreateFaceRecogProgressThread()
+        {
+            if (face_recog_progress == null)
             {
-                face_recog_progress     = new FaceRecognitionProgressThread();
+                face_recog_progress = new FaceRecognitionProgressThread();
                 face_recog_progress.StartWorking();
             }
             return face_recog_progress;
         }
 
-        private static PerpetratorRecognitionThread CreateNewPerpetratorRecognizerThread()
+        public static PerpetratorRecognitionThread CreateNewPerpetratorRecognitionThread()
         {
-            if (perp_recognizer         == null)
+            if (perp_recognizer == null)
             {
-                perp_recognizer         = new PerpetratorRecognitionThread();
+                perp_recognizer = new PerpetratorRecognitionThread();
                 perp_recognizer.StartWorking();
             }
             return perp_recognizer;
         }
 
 
-        //STARTS A NEW ALERT GENERATION THREAD
-        private static AlertGenerationThread CreateNewAlertGenerationThread()
+        //STARTS A NEW ALERT GENERATION THREAD FOR IDENTIFIED PERPS
+        public static PerpetratorAlertThread CreateNewPerpAlertThread()
         {
-            if (alert_thread            == null)
+            if (perp_alert_thread == null)
             {
-                alert_thread            = new AlertGenerationThread();
-                alert_thread.StartWorking();
+                perp_alert_thread = new PerpetratorAlertThread();
+                perp_alert_thread.StartWorking();
             }
-            return alert_thread;
+            return perp_alert_thread;
+        }
+
+        //STARTS A NEW ALERT GENERATION THREAD FOR IDENTIFIED STUDENTS
+        public static StudentAlertThread CreateNewStudentAlertThread()
+        {
+            if (student_alert_thread == null)
+            {
+                student_alert_thread = new StudentAlertThread();
+                student_alert_thread.StartWorking();
+            }
+            return student_alert_thread;
         }
 
 
         //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE CAMERA IN THE BACKGROUND
         private static CameraOutputGrabberThread CreateNewCameraOutputGrabberThread()
         {
-            if (cam_output              == null)
+            if (cam_output == null)
             {
-                cam_output              = new CameraOutputGrabberThread();
+                cam_output = new CameraOutputGrabberThread();
                 cam_output.StartWorking();
             }
             return cam_output;
@@ -129,11 +165,11 @@ namespace MetroFramework.Demo.Factories
         }
 
         //STARTS THREAD TO DETECT FACES IN FRAME OFF THE MAIN THREAD
-        private static FaceDetectingThread CreateReviewFaceDetectingThread()
+        private static ReviewFaceDetectingThread CreateReviewFaceDetectingThread()
         {
-            if (review_face_detector    == null)
+            if (review_face_detector == null)
             {
-                review_face_detector    = new FaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height);
+                review_face_detector = new ReviewFaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height);
                 review_face_detector.StartWorking();
             }
             return review_face_detector;
@@ -142,9 +178,9 @@ namespace MetroFramework.Demo.Factories
         //STARTS THREAD TO DETECT FACES IN FRAME OFF THE MAIN THREAD
         private static LiveStreamFaceDetectingThread CreateLiveStreamFaceDetectorThread()
         {
-            if (live_face_detector      == null)
+            if (live_face_detector == null)
             {
-                live_face_detector      = new LiveStreamFaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height);
+                live_face_detector = new LiveStreamFaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height);
                 live_face_detector.StartWorking();
             }
             return live_face_detector;
@@ -153,9 +189,9 @@ namespace MetroFramework.Demo.Factories
         //STARTS A NEW FOOTAGE SAVING THREAD
         private static FootageSavingThread CreateFootageSaverThread()
         {
-            if (footage_saver           == null)
+            if (footage_saver == null)
             {
-                footage_saver           = new FootageSavingThread(CameraOutputGrabberThread.camera_capture);
+                footage_saver = new FootageSavingThread(CameraOutputGrabberThread.camera_capture);
                 footage_saver.StartWorking();
             }
             return footage_saver;
@@ -164,22 +200,25 @@ namespace MetroFramework.Demo.Factories
         //STARTS A THREAD TO CONTINUOUSLY UPDATE THE VIDEO DISPLAY
         private static DisplayUpdaterThread CreateDisplayUpdaterThread(bool review_mode)
         {
-            if (display_updater         == null)
+
+            if (review_mode)
             {
-
-                if (review_mode)
+                if (review_display_updater == null)
                 {
-
-                    display_updater     = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"), review_mode);
+                    review_display_updater = new ReviewDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"));
+                    review_display_updater.StartWorking();
                 }
-                else
-                {
-                    display_updater     = new DisplayUpdaterThread((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"), review_mode);
-                }
-
-                display_updater.StartWorking();
+                return review_display_updater;
             }
-            return display_updater;
+            else
+            {
+                if (live_display_updater == null)
+                {
+                    live_display_updater = new LiveDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"));
+                    live_display_updater.StartWorking();
+                }
+                return live_display_updater;
+            }
         }
 
 
@@ -188,14 +227,20 @@ namespace MetroFramework.Demo.Factories
         {
             switch (thread_id)
             {
-                case ThreadFactory.ALERT_THREAD:
-                    return alert_thread;
+                case ThreadFactory.PERP_ALERT_THREAD:
+                    return perp_alert_thread;
+
+                case ThreadFactory.STUDENT_ALERT_THREAD:
+                    return student_alert_thread;
 
                 case ThreadFactory.CAMERA_THREAD:
                     return cam_output;
 
-                case ThreadFactory.DISPLAY_UPDATER:
-                    return display_updater;
+                case ThreadFactory.REVIEW_DISPLAY_UPDATER:
+                    return review_display_updater;
+
+                case ThreadFactory.LIVE_DISPLAY_UPDATER:
+                    return live_display_updater;
 
                 case ThreadFactory.REVIEW_FACE_DETECTOR:
                     return review_face_detector;
@@ -212,9 +257,6 @@ namespace MetroFramework.Demo.Factories
                 case ThreadFactory.PROGRESS_THREAD:
                     return face_recog_progress;
 
-                case ThreadFactory.FACE_TRACKER:
-                    return face_tracker;
-
                 case ThreadFactory.FOOTAGE_SAVER:
                     return footage_saver;
 
@@ -229,15 +271,24 @@ namespace MetroFramework.Demo.Factories
         {
             switch (thread_id)
             {
-                case ThreadFactory.ALERT_THREAD:
-                    if (alert_thread != null) { alert_thread.Pause(); }
+                case ThreadFactory.PERP_ALERT_THREAD:
+                    if (perp_alert_thread != null) { perp_alert_thread.Pause(); }
                     break;
+
+                case ThreadFactory.STUDENT_ALERT_THREAD:
+                    if (student_alert_thread != null) { student_alert_thread.Pause(); }
+                    break;
+
                 case ThreadFactory.CAMERA_THREAD:
                     if (cam_output != null) { cam_output.Pause(); }
                     break;
 
-                case ThreadFactory.DISPLAY_UPDATER:
-                    if (display_updater != null) { display_updater.Pause(); }
+                case ThreadFactory.LIVE_DISPLAY_UPDATER:
+                    if (live_display_updater != null) { live_display_updater.Pause(); }
+                    break;
+
+                case ThreadFactory.REVIEW_DISPLAY_UPDATER:
+                    if (review_display_updater != null) { review_display_updater.Pause(); }
                     break;
 
                 case ThreadFactory.REVIEW_FACE_DETECTOR:
@@ -259,10 +310,6 @@ namespace MetroFramework.Demo.Factories
                 case ThreadFactory.FACE_DRAWER:
                     break;
 
-                case ThreadFactory.FACE_TRACKER:
-                    if (face_tracker != null) { face_tracker.Pause(); }
-                    break;
-
                 case ThreadFactory.FOOTAGE_SAVER:
                     if (footage_saver != null) { footage_saver.Pause(); }
                     break;
@@ -275,13 +322,33 @@ namespace MetroFramework.Demo.Factories
         }
 
         //THIS PAUSES ALL RUNNING THREADS
+        public static bool PauseAllLiveStreamThreads()
+        {
+            foreach (var thread in ThreadFactory.ALL_LIVE_THREADS)
+            {
+                PauseThread(thread);
+            }
+            return true;
+        }
+
+        //THIS PAUSES ALL RUNNING THREADS
+        public static bool PauseAllReviewFootageThreads()
+        {
+            foreach (var thread in ThreadFactory.ALL_REVIEW_THREADS)
+            {
+                PauseThread(thread);
+            }
+            return true;
+        }
+
+        //THIS PAUSES ALL RUNNING THREADS
         public static bool PauseAllThreads()
         {
             foreach (var thread in ThreadFactory.ALL_THREADS)
             {
                 PauseThread(thread);
             }
-            return false;
+            return true;
         }
 
         //THIS RESUMES A THREAD GIVEN ITS ID
@@ -289,16 +356,24 @@ namespace MetroFramework.Demo.Factories
         {
             switch (thread_id)
             {
-                case ThreadFactory.ALERT_THREAD:
-                    if (alert_thread != null) { alert_thread.Resume(); }
+                case ThreadFactory.PERP_ALERT_THREAD:
+                    if (perp_alert_thread != null) { perp_alert_thread.Resume(); }
+                    break;
+
+                case ThreadFactory.STUDENT_ALERT_THREAD:
+                    if (student_alert_thread != null) { student_alert_thread.Resume(); }
                     break;
 
                 case ThreadFactory.CAMERA_THREAD:
                     if (cam_output != null) { cam_output.Resume(); }
                     break;
 
-                case ThreadFactory.DISPLAY_UPDATER:
-                    if (display_updater != null) { display_updater.Resume(); }
+                case ThreadFactory.LIVE_DISPLAY_UPDATER:
+                    if (live_display_updater != null) { live_display_updater.Resume(); }
+                    break;
+
+                case ThreadFactory.REVIEW_DISPLAY_UPDATER:
+                    if (review_display_updater != null) { review_display_updater.Resume(); }
                     break;
 
                 case ThreadFactory.REVIEW_FACE_DETECTOR:
@@ -320,10 +395,6 @@ namespace MetroFramework.Demo.Factories
                     if (face_recog_progress != null) { face_recog_progress.Resume(); }
                     break;
 
-                case ThreadFactory.FACE_TRACKER:
-                    if (face_tracker != null) { face_tracker.Resume(); }
-                    break;
-
                 case ThreadFactory.FOOTAGE_SAVER:
                     if (footage_saver != null) { footage_saver.Resume(); }
                     break;
@@ -331,6 +402,26 @@ namespace MetroFramework.Demo.Factories
                 case ThreadFactory.VIDEO_THREAD:
                     if (video_from_file_grabber != null) { video_from_file_grabber.Resume(); }
                     break;
+            }
+            return true;
+        }
+
+        //THIS RESUMES ALL RUNNING THREADS
+        public static bool ResumeAllLiveStreamThreads()
+        {
+            foreach (var thread in ThreadFactory.ALL_LIVE_THREADS)
+            {
+                ResumeThread(thread);
+            }
+            return true;
+        }
+
+        //THIS RESUMES ALL RUNNING THREADS
+        public static bool ResumeAllReviewFootageThreads()
+        {
+            foreach (var thread in ThreadFactory.ALL_REVIEW_THREADS)
+            {
+                ResumeThread(thread);
             }
             return true;
         }
@@ -350,15 +441,24 @@ namespace MetroFramework.Demo.Factories
         {
             switch (thread_id)
             {
-                case ThreadFactory.ALERT_THREAD:
-                    if (alert_thread != null) { alert_thread.RequestStop(); }
+                case ThreadFactory.PERP_ALERT_THREAD:
+                    if (perp_alert_thread != null) { perp_alert_thread.RequestStop(); }
                     break;
+
+                case ThreadFactory.STUDENT_ALERT_THREAD:
+                    if (student_alert_thread != null) { student_alert_thread.RequestStop(); }
+                    break;
+
                 case ThreadFactory.CAMERA_THREAD:
                     if (cam_output != null) { cam_output.RequestStop(); }
                     break;
 
-                case ThreadFactory.DISPLAY_UPDATER:
-                    if (display_updater != null) { display_updater.RequestStop(); }
+                case ThreadFactory.LIVE_DISPLAY_UPDATER:
+                    if (live_display_updater != null) { live_display_updater.RequestStop(); }
+                    break;
+
+                case ThreadFactory.REVIEW_DISPLAY_UPDATER:
+                    if (review_display_updater != null) { review_display_updater.RequestStop(); }
                     break;
 
                 case ThreadFactory.REVIEW_FACE_DETECTOR:
@@ -383,10 +483,6 @@ namespace MetroFramework.Demo.Factories
                     }
                     break;
 
-                case ThreadFactory.FACE_TRACKER:
-                    if (face_tracker != null) { face_tracker.RequestStop(); }
-                    break;
-
                 case ThreadFactory.FOOTAGE_SAVER:
                     if (footage_saver != null) { footage_saver.RequestStop(); }
                     break;
@@ -409,49 +505,71 @@ namespace MetroFramework.Demo.Factories
             return true;
         }
 
+        public static bool StopLiveStreamThreads()
+        {
+            foreach (var thread in ALL_LIVE_THREADS)
+            {
+                StopThread(thread);
+            }
+            return true;
+        }
+
+        public static bool StopReviewStreamThreads()
+        {
+            foreach (var thread in ALL_REVIEW_THREADS)
+            {
+                StopThread(thread);
+            }
+            return true;
+        }
+
         //THIS RELEASES ALL RESOURCES CONSUMED BY A THREAD GIVEN ITS ID
         public static bool ReleaseThreadResources(String thread_id)
         {
             switch (thread_id)
             {
-                case ThreadFactory.ALERT_THREAD:
-                    alert_thread = null;
+                case ThreadFactory.PERP_ALERT_THREAD:
+                    perp_alert_thread       = null;
+                    break;
+
+                case ThreadFactory.STUDENT_ALERT_THREAD:
+                    student_alert_thread    = null;
                     break;
 
                 case ThreadFactory.CAMERA_THREAD:
-                    cam_output = null;
+                    cam_output              = null;
                     break;
 
-                case ThreadFactory.DISPLAY_UPDATER:
-                    display_updater = null;
+                case ThreadFactory.LIVE_DISPLAY_UPDATER:
+                    live_display_updater    = null;
+                    break;
+
+                case ThreadFactory.REVIEW_DISPLAY_UPDATER:
+                    review_display_updater  = null;
                     break;
 
                 case ThreadFactory.REVIEW_FACE_DETECTOR:
-                    review_face_detector = null;
+                    review_face_detector    = null;
                     break;
 
                 case ThreadFactory.LIVE_FACE_DETECTOR:
-                    live_face_detector = null;
+                    live_face_detector      = null;
                     break;
 
                 case ThreadFactory.PERP_RECOGNIZER:
-                    perp_recognizer = null;
+                    perp_recognizer         = null;
                     break;
 
                 case ThreadFactory.PROGRESS_THREAD:
-                    face_recog_progress = null;
+                    face_recog_progress     = null;
                     break;
 
                 case ThreadFactory.FACE_DRAWER:
-                    face_drawer = null;
-                    break;
-
-                case ThreadFactory.FACE_TRACKER:
-                    face_tracker = null;
+                    face_drawer             = null;
                     break;
 
                 case ThreadFactory.FOOTAGE_SAVER:
-                    footage_saver = null;
+                    footage_saver           = null;
                     break;
 
                 case ThreadFactory.VIDEO_THREAD:

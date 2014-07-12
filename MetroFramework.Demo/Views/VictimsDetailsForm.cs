@@ -30,10 +30,12 @@ namespace MetroFramework.Demo.Views
 
         //FLAG INDICATING WHETHER THERE ARE OTHER VICTIMS OF THIS CRIME
         private bool close_after_saving                       = false;
+        //private bool another_crime;
 
         //NEW VICTIM CONSTRUCTOR
         public VictimsDetailsForm(Perpetrator perp,Crime crime)
         {
+            //this.another_crime = false;
             this.perpetrator                                  = perp;
             this.crime                                        = crime;
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace MetroFramework.Demo.Views
             this.is_a_student_comboBox.Enabled                = false;
             this.items_lost_textbox.Enabled                   = false;
             this.label1.Visible                               = false;
-            this.another_victim_button.Visible                = false;
+            this.button_another_victim.Visible                = false;
             this.panel1.Size = new Size(548, 350);
             this.Size = new Size(568, 400);
         }
@@ -95,7 +97,11 @@ namespace MetroFramework.Demo.Views
         {
             timer1.Start();
 
+            //INDICATE WHETHER THERE IS ANOTHER VICTIM
             close_after_saving                                = true;
+
+            //INDICATE THAT THIS IS THE ONLY CRIME THE PERP HAS COMMITTED
+            PerpetratorDetailsForm.another_crime = false;
 
             //save victim details
             SaveVictimDetails();        
@@ -106,6 +112,11 @@ namespace MetroFramework.Demo.Views
         private void SaveVictimDetails()
         {
             //get victim details
+            button_save.Enabled                               = false;
+            button_another_victim.Enabled                     = false;
+            button_another_crime.Enabled                      = false;
+
+            //get victim details
             String name                                       = name_text_box.Text;
             String d_o_b                                      = date_of_birth.Text;
             String gender                                     = gender_comoboBox.Text;
@@ -113,27 +124,30 @@ namespace MetroFramework.Demo.Views
             
 
             //save perp
-            PerpetratorsManager.Save(perpetrator);
+            if (close_after_saving) 
+            { 
+            //PerpetratorsManager.Save(perpetrator);
 
             //set the perp id in the crime
-            crime.perpetrator_id = perpetrator.id;
+            //crime.perpetrator_id = perpetrator.id;
 
             //save crime
-            CrimesManager.Save(crime);
+            //CrimesManager.Save(crime);
+            }
 
-            StolenItem[] items_lost                           = GetItemsLost();
+            //StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            //victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            VictimsManager.Save(victim);
+            //VictimsManager.Save(victim);
 
             //SAVE EACH STOLEN ITEM IN THE DATABASE
-            foreach (var item in items_lost) 
+            //foreach (var item in items_lost) 
             {
                 //item.victims_id = victim.id;
-                StolenItemsManager.Save(item);
+                //StolenItemsManager.Save(item);
             }
 
     
@@ -157,17 +171,19 @@ namespace MetroFramework.Demo.Views
 
         }
 
-        //
+        //HELPS A USER ADD ANOTHER VICTIM TO THE CRIME
         private void another_victim_button_Click(object sender, EventArgs e)
         {
+            //START TIMER
             timer1.Start();
 
+            //DO NOT CLOSE FORM AFTER SAVING
             close_after_saving                                = false;
 
-            //save the details of the victim
+            //SAVE THE DETAILS OF THE VICTIM
             SaveVictimDetails();
 
-            //reset text values
+            //RESET TEXT VALUES
             ResetTextValues();
 
         }
@@ -217,25 +233,36 @@ namespace MetroFramework.Demo.Views
         private void DisplayResultsOfSaving()
         {
             //DISABLE SOME STUFF
+            button_save.Enabled = true;
+            button_another_victim.Enabled = true;
+            button_another_crime.Enabled = true;
             progressBar.Visible                               = false;
             progressBar.Value                                 = 0;
             label1.Visible                                    = true;
 
             //display results of operations
             label1.ForeColor                                  = Color.Green;
-            label1.Text                                       = "Data Saved";
+            label1.Text                                       = "Enter Details Of the other Victim";
 
             //if details were saved
             if (close_after_saving) 
             {
+                if (PerpetratorDetailsForm.another_crime) 
+                {
+                    this.Close();
+                    return;
+                }
+               
                 if (perpetrator.is_a_student)
                 {
+                    
                     //SHOW PROGRESS INDICATOR
                     Singleton.MAIN_WINDOW.EnableReviewControls(false);
                    
                     //START FACE RECOGNITION  OFF THE GUI THREAD
                     ThreadPool.QueueUserWorkItem(StartFaceRecognition);   
                 }
+
 
                 //close this form
                 this.Close();
@@ -248,7 +275,22 @@ namespace MetroFramework.Demo.Views
         {
             Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
             FaceRecognitionThread face_recognizer = new StudentRecognitionThread(perpetrator.faces);
-            face_recognizer.StartWorking();
+             face_recognizer.StartWorking();
+        }
+
+        private void button_another_crime_Click(object sender, EventArgs e)
+        {
+            //START TIMER
+            timer1.Start();
+
+            //DO NOT CLOSE FORM AFTER SAVING
+            close_after_saving = true;
+
+            PerpetratorDetailsForm.another_crime = true;
+
+            //SAVE THE DETAILS OF THE VICTIM
+            SaveVictimDetails();
+
         }
 
 

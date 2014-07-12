@@ -11,12 +11,13 @@ namespace MetroFramework.Demo.Threads
         //face of the perpetrator to be recognized
         protected Image<Gray, byte> face_to_recognize = null;
         protected Entity perp_or_student              = null;
-        protected const int SLEEP_TIME                = 30;
+      
         
 
         public FaceRecognitionThread(Image<Gray, byte> face_to_recognize)
             : base()
         {
+            SLEEP_TIME = 30;
             this.face_to_recognize                    = face_to_recognize;
             this.perp_or_student                      = null;
             

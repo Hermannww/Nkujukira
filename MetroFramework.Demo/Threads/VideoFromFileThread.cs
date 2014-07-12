@@ -78,10 +78,11 @@ namespace MetroFramework.Demo.Threads
                     int width      =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
                     int height     =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
 
-                    Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame,width,height));
+                    Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame,width,height));
                 
                     return true;
                 }
+
                 //FRAME IS NULL 
                 //MEANING END OF FILE IS REACHED
                 else

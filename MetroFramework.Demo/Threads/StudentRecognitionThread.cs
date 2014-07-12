@@ -43,6 +43,7 @@ namespace MetroFramework.Demo.Threads
         private List<Image<Gray, byte>> faces_to_recognize = new List<Image<Gray, byte>>();
 
         private FacesManager faces_manager;
+        public static bool WORK_DONE=false;
 
         //CONSTRUCTOR
         public StudentRecognitionThread(Image<Gray, byte>[] faces_to_recognize)
@@ -50,7 +51,7 @@ namespace MetroFramework.Demo.Threads
         {
             running            = true;
             paused             = false;
-
+            WORK_DONE = false;
             this.faces_manager = new FacesManager();
 
             this.faces_to_recognize.AddRange(faces_to_recognize);
@@ -114,7 +115,9 @@ namespace MetroFramework.Demo.Threads
             Debug.WriteLine("Count = " + faces_to_recognize.Count);
             if (!paused)
             {
+                //STOP SHOWING THE PROGRESS INDICATOR 
                 DisableSpinningProgressIndicator();
+
                 //GET ALL FACES TO BE RECOGNIZED
                 List<Image<Gray, byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
 
@@ -133,11 +136,22 @@ namespace MetroFramework.Demo.Threads
                     //GENERATE AN ALARM IF RECOGNITION IS SUCESSFUL
                     GenerateAlarm();
 
-                    ThreadFactory.GetThread(ThreadFactory.ALERT_THREAD).Resume();
+                    //TURN ON ALERT THREAD
+                    ThreadFactory.GetThread(ThreadFactory.STUDENT_ALERT_THREAD).Resume();
                 }
                
             }
 
+            CleanUp();
+
+
+        }
+
+        private void CleanUp()
+        {
+            WORK_DONE = true;
+            faces_manager.ClearEnrolledFaces();
+            faces_manager = null;
 
         }
 

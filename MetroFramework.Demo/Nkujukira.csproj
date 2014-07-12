@@ -77,7 +77,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -87,6 +88,18 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>43369E8D34F6B9743DE82018E787A1F494727831</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Nkujukira_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MetroFramework.Demo.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
@@ -211,6 +224,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Entitities\Camera.cs" />
+    <Compile Include="Entitities\FacePosition.cs" />
     <Compile Include="Entitities\FaceRecognitionResult.cs" />
     <Compile Include="Entitities\Perpetrator.cs" />
     <Compile Include="Entitities\Setting.cs" />
@@ -229,8 +243,12 @@
     <Compile Include="Managers\StolenItemsManager.cs" />
     <Compile Include="Managers\StudentsManager.cs" />
     <Compile Include="Threads\FaceRecognitionProgressThread.cs" />
+    <Compile Include="Threads\LiveDisplayUpdater.cs" />
     <Compile Include="Threads\LiveStreamFaceDetectingThread.cs" />
+    <Compile Include="Threads\PerpetratorAlertThread.cs" />
     <Compile Include="Threads\PerpetratorRecognitionThread.cs" />
+    <Compile Include="Threads\ReviewDisplayUpdater.cs" />
+    <Compile Include="Threads\StudentAlertThread.cs" />
     <Compile Include="Threads\StudentRecognitionThread.cs" />
     <Compile Include="Views\AddNewUserForm.cs">
       <SubType>Form</SubType>
@@ -265,7 +283,6 @@
     <Compile Include="Entitities\Crime.cs" />
     <Compile Include="Entitities\Entity.cs" />
     <Compile Include="Entitities\Face.cs" />
-    <Compile Include="Entitities\Sound.cs" />
     <Compile Include="Entitities\Student.cs" />
     <Compile Include="Entitities\Admin.cs" />
     <Compile Include="Entitities\Victim.cs" />
@@ -316,12 +333,6 @@
     <Compile Include="Managers\SoundManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\WindowDecorator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\WindowDecorator.Designer.cs">
-      <DependentUpon>WindowDecorator.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\PerpetratorDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,9 +348,8 @@
     </Compile>
     <Compile Include="Threads\AlertGenerationThread.cs" />
     <Compile Include="Threads\CameraOutputGrabberThread.cs" />
-    <Compile Include="Threads\FaceDetectingThread.cs" />
+    <Compile Include="Threads\ReviewFaceDetectingThread.cs" />
     <Compile Include="Threads\FaceDrawingThread.cs" />
-    <Compile Include="Threads\FaceTrackingThread.cs" />
     <Compile Include="Threads\FootageSavingThread.cs" />
     <Compile Include="Threads\AbstractThread.cs" />
     <Compile Include="Threads\DisplayUpdaterThread.cs" />
@@ -455,6 +465,7 @@
     <None Include="Default.srprofile">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Nkujukira_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -465,10 +476,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="runtests.cmd" />
-    <None Include="SpecRunTestProfile.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -539,75 +546,35 @@
     <Content Include="Resources\Images\about-us.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\AttachFile.png" />
-    <Content Include="Resources\Images\BookNote.png" />
-    <Content Include="Resources\Images\BookNoteWhite.png" />
     <Content Include="Resources\Images\cam4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Charts.png" />
-    <Content Include="Resources\Images\CheckMark.png" />
-    <Content Include="Resources\Images\ColorScheme.png" />
-    <Content Include="Resources\Images\contact.png" />
-    <Content Include="Resources\Images\Delete.png" />
-    <Content Include="Resources\Images\Delete1.png" />
-    <Content Include="Resources\Images\DeleteWhite.png" />
-    <Content Include="Resources\Images\Details.png" />
     <Content Include="Resources\Images\face.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\help.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Invoice.png" />
-    <Content Include="Resources\Images\MarkAsPaid.png" />
-    <Content Include="Resources\Images\MarkAsPaidWhite.png" />
-    <Content Include="Resources\Images\NewInvoice.png" />
-    <Content Include="Resources\Images\NewInvoice1.png" />
-    <Content Include="Resources\Images\NewInvoiceWhite.png" />
-    <Content Include="Resources\Images\NewNote.png" />
     <Content Include="Resources\Images\nk_bg2.bmp" />
     <Content Include="Resources\Images\nk_bg2.png" />
-    <Content Include="Resources\Images\PaperClip.png" />
-    <Content Include="Resources\Images\PaperClipWhite.png" />
-    <Content Include="Resources\Images\Person.png" />
-    <Content Include="Resources\Images\Print.png" />
-    <Content Include="Resources\Images\Print1.png" />
-    <Content Include="Resources\Images\PrintWhite.png" />
     <Content Include="Resources\Images\replay1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\settings.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Table.png" />
-    <Content Include="Resources\Images\Table1.png" />
-    <Content Include="Resources\Images\TableReportt.png" />
-    <Content Include="Resources\Images\TableSelectRow.png" />
-    <Content Include="Resources\Images\TableWhite.png" />
-    <Content Include="Resources\Images\TableWhite1.png" />
     <Content Include="Resources\Images\thief1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Unpaid.png" />
-    <Content Include="Resources\Images\User.png" />
-    <Content Include="Resources\Images\User1.png" />
-    <Content Include="Resources\Images\User3.png" />
-    <Content Include="Resources\Images\UserWhite.png" />
-    <Content Include="Resources\Images\UserWhite1.png" />
     <Content Include="Resources\Images\wanted1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\Web.png" />
     <Content Include="Resources\nk_bg2.bmp" />
     <Content Include="Resources\nk_bg2.png" />
     <Content Include="Resources\Sounds\Siren.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Splash.JPG" />
-    <Content Include="ZedGraph.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WMPLib">

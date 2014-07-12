@@ -31,21 +31,35 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectPerpetratorFacesForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.done_button = new MetroFramework.Controls.MetroButton();
             this.image_list_view = new Manina.Windows.Forms.ImageListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.done_button = new MetroFramework.Controls.MetroButton();
+            this.label_separator = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label_separator);
             this.panel1.Controls.Add(this.done_button);
             this.panel1.Controls.Add(this.image_list_view);
             this.panel1.Location = new System.Drawing.Point(11, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(503, 515);
+            this.panel1.Size = new System.Drawing.Size(503, 541);
             this.panel1.TabIndex = 0;
+            // 
+            // done_button
+            // 
+            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.done_button.Location = new System.Drawing.Point(155, 476);
+            this.done_button.Name = "done_button";
+            this.done_button.Size = new System.Drawing.Size(204, 48);
+            this.done_button.TabIndex = 28;
+            this.done_button.Text = "Done";
+            this.done_button.UseSelectable = true;
+            this.done_button.Click += new System.EventHandler(this.DoneButton_Click);
             // 
             // image_list_view
             // 
@@ -69,23 +83,19 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // done_button
+            // label_separator
             // 
-            this.done_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.done_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.done_button.Location = new System.Drawing.Point(158, 451);
-            this.done_button.Name = "done_button";
-            this.done_button.Size = new System.Drawing.Size(204, 48);
-            this.done_button.TabIndex = 28;
-            this.done_button.Text = "Done";
-            this.done_button.UseSelectable = true;
-            this.done_button.Click += new System.EventHandler(this.DoneButton_Click);
+            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_separator.Location = new System.Drawing.Point(-1, 457);
+            this.label_separator.Name = "label_separator";
+            this.label_separator.Size = new System.Drawing.Size(503, 2);
+            this.label_separator.TabIndex = 29;
             // 
             // SelectPerpetratorFacesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 589);
+            this.ClientSize = new System.Drawing.Size(526, 611);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -106,5 +116,6 @@
         private System.Windows.Forms.ImageList imageList1;
         private Manina.Windows.Forms.ImageListView image_list_view;
         private Controls.MetroButton done_button;
+        private System.Windows.Forms.Label label_separator;
     }
 }

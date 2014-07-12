@@ -68,7 +68,7 @@ namespace MetroFramework.Demo.Views
 
         private void PlayVideoToDetectMoreFaces()
         {
-            FaceDetectingThread.its_time_to_pick_perpetrator_faces = true;
+            ReviewFaceDetectingThread.its_time_to_pick_perpetrator_faces = true;
 
             Singleton.MAIN_WINDOW.ResumeVideo();
 
@@ -77,7 +77,7 @@ namespace MetroFramework.Demo.Views
         private void DoneButton_Click(object sender, EventArgs e)
         {
             //reset mode of face detecting thread
-            FaceDetectingThread.its_time_to_pick_perpetrator_faces = false;
+            ReviewFaceDetectingThread.its_time_to_pick_perpetrator_faces = false;
 
             //create array for the identified perpetrator faces
             Image<Gray, byte>[] perpetrator_faces = new Image<Gray, byte>[image_list_view.SelectedItems.Count];

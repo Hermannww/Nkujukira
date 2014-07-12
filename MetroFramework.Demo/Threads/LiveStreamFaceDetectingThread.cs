@@ -107,7 +107,7 @@ namespace MetroFramework.Demo.Threads
         public void DetectFacesInFrame()
         {
             //try to get a frame from the shared datastore for captured frames
-            bool sucessfull = Singleton.FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
+            bool sucessfull = Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
 
 
             //if ok

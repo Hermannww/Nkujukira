@@ -220,7 +220,7 @@ namespace MetroFramework.Demo.Managers
         {
             try
             {
-                String path = "";
+             
                 String insert_sql = "INSERT INTO " + TABLE_NAME + " (DATE,TIME,TYPE,CRIME,DETAILS,PERPETRATOR_ID) values(@date,@time,@type,@crime,@details,@perp_id) ";
 
                 //sql command
@@ -254,8 +254,6 @@ namespace MetroFramework.Demo.Managers
             try
             {
                 String update_sql = "UPDATE " + TABLE_NAME + " SET DATE=@date ,TIME=@time,TYPE=@type,CRIME=@crime,DETAISL=@details,PERPETRATOR_ID=@perp_id WHERE ID=@id";
-                String path = "";
-
                 //Sql command
                 sql_command = new MySqlCommand();
                 sql_command.Connection = (MySqlConnection)database.OpenConnection();

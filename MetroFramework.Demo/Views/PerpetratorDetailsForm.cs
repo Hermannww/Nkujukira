@@ -23,12 +23,13 @@ namespace MetroFramework.Demo
     public partial class PerpetratorDetailsForm : MetroForm
     {
         private Perpetrator perpetrator;
+        public static bool another_crime;
 
         //CONSTRUCTOR USED WHEN U WANT TO CAPTURE DETAILS ABOUT A PERP
         public PerpetratorDetailsForm(Perpetrator perpetrator)
         {
             InitializeComponent();
-
+            another_crime = true;
             this.perpetrator                     = perpetrator;
             comboBox_is_a_student.SelectedIndex  = 0;
             comboBox_gender.SelectedIndex        = 0;
@@ -41,7 +42,7 @@ namespace MetroFramework.Demo
         public PerpetratorDetailsForm(Perpetrator perpetrator,bool alert_mode)
         {
             InitializeComponent();
-
+            another_crime = true;
             this.perpetrator                     = perpetrator;
             SetPerpetratorDetails();
             DisableControls();
@@ -84,6 +85,9 @@ namespace MetroFramework.Demo
         //EVENT HANDLER
         private void save_button_Click(object sender, EventArgs e)
         {
+            //DISABLE BUTTON
+            button_save.Enabled = false;
+
             //get more perpetrator details
             String name                          = textBox_perpetrator_name.Text.Trim();
             String is_a_student                  = comboBox_is_a_student.Text;
@@ -97,15 +101,17 @@ namespace MetroFramework.Demo
             perpetrator.is_a_student             = is_a_student.Equals("Yes") ? true : false;
             perpetrator.is_still_active          = is_active.Equals("Yes") ? true : false;
 
-            //create crime details form
-            CrimeDetailsForm form                = new CrimeDetailsForm(perpetrator);
+            while (another_crime)
+            {
+                //create crime details form
+                CrimeDetailsForm form = new CrimeDetailsForm(perpetrator);
+
+                //show the form
+                form.ShowDialog();
+            }
 
             //close this one
             this.Close();
-
-            //show the form
-            form.ShowDialog();
-
            
 
         }

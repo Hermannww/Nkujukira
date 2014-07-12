@@ -67,7 +67,7 @@ namespace MetroFramework.Demo.Threads
             {
 
                 //add frame to queue for display
-                Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+                Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
 
                 //add frame to queue for storage
                 //Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
@@ -79,7 +79,7 @@ namespace MetroFramework.Demo.Threads
                 current_frame = FramesManager.ResizeImage(current_frame, width, height);
 
                 //add frame to queue for face detection and recognition
-                Singleton.FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
+                Singleton.LIVE_FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
 
                 //return
                 return true;

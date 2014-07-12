@@ -45,7 +45,7 @@ namespace MetroFramework.Demo.Threads
                 AddImageToQueueForDisplay();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -59,7 +59,7 @@ namespace MetroFramework.Demo.Threads
 
                 
                     Debug.WriteLine("Enqueueing Frame In Face Drawer".ToUpper());
-                    Singleton.FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame);
+                    Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame);
                     //FaceDetectingThread.previous_id = frame_id;
               
 

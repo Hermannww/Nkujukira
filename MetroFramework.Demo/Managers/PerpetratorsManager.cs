@@ -332,7 +332,6 @@ namespace MetroFramework.Demo.Managers
             try
             {
                 String update_sql              = "UPDATE " + TABLE_NAME + " SET NAME=@name ,IS_A_STUDENT=@student,IS_ACTIVE=@active,GENDER=@gender WHERE ID=@id";
-                String path                    = "";
 
                 //Sql command
                 sql_command                    = new MySqlCommand();

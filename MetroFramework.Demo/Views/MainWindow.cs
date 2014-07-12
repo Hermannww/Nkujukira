@@ -55,15 +55,14 @@ namespace MetroFramework.Demo
         {
             try
             {
-                ThreadFactory.StopAllThreads();
-                Singleton.ClearDataStores();
+                ThreadFactory.StopReviewStreamThreads();
+                Singleton.ClearReviewFootageDataStores();
                 ThreadFactory.ReleaseAllThreadResources();
 
                 String file_name = LoadVideoFromFile();
 
                 if (file_name != null)
                 {
-                    InitializeStuff();
                     StartReviewFootageThreads(file_name);
                     EnableControls();
                     return;
@@ -102,10 +101,10 @@ namespace MetroFramework.Demo
             try
             {
                 //STOP ALL RUNNING THREADS
-                ThreadFactory.StopAllThreads();
+                ThreadFactory.StopReviewStreamThreads();
 
                 //CLEARS DATASTORES
-                Singleton.ClearDataStores();
+                Singleton.ClearReviewFootageDataStores();
 
                 //RELEASES ALL RESOURCES BEING HELD BY THREADS
                 ThreadFactory.ReleaseAllThreadResources();
@@ -172,7 +171,7 @@ namespace MetroFramework.Demo
         {
             try
             {
-                if (!DisplayUpdaterThread.WORK_DONE)
+                if (!ReviewDisplayUpdater.WORK_DONE)
                 {
                     //GET VALUE USER HAS SCROLLED TO
                     int value                     = (sender as ColorSlider).Value;
@@ -208,13 +207,13 @@ namespace MetroFramework.Demo
         private void StartReviewFootageThreads(String file_name)
         {
             Singleton.CURRENT_FILE_NAME = file_name;
-            ThreadFactory.StartIntroThreads(true);
+            ThreadFactory.StartReviewFootageThreads();
         }
 
         //STARTS ALL NECESSARY THREADS
         private void StartLiveFootageThreads()
         {
-            ThreadFactory.StartIntroThreads(false);
+            ThreadFactory.StartLiveStreamThreads();
         }
 
         //ATTEMPTS TO PAUSE A RUNNING VIDEO
@@ -235,7 +234,7 @@ namespace MetroFramework.Demo
         //ENABLES DRAWING OF DETECTED FACES ON TO THE FRAMES
         private void show_detected_faces2_CheckedChanged(object sender, EventArgs e)
         {
-            FaceDetectingThread.draw_detected_faces = !FaceDetectingThread.draw_detected_faces;
+            ReviewFaceDetectingThread.draw_detected_faces = !ReviewFaceDetectingThread.draw_detected_faces;
         }
 
         //FORWARDS TO A CERTAIN PART OF A VIDEO
@@ -245,7 +244,7 @@ namespace MetroFramework.Demo
             ThreadFactory.PauseAllThreads();
 
             //CLEAR ALL THE DATA STORES 
-            Singleton.ClearDataStores();
+            Singleton.ClearReviewFootageDataStores();
 
             //GET THE MILLESCONDS TO FORWARD TO
             double millescond_to_jump_to = ratio * VideoFromFileThread.VIDEO_LENGTH;
@@ -254,7 +253,7 @@ namespace MetroFramework.Demo
             ((VideoFromFileThread)ThreadFactory.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
 
             //SET THE TIME ELAPSED ON THE VIDEO
-            ((DisplayUpdaterThread)ThreadFactory.GetThread(ThreadFactory.DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
+            ((ReviewDisplayUpdater)ThreadFactory.GetThread(ThreadFactory.REVIEW_DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
             
             //RESUME PLAYING THE VIDEO
             ThreadFactory.ResumeAllThreads();
@@ -280,7 +279,7 @@ namespace MetroFramework.Demo
                     return file_name;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return null;
@@ -289,9 +288,7 @@ namespace MetroFramework.Demo
         //INITIALIZES ALL DATA STORES AND NECESSARY OBJECTS
         public void InitializeStuff()
         {
-            Singleton.FRAMES_TO_BE_PROCESSED   = new ConcurrentQueue<Image<Bgr, byte>>();
-            Singleton.FRAMES_TO_BE_DISPLAYED   = new ConcurrentQueue<Image<Bgr, byte>>();
-            Singleton.DETECTED_FACES_DATASTORE = new ConcurrentDictionary<int, Face>();
+           
             //show_detected_faces2.Checked       = false;
         }
 
@@ -398,7 +395,7 @@ namespace MetroFramework.Demo
         //HANDLES A CLICK EVENT IN THE REVIEW FOOTAGE BOX
         private void review_footage_image_box_Click(object sender, EventArgs e)
         {
-            if ((ThreadFactory.GetThread(ThreadFactory.DISPLAY_UPDATER) as DisplayUpdaterThread) != null)
+            if ((ThreadFactory.GetThread(ThreadFactory.REVIEW_DISPLAY_UPDATER) as ReviewDisplayUpdater) != null)
             {
                 if (review_footage_image_box.Image!=null)
                 {
@@ -466,27 +463,27 @@ namespace MetroFramework.Demo
         }
 
         // show dialog when add student tile is clicked
-        private void metroTile2_Click(object sender, EventArgs e)
+        private void AddStudent_Tile_Click(object sender, EventArgs e)
         {
             StudentDetailsForm dialog       = new StudentDetailsForm();
             dialog.ShowDialog(null);
         }
 
         // show dialog when change user role tile is clicked
-        private void metroTile4_Click(object sender, EventArgs e)
+        private void ChangeUserRole_Tile_Click(object sender, EventArgs e)
         {
             ChangeUserTypeDialog dialog     = new ChangeUserTypeDialog();
             dialog.ShowDialog(null);
         }
 
         // show change login credentials dialog on clicking the change login credentials tile 
-        private void metroTile1_Click(object sender, EventArgs e)
+        private void ChangeLogin_Tile_Click(object sender, EventArgs e)
         {
             ChangeUserLoginDetailsForm form = new ChangeUserLoginDetailsForm();
             form.ShowDialog(null);
         }
 
-        private void metroTile5_Click(object sender, EventArgs e)
+        private void DashBoard_Tile_Click(object sender, EventArgs e)
         {
             DashBoardDialog dashBoard       = new DashBoardDialog();
             dashBoard.Visible               = true;
@@ -517,8 +514,8 @@ namespace MetroFramework.Demo
 
         private void TurnOnCameras(object state)
         {
-            ThreadFactory.StopAllThreads();
-            Singleton.ClearDataStores();
+            ThreadFactory.StopLiveStreamThreads();
+            Singleton.ClearLiveStreamDataStores();
             ThreadFactory.ReleaseAllThreadResources();
             StartLiveFootageThreads();
             EnableLiveStreamControls(true);
@@ -526,8 +523,8 @@ namespace MetroFramework.Demo
 
         private void TurnOffCameras(object state)
         {
-            ThreadFactory.StopAllThreads();
-            Singleton.ClearDataStores();
+            ThreadFactory.StopLiveStreamThreads();
+            Singleton.ClearLiveStreamDataStores();
             ClearPanel(live_stream_recognition_panel);
             ThreadFactory.ReleaseAllThreadResources();
         }
@@ -551,13 +548,13 @@ namespace MetroFramework.Demo
             
         }
 
-        private void metroTile9_Click(object sender, EventArgs e)
+        private void AddNewUser_Tile_Cliick(object sender, EventArgs e)
         {
             AddNewUserForm form = new AddNewUserForm();
             form.ShowDialog(null);
         }
 
-        private void metroTile7_Click(object sender, EventArgs e)
+        private void MostWantedTile_Click(object sender, EventArgs e)
         {
             try 
             {
@@ -636,10 +633,26 @@ namespace MetroFramework.Demo
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
+            ThreadFactory.StopAllThreads();
             Program.Running = false;
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void metroTile6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroTile8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
         {
 
         }
