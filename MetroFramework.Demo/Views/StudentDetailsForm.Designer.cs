@@ -1,4 +1,5 @@
-﻿namespace MetroFramework.Demo.Views
+﻿using MetroFramework.Demo.Custom_Controls;
+namespace MetroFramework.Demo.Views
 {
     partial class StudentDetailsForm
     {
@@ -30,7 +31,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentDetailsForm));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.picturebox_studentPic = new System.Windows.Forms.PictureBox();
+            this.picturebox_studentPic = new MetroFramework.Demo.Custom_Controls.MyPictureBox();
             this.label_status = new System.Windows.Forms.Label();
             this.combobox_year = new System.Windows.Forms.TextBox();
             this.combobox_month = new MetroFramework.Controls.MetroComboBox();
@@ -59,7 +60,6 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.picturebox_studentPic);
             this.panel1.Controls.Add(this.label_status);
             this.panel1.Controls.Add(this.combobox_year);
@@ -90,7 +90,7 @@
             // 
             // picturebox_studentPic
             // 
-            this.picturebox_studentPic.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picturebox_studentPic.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picturebox_studentPic.Image = ((System.Drawing.Image)(resources.GetObject("picturebox_studentPic.Image")));
             this.picturebox_studentPic.Location = new System.Drawing.Point(170, 8);
             this.picturebox_studentPic.Name = "picturebox_studentPic";
@@ -419,7 +419,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_status;
-        private System.Windows.Forms.PictureBox picturebox_studentPic;
+        private MyPictureBox picturebox_studentPic;
 
     }
 }

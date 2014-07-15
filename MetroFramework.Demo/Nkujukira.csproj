@@ -242,6 +242,7 @@
     <Compile Include="Managers\SettingsManager.cs" />
     <Compile Include="Managers\StolenItemsManager.cs" />
     <Compile Include="Managers\StudentsManager.cs" />
+    <Compile Include="Threads\CameraOutputGrabberThreadUsingVideo.cs" />
     <Compile Include="Threads\FaceRecognitionProgressThread.cs" />
     <Compile Include="Threads\LiveDisplayUpdater.cs" />
     <Compile Include="Threads\LiveStreamFaceDetectingThread.cs" />
@@ -261,6 +262,12 @@
     </Compile>
     <Compile Include="Views\CCTVDetailsForm.Designer.cs">
       <DependentUpon>CCTVDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\StudentDetailsForm.cs">
       <SubType>Form</SubType>
@@ -340,12 +347,6 @@
       <DependentUpon>PerpetratorDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Singletons\Singleton.cs" />
-    <Compile Include="TaskWindowControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskWindowControl.Designer.cs">
-      <DependentUpon>TaskWindowControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Threads\AlertGenerationThread.cs" />
     <Compile Include="Threads\CameraOutputGrabberThread.cs" />
     <Compile Include="Threads\ReviewFaceDetectingThread.cs" />
@@ -378,12 +379,6 @@
     <Compile Include="Views\SetUpForm.Designer.cs">
       <DependentUpon>SetUpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SplashScreen.Designer.cs">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\VictimsDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -395,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CCTVDetailsForm.resx">
       <DependentUpon>CCTVDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentDetailsForm.resx">
       <DependentUpon>StudentDetailsForm.cs</DependentUpon>
@@ -436,9 +434,6 @@
     <EmbeddedResource Include="Views\PerpetratorDetailsForm.resx">
       <DependentUpon>PerpetratorDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaskWindowControl.resx">
-      <DependentUpon>TaskWindowControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\PerpetratorsListDialog.resx">
       <DependentUpon>PerpetratorsListDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -450,9 +445,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SetUpForm.resx">
       <DependentUpon>SetUpForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\VictimsDetailsForm.resx">
       <DependentUpon>VictimsDetailsForm.cs</DependentUpon>
@@ -574,7 +566,7 @@
     <Content Include="Resources\Sounds\Siren.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Splash.JPG" />
+    <None Include="Resources\Splash.JPG" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WMPLib">
@@ -595,9 +587,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

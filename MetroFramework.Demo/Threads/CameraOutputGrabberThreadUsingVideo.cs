@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace MetroFramework.Demo.Threads
 {
-    public class CameraOutputGrabberThread : AbstractThread
+    public class CameraOutputGrabberThreadUsingVideo : AbstractThread
     {
         //HANDLE TO THE WEB CAM
         public static Capture camera_capture;
@@ -23,12 +23,12 @@ namespace MetroFramework.Demo.Threads
         private const String FILE_NAME = @"C:\Users\ken\Pictures\VDs\video4.mp4";
 
         //CONSTRUCTOR
-        public CameraOutputGrabberThread()
+        public CameraOutputGrabberThreadUsingVideo()
             : base()
         {
             Debug.WriteLine("Cam output thread starting");
-            camera_capture = new Capture();
-            WORK_DONE= false;
+            camera_capture = new Capture(FILE_NAME);
+            WORK_DONE = false;
 
         }
 
@@ -44,7 +44,7 @@ namespace MetroFramework.Demo.Threads
                 {
                     if (!paused)
                     {
-                        
+
                         AddNextFrameToQueuesForProcessing();
                         Thread.Sleep(100);
                     }
@@ -61,7 +61,7 @@ namespace MetroFramework.Demo.Threads
         public bool AddNextFrameToQueuesForProcessing()
         {
             //get next frame from camera
-            current_frame            = FramesManager.GetNextFrame(camera_capture);
+            current_frame = FramesManager.GetNextFrame(camera_capture);
 
             if (current_frame != null)
             {
@@ -73,7 +73,7 @@ namespace MetroFramework.Demo.Threads
                 Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
 
                 //resize frame to save on memory and improve performance
-                int width  = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
+                int width = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
                 int height = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
 
                 current_frame = FramesManager.ResizeImage(current_frame, width, height);

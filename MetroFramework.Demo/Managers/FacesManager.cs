@@ -11,7 +11,7 @@ using System.Text;
 
 namespace MetroFramework.Demo.Managers
 {
-    //THIS CLASS HOLDS FUNCTIONS FOR MANAGING AND COMPARING FACES FOR INDIVIDUALS INORDER TO FIND
+    //THIS CLASS HOLDS FUNCTIONS FOR ENROLLING AND COMPARING FACES FOR INDIVIDUALS INORDER TO FIND
     //THE LEVEL OF SIMILARITY OF THE 2 FACES
     public class FacesManager : Manager
     {
@@ -19,7 +19,7 @@ namespace MetroFramework.Demo.Managers
         private const string LICENSE_KEY          = "KHL/2H1GmBZ1jXiF1zxfJXBZUXGZpss0v7msjyBE0Tw2pX7G0X1SUy+zjq7CxilEKs90hNL29oX7z350wIQXOAfWXkRXPmUqYjfdpxKQnHs7HO/HeVIfV0KIqR0T3LMwhcubF51Oxdm88Xyl3BL+f2wODspCL53IBUVo1cTMrEU=";
         public const float FaceDetectionThreshold = 3;
         public const float FARValue               = 100;
-        private const float SIMILARITY_THRESHOLD  = 30.0f;
+        private const float SIMILARITY_THRESHOLD  = 60.0f;
 
         private List<Face> known_faces_list { get; set; }
         private FaceRecognitionResult face_recog_results;

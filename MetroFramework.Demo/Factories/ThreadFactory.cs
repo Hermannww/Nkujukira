@@ -55,6 +55,7 @@ namespace MetroFramework.Demo.Factories
 
         //ALL THREADS AVAILABLE
         private static CameraOutputGrabberThread cam_output = null;
+        private static CameraOutputGrabberThreadUsingVideo cam_output_using_video = null;
         private static VideoFromFileThread video_from_file_grabber = null;
         private static ReviewFaceDetectingThread review_face_detector = null;
         private static LiveStreamFaceDetectingThread live_face_detector = null;
@@ -70,15 +71,29 @@ namespace MetroFramework.Demo.Factories
         //STARTS THE THREADS RESPONSIBLEFOR STREAMING LIVE FOOTAGE FROM CCTV CAMERAS
         public static bool StartLiveStreamThreads()
         {
-            bool review_mode = false;
+            
 
             CreateNewPerpetratorRecognitionThread();
             CreateNewCameraOutputGrabberThread();
             CreateLiveStreamFaceDetectorThread();
             CreateFaceRecogProgressThread();
+            CreateFootageSaverThread();
+            CreateNewPerpAlertThread();
+            CreateLiveDisplayUpdaterThread();
+
+            return true;
+        }
+
+        //STARTS THE THREADS RESPONSIBLEFOR STREAMING LIVE FOOTAGE FROM CCTV CAMERAS
+        public static bool StartLiveStreamThreadsUsingVideo()
+        {
+            CreateNewPerpetratorRecognitionThread();
+            CreateNewCameraOutputGrabberThreadUsingVideo();
+            CreateLiveStreamFaceDetectorThread();
+            CreateFaceRecogProgressThread();
             //CreateFootageSaverThread();
             CreateNewPerpAlertThread();
-            CreateDisplayUpdaterThread(review_mode);
+            CreateLiveDisplayUpdaterThread();
 
             return true;
         }
@@ -86,12 +101,11 @@ namespace MetroFramework.Demo.Factories
         //STARTS THREADS RESPONSIBLE FOR STREAMING FRAMES FROM A VIDEO FILE
         public static bool StartReviewFootageThreads()
         {
-            bool review_mode = true;
 
             CreateVideoFileGrabberThread();
             CreateReviewFaceDetectingThread();
             CreateNewStudentAlertThread();
-            CreateDisplayUpdaterThread(review_mode);
+            CreateReviewDisplayUpdaterThread();
 
             return true;
         }
@@ -153,6 +167,17 @@ namespace MetroFramework.Demo.Factories
             return cam_output;
         }
 
+        //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE CAMERA IN THE BACKGROUND
+        private static CameraOutputGrabberThreadUsingVideo CreateNewCameraOutputGrabberThreadUsingVideo()
+        {
+            if (cam_output_using_video == null)
+            {
+                cam_output_using_video = new CameraOutputGrabberThreadUsingVideo();
+                cam_output_using_video.StartWorking();
+            }
+            return cam_output_using_video;
+        }
+
         //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE VIDEO FILE IN THE BACKGROUND
         private static VideoFromFileThread CreateVideoFileGrabberThread()
         {
@@ -198,27 +223,24 @@ namespace MetroFramework.Demo.Factories
         }
 
         //STARTS A THREAD TO CONTINUOUSLY UPDATE THE VIDEO DISPLAY
-        private static DisplayUpdaterThread CreateDisplayUpdaterThread(bool review_mode)
+        private static DisplayUpdaterThread CreateReviewDisplayUpdaterThread()
         {
-
-            if (review_mode)
-            {
                 if (review_display_updater == null)
                 {
                     review_display_updater = new ReviewDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"));
                     review_display_updater.StartWorking();
                 }
-                return review_display_updater;
-            }
-            else
+                return review_display_updater; 
+        }
+
+        public static DisplayUpdaterThread CreateLiveDisplayUpdaterThread() 
+        {
+            if (live_display_updater == null)
             {
-                if (live_display_updater == null)
-                {
-                    live_display_updater = new LiveDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"));
-                    live_display_updater.StartWorking();
-                }
-                return live_display_updater;
+                live_display_updater = new LiveDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"));
+                live_display_updater.StartWorking();
             }
+            return live_display_updater;
         }
 
 
@@ -511,6 +533,10 @@ namespace MetroFramework.Demo.Factories
             {
                 StopThread(thread);
             }
+            if (cam_output_using_video != null)
+            {
+                cam_output_using_video.RequestStop();
+            }
             return true;
         }
 
@@ -583,6 +609,27 @@ namespace MetroFramework.Demo.Factories
         public static bool ReleaseAllThreadResources()
         {
             foreach (var thread in ThreadFactory.ALL_THREADS)
+            {
+                ReleaseThreadResources(thread);
+            }
+            return true;
+        }
+
+        //RELEASES ALL RESOURCES CONSUMED BY A THREAD
+        public static bool ReleaseLiveStreamThreadsResources()
+        {
+            foreach (var thread in ThreadFactory.ALL_LIVE_THREADS)
+            {
+                ReleaseThreadResources(thread);
+            }
+            return true;
+        }
+
+
+        //RELEASES ALL RESOURCES CONSUMED BY A THREAD
+        public static bool ReleaseReviewThreadsResources()
+        {
+            foreach (var thread in ThreadFactory.ALL_REVIEW_THREADS)
             {
                 ReleaseThreadResources(thread);
             }

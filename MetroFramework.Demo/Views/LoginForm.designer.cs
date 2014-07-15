@@ -57,7 +57,7 @@ namespace MetroFramework.Demo
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(-254, 263);
+            this.label3.Location = new System.Drawing.Point(-254, 293);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 18;
@@ -66,15 +66,14 @@ namespace MetroFramework.Demo
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label_separator);
-            this.panel1.Controls.Add(this.spining_progress_indicator);
             this.panel1.Controls.Add(this.status_label);
             this.panel1.Controls.Add(this.textbox_password);
             this.panel1.Controls.Add(this.textbox_username);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(13, 33);
+            this.panel1.Location = new System.Drawing.Point(6, 69);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(499, 162);
+            this.panel1.Size = new System.Drawing.Size(405, 162);
             this.panel1.TabIndex = 20;
             // 
             // spining_progress_indicator
@@ -83,13 +82,13 @@ namespace MetroFramework.Demo
             this.spining_progress_indicator.CircleColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.spining_progress_indicator.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.spining_progress_indicator.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.spining_progress_indicator.Location = new System.Drawing.Point(353, 3);
+            this.spining_progress_indicator.Location = new System.Drawing.Point(205, 10);
             this.spining_progress_indicator.Name = "spining_progress_indicator";
             this.spining_progress_indicator.Percentage = 0F;
             this.spining_progress_indicator.ShowText = true;
-            this.spining_progress_indicator.Size = new System.Drawing.Size(145, 145);
+            this.spining_progress_indicator.Size = new System.Drawing.Size(53, 53);
             this.spining_progress_indicator.TabIndex = 22;
-            this.spining_progress_indicator.Text = "Please Wait..";
+            this.spining_progress_indicator.Text = "Wait...";
             this.spining_progress_indicator.TextDisplay = ProgressControls.TextDisplayModes.Text;
             // 
             // status_label
@@ -111,7 +110,7 @@ namespace MetroFramework.Demo
             this.textbox_password.Location = new System.Drawing.Point(98, 106);
             this.textbox_password.Name = "textbox_password";
             this.textbox_password.PasswordChar = '*';
-            this.textbox_password.Size = new System.Drawing.Size(247, 30);
+            this.textbox_password.Size = new System.Drawing.Size(252, 30);
             this.textbox_password.TabIndex = 23;
             // 
             // textbox_username
@@ -121,7 +120,7 @@ namespace MetroFramework.Demo
             this.textbox_username.Location = new System.Drawing.Point(98, 59);
             this.textbox_username.Multiline = true;
             this.textbox_username.Name = "textbox_username";
-            this.textbox_username.Size = new System.Drawing.Size(247, 27);
+            this.textbox_username.Size = new System.Drawing.Size(252, 27);
             this.textbox_username.TabIndex = 22;
             // 
             // label2
@@ -150,7 +149,7 @@ namespace MetroFramework.Demo
             // 
             this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.metroButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroButton1.Location = new System.Drawing.Point(290, 9);
+            this.metroButton1.Location = new System.Drawing.Point(17, 26);
             this.metroButton1.Name = "metroButton1";
             this.metroButton1.Size = new System.Drawing.Size(30, 32);
             this.metroButton1.TabIndex = 26;
@@ -163,29 +162,29 @@ namespace MetroFramework.Demo
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.metroButton1);
             this.panel2.Controls.Add(this.button_login);
-            this.panel2.Location = new System.Drawing.Point(13, 186);
+            this.panel2.Location = new System.Drawing.Point(6, 222);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(499, 55);
+            this.panel2.Size = new System.Drawing.Size(405, 84);
             this.panel2.TabIndex = 21;
             // 
             // button_login
             // 
             this.button_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_login.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_login.Location = new System.Drawing.Point(100, 3);
+            this.button_login.Location = new System.Drawing.Point(118, 12);
             this.button_login.Name = "button_login";
-            this.button_login.Size = new System.Drawing.Size(150, 42);
+            this.button_login.Size = new System.Drawing.Size(210, 57);
             this.button_login.TabIndex = 25;
-            this.button_login.Text = "Login";
+            this.button_login.Text = "LOGIN";
             this.button_login.UseSelectable = true;
             this.button_login.Click += new System.EventHandler(this.user_login_Click);
             // 
             // label_separator
             // 
             this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_separator.Location = new System.Drawing.Point(10, 40);
+            this.label_separator.Location = new System.Drawing.Point(10, 35);
             this.label_separator.Name = "label_separator";
-            this.label_separator.Size = new System.Drawing.Size(351, 2);
+            this.label_separator.Size = new System.Drawing.Size(340, 1);
             this.label_separator.TabIndex = 28;
             // 
             // LoginForm
@@ -193,15 +192,14 @@ namespace MetroFramework.Demo
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
-            this.ClientSize = new System.Drawing.Size(528, 254);
+            this.ClientSize = new System.Drawing.Size(422, 316);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.spining_progress_indicator);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
-            this.DisplayHeader = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
-            this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowIcon = false;

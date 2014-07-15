@@ -157,7 +157,7 @@ namespace MetroFramework.Demo.Threads
 
         private void DisableSpinningProgressIndicator()
         {
-            Singleton.MAIN_WINDOW.EnableReviewControls(true);
+            Singleton.MAIN_WINDOW.EnableReviewControls();
         }
 
 

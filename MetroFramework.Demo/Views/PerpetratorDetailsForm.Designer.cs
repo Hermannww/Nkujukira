@@ -1,4 +1,5 @@
-﻿namespace MetroFramework.Demo
+﻿using MetroFramework.Demo.Custom_Controls;
+namespace MetroFramework.Demo
 {
     partial class PerpetratorDetailsForm
     {
@@ -40,7 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.perpetrator_picture_box = new System.Windows.Forms.PictureBox();
+            this.perpetrator_picture_box = new MetroFramework.Demo.Custom_Controls.MyPictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -191,7 +192,6 @@
             // 
             // perpetrator_picture_box
             // 
-            this.perpetrator_picture_box.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.perpetrator_picture_box.Location = new System.Drawing.Point(15, 13);
             this.perpetrator_picture_box.Name = "perpetrator_picture_box";
             this.perpetrator_picture_box.Size = new System.Drawing.Size(156, 156);
@@ -225,7 +225,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox perpetrator_picture_box;
+        private MyPictureBox perpetrator_picture_box;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

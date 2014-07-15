@@ -9,41 +9,41 @@ using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
-using MetroFramework.Forms;
 
-namespace MetroFramework.Demo
+namespace MetroFramework.Demo.Views
 {
     // The SplashScreen class definition.  AKO Form
     public partial class SplashScreen : Form
     {
         #region Member Variables
         // Threading
-        private static SplashScreen ms_frmSplash        = null;
-        private static Thread ms_oThread                = null;
+        private static SplashScreen ms_frmSplash = null;
+        private static Thread ms_oThread = null;
 
         // Fade in and out.
-        private double m_dblOpacityIncrement            = .05;
-        private double m_dblOpacityDecrement            = .08;
-        private const int TIMER_INTERVAL                = 50;
+        private double m_dblOpacityIncrement = .05;
+        private double m_dblOpacityDecrement = .08;
+        private const int TIMER_INTERVAL = 100;
 
         // Status and progress bar
         private string m_sStatus;
         private string m_sTimeRemaining;
-        private double m_dblCompletionFraction          = 0.0;
+        private double m_dblCompletionFraction = 0.0;
         private Rectangle m_rProgress;
 
         // Progress smoothing
-        private double m_dblLastCompletionFraction      = 0.0;
+        private double m_dblLastCompletionFraction = 0.0;
         private double m_dblPBIncrementPerTimerInterval = .015;
 
         // Self-calibration support
-        private int m_iIndex                            = 1;
-        private int m_iActualTicks                      = 0;
+        private int m_iIndex = 1;
+        private int m_iActualTicks = 0;
         private ArrayList m_alPreviousCompletionFraction;
-        private ArrayList m_alActualTimes               = new ArrayList();
+        private ArrayList m_alActualTimes = new ArrayList();
         private DateTime m_dtStart;
-        private bool m_bFirstLaunch                     = false;
-        private bool m_bDTSet                           = false;
+        private bool m_bFirstLaunch = false;
+        private bool m_bDTSet = false;
+        private Color PROGRESS_BAR_COLOR=Color.Green;
 
         #endregion Member Variables
 
@@ -53,11 +53,10 @@ namespace MetroFramework.Demo
         public SplashScreen()
         {
             InitializeComponent();
-           // this.Style         = MetroColorStyle.Red;
-            this.Opacity         = 0.0;
+            this.Opacity = 0.0;
             UpdateTimer.Interval = TIMER_INTERVAL;
             UpdateTimer.Start();
-            this.ClientSize      = this.BackgroundImage.Size;
+            this.ClientSize = this.BackgroundImage.Size;
         }
 
         #region Public Static Methods
@@ -68,11 +67,11 @@ namespace MetroFramework.Demo
             // Make sure it's only launched once.
             if (ms_frmSplash != null)
                 return;
-            ms_oThread              = new Thread(new ThreadStart(SplashScreen.ShowForm));
+            ms_oThread = new Thread(new ThreadStart(SplashScreen.ShowForm));
             ms_oThread.IsBackground = true;
             ms_oThread.SetApartmentState(ApartmentState.STA);
             ms_oThread.Start();
-            while (ms_frmSplash     == null || ms_frmSplash.IsHandleCreated == false)
+            while (ms_frmSplash == null || ms_frmSplash.IsHandleCreated == false)
             {
                 System.Threading.Thread.Sleep(TIMER_INTERVAL);
             }
@@ -86,8 +85,8 @@ namespace MetroFramework.Demo
                 // Make it start going away.
                 ms_frmSplash.m_dblOpacityIncrement = -ms_frmSplash.m_dblOpacityDecrement;
             }
-            ms_oThread                             = null;	// we don't need these any more.
-            ms_frmSplash                           = null;
+            ms_oThread = null;	// we don't need these any more.
+            ms_frmSplash = null;
         }
 
         // A static method to set the status and update the reference.
@@ -136,7 +135,7 @@ namespace MetroFramework.Demo
         {
             if (m_bDTSet == false)
             {
-                m_bDTSet  = true;
+                m_bDTSet = true;
                 m_dtStart = DateTime.Now;
                 ReadIncrements();
             }
@@ -254,7 +253,7 @@ namespace MetroFramework.Demo
                     if (!pnlStatus.IsDisposed)
                     {
                         Graphics g = pnlStatus.CreateGraphics();
-                        LinearGradientBrush brBackground = new LinearGradientBrush(m_rProgress, Color.FromArgb(89, 8, 2), Color.FromArgb(212, 149, 105), LinearGradientMode.Horizontal);
+                        LinearGradientBrush brBackground = new LinearGradientBrush(m_rProgress, PROGRESS_BAR_COLOR,PROGRESS_BAR_COLOR, LinearGradientMode.Horizontal);
                         g.FillRectangle(brBackground, m_rProgress);
                         g.Dispose();
                     }
@@ -272,17 +271,11 @@ namespace MetroFramework.Demo
             CloseForm();
         }
         #endregion Event Handlers
+
         private void pnlStatus_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
-        private void SplashScreen_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        
     }
 
     #region Auxiliary Classes

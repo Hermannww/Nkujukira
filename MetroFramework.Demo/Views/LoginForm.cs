@@ -37,7 +37,7 @@ namespace MetroFramework.Demo
 
         private void user_login_Click(object sender, EventArgs e)
         {
-            EnableControls(false);
+            DisableControls();
             //get user input
             String username                = textbox_username.Text;
             String password                = textbox_password.Text;
@@ -47,8 +47,8 @@ namespace MetroFramework.Demo
             {
                 
                 status_label.ForeColor       = ERROR_COLOR;
-                status_label.Text          = "Please Enter A Valid Username or Password.";
-                EnableControls(true);
+                status_label.Text          = "Enter A Valid Username and Password.";
+                EnableControls();
                 return;
             }
 
@@ -82,11 +82,14 @@ namespace MetroFramework.Demo
             }
         }
 
-        private void EnableControls(bool is_enabled)
+        private void EnableControls()
         {
-            button_login.Enabled = is_enabled;
-            //textbox_username.Enabled = is_enabled;
-            //textbox_password.Enabled = is_enabled;
+            button_login.Enabled = true;
+        }
+
+        private void DisableControls() 
+        {
+            button_login.Enabled = false;
         }
 
         private bool IsNullOrEmpty(string text)
@@ -140,12 +143,12 @@ namespace MetroFramework.Demo
             //wrong credentials
             else
             {
-                EnableControls(true);
+                EnableControls();
 
                 status_label.ForeColor = ERROR_COLOR;
 
                 //display error message
-                status_label.Text          = "Sorry!! Username/Password Combination Is Wrong.";
+                status_label.Text          = "Username/Password Combination Is Wrong.";
             }
         }
 

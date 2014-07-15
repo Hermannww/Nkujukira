@@ -51,7 +51,7 @@ namespace MetroFramework.Demo
         //DISABLES NECESSARY CONTROLS WHEN IN ALERT MODE
         private void DisableControls()
         {
-            this.RemoveCloseButton();
+            this.ControlBox = false;
             this.TopMost = true;
             comboBox_gender.Enabled              = false;
             button_getCrimes.Visible             = true;
@@ -66,10 +66,8 @@ namespace MetroFramework.Demo
         private void SetPerpetratorDetails()
         {
             //SET PERSONAL DETAILS ABOUT THE PERPTRATOR
-            textBox_perpetrator_name.Text        = perpetrator.name;
-            
-            comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;
-            
+            textBox_perpetrator_name.Text        = perpetrator.name;            
+            comboBox_is_a_student.SelectedIndex  = perpetrator.is_a_student ? 0 : 1;            
             comboBox_gender.SelectedIndex        = perpetrator.gender.Equals("Male") ? 0 : 1;
            
         }
@@ -119,7 +117,7 @@ namespace MetroFramework.Demo
         //EVENT HANDLER
         private void button_getCrimes_Click(object sender, EventArgs e)
         {
-
+            //DISPLAY EACH CRIME COMMITTED BY THE PERP
             Crime[] crimes_committed             = CrimesManager.GetCrimesCommitted(perpetrator.id);
 
             foreach (var crime in crimes_committed) 

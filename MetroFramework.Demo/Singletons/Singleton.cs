@@ -218,12 +218,24 @@ namespace MetroFramework.Demo.Singletons
         //THIS EMPTIES ALL DATASTORES
         public static void ClearLiveStreamDataStores()
         {
-            Image<Bgr, byte> image;
-            while (Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out image)) ;
-            while (Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.TryDequeue(out image)) ;
-            while (Singleton.FRAMES_TO_BE_STORED.TryDequeue(out image)) ;
-            Singleton.LIVE_DETECTED_FACES_DATASTORE.Clear();
-            image = null;
+            Image<Bgr, byte> color_image;
+            FaceRecognitionResult result;
+            Image<Gray, byte> gray_image;
+            Perpetrator perp;
+
+            while (Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out color_image)) ;
+            while (Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.TryDequeue(out color_image)) ;
+            while (Singleton.FACES_TO_RECOGNIZE.TryDequeue(out gray_image)) ;
+            while (Singleton.identified_perpetrators.TryDequeue(out perp)) ;
+            while (Singleton.FACE_RECOGNITION_RESULTS.TryDequeue(out result)) ;
+            while (Singleton.FRAMES_TO_BE_STORED.TryDequeue(out color_image)) ;
+            Singleton.LIVE_DETECTED_FACES_DATASTORE.Clear() ;
+
+            color_image= null;
+            gray_image = null;
+            result     = null;
+            perp       = null;
+
 
         }
 
@@ -240,7 +252,7 @@ namespace MetroFramework.Demo.Singletons
         public static void InitializeStuff()
         {
             Perpetrator[] perps = PerpetratorsManager.GetAllActivePerpetrators();
-            foreach (var perp in perps) 
+            foreach (var perp in perps)
             {
                 active_perpetrators.Add(perp);
             }

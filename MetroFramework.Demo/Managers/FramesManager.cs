@@ -65,10 +65,6 @@ namespace Nkujukira
         //THIS RESIZES AN IMAGE ACCORDING TO GIVEN WIDTH AND HEIGHT
         public static Image<Gray, byte> ResizeGrayImage(Image<Gray, byte> frame, Size new_size)
         {
-            if (frame == null)
-            {
-                throw new ArgumentNullException();
-            }
             try
             {
                 return frame.Resize(new_size.Width, new_size.Height, INTER.CV_INTER_LINEAR);

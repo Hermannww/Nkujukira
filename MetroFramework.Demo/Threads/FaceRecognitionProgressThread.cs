@@ -99,6 +99,7 @@ namespace MetroFramework.Demo.Threads
 
         public void DisplayFaceRecognitionProgress(Image<Gray, byte> face)
         {
+            if(face!=null)
             {
                 //IF THERE ARE PERPETRATORS TO COMPARE AGAINIST
                 if (active_perpetrators.Length != 0)

@@ -256,8 +256,8 @@ namespace MetroFramework.Demo.Views
                 if (perpetrator.is_a_student)
                 {
                     
-                    //SHOW PROGRESS INDICATOR
-                    Singleton.MAIN_WINDOW.EnableReviewControls(false);
+                    //DISABLE MAIN WINDOW CONTROLS
+                    Singleton.MAIN_WINDOW.DisableReviewControls();
                    
                     //START FACE RECOGNITION  OFF THE GUI THREAD
                     ThreadPool.QueueUserWorkItem(StartFaceRecognition);   

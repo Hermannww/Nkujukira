@@ -180,12 +180,10 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroF
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.MainWindow.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Properties.Resources.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.PerpetratorDetailsForm.resources
-C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.TaskWindowControl.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.PerpetratorsListDialog.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.SelectPerpetratorFacesForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.SelectPerpetratorForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.SetUpForm.resources
-C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.SplashScreen.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.VictimsDetailsForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.csproj.GenerateResource.Cache
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.exe
@@ -193,3 +191,4 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroF
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.csprojResolveAssemblyReference.cache
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\MetroFramework.Demo.exe.CodeAnalysisLog.xml
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\MetroFramework.Demo.exe.lastcodeanalysissucceeded
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\MetroFramework.Demo.Views.SplashScreen.resources
