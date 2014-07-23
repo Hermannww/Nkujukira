@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Entitities
+namespace Nkujukira.Demo.Entitities
 {
     public class FaceRecognitionResult
     {
@@ -15,7 +15,7 @@ namespace MetroFramework.Demo.Entitities
         public Perpetrator identified_perpetrator { get; set; }
         public Student identified_student { get; set; }
         public float similarity { get; set; }
-        public Image<Gray, byte> original_detected_face { get; set; }
+        public Image<Bgr, byte> original_detected_face { get; set; }
 
         public FaceRecognitionResult()
         {

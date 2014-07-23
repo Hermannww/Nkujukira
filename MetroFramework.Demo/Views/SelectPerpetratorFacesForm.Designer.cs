@@ -1,4 +1,4 @@
-﻿namespace MetroFramework.Demo.Views
+﻿namespace Nkujukira.Demo.Views
 {
     partial class SelectPerpetratorFacesForm
     {
@@ -115,7 +115,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ImageList imageList1;
         private Manina.Windows.Forms.ImageListView image_list_view;
-        private Controls.MetroButton done_button;
+        private MetroFramework.Controls.MetroButton done_button;
         private System.Windows.Forms.Label label_separator;
     }
 }

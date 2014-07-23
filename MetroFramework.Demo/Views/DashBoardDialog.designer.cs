@@ -1,4 +1,6 @@
-﻿namespace MetroFramework.Demo.Views
+﻿using MetroFramework;
+using MetroFramework.Controls;
+namespace Nkujukira.Demo.Views
 {
     partial class DashBoardDialog
     {
@@ -64,7 +66,7 @@
             // 
             this.remove_login_component.AutoSize = true;
             this.remove_login_component.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.remove_login_component.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.remove_login_component.FontSize = MetroCheckBoxSize.Medium;
             this.remove_login_component.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.remove_login_component.Location = new System.Drawing.Point(147, 109);
             this.remove_login_component.Name = "remove_login_component";
@@ -108,9 +110,9 @@
 
         #endregion
 
-        private Controls.MetroButton save_changes;
-        private Controls.MetroComboBox change_theme;
-        private Controls.MetroCheckBox remove_login_component;
+        private MetroFramework.Controls.MetroButton save_changes;
+        private MetroComboBox change_theme;
+        private MetroCheckBox remove_login_component;
         private System.Windows.Forms.Label label1;
     }
 }

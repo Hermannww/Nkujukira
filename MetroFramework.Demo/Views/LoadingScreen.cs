@@ -1,4 +1,4 @@
-﻿using MetroFramework.Demo.Singletons;
+﻿using Nkujukira.Demo.Singletons;
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class LoadingScreen : MetroForm
     {

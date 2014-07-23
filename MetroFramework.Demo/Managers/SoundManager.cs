@@ -1,6 +1,4 @@
-﻿using CSCore.Codecs;
-using CSCore.SoundOut;
-using MetroFramework.Demo.Entitities;
+﻿using Nkujukira.Demo.Entitities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class SoundManager
     {
         private static String ALARM_SOUND = Application.StartupPath + @"\Resources\Sounds\Siren.mp3";
         private static WMPLib.WindowsMediaPlayer windows_media_player;
-        private static String WMP_MODE    = "loop";
+        private static String WMP_MODE = "loop";
 
-        public static void PlaySound() 
+        public static bool PlaySound()
         {
             try
             {
@@ -26,21 +24,31 @@ namespace MetroFramework.Demo.Managers
                     windows_media_player.URL = ALARM_SOUND;
                     windows_media_player.settings.setMode(WMP_MODE, true);
                     windows_media_player.controls.play();
+                    return true;
                 }
             }
-            catch (Exception) 
+            catch (Exception)
             {
-            
+
             }
+            return false;
         }
 
-        public static void StopPlayingSound() 
+        public static bool StopPlayingSound()
         {
-            if (windows_media_player != null) 
+            try
             {
-                windows_media_player.controls.stop();
+                if (windows_media_player != null)
+                {
+                    windows_media_player.controls.stop();
+                }
+                windows_media_player = null;
+                return true;
             }
-            windows_media_player          = null;
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

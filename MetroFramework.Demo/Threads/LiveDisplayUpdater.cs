@@ -1,7 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class LiveDisplayUpdater : DisplayUpdaterThread
     {

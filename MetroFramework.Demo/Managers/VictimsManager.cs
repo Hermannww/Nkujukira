@@ -1,12 +1,13 @@
-﻿using MetroFramework.Demo.Entitities;
+﻿using Nkujukira.Demo.Entitities;
 using MySql.Data.MySqlClient;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
-    class VictimsManager : Manager
+    public class VictimsManager : Manager
     {
         //fields for victims table
         private static string TABLE_NAME        = "VICTIMS";
@@ -19,7 +20,7 @@ namespace MetroFramework.Demo.Managers
       
       
 
-        public static void CreateTable()
+        public static bool CreateTable()
         {
             try
             {
@@ -29,6 +30,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText         = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -36,7 +42,7 @@ namespace MetroFramework.Demo.Managers
             }
         }
 
-        public static void DropTable()
+        public static bool DropTable()
         {
             try
             {
@@ -46,6 +52,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText         = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -54,14 +65,22 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public static void PopulateTable()
+        public static bool PopulateTable()
         {
-
+            try
+            {
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
         public static Victim[] GetAllVictims()
         {
+            List<Victim> victims            = new List<Victim>();
             try
             {
                 //select sql
@@ -75,7 +94,7 @@ namespace MetroFramework.Demo.Managers
                 //get results in enum object
                 data_reader                     = database.Select(sql_command);
 
-                List<Victim> victims            = new List<Victim>();
+              
 
                 //loop thru em 
                 while (data_reader.Read())
@@ -96,8 +115,7 @@ namespace MetroFramework.Demo.Managers
                     victims.Add(victim);
                 }
 
-                //return array of results
-                return victims.ToArray();
+               
             }
             catch (Exception e)
             {
@@ -109,15 +127,18 @@ namespace MetroFramework.Demo.Managers
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return null;
+
+             //return array of results
+             return victims.ToArray();
         }
 
-        public Victim GetVictim(int id)
+        public static Victim GetVictim(int id)
         {
+            List<Victim> victims            = new List<Victim>();
             try
             {
                 //select sql
-                String select_sql               = "SELECT * FROM " + TABLE_NAME + "WHERE ID=@id";
+                String select_sql               = "SELECT * FROM " + TABLE_NAME + " WHERE CRIME_ID=@id";
 
                 sql_command                     = new MySqlCommand();
                 sql_command.Connection          = (MySqlConnection)database.OpenConnection();
@@ -125,29 +146,30 @@ namespace MetroFramework.Demo.Managers
                 sql_command.Parameters.AddWithValue("@id", id);
                 sql_command.Prepare();
 
-
                 //get results in enum object
                 data_reader                     = database.Select(sql_command);
 
-
+               
 
                 //loop thru em 
-                if (data_reader.Read())
+                while (data_reader.Read())
                 {
-                    //create new victim
+                    //create new student
 
+                    int crime_id                = data_reader.GetInt32(CRIME_ID);
                     String name                 = data_reader.GetString(NAME);
                     StolenItem[] items_stolen   = null;
                     bool is_a_student           = data_reader.GetBoolean(IS_A_STUDENT);
                     String gender               = data_reader.GetString(GENDER);
                     String d_o_b                = data_reader.GetString(DOB);
-                    int crime_id                = data_reader.GetInt32(CRIME_ID);
 
                     Victim victim               = new Victim(id, name, d_o_b, items_stolen, gender, is_a_student, crime_id);
 
-                    return victim;
+                    //add student to list
+                    victims.Add(victim);
                 }
 
+                
             }
             catch (Exception e)
             {
@@ -159,8 +181,11 @@ namespace MetroFramework.Demo.Managers
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return null;
+
+            //return array of results
+            return victims.ToArray()[0];
         }
+        
 
         
 
@@ -186,14 +211,18 @@ namespace MetroFramework.Demo.Managers
 
                 victim.id                       = Convert.ToInt32(sql_command.LastInsertedId);
 
-               
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
                 database.CloseConnection();
             }
 
-            return true;
+            
         }
 
         public static bool Update(Victim victim)
@@ -213,50 +242,54 @@ namespace MetroFramework.Demo.Managers
                 sql_command.Parameters.AddWithValue("@student", victim.is_a_student);
                 sql_command.Parameters.AddWithValue("@gender", victim.gender);
                 sql_command.Parameters.AddWithValue("@crime_id", victim.crime_id);
-
-                sql_command.Prepare();
-
-                //execute command
-                database.Update(sql_command);
-            }
-            finally
-            {
-                database.CloseConnection();
-            }
-
-            return true;
-        }
-
-        public static bool Delete(int crime_id)
-        {
-            try
-            {
-                String delete_sql               = "DELETE FROM " + TABLE_NAME + " WHERE CRIME_ID=@id";
-                //Sql command
-                sql_command                     = new MySqlCommand();
-                sql_command.Connection          = (MySqlConnection)database.OpenConnection();
-                sql_command.CommandText         = delete_sql;
-                sql_command.Parameters.AddWithValue("@id", crime_id);
                 sql_command.Prepare();
 
                 //execute command
                 database.Update(sql_command);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message + "ERROR form Delete Method VictimsManager");
+                return false;
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
+        }
+
+        public static bool Delete(int id)
+        {
+            try
+            {
+                String delete_sql               = "DELETE FROM " + TABLE_NAME + " WHERE ID=@id";
+                //Sql command
+                sql_command                     = new MySqlCommand();
+                sql_command.Connection          = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText         = delete_sql;
+                sql_command.Parameters.AddWithValue("@id", id);
+                sql_command.Prepare();
+
+                //execute command
+                database.Update(sql_command);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return false;
+           
         }
 
         public static Victim[] GetVictimsOfCrime(int crime_id) 
         {
+            List<Victim> victims            = new List<Victim>();
             try
             {
                 //select sql
@@ -271,7 +304,7 @@ namespace MetroFramework.Demo.Managers
                 //get results in enum object
                 data_reader                     = database.Select(sql_command);
 
-                List<Victim> victims            = new List<Victim>();
+               
 
                 //loop thru em 
                 while (data_reader.Read())
@@ -291,8 +324,7 @@ namespace MetroFramework.Demo.Managers
                     victims.Add(victim);
                 }
 
-                //return array of results
-                return victims.ToArray();
+                
             }
             catch (Exception e)
             {
@@ -304,7 +336,9 @@ namespace MetroFramework.Demo.Managers
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return null;
+
+            //return array of results
+            return victims.ToArray();
         }
     }
 }

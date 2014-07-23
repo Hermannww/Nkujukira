@@ -1,9 +1,9 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     //THIS CLASS REPRESENTS A THREAD POLLS A SHARED DATASTORE FOR DETECTED FACES FROM FRAMES FROM CCTV
     //TO COMPARE AGAINIST THE FACES OF PERPETRATORS
@@ -25,26 +25,26 @@ namespace MetroFramework.Demo.Threads
         private FacesManager faces_manager;
 
         //ARRAY OF ALL ACTIVE PERPETRATORS
-        private Perpetrator[] active_perpetrators = null;
+        private Perpetrator[] active_perpetrators  = null;
 
         //USED TO SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
         public static bool WORK_DONE               = false;
 
         //FLAG USED TO SIGNAL TO THE THREAD THAT IT SHOULD ENROLL PERP FACES AGAIN
         //BECAUSE THEY HAVE CHANGED IN THE DATABASE
-        public static volatile bool enroll_again  = false;
+        public static volatile bool enroll_again   = false;
 
         //CONSTRUCTOR
         public PerpetratorRecognitionThread()
             : base(null)
         {
             WORK_DONE            = false;
-            enroll_again        = false;
+            enroll_again         = false;
 
-            this.faces_manager  = new FacesManager();
+            this.faces_manager   = new FacesManager();
 
             //GET ALL ACTIVE PERPETRATORS
-            active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
+            active_perpetrators  = Singleton.ACTIVE_PERPETRATORS;
 
             //LOAD FACES OF PERPETRATORS
             EnrollFacesToBeComparedAgainst();
@@ -62,7 +62,7 @@ namespace MetroFramework.Demo.Threads
                 //FOR EACH ACTIVE PERPETRATOR ENROLL HIS FACE SO IT CAN BE USED FOR COMPARISON
                 foreach (var perpetrator in active_perpetrators)
                 {
-                    faces_manager.EnrollFaces(perpetrator);
+                    faces_manager.EnrollPerpetratorFaces(perpetrator);
                 }
 
             }
@@ -72,7 +72,7 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
-        protected override void RecognizeFace(Image<Gray, byte> face)
+        protected override void RecognizeFace(Image<Bgr, byte> face)
         {
             if (active_perpetrators.Length != 0)
             {
@@ -81,7 +81,7 @@ namespace MetroFramework.Demo.Threads
                 int width                    = 120;
                 int height                   = 120;
 
-                face                         = FramesManager.ResizeGrayImage(face, new Size(width, height));
+                face                         = FramesManager.ResizeColoredImage(face, new Size(width, height));
 
                 //GET ID OF MOST SIMILAR PERPETRATOR
                 FaceRecognitionResult result = faces_manager.MatchFace(face);
@@ -115,7 +115,7 @@ namespace MetroFramework.Demo.Threads
             {
                 if (!paused)
                 {
-                    Image<Gray, byte> face_to_recognize;
+                    Image<Bgr, byte> face_to_recognize;
 
 
                     //TRY DEQUEUEING A FACE TO RECOGNIZE FROM SHARED DATASTORE
@@ -124,6 +124,7 @@ namespace MetroFramework.Demo.Threads
                     //IF DEQUEUE IS OK
                     if (sucessfull)
                     {
+                        //IF THE ACTIVE PERPETRATORS HAVE CHANGED
                         if (enroll_again)
                         {
                             //CLEAR ALREADY ENROLLED FACES

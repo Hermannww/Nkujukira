@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class FileManager
     {
@@ -26,7 +26,7 @@ namespace MetroFramework.Demo.Managers
             return false;
         }
 
-        public static bool SaveImage(String file_path, Image<Gray, byte> image)
+        public static bool SaveImage(String file_path, Image<Bgr, byte> image)
         {
 
             try
@@ -82,15 +82,15 @@ namespace MetroFramework.Demo.Managers
             }
         }
 
-        internal static Image<Gray, byte>[] GetAllImagesInDirectory(string path)
+        internal static Image<Bgr, byte>[] GetAllImagesInDirectory(string path)
         {
             String[] file_paths = Directory.GetFiles(path, "*.png");
 
-            List<Image<Gray, byte>> faces = new List<Image<Gray, byte>>();
+            List<Image<Bgr, byte>> faces = new List<Image<Bgr, byte>>();
 
             foreach (var file_path in file_paths)
             {
-                Image<Gray, byte> face = new Image<Gray, byte>(file_path);
+                Image<Bgr, byte> face = new Image<Bgr, byte>(file_path);
                 faces.Add(face);
             }
             return faces.ToArray();

@@ -1,6 +1,6 @@
-﻿using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Interfaces;
+﻿using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Interfaces;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class Manager
     {
@@ -23,10 +23,6 @@ namespace MetroFramework.Demo.Managers
         //Sql commad
         public static MySqlCommand sql_command = null ;
 
-        //returns a time stamp
-        public static string GetTimeStamp(DateTime value) 
-        {
-            return value.ToString("ddMMyyyyHHmmssffff");
-        }
+       
     }
 }

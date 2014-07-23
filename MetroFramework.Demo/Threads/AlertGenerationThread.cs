@@ -1,8 +1,8 @@
-﻿using MetroFramework.Demo.Custom_Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Views;
+﻿using Nkujukira.Demo.Custom_Controls;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Views;
 using Nkujukira.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,13 +10,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public abstract class AlertGenerationThread : AbstractThread
     {
 
-        private bool sucess             = false;
-        protected bool play_sound       = false;
+        private bool dequeue_sucessful    = false;
+        protected bool play_sound         = false;
 
 
 
@@ -40,14 +40,12 @@ namespace MetroFramework.Demo.Threads
 
 
                         //CHECK TO SEE IF AN ALERT HAS BEEN SIGNALED FOR
-                        sucess          = GetIdentifiedIndividual();
+                        dequeue_sucessful = GetIdentifiedIndividual();
 
-                        //IF AN ALERT HAS BEEN SIGNALED
-                        if (sucess && !ThereIsSimilarAlert())
+                        //IF PERP OR STUDENT HAS BEEN IDENTIFIED AND THAT STUDENT OR PERP HAS NEVER HAD 
+                        //AN ALERT GENERATED ABOUT HIM DURING THIS SESSION
+                        if (dequeue_sucessful && !ThereIsSimilarAlert())
                         {
-                            Debug.WriteLine("NEW ALERT");
-
-                            //PLAY THE ALARM SOUND
                             PlayAlarmSound();
 
                             //DISPLAY DETAILS OF THE ALERT
@@ -59,7 +57,7 @@ namespace MetroFramework.Demo.Threads
                         {
                             if (TerminateThread())
                             {
-                                running = false;
+                                running   = false;
                                 break;
                             }
                         }
@@ -87,11 +85,10 @@ namespace MetroFramework.Demo.Threads
         //THIS STARTS A THREAD THAT PLAYS AN ALARM SOUND CONTINUOUSLY
         private void PlayAlarmSound()
         {
-            Debug.WriteLine("Playing Alarm sound");
             if (play_sound)
             {
                 SoundManager.PlaySound();
-                play_sound              = false;
+                play_sound                = false;
             }
         }
 

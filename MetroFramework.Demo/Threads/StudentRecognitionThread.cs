@@ -1,10 +1,10 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Custom_Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Custom_Controls;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using ProgressControls;
 using System;
@@ -15,7 +15,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     //THIS THREAD ATTEMPTS TO RECOGNIZE A PERPETRATOR OF A CRIME FROM THE STUDENTS REG DATABASE
     public class StudentRecognitionThread : FaceRecognitionThread
@@ -40,13 +40,13 @@ namespace MetroFramework.Demo.Threads
         //RESULT OF FACE RECOGNITION OPERATION
         private FaceRecognitionResult face_recognition_result = null;
 
-        private List<Image<Gray, byte>> faces_to_recognize = new List<Image<Gray, byte>>();
+        private List<Image<Bgr, byte>> faces_to_recognize = new List<Image<Bgr, byte>>();
 
         private FacesManager faces_manager;
         public static bool WORK_DONE=false;
 
         //CONSTRUCTOR
-        public StudentRecognitionThread(Image<Gray, byte>[] faces_to_recognize)
+        public StudentRecognitionThread(Image<Bgr, byte>[] faces_to_recognize)
             : base(null)
         {
             running            = true;
@@ -70,11 +70,11 @@ namespace MetroFramework.Demo.Threads
             //FOR EACH ACTIVE PERPETRATOR ENROLL HIS FACE SO IT CAN BE USED FOR COMPARISON
             foreach (var student in students)
             {
-                faces_manager.EnrollFaces(student);
+                faces_manager.EnrollStudentFaces(student);
             }
         }
 
-        protected override void RecognizeFace(Image<Gray, byte> face)
+        protected override void RecognizeFace(Image<Bgr, byte> face)
         {
 
             if (students.Length != 0)
@@ -84,7 +84,7 @@ namespace MetroFramework.Demo.Threads
                 int width               = 120;
                 int height              = 120;
 
-                face                    = FramesManager.ResizeGrayImage(face, new Size(width, height));
+                face                    = FramesManager.ResizeColoredImage(face, new Size(width, height));
 
                 //ATTEMPT TO RECOGNIZE THE PERPETRATOR
                 face_recognition_result = faces_manager.MatchFace(face);
@@ -119,7 +119,7 @@ namespace MetroFramework.Demo.Threads
                 DisableSpinningProgressIndicator();
 
                 //GET ALL FACES TO BE RECOGNIZED
-                List<Image<Gray, byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
+                List<Image<Bgr, byte>>.Enumerator enumerator = faces_to_recognize.GetEnumerator();
 
                 //LOOP THRU ALL FACES TO RECOGNIZE
                 while (enumerator.MoveNext())
@@ -193,7 +193,7 @@ namespace MetroFramework.Demo.Threads
                     int width                        = 120;
                     int height                       = 120;
 
-                    student.photos[i]                = FramesManager.ResizeGrayImage(student.photos[i], new Size(width, height));
+                    student.photos[i]                = FramesManager.ResizeColoredImage(student.photos[i], new Size(width, height));
 
                     //DISPLAY STUDENT FACE
                     SetControlPropertyThreadSafe(perpetrators_pictureBox, "Image", student.photos[i].ToBitmap());

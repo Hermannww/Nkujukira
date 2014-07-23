@@ -1,6 +1,9 @@
 ﻿using Emgu.CV.UI;
-using MetroFramework.Demo.Custom_Controls;
-namespace MetroFramework.Demo
+using MetroFramework;
+using MetroFramework.Components;
+using MetroFramework.Controls;
+using Nkujukira.Demo.Custom_Controls;
+namespace Nkujukira.Demo
 {
     partial class MainWindow
     {
@@ -40,22 +43,22 @@ namespace MetroFramework.Demo
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.metroToolTip = new MetroFramework.Components.MetroToolTip();
+            this.metroStyleManager = new MetroStyleManager(this.components);
+            this.metroToolTip = new MetroToolTip();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
             this.pick_video_button = new MetroFramework.Controls.MetroButton();
             this.show_detected_faces2 = new MetroFramework.Controls.MetroCheckBox();
             this.pause_button = new MetroFramework.Controls.MetroButton();
             this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.use_video_button = new MetroFramework.Controls.MetroButton();
-            this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
+            this.metroStyleExtender = new MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
             this.panel_for_detected_faces = new System.Windows.Forms.Panel();
             this.label_face_recognition_status = new System.Windows.Forms.Label();
             this.label_separator = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
-            this.imageBox4 = new MetroFramework.Demo.Custom_Controls.MyImageBox();
+            this.imageBox4 = new Nkujukira.Demo.Custom_Controls.MyImageBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -179,7 +182,7 @@ namespace MetroFramework.Demo
             // 
             // metroToolTip
             // 
-            this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroToolTip.Style = MetroColorStyle.Blue;
             this.metroToolTip.StyleManager = null;
             this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
@@ -611,7 +614,7 @@ namespace MetroFramework.Demo
             this.metroTile6.Location = new System.Drawing.Point(16, 369);
             this.metroTile6.Name = "metroTile6";
             this.metroTile6.Size = new System.Drawing.Size(231, 156);
-            this.metroTile6.Style = MetroFramework.MetroColorStyle.Green;
+            this.metroTile6.Style = MetroColorStyle.Green;
             this.metroTile6.TabIndex = 9;
             this.metroTile6.Text = "Help";
             this.metroTile6.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile6.TileImage")));
@@ -626,7 +629,7 @@ namespace MetroFramework.Demo
             this.metroTile7.Location = new System.Drawing.Point(253, 369);
             this.metroTile7.Name = "metroTile7";
             this.metroTile7.Size = new System.Drawing.Size(220, 156);
-            this.metroTile7.Style = MetroFramework.MetroColorStyle.Pink;
+            this.metroTile7.Style = MetroColorStyle.Pink;
             this.metroTile7.TabIndex = 10;
             this.metroTile7.Text = "Most Wanted List";
             this.metroTile7.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile7.TileImage")));
@@ -642,7 +645,7 @@ namespace MetroFramework.Demo
             this.metroTile8.Location = new System.Drawing.Point(479, 369);
             this.metroTile8.Name = "metroTile8";
             this.metroTile8.Size = new System.Drawing.Size(225, 156);
-            this.metroTile8.Style = MetroFramework.MetroColorStyle.Teal;
+            this.metroTile8.Style = MetroColorStyle.Teal;
             this.metroTile8.TabIndex = 11;
             this.metroTile8.Text = "About Us";
             this.metroTile8.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile8.TileImage")));
@@ -657,7 +660,7 @@ namespace MetroFramework.Demo
             this.metroTile9.Location = new System.Drawing.Point(16, 19);
             this.metroTile9.Name = "metroTile9";
             this.metroTile9.Size = new System.Drawing.Size(231, 166);
-            this.metroTile9.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTile9.Style = MetroColorStyle.Blue;
             this.metroTile9.TabIndex = 12;
             this.metroTile9.Text = "Add New User";
             this.metroTile9.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -672,7 +675,7 @@ namespace MetroFramework.Demo
             this.metroTile4.Location = new System.Drawing.Point(479, 19);
             this.metroTile4.Name = "metroTile4";
             this.metroTile4.Size = new System.Drawing.Size(225, 165);
-            this.metroTile4.Style = MetroFramework.MetroColorStyle.Brown;
+            this.metroTile4.Style = MetroColorStyle.Brown;
             this.metroTile4.TabIndex = 6;
             this.metroTile4.Text = "Change User role";
             this.metroTile4.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile4.TileImage")));
@@ -688,7 +691,7 @@ namespace MetroFramework.Demo
             this.metroTile2.Location = new System.Drawing.Point(16, 191);
             this.metroTile2.Name = "metroTile2";
             this.metroTile2.Size = new System.Drawing.Size(231, 172);
-            this.metroTile2.Style = MetroFramework.MetroColorStyle.Purple;
+            this.metroTile2.Style = MetroColorStyle.Purple;
             this.metroTile2.TabIndex = 4;
             this.metroTile2.Text = "Add Student";
             this.metroTile2.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile2.TileImage")));
@@ -704,7 +707,7 @@ namespace MetroFramework.Demo
             this.metroTile1.Location = new System.Drawing.Point(253, 19);
             this.metroTile1.Name = "metroTile1";
             this.metroTile1.Size = new System.Drawing.Size(220, 165);
-            this.metroTile1.Style = MetroFramework.MetroColorStyle.Lime;
+            this.metroTile1.Style = MetroColorStyle.Lime;
             this.metroTile1.TabIndex = 3;
             this.metroTile1.Text = "Change Login Credentials";
             this.metroTile1.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile1.TileImage")));
@@ -720,7 +723,7 @@ namespace MetroFramework.Demo
             this.metroTile3.Location = new System.Drawing.Point(479, 191);
             this.metroTile3.Name = "metroTile3";
             this.metroTile3.Size = new System.Drawing.Size(225, 172);
-            this.metroTile3.Style = MetroFramework.MetroColorStyle.Red;
+            this.metroTile3.Style = MetroColorStyle.Red;
             this.metroTile3.TabIndex = 8;
             this.metroTile3.Text = "History";
             this.metroTile3.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile3.TileImage")));
@@ -735,7 +738,7 @@ namespace MetroFramework.Demo
             this.metroTile5.Location = new System.Drawing.Point(253, 190);
             this.metroTile5.Name = "metroTile5";
             this.metroTile5.Size = new System.Drawing.Size(220, 173);
-            this.metroTile5.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.metroTile5.Style = MetroColorStyle.Yellow;
             this.metroTile5.TabIndex = 7;
             this.metroTile5.Text = "DashBoard";
             this.metroTile5.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile5.TileImage")));
@@ -767,7 +770,7 @@ namespace MetroFramework.Demo
             this.metroTabPage11.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage11.Name = "metroTabPage11";
             this.metroTabPage11.Size = new System.Drawing.Size(918, 580);
-            this.metroTabPage11.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.metroTabPage11.Style = MetroColorStyle.Magenta;
             this.metroTabPage11.TabIndex = 6;
             this.metroTabPage11.Text = "Settings";
             this.metroTabPage11.VerticalScrollbarBarColor = true;
@@ -784,7 +787,7 @@ namespace MetroFramework.Demo
             this.tile1.Location = new System.Drawing.Point(-6429, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
-            this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.tile1.Style = MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
             this.tile1.TileImage = ((System.Drawing.Image)(resources.GetObject("tile1.TileImage")));
@@ -807,7 +810,7 @@ namespace MetroFramework.Demo
             this.metroTabPage2.Name = "metroTabPage2";
             this.metroTabPage2.Padding = new System.Windows.Forms.Padding(25);
             this.metroTabPage2.Size = new System.Drawing.Size(918, 580);
-            this.metroTabPage2.Style = MetroFramework.MetroColorStyle.Black;
+            this.metroTabPage2.Style = MetroColorStyle.Black;
             this.metroTabPage2.TabIndex = 2;
             this.metroTabPage2.Text = "Review Footage";
             this.metroTabPage2.VerticalScrollbar = true;
@@ -919,10 +922,10 @@ namespace MetroFramework.Demo
 
         #region Controls
 
-        private Components.MetroStyleManager metroStyleManager;
-        private Components.MetroToolTip metroToolTip;
-        private Components.MetroStyleExtender metroStyleExtender;
-        private Controls.MetroContextMenu metroContextMenu1;
+        private MetroStyleManager metroStyleManager;
+        private MetroToolTip metroToolTip;
+        private MetroStyleExtender metroStyleExtender;
+        private MetroContextMenu metroContextMenu1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maintenanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
@@ -941,8 +944,8 @@ namespace MetroFramework.Demo
         public static Emgu.CV.UI.ImageBox imageBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel_logout;
-        private Controls.MetroTabControl metroTabControl1;
-        private Controls.MetroTabPage metroTabPage1;
+        private MetroTabControl metroTabControl1;
+        private MetroTabPage metroTabPage1;
         private ProgressControls.ProgressIndicator spining_progress_live;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel live_stream_recognition_panel;
@@ -957,38 +960,38 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label2;
         private ImageBox imageBox5;
         private ImageBox imageBox7;
-        private Controls.MetroTabPage metroTabPage2;
+        private MetroTabPage metroTabPage2;
         private System.Windows.Forms.Panel panel4;
         private ProgressControls.ProgressIndicator spining_progress_review;
         private System.Windows.Forms.Label total_time_label;
         private System.Windows.Forms.Label time_elapsed_label;
         private MB.Controls.ColorSlider review_footage_color_slider;
-        private Controls.MetroButton stop_button_2;
-        private Controls.MetroButton pick_video_button;
-        private Controls.MetroCheckBox show_detected_faces2;
-        private Controls.MetroButton pause_button;
+        private MetroFramework.Controls.MetroButton stop_button_2;
+        private MetroFramework.Controls.MetroButton pick_video_button;
+        private MetroCheckBox show_detected_faces2;
+        private MetroFramework.Controls.MetroButton pause_button;
         private ImageBox review_footage_image_box;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel_for_detected_faces;
         private System.Windows.Forms.Label label_face_recognition_status;
         private System.Windows.Forms.Label label_separator;
-        private Controls.MetroTabPage metroTabPage11;
-        private Controls.MetroTile metroTile9;
-        private Controls.MetroTile metroTile8;
-        private Controls.MetroTile metroTile7;
-        private Controls.MetroTile metroTile6;
-        private Controls.MetroTile metroTile3;
-        private Controls.MetroTile metroTile5;
-        private Controls.MetroTile metroTile4;
-        private Controls.MetroTile metroTile2;
-        private Controls.MetroTile metroTile1;
-        private Controls.MetroTile tile1;
+        private MetroTabPage metroTabPage11;
+        private MetroTile metroTile9;
+        private MetroTile metroTile8;
+        private MetroTile metroTile7;
+        private MetroTile metroTile6;
+        private MetroTile metroTile3;
+        private MetroTile metroTile5;
+        private MetroTile metroTile4;
+        private MetroTile metroTile2;
+        private MetroTile metroTile1;
+        private MetroTile tile1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel5;
-        private Controls.MetroButton turn_on_button;
+        private MetroFramework.Controls.MetroButton turn_on_button;
         private System.Windows.Forms.Panel panel6;
-        private Controls.MetroButton use_video_button;
+        private MetroFramework.Controls.MetroButton use_video_button;
         
      
 

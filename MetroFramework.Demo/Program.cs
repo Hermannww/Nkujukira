@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Views;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Views;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     static class Program
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Custom_Controls
+namespace Nkujukira.Demo.Custom_Controls
 {
     public class MyImageBox : ImageBox
     {

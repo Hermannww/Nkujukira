@@ -8,15 +8,15 @@ using System.Text;
 using System.Windows.Forms;
 using MB.Controls;
 using MetroFramework.Forms;
-using MetroFramework.Demo.Managers;
+using Nkujukira.Demo.Managers;
 using System.Diagnostics;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Interfaces;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Views;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Interfaces;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Views;
+using Nkujukira.Demo.Singletons;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class LoginForm : MetroForm
     {

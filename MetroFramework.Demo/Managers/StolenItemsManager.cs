@@ -1,4 +1,4 @@
-﻿using MetroFramework.Demo.Entitities;
+﻿using Nkujukira.Demo.Entitities;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class StolenItemsManager:Manager
     {
@@ -18,7 +18,7 @@ namespace MetroFramework.Demo.Managers
         private const int NAME_OF_ITEM   = 1;
         private const int VICTIMS_ID     = 2;
 
-        public static void CreateTable()
+        public static bool CreateTable()
         {
             try
             {
@@ -29,6 +29,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText  = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -36,7 +41,7 @@ namespace MetroFramework.Demo.Managers
             }
         }
 
-        public static void DropTable()
+        public static bool DropTable()
         {
             try
             {
@@ -46,6 +51,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText  = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -54,13 +64,21 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public static void PopulateTable()
+        public static bool PopulateTable()
         {
-
+            try
+            {
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static StolenItem[] GetVictimsStolenItems(int victim_id) 
         {
+            List<StolenItem> stolen_items = new List<StolenItem>();
             try
             {
                 //SELECT SQL
@@ -75,7 +93,7 @@ namespace MetroFramework.Demo.Managers
                 //GET RESULTS IN ENUM OBJECT
                 data_reader                     = database.Select(sql_command);
 
-                List<StolenItem> stolen_items            = new List<StolenItem>();
+               
 
                 //LOOP THRU EM
                 while (data_reader.Read())
@@ -90,8 +108,7 @@ namespace MetroFramework.Demo.Managers
                     stolen_items.Add(stolen_item);
                 }
 
-                //RETURN ARRAY OF RESULTS
-                return stolen_items.ToArray();
+               
             }
             catch (Exception e)
             {
@@ -103,7 +120,9 @@ namespace MetroFramework.Demo.Managers
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return null;
+
+            //RETURN ARRAY OF RESULTS
+            return stolen_items.ToArray();
         
         }
 
@@ -119,15 +138,17 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText = insert_sql;
 
                 sql_command.Parameters.AddWithValue("@name_of_item", item.name_of_item);
-                sql_command.Parameters.AddWithValue("@victim_id", item.victims_id);
-                
+                sql_command.Parameters.AddWithValue("@victim_id", item.victims_id);            
                 sql_command.Prepare();
 
                 database.Insert(sql_command);
 
                 item.id = Convert.ToInt32(sql_command.LastInsertedId);
-
                 return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -159,6 +180,10 @@ namespace MetroFramework.Demo.Managers
 
                 return true;
             }
+            catch (Exception) 
+            {
+                return false;
+            }
             finally
             {
                 database.CloseConnection();
@@ -180,6 +205,10 @@ namespace MetroFramework.Demo.Managers
                 //execute command
                 database.Update(sql_command);
                 return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {

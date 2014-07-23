@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Interfaces;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Interfaces;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using MetroFramework;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class DashBoardDialog : MetroForm
     {

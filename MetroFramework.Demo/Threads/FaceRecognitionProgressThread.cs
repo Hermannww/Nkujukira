@@ -1,10 +1,10 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using MetroFramework.Controls;
-using MetroFramework.Demo.Custom_Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Custom_Controls;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System;
 using System.Collections.Generic;
@@ -14,13 +14,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using MetroFramework;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class FaceRecognitionProgressThread : AbstractThread
     {
-        //RESULT OF A FACE_RECOGNITION_RESULT
-        FaceRecognitionResult face_recognition_result;
+        //RESULT OF A FACE_RECOGNITION_OPERATION
+        public FaceRecognitionResult face_recognition_result;
 
         //CONTROLS FOR DISPLAYING RESULTS
         protected MyPictureBox perpetrators_pictureBox  = null;
@@ -97,7 +98,7 @@ namespace MetroFramework.Demo.Threads
             }
         }
 
-        public void DisplayFaceRecognitionProgress(Image<Gray, byte> face)
+        public bool DisplayFaceRecognitionProgress(Image<Bgr, byte> face)
         {
             if(face!=null)
             {
@@ -108,7 +109,7 @@ namespace MetroFramework.Demo.Threads
                     int width  = 120;
                     int height = 120;
 
-                    face       = FramesManager.ResizeGrayImage(face, new Size(width, height));
+                    face       = FramesManager.ResizeColoredImage(face, new Size(width, height));
 
                     //CLEAR PANEL IF ITEMS ARE TOO MANY
                     ClearPanelIfItemsAreMany();
@@ -161,9 +162,11 @@ namespace MetroFramework.Demo.Threads
 
                     //INCREASE THE GLOBAL Y SO NEXT PIC BOXES ARE DRAWN BELOW THIS ONE
                     y += 145;
+                    return true;
 
                 }
             }
+            return false;
         }
 
         private void ClearPanelIfItemsAreMany()
@@ -228,7 +231,7 @@ namespace MetroFramework.Demo.Threads
             {
                 foreach (var face in perpetrator.faces)
                 {
-                    //GET THE AMOUNT OF WORK DONE                           PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
+                    //GET THE AMOUNT OF WORK DONE                    PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
                     int percentage_completed = (int)(((progress_decimal / (active_perpetrators.Length * 5) * 100)));
 
 
@@ -247,7 +250,7 @@ namespace MetroFramework.Demo.Threads
                             if (face_recognition_result.identified_perpetrator!=null)
                             {
                                 //GET IDENTIFIED PERPETRATORS FACE
-                                Image<Gray, byte> perps_face = face_recognition_result.identified_perpetrator.faces[0];
+                                Image<Bgr, byte> perps_face = face_recognition_result.identified_perpetrator.faces[0];
 
                                 if (perps_face != null)
                                 {

@@ -1,4 +1,4 @@
-﻿namespace MetroFramework.Demo.Views
+﻿namespace Nkujukira.Demo.Views
 {
     partial class LoadingScreen
     {

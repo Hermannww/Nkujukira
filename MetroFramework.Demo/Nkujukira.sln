@@ -40,6 +40,7 @@ Global
 		{AF988819-4618-4852-9506-C1D06D04F6B2}.Release|x64.Build.0 = Release|x64
 		{AF988819-4618-4852-9506-C1D06D04F6B2}.Release|x86.ActiveCfg = Release|x86
 		{AF988819-4618-4852-9506-C1D06D04F6B2}.Release|x86.Build.0 = Release|x86
+		{AF988819-4618-4852-9506-C1D06D04F6B2}.Release|x86.Deploy.0 = Release|x86
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -52,9 +53,13 @@ Global
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|x64.ActiveCfg = Release|Any CPU
-		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|x86.ActiveCfg = Release|Any CPU
+		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|x86.ActiveCfg = Release|x86
+		{689F5DA5-2C30-49E0-805D-757CAA875302}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

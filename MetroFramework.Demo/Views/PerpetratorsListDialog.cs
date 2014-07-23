@@ -7,14 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
 using System.Diagnostics;
+using MetroFramework;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class PerpetratorsListDialog : MetroForm
     {
+        private string DELETE_CONFRIRMATION = "Are You Sure You Want To Do This?";
+        private string CAPTION = "CONFIRMATION";
+        private string SUCESS_MESSAGE = "Operation Successfull";
+        private string ERROR_MESSAGE = "Operation Failed. Please try again";
         public PerpetratorsListDialog()
         {
             InitializeComponent();
@@ -27,89 +32,90 @@ namespace MetroFramework.Demo.Views
         {
 
         }
+
         public void DrawTable(Perpetrator[] perpetrators_list)
         {
             object[] rows = null;
-            dataGridViewX1.ColumnCount = 6;
-            dataGridViewX1.ColumnHeadersVisible = true;
+            all_perpetrators_table.ColumnCount = 6;
+            all_perpetrators_table.ColumnHeadersVisible = true;
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
 
             columnHeaderStyle.BackColor = Color.Beige;
             columnHeaderStyle.Font = new Font("Verdana", 9, FontStyle.Regular);
-            dataGridViewX1.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+            all_perpetrators_table.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
 
             // Set the column header names.
-            dataGridViewX1.Columns[0].Name = "Id";
-            dataGridViewX1.Columns[1].Name = "Name";
-            dataGridViewX1.Columns[2].Name = "Student";
-            dataGridViewX1.Columns[3].Name = "Status";
-            dataGridViewX1.Columns[4].Name = "Gender";
-            dataGridViewX1.Columns[5].Name = "Creation Date";
+            all_perpetrators_table.Columns[0].Name = "Id";
+            all_perpetrators_table.Columns[1].Name = "Name";
+            all_perpetrators_table.Columns[2].Name = "Student";
+            all_perpetrators_table.Columns[3].Name = "Status";
+            all_perpetrators_table.Columns[4].Name = "Gender";
+            all_perpetrators_table.Columns[5].Name = "Creation Date";
+
             if (perpetrators_list.Length > 0)
             {
-                rows = new object[perpetrators_list.Length];
-                int i = 0;
+                rows                    = new object[perpetrators_list.Length];
+                int i                   = 0;
+
                 foreach (var perpetrator in perpetrators_list)
                 {
-                    String id = Convert.ToString(perpetrators_list[i].id);
-                    String name = perpetrators_list[i].name;
-                    String is_a_student = Convert.ToString(perpetrators_list[i].is_a_student);
-                    String is_active = Convert.ToString(perpetrators_list[i].is_still_active);
-                    String gender = perpetrators_list[i].gender;
-                    String created_at = perpetrators_list[i].created_at;
-                    string[] row = new string[] { id, name, is_a_student, is_active, gender, created_at };
-                    rows[i] = row;
+                    String id           = ""+perpetrators_list[i].id;
+                    String name         = perpetrators_list[i].name;
+                    String is_a_student = ""+perpetrators_list[i].is_a_student;
+                    String is_active    = ""+perpetrators_list[i].is_still_active;
+                    String gender       = perpetrators_list[i].gender;
+                    String created_at   = perpetrators_list[i].created_at;
+                    string[] row        = new string[] { id, name, is_a_student, is_active, gender, created_at };
+                    rows[i]             = row;
                     i++;
                 }
+
                 if (perpetrators_list != null)
                 {
 
                     foreach (string[] rowArray in rows)
                     {
-                        dataGridViewX1.Rows.Add(rowArray);
+                        all_perpetrators_table.Rows.Add(rowArray);
 
                     }
                 }
             }
         }
 
-        private void metroButton3_Click(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Deleting perpetrator");
             try
             {
-                DialogResult response = MetroMessageBox.Show(this, "Are You Sure You Want To Delete The Selected Perpetrator", "CONFIRMATION", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult response = MessageBox.Show(this, DELETE_CONFRIRMATION, CAPTION, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
                 if (response == DialogResult.Yes)
                 {
-                    int selected_row = dataGridViewX1.CurrentRow.Index;
-                    int id = Convert.ToInt32(dataGridViewX1[0, selected_row].Value);
-                    bool victim_deleted = VictimsManager.Delete(CrimesManager.GetCrimeId(id));
-                    
-                    if (victim_deleted)
+                    //GET ID OF PERP SELECTED
+                    int selected_row = all_perpetrators_table.CurrentRow.Index;
+                    int id = Convert.ToInt32(all_perpetrators_table[0, selected_row].Value);
+
+                    //GET PERPETRATOR ASSOCIATED WITH ID
+                    Perpetrator perp = PerpetratorsManager.GetPerpetrator(id);
+
+                    if (perp != null)
                     {
-                        Debug.WriteLine("Deleting Victims of crime");
-                        bool crime_deleted = CrimesManager.Delete(id);
-                        if (crime_deleted)
-                        {
-                            Debug.WriteLine("Deleting Crimes");
-                            bool perpetrator_deleted = PerpetratorsManager.Delete(id);
-                            if (perpetrator_deleted)
-                            {
-                                MetroMessageBox.Show(this, "Perpetrator Deleted Successfully", "CONGRATULATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                dataGridViewX1.Rows.RemoveAt(selected_row);
-                            }
-                            else
-                            {
-                                MetroMessageBox.Show(this, "Unknown Error Occured while deleting. Please try again", "ERROR");
-                            }
-                        }
+                        //DELETE HIS CRIMES AND VICTIMS ASSOCIATED WITH PERP
+                        DeleteCrimesAndVictimsOfCrimes(perp.id);
+
+                        //DELETE PERP
+                        PerpetratorsManager.Delete(perp.id);
+
+                        //SHOW SUCEES MESSAGE
+                        MessageBox.Show(this, SUCESS_MESSAGE, CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        //UPDATE GUI
+                        all_perpetrators_table.Rows.RemoveAt(selected_row);
                     }
-
-
-                }
-                else if (response == DialogResult.No)
-                {
-
+                    else
+                    {
+                        MessageBox.Show(this, ERROR_MESSAGE, CAPTION);
+                    }
 
                 }
 
@@ -121,19 +127,47 @@ namespace MetroFramework.Demo.Views
             }
         }
 
-        private void metroButton2_Click(object sender, EventArgs e)
+        private void DeleteCrimesAndVictimsOfCrimes(int perp_id)
         {
-            Debug.WriteLine("Displaying details NOW");
+            //GET CRIMES COMMITTED BY THE PERP
+            Crime[] crimes = CrimesManager.GetCrimesCommitted(perp_id);
+
+
+            //DELETE EACH CRIME AND THE VICTIMS OF THE CRIME
+            foreach (var crime in crimes)
+            {
+                DeleteVictimsOfCrimes(crime.id);
+
+                CrimesManager.Delete(crime.id);
+            }
+        }
+
+        private void DeleteVictimsOfCrimes(int crime_id)
+        {
+            Victim[] victims = VictimsManager.GetVictimsOfCrime(crime_id);
+
+            foreach (var victim in victims)
+            {
+                VictimsManager.Delete(victim.id);
+            }
+        }
+
+
+
+        private void EditDetailsButton_Click(object sender, EventArgs e)
+        {
             try
             {
-                int Row = dataGridViewX1.CurrentRow.Index;
-                int id = Convert.ToInt32(dataGridViewX1[0, Row].Value);
-                String name = Convert.ToString(dataGridViewX1[1, Row].Value);
-                bool is_a_student = Convert.ToBoolean(dataGridViewX1[2, Row].Value);
-                bool is_active = Convert.ToBoolean(dataGridViewX1[3, Row].Value);
-                String gender = Convert.ToString(dataGridViewX1[4, Row].Value);
-                String created_at = Convert.ToString(dataGridViewX1[5, Row].Value);
-                PerpetratorDetailsForm form = new PerpetratorDetailsForm(new Perpetrator(id, name, PerpetratorsManager.GetPerpetratorFaces(id), is_a_student, is_active, gender, created_at), true);
+                int Row                     = all_perpetrators_table.CurrentRow.Index;
+                int id                      = Convert.ToInt32(all_perpetrators_table[0, Row].Value);
+                String name                 = Convert.ToString(all_perpetrators_table[1, Row].Value);
+                bool is_a_student           = Convert.ToBoolean(all_perpetrators_table[2, Row].Value);
+                bool is_active              = Convert.ToBoolean(all_perpetrators_table[3, Row].Value);
+                String gender               = Convert.ToString(all_perpetrators_table[4, Row].Value);
+                String created_at           = Convert.ToString(all_perpetrators_table[5, Row].Value);
+
+                Perpetrator perp            = new Perpetrator(id, name, PerpetratorsManager.GetPerpetratorFaces(id), is_a_student, is_active, gender, created_at);
+                PerpetratorDetailsForm form = new PerpetratorDetailsForm(perp, true);
                 form.Show();
             }
             catch (Exception ex)
@@ -143,18 +177,17 @@ namespace MetroFramework.Demo.Views
 
         }
 
-        private void metroButton1_Click(object sender, EventArgs e)
+        private void ViewDetailsButton_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("Displaying details NOW");
             try
             {
-                int Row = dataGridViewX1.CurrentRow.Index;
-                int id = Convert.ToInt32(dataGridViewX1[0, Row].Value);
-                String name = Convert.ToString(dataGridViewX1[1, Row].Value);
-                bool is_a_student = Convert.ToBoolean(dataGridViewX1[2, Row].Value);
-                bool is_active = Convert.ToBoolean(dataGridViewX1[3, Row].Value);
-                String gender = Convert.ToString(dataGridViewX1[4, Row].Value);
-                String created_at = Convert.ToString(dataGridViewX1[5, Row].Value);
+                int Row                     = all_perpetrators_table.CurrentRow.Index;
+                int id                      = Convert.ToInt32(all_perpetrators_table[0, Row].Value);
+                String name                 = Convert.ToString(all_perpetrators_table[1, Row].Value);
+                bool is_a_student           = Convert.ToBoolean(all_perpetrators_table[2, Row].Value);
+                bool is_active              = Convert.ToBoolean(all_perpetrators_table[3, Row].Value);
+                String gender               = Convert.ToString(all_perpetrators_table[4, Row].Value);
+                String created_at           = Convert.ToString(all_perpetrators_table[5, Row].Value);
                 PerpetratorDetailsForm form = new PerpetratorDetailsForm(new Perpetrator(id, name, PerpetratorsManager.GetPerpetratorFaces(id), is_a_student, is_active, gender, created_at), true);
                 form.Show();
             }

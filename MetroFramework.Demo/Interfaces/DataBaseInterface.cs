@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Entitities;
 using System.Data;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data.Common;
 
-namespace MetroFramework.Demo.Interfaces
+namespace Nkujukira.Demo.Interfaces
 {
     public interface DatabaseInterface
     {

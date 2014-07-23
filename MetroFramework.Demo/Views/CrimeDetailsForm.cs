@@ -1,5 +1,5 @@
-﻿using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
+﻿using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class CrimeDetailsForm : MetroForm
     {
@@ -22,10 +22,7 @@ namespace MetroFramework.Demo.Views
         String[] crimes_againist_morality            = { "prostitution", "illegal gambling", "drug use" };
         String[] white_collar_crimes                 = { "embezzling", "insider trading", "tax evasion" };
         Crime crime;
-         //create victims form
-        VictimsDetailsForm victim_details_form;
-        //internal List<Victim> victims_of_this_crime=new List<Victim>();
-
+        
         public CrimeDetailsForm(Perpetrator perpetrator_id)
         {
             this.perpetrator                         = perpetrator_id;

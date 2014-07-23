@@ -1,5 +1,5 @@
-﻿using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
+﻿using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class SetUpForm : MetroForm
     {
@@ -64,7 +64,7 @@ namespace MetroFramework.Demo.Views
             Setting setting           = new Setting("images_folder", images_folder);
 
             //DROP ALL TABLES IN DATABASE
-            DatabaseManager.Droptables();
+            DatabaseManager.DropTables();
 
             //CREATE NEW TABLES
             DatabaseManager.CreateTables();

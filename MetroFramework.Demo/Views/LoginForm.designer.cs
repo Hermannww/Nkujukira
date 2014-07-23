@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     partial class LoginForm
     {
@@ -34,16 +34,16 @@ namespace MetroFramework.Demo
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.spining_progress_indicator = new ProgressControls.ProgressIndicator();
+            this.label_separator = new System.Windows.Forms.Label();
             this.status_label = new System.Windows.Forms.Label();
             this.textbox_password = new System.Windows.Forms.TextBox();
             this.textbox_username = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.spining_progress_indicator = new ProgressControls.ProgressIndicator();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button_login = new MetroFramework.Controls.MetroButton();
-            this.label_separator = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -76,20 +76,13 @@ namespace MetroFramework.Demo
             this.panel1.Size = new System.Drawing.Size(405, 162);
             this.panel1.TabIndex = 20;
             // 
-            // spining_progress_indicator
+            // label_separator
             // 
-            this.spining_progress_indicator.BackColor = System.Drawing.Color.Transparent;
-            this.spining_progress_indicator.CircleColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.spining_progress_indicator.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.spining_progress_indicator.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.spining_progress_indicator.Location = new System.Drawing.Point(205, 10);
-            this.spining_progress_indicator.Name = "spining_progress_indicator";
-            this.spining_progress_indicator.Percentage = 0F;
-            this.spining_progress_indicator.ShowText = true;
-            this.spining_progress_indicator.Size = new System.Drawing.Size(53, 53);
-            this.spining_progress_indicator.TabIndex = 22;
-            this.spining_progress_indicator.Text = "Wait...";
-            this.spining_progress_indicator.TextDisplay = ProgressControls.TextDisplayModes.Text;
+            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_separator.Location = new System.Drawing.Point(10, 35);
+            this.label_separator.Name = "label_separator";
+            this.label_separator.Size = new System.Drawing.Size(340, 1);
+            this.label_separator.TabIndex = 28;
             // 
             // status_label
             // 
@@ -145,6 +138,21 @@ namespace MetroFramework.Demo
             this.label1.TabIndex = 20;
             this.label1.Text = "Username";
             // 
+            // spining_progress_indicator
+            // 
+            this.spining_progress_indicator.BackColor = System.Drawing.Color.Transparent;
+            this.spining_progress_indicator.CircleColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.spining_progress_indicator.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.spining_progress_indicator.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.spining_progress_indicator.Location = new System.Drawing.Point(205, 10);
+            this.spining_progress_indicator.Name = "spining_progress_indicator";
+            this.spining_progress_indicator.Percentage = 0F;
+            this.spining_progress_indicator.ShowText = true;
+            this.spining_progress_indicator.Size = new System.Drawing.Size(53, 53);
+            this.spining_progress_indicator.TabIndex = 22;
+            this.spining_progress_indicator.Text = "Wait...";
+            this.spining_progress_indicator.TextDisplay = ProgressControls.TextDisplayModes.Text;
+            // 
             // metroButton1
             // 
             this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -179,14 +187,6 @@ namespace MetroFramework.Demo
             this.button_login.UseSelectable = true;
             this.button_login.Click += new System.EventHandler(this.user_login_Click);
             // 
-            // label_separator
-            // 
-            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_separator.Location = new System.Drawing.Point(10, 35);
-            this.label_separator.Name = "label_separator";
-            this.label_separator.Size = new System.Drawing.Size(340, 1);
-            this.label_separator.TabIndex = 28;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,7 +203,7 @@ namespace MetroFramework.Demo
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowIcon = false;
-            this.Text = "LOGIN";
+            this.Text = "LOG!N";
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
@@ -219,13 +219,13 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroButton metroButton1;
         private System.Windows.Forms.TextBox textbox_password;
         private System.Windows.Forms.TextBox textbox_username;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
-        private Controls.MetroButton button_login;
+        private MetroFramework.Controls.MetroButton button_login;
         private System.Windows.Forms.Label status_label;
         private ProgressControls.ProgressIndicator spining_progress_indicator;
         private System.Windows.Forms.Label label_separator;

@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Views;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Views;
 using Nkujukira;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class SelectPerpetratorForm : MetroForm
     {
@@ -73,7 +73,7 @@ namespace MetroFramework.Demo
         {
             if (NoFaceSelected())
             {
-                //MetroMessageBox.Show()
+                //MessageBox.Show()
                 this.Close();
                 Singleton.MAIN_WINDOW.ResumeVideo();
                 return;

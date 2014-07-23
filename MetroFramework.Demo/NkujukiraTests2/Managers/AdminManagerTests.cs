@@ -3,17 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetroFramework.Demo.Managers;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Entitities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MetroFramework.Demo.Entitities;
-namespace MetroFramework.Demo.Managers.Tests
+
+
+namespace Nkujukira.Demo.Managers.Tests
 {
     [TestClass()]
     public class AdminManagerTests
     {
+        Admin[] all_admins=null;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            //AM THINKING THAT BEFORE WE RUN EACH TEST WE CREATE A NEW TABLE 
+            //AND POPULATE IT WITH THE DUMMY DATA FOR THE TEST
+            CreateTableIfItDoesntExist();
+            PopulateTable();
+           
+        }
+
+        public void CreateTableIfItDoesntExist()
+        {
+            AdminManager.CreateTable();
+        }
+
+        public void PopulateTable() 
+        {
+            //WE GET ALL OBJECTS AT THE START ONLY INORDER TO REDUCE THE TIME TAKEN
+            //TO RUN THE TESTS
+            if (all_admins == null)
+            {
+                all_admins = AdminManager.GetAllAdmins();
+            }
+
+            foreach (var admin in all_admins)
+            {
+                AdminManager.Save(admin);
+            }
+        }
+
+        [TestCleanup]
+        public void TearDown() 
+        {
+            //AM THINKING THAT AFTER EACH TESt HAS RUN WE DISCARD THE CHANGES MADE BY THE CODE
+            // AND RESTORE THE TABLE TO ITS ORIGINAL STATE
+            AdminManager.DropTable();
+            CreateTableIfItDoesntExist();
+            PopulateTable();
+        }
 
         [TestMethod()]
-        public void CreateTableTest()
+        public void AdminManagerCreateTableTest()
         {
             bool sucess=AdminManager.CreateTable();
             Assert.IsTrue(sucess);
@@ -21,7 +64,7 @@ namespace MetroFramework.Demo.Managers.Tests
         }
 
         [TestMethod()]
-        public void DropTableTest()
+        public void AdminManagerDropTableTest()
         {
             bool success=AdminManager.DropTable();
             Assert.IsTrue(success);
@@ -29,14 +72,14 @@ namespace MetroFramework.Demo.Managers.Tests
         }
 
         [TestMethod()]
-        public void PopulateTableTest()
+        public void AdminManagerPopulateTableTest()
         {
             bool sucess = AdminManager.PopulateTable();
             Assert.IsTrue(sucess);
         }
 
         [TestMethod()]
-        public void GetAdminTest()
+        public void AdminManagerGetAdminTest()
         {
 
             Admin admin=AdminManager.GetAdmin("nsubugak", "@llison");
@@ -44,21 +87,21 @@ namespace MetroFramework.Demo.Managers.Tests
         }
 
         [TestMethod()]
-        public void ExistsTest()
+        public void AdminManagerExistsTest()
         {
             bool sucess = AdminManager.Exists("nsubugak");
             Assert.IsTrue(sucess);
         }
 
         [TestMethod()]
-        public void GetAllAdminsTest()
+        public void AdminManagerGetAllAdminsTest()
         {
             Admin[] admins = AdminManager.GetAllAdmins();
             Assert.IsTrue(admins.Length >= 1);
         }
 
         [TestMethod()]
-        public void SaveTest()
+        public void AdminManagerSaveTest()
         {
             Admin admin=new Admin("kasoma","kasoma","admin");
             bool sucess = AdminManager.Save(admin);
@@ -66,14 +109,14 @@ namespace MetroFramework.Demo.Managers.Tests
         }
 
         [TestMethod()]
-        public void DeleteTest()
+        public void AdminManagerDeleteTest()
         {
             bool sucess = AdminManager.Delete(new Admin("kasoma", "kasoma", "admin"));
             Assert.IsTrue(sucess);
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void AdminManagerUpdateTest()
         {
             bool sucess = AdminManager.Update(new Admin(1, "nsubugak", "@llison", "admin"));
             Assert.IsTrue(sucess);

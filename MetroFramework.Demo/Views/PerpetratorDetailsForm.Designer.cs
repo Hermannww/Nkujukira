@@ -1,5 +1,5 @@
-﻿using MetroFramework.Demo.Custom_Controls;
-namespace MetroFramework.Demo
+﻿using Nkujukira.Demo.Custom_Controls;
+namespace Nkujukira.Demo
 {
     partial class PerpetratorDetailsForm
     {
@@ -41,7 +41,7 @@ namespace MetroFramework.Demo
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.perpetrator_picture_box = new MetroFramework.Demo.Custom_Controls.MyPictureBox();
+            this.perpetrator_picture_box = new Nkujukira.Demo.Custom_Controls.MyPictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -231,11 +231,11 @@ namespace MetroFramework.Demo
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox_is_a_student;
         private System.Windows.Forms.TextBox textBox_perpetrator_name;
-        private Controls.MetroButton button_save;
+        private MetroFramework.Controls.MetroButton button_save;
         private System.Windows.Forms.TextBox comboBox_is_active;
         private System.Windows.Forms.ComboBox comboBox_gender;
         private System.Windows.Forms.Label label4;
-        private Controls.MetroButton button_getCrimes;
-        private Controls.MetroButton button_is_apprehended;
+        private MetroFramework.Controls.MetroButton button_getCrimes;
+        private MetroFramework.Controls.MetroButton button_is_apprehended;
     }
 }

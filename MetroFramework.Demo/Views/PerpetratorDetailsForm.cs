@@ -1,11 +1,11 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Custom_Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Views;
+using Nkujukira.Demo.Custom_Controls;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Views;
 using MetroFramework.Forms;
 using Nkujukira;
 using System;
@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class PerpetratorDetailsForm : MetroForm
     {
@@ -77,7 +77,6 @@ namespace MetroFramework.Demo
             //resize and display one of the images of the perpetrator
             Size face_size                       = new Size(perpetrator_picture_box.Width, perpetrator_picture_box.Height);
             perpetrator_picture_box.Image        = FramesManager.ResizeBitmap(perpetrator.faces[0].ToBitmap(), face_size);
-            
         }
 
         //EVENT HANDLER
@@ -110,19 +109,17 @@ namespace MetroFramework.Demo
 
             //close this one
             this.Close();
-           
-
         }
 
         //EVENT HANDLER
         private void button_getCrimes_Click(object sender, EventArgs e)
         {
             //DISPLAY EACH CRIME COMMITTED BY THE PERP
-            Crime[] crimes_committed             = CrimesManager.GetCrimesCommitted(perpetrator.id);
+            Crime[] crimes_committed  = CrimesManager.GetCrimesCommitted(perpetrator.id);
 
             foreach (var crime in crimes_committed) 
             {
-                CrimeDetailsForm form            = new CrimeDetailsForm(crime);
+                CrimeDetailsForm form = new CrimeDetailsForm(crime);
                 SoundManager.StopPlayingSound();
                 form.Show();
             }

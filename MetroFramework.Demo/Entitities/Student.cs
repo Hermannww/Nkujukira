@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Entitities
+namespace Nkujukira.Demo.Entitities
 {
     public class Student:Entity
     {
@@ -19,7 +19,7 @@ namespace MetroFramework.Demo.Entitities
         public String course { get; set; }
         public String DOB { get; set; }
         public String gender { get; set; }
-        public Image<Gray,byte>[] photos { get; set; }
+        public Image<Bgr,byte>[] photos { get; set; }
 
         public Student() 
         {
@@ -27,7 +27,7 @@ namespace MetroFramework.Demo.Entitities
         }
        
 
-        public Student(String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Image<Gray,byte>[] photos)
+        public Student(String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Image<Bgr,byte>[] photos)
         {
             this.firstName  = firstName;
             this.lastName   = lastName;
@@ -40,7 +40,7 @@ namespace MetroFramework.Demo.Entitities
             this.photos     = photos;
         }
 
-        public Student(int id,String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Image<Gray,byte>[] photos)
+        public Student(int id,String firstName, String middleName, String lastName, String studentNo, String regNo, String course, String DOB, String gender, Image<Bgr,byte>[] photos)
         {
             this.id         = id;
             this.firstName  = firstName;

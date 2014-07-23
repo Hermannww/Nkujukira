@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     partial class SplashScreen : Form
     {
@@ -83,12 +83,12 @@ namespace MetroFramework.Demo.Views
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Niagara Solid", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Silver;
+            this.label1.ForeColor = System.Drawing.Color.LimeGreen;
             this.label1.Location = new System.Drawing.Point(6, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(175, 68);
+            this.label1.Size = new System.Drawing.Size(174, 68);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Nkujukira";
+            this.label1.Text = "nkujukira";
             // 
             // label3
             // 
@@ -123,6 +123,7 @@ namespace MetroFramework.Demo.Views
             this.Controls.Add(this.lblTimeRemaining);
             this.Controls.Add(this.pnlStatus);
             this.Controls.Add(this.lblStatus);
+            this.ForeColor = System.Drawing.Color.LawnGreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SplashScreen";
             this.ShowInTaskbar = false;

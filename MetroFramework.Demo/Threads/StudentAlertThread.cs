@@ -1,13 +1,13 @@
-﻿using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Views;
+﻿using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class StudentAlertThread : AlertGenerationThread
     {

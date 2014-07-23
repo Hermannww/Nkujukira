@@ -1,4 +1,4 @@
-﻿namespace MetroFramework.Demo
+﻿namespace Nkujukira.Demo
 {
     partial class ChangeUserLoginDetailsForm
     {
@@ -190,6 +190,6 @@
         private System.Windows.Forms.TextBox new_user_name;
         private System.Windows.Forms.TextBox new_pass_word;
         private System.Windows.Forms.TextBox confirm_new_pass_word;
-        private Controls.MetroButton changeloginCredentials;
+        private MetroFramework.Controls.MetroButton changeloginCredentials;
     }
 }

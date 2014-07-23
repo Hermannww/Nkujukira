@@ -2,7 +2,8 @@
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 using MB.Controls;
-using MetroFramework.Demo.Singletons;
+using MediaInfoNET;
+using Nkujukira.Demo.Singletons;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class ReviewDisplayUpdater : DisplayUpdaterThread
     {
@@ -21,7 +22,7 @@ namespace MetroFramework.Demo.Threads
         public static bool WORK_DONE;
 
         //VARIABLE CARRYING TIME ELAPSED IN CURRENLTY RUNNING VIDEO
-        public static double time_elapsed;
+        public static double time_elapsed_in_seconds_global;
 
         //INDICATES HOW MANY SECONDS MUST ELAPSE BEFORE TIMER IS FIRED
         private double seconds_btn_moving_slider;
@@ -40,34 +41,38 @@ namespace MetroFramework.Demo.Threads
             Debug.WriteLine("Review display updater starting");
             WORK_DONE                                           = false;
 
-            time_elapsed                                        = 0;
-            double video_length_in_milliseconds                 = (VideoFromFileThread.VIDEO_LENGTH);
-            double milliseconds_btn_moving_slider               = (((video_length_in_milliseconds)) / (double)100);
-            seconds_btn_moving_slider                           = milliseconds_btn_moving_slider / 1000;
-            timer                                               = new System.Timers.Timer(milliseconds_btn_moving_slider);
+            time_elapsed_in_seconds_global                      = 0;
 
+            //GET PROPERTIES OF THE VIDEO FILE
+            MediaFile video_properties                          = new MediaFile(Singleton.CURRENT_FILE_NAME);
+
+            //VIDEO LENGTH IN MILLISECONDS SECONDS
+            Singleton.VIDEO_LENGTH_IN_MILLISECS                 = video_properties.General.DurationMillis;
+
+            //TO FIND THE MILLISECONDS THAT HAVE TO ELAPSE BEFORE MOVING  THE SLIDER,I DIVIDED THE
+            //VIDEO_LENGTH BY 100 WHICH IS THE TOTAL PERCENTAGE OF A SLIDER
+            double milliseconds_between_moving_slider           = (((Singleton.VIDEO_LENGTH_IN_MILLISECS)) / (double)100);
+
+            //TO GET SECS DIVIDE BY 1000 : 1 SEC                = 1000MSC
+            seconds_btn_moving_slider                           = milliseconds_between_moving_slider / 1000;
+
+            //SET A TIMER THAT FIRES AFTER THE INTERVAL SO WE CAN MOVE THE SLIDER
+            timer                                               = new System.Timers.Timer(milliseconds_between_moving_slider);
+
+            //BOOL SET WHENEVER TIMER FIRES
             time_interval_has_elapsed                           = false;
 
+            //SET TIMER HANDLERS
             timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimeExpired);
 
-            Singleton.MAIN_WINDOW.GetControl("total_time").Text = GetVideoLengthTime();
+            //SET VIDEO LENGTH TIME BEFORE THE VIDEO STARTS PLAYING
+            Singleton.MAIN_WINDOW.GetControl("total_time").Text = "" + video_properties.General.DurationString;
 
 
         }
 
 
-        //RETURNS THE LENGTH OF THE VIDEO AS A STRING
-        private string GetVideoLengthTime()
-        {
-            if (VideoFromFileThread.VIDEO_LENGTH_STRING != null)
-            {
-                return VideoFromFileThread.VIDEO_LENGTH_STRING;
-            }
-            else
-            {
-                return DEFAULT_TIME_LABEL_TEXT;
-            }
-        }
+
 
         //THIS IS FIRED EVERYTIME THE TIMER INTERVAL ELAPSES
         private void OnTimeExpired(object sender, System.Timers.ElapsedEventArgs e)
@@ -77,41 +82,44 @@ namespace MetroFramework.Demo.Threads
         }
 
         //THIS UPDATES THE TIMER LABEL WITH THE ELAPSED TIME 
-        public void UpdateTimerLabel(double elapsed_time_in_seconds)
+        public bool UpdateTimerLabel(double current_elapsed_time_in_seconds)
         {
             try
             {
                 //IF THE THREAD IS ALIVE
-                if (running)
-                {
+
+                //THE TIME THAT HAS ELAPSED OF THE VIDEO IS THE CURRENT TIME OF THE VIDEO PLUS SECONDS
+                //THAT HAVE ELAPSED BETWEEN EACH SLIDER MOVE
+                time_elapsed_in_seconds_global                  = current_elapsed_time_in_seconds + seconds_btn_moving_slider;
+
+                int hours                                       = (int)(time_elapsed_in_seconds_global / 3600);
+                int minutes                                     = (int)(time_elapsed_in_seconds_global / 60);
+                int seconds                                     = (int)(time_elapsed_in_seconds_global % 60);
+
+                String total_time                               = "" + ((hours < 10) ? "0" + hours : "" + hours) + ":" + ((minutes < 10) ? "0" + minutes : "" + minutes) + ":" + ((seconds < 10) ? "0" + seconds : "" + seconds);
+
+                //SET THE LABEL TEXT TO REFLECT THE NEW ELAPSED TIME
+                SetLabelText(total_time);
+
+                //RESET FLAG
+                time_interval_has_elapsed                       = false;
+                return true;
 
 
-                    elapsed_time_in_seconds += (seconds_btn_moving_slider);
-
-                    time_elapsed                                = elapsed_time_in_seconds;
-
-                    int hours                                   = (int)(time_elapsed / 3600);
-                    int minutes                                 = (int)(time_elapsed / 60);
-                    int seconds                                 = (int)(time_elapsed % 60);
-
-                    String total_time                           = "" + ((hours < 10) ? "0" + hours : "" + hours) + ":" + ((minutes < 10) ? "0" + minutes : "" + minutes) + ":" + ((seconds < 10) ? "0" + seconds : "" + seconds);
-                    SetLabelText(total_time);
-                    time_interval_has_elapsed                   = false;
-
-                }
 
             }
             catch (Exception)
             {
 
             }
+            return false;
 
         }
 
         //CHANGE THE LABEL FOR TIME ELAPSED
         private void SetLabelText(String text)
         {
-            //UPDATE THE LABEL IN A THREAD SAFE WAY
+            //UPDATE THE LABEL IN A THREAD SAFE WAY : THIS IS OFF THE GUI THREAD 
             SetControlPropertyThreadSafe(Singleton.MAIN_WINDOW.GetControl("time_elapsed"), "Text", text);
         }
 
@@ -140,11 +148,10 @@ namespace MetroFramework.Demo.Threads
                             MoveSlider();
 
                             //UPDATER TIME ELAPSED LABEL
-                            UpdateTimerLabel(time_elapsed);
+                            UpdateTimerLabel(time_elapsed_in_seconds_global);
                         }
 
                     }
-                    //Thread.Sleep(50);
                 }
 
                 MakeBackGroundBlack();
@@ -182,7 +189,7 @@ namespace MetroFramework.Demo.Threads
                 ColorSlider video_slide_bar                     = Singleton.MAIN_WINDOW.GetColorSlider();
 
                 //IF AN INCREMENT OF THE VALUE OF THE SLIDER IS BEYOND 100
-                if (video_slide_bar.Value + 1 > 100)
+                if (video_slide_bar.Value >= 100)
                 {
                     //SET THE TIME ELAPSED TO 00:00
                     SetLabelText(DEFAULT_TIME_LABEL_TEXT);
@@ -204,8 +211,8 @@ namespace MetroFramework.Demo.Threads
 
         }
 
-        //UPDATES THE TIME ELAPSED LABEL ON THE VIDEO
-        public void SetTimeElapsed(double milliseconds)
+        //UPDATES THE TIME ELAPSED LABEL ON THE GUI
+        public bool SetTimeElapsed(double milliseconds)
         {
 
             double time_in_seconds                              = milliseconds / 1000;
@@ -215,9 +222,12 @@ namespace MetroFramework.Demo.Threads
             int seconds                                         = (int)(time_in_seconds % 60);
 
             String total_time                                   = "" + ((hours < 10) ? "0" + hours : "" + hours) + ":" + ((minutes < 10) ? "0" + minutes : "" + minutes) + ":" + ((seconds < 10) ? "0" + seconds : "" + seconds);
-            SetLabelText(total_time);
-            time_elapsed                                        = time_in_seconds;
 
+            SetLabelText(total_time);
+
+            time_elapsed_in_seconds_global                      = time_in_seconds;
+
+            return true;
         }
 
         //THIS UPDATES THE DISPLAY(IMAGE BOX) 
@@ -259,10 +269,9 @@ namespace MetroFramework.Demo.Threads
         {
             paused                                              = true;
 
-
             timer.Enabled                                       = false;
 
-            return paused;
+            return true;
         }
 
         //THIS RESUMES THE THREAD AND ENABLES THE TIMER
@@ -273,7 +282,7 @@ namespace MetroFramework.Demo.Threads
 
             timer.Enabled                                       = true;
 
-            return paused;
+            return true;
         }
 
         //WHEN THREAD IS STOPPED WE DO SOME CLEAN UP
@@ -290,10 +299,5 @@ namespace MetroFramework.Demo.Threads
             return true;
         }
 
-        public void Dispose()
-        {
-            timer.Dispose();
-            this.RequestStop();
-        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Threads;
-using MetroFramework.Demo.Views;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Threads;
+using Nkujukira.Demo.Views;
 using Nkujukira.Entities;
 using System;
 using System.Collections.Concurrent;
@@ -12,18 +12,24 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Singletons
+namespace Nkujukira.Demo.Singletons
 {
-    class Singleton
+    public class Singleton
     {
         //THIS STORES INFORMATION ABOUT THE CURRENTLY LOGGED IN ADMIN
         public static Admin ADMIN { get; set; }
 
-        //FOLDER WHERE THE APPLIACTION IS RUN FROM
-        public static String START_UP_FOLDER = Application.StartupPath;
+        //USER DOCUMENTS FOLDER
+        public static String DOCUMENTS_FOLDER = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         //FOLDER WHERE RESOURCES ARE BEING STORED
-        public static String RESOURCES_DIRECTORY = START_UP_FOLDER + @"\Resources\";
+        public static String NKUJUKIRAZ_DIRECTORY = DOCUMENTS_FOLDER + @"\Nkujukiraz";
+
+        //FOLDER WHERE RESOURCES ARE BEING STORED
+        public static String VIDEOS_DIRECTORY = NKUJUKIRAZ_DIRECTORY + @"\Videos\";
+
+        //FOLDER WHERE RESOURCES ARE BEING STORED
+        public static String IMAGES_DIRECTORY = NKUJUKIRAZ_DIRECTORY + @"\Images\";
 
         //REFERENCE TO THE MAIN WINDOW
         public static MainWindow MAIN_WINDOW { get; set; }
@@ -139,10 +145,10 @@ namespace MetroFramework.Demo.Singletons
         }
 
         //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
-        public static ConcurrentQueue<Image<Gray, byte>> faces_to_recognize = new ConcurrentQueue<Image<Gray, byte>>();
+        public static ConcurrentQueue<Image<Bgr, byte>> faces_to_recognize = new ConcurrentQueue<Image<Bgr, byte>>();
 
         //THIS HOLDS IMAGES OF FACES TO BE RECOGNIZED
-        public static ConcurrentQueue<Image<Gray, byte>> FACES_TO_RECOGNIZE
+        public static ConcurrentQueue<Image<Bgr, byte>> FACES_TO_RECOGNIZE
         {
             get
             {
@@ -202,6 +208,9 @@ namespace MetroFramework.Demo.Singletons
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
         private static ConcurrentDictionary<int, Face> review_detected_faces_datastore = new ConcurrentDictionary<int, Face>();
 
+        public static string HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
+        public static double VIDEO_LENGTH_IN_MILLISECS;
+
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
         public static ConcurrentDictionary<int, Face> REVIEW_DETECTED_FACES_DATASTORE
         {
@@ -225,7 +234,7 @@ namespace MetroFramework.Demo.Singletons
 
             while (Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out color_image)) ;
             while (Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.TryDequeue(out color_image)) ;
-            while (Singleton.FACES_TO_RECOGNIZE.TryDequeue(out gray_image)) ;
+            while (Singleton.FACES_TO_RECOGNIZE.TryDequeue(out color_image)) ;
             while (Singleton.identified_perpetrators.TryDequeue(out perp)) ;
             while (Singleton.FACE_RECOGNITION_RESULTS.TryDequeue(out result)) ;
             while (Singleton.FRAMES_TO_BE_STORED.TryDequeue(out color_image)) ;
@@ -274,5 +283,7 @@ namespace MetroFramework.Demo.Singletons
             active_perpetrators.Remove(perp);
             PerpetratorRecognitionThread.enroll_again = true;
         }
+
+
     }
 }

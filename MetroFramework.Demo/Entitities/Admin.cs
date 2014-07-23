@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Entitities
+namespace Nkujukira.Demo.Entitities
 {
     public class Admin
     {
-        public int id        { get; set; }
+        public int id           { get; set; }
         public String user_name { get; set; }
         public String password  { get; set; }
         public String user_type { get; set; }
+        public String email     { get; set; }
 
         public Admin(int id, String user_name, String password, String user_type)
         {

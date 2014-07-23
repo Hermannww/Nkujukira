@@ -1,4 +1,6 @@
-﻿namespace MetroFramework.Demo.Views
+﻿using MetroFramework;
+using MetroFramework.Controls;
+namespace Nkujukira.Demo.Views
 {
     partial class SetUpForm
     {
@@ -81,7 +83,7 @@
             this.progressBar.Location = new System.Drawing.Point(18, 287);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(411, 10);
-            this.progressBar.Style = MetroFramework.MetroColorStyle.Red;
+            this.progressBar.Style = MetroColorStyle.Red;
             this.progressBar.TabIndex = 18;
             this.progressBar.Visible = false;
             // 
@@ -190,7 +192,7 @@
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.ShowInTaskbar = false;
-            this.Style = MetroFramework.MetroColorStyle.Red;
+            this.Style = MetroColorStyle.Red;
             this.Text = "Set Up Options";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -212,8 +214,8 @@
         private System.Windows.Forms.TextBox txtbox_username;
         private System.Windows.Forms.TextBox txtbox_saveImagesPath;
         private System.Windows.Forms.Label label4;
-        private Controls.MetroButton user_login;
-        private Controls.MetroProgressBar progressBar;
+        private MetroFramework.Controls.MetroButton user_login;
+        private MetroProgressBar progressBar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timer1;
     }

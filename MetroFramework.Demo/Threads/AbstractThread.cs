@@ -1,4 +1,4 @@
-﻿using MetroFramework.Demo.Interfaces;
+﻿using Nkujukira.Demo.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public abstract class AbstractThread:ThreadInterface,IDisposable
     {
@@ -84,6 +84,11 @@ namespace MetroFramework.Demo.Threads
         public virtual bool IsRunning()
         {
             return running;
+        }
+
+        public bool IsPaused() 
+        {
+            return paused;
         }
 
         //CALLED INORDER TO PAUSE THE THREAD

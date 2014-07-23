@@ -4,7 +4,7 @@ using Emgu.CV.Structure;
 using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using MB.Controls;
 using System.Windows.Forms;
 using System.Linq.Expressions;
@@ -12,7 +12,7 @@ using System.Reflection;
 using Emgu.CV.UI;
 using System.Threading;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public abstract class DisplayUpdaterThread : AbstractThread, IDisposable
     {

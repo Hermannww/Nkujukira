@@ -1,5 +1,6 @@
-﻿using MetroFramework.Demo.Custom_Controls;
-namespace MetroFramework.Demo.Views
+﻿using MetroFramework.Controls;
+using Nkujukira.Demo.Custom_Controls;
+namespace Nkujukira.Demo.Views
 {
     partial class StudentDetailsForm
     {
@@ -31,7 +32,7 @@ namespace MetroFramework.Demo.Views
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentDetailsForm));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.picturebox_studentPic = new MetroFramework.Demo.Custom_Controls.MyPictureBox();
+            this.picturebox_studentPic = new Nkujukira.Demo.Custom_Controls.MyPictureBox();
             this.label_status = new System.Windows.Forms.Label();
             this.combobox_year = new System.Windows.Forms.TextBox();
             this.combobox_month = new MetroFramework.Controls.MetroComboBox();
@@ -54,12 +55,17 @@ namespace MetroFramework.Demo.Views
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.status_label = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_studentPic)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.status_label);
             this.panel1.Controls.Add(this.picturebox_studentPic);
             this.panel1.Controls.Add(this.label_status);
             this.panel1.Controls.Add(this.combobox_year);
@@ -85,14 +91,14 @@ namespace MetroFramework.Demo.Views
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(14, 54);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 548);
+            this.panel1.Size = new System.Drawing.Size(482, 556);
             this.panel1.TabIndex = 0;
             // 
             // picturebox_studentPic
             // 
             this.picturebox_studentPic.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picturebox_studentPic.Image = ((System.Drawing.Image)(resources.GetObject("picturebox_studentPic.Image")));
-            this.picturebox_studentPic.Location = new System.Drawing.Point(170, 8);
+            this.picturebox_studentPic.Location = new System.Drawing.Point(180, 8);
             this.picturebox_studentPic.Name = "picturebox_studentPic";
             this.picturebox_studentPic.Size = new System.Drawing.Size(132, 132);
             this.picturebox_studentPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -104,7 +110,7 @@ namespace MetroFramework.Demo.Views
             this.label_status.AutoSize = true;
             this.label_status.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_status.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label_status.Location = new System.Drawing.Point(31, 148);
+            this.label_status.Location = new System.Drawing.Point(21, 155);
             this.label_status.Name = "label_status";
             this.label_status.Size = new System.Drawing.Size(57, 19);
             this.label_status.TabIndex = 57;
@@ -202,9 +208,9 @@ namespace MetroFramework.Demo.Views
             // 
             this.button_addStudent.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_addStudent.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_addStudent.Location = new System.Drawing.Point(127, 488);
+            this.button_addStudent.Location = new System.Drawing.Point(127, 495);
             this.button_addStudent.Name = "button_addStudent";
-            this.button_addStudent.Size = new System.Drawing.Size(331, 50);
+            this.button_addStudent.Size = new System.Drawing.Size(221, 50);
             this.button_addStudent.TabIndex = 51;
             this.button_addStudent.Text = "Create Student";
             this.button_addStudent.UseSelectable = true;
@@ -266,6 +272,7 @@ namespace MetroFramework.Demo.Views
             // 
             // textbox_firstname
             // 
+            this.textbox_firstname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textbox_firstname.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textbox_firstname.Location = new System.Drawing.Point(127, 182);
             this.textbox_firstname.Name = "textbox_firstname";
@@ -371,11 +378,33 @@ namespace MetroFramework.Demo.Views
             this.label1.TabIndex = 35;
             this.label1.Text = "First Name";
             // 
+            // status_label
+            // 
+            this.status_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.status_label.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.status_label.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.status_label.Location = new System.Drawing.Point(0, 143);
+            this.status_label.Name = "status_label";
+            this.status_label.Size = new System.Drawing.Size(480, 2);
+            this.status_label.TabIndex = 59;
+            this.status_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label9
+            // 
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label9.Location = new System.Drawing.Point(0, 485);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(480, 2);
+            this.label9.TabIndex = 60;
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // StudentDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 615);
+            this.ClientSize = new System.Drawing.Size(509, 619);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -398,12 +427,12 @@ namespace MetroFramework.Demo.Views
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox combobox_year;
-        private Controls.MetroComboBox combobox_month;
-        private Controls.MetroComboBox combobox_day;
-        private Controls.MetroButton button_addphotos;
-        private Controls.MetroButton button_addStudent;
+        private MetroComboBox combobox_month;
+        private MetroComboBox combobox_day;
+        private MetroFramework.Controls.MetroButton button_addphotos;
+        private MetroFramework.Controls.MetroButton button_addStudent;
         private System.Windows.Forms.TextBox textbox_lastname;
-        private Controls.MetroComboBox combobox_gender;
+        private MetroComboBox combobox_gender;
         private System.Windows.Forms.TextBox textbox_course;
         private System.Windows.Forms.TextBox textbox_regno;
         private System.Windows.Forms.TextBox textbox_studentno;
@@ -420,6 +449,8 @@ namespace MetroFramework.Demo.Views
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_status;
         private MyPictureBox picturebox_studentPic;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label status_label;
 
     }
 }

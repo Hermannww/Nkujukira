@@ -8,18 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Entitities;
 using System.Collections;
-using MetroFramework.Demo.Factories;
+using Nkujukira.Demo.Factories;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class StudentDetailsForm : MetroForm
     {
-        List<Image<Gray, byte>> photos        = new List<Image<Gray, byte>>();
+        List<Image<Bgr, byte>> photos        = new List<Image<Bgr, byte>>();
         private const string FILE_FILTER      = "Image Files (*.bmp, *.jpg, *.png,*.jpeg)|*.bmp;*.jpg;*.png;*.jpeg";
         private string SELECT_PICTURES_MESSAGE= "Please Select 5 pictures of the student";
 
@@ -54,6 +54,7 @@ namespace MetroFramework.Demo.Views
             textbox_regno.Enabled      = false;
             textbox_course.Enabled     = false;
             combobox_gender.Enabled    = false;
+            combobox_year.Enabled      = false;
         }
 
         private void SetStudentDetails(Student student)
@@ -89,7 +90,7 @@ namespace MetroFramework.Demo.Views
 
                     foreach (var file_name in file_names) 
                     {
-                        photos.Add(new Image<Gray, byte>(file_name));
+                        photos.Add(new Image<Bgr, byte>(file_name));
                     }
 
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Entitities
+namespace Nkujukira.Demo.Entitities
 {
     public class FacePosition:FSDK.TFacePosition
     {

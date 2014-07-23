@@ -1,4 +1,5 @@
-﻿namespace MetroFramework.Demo
+﻿using MetroFramework.Controls;
+namespace Nkujukira.Demo
 {
     partial class AddNewUserForm
     {
@@ -171,7 +172,7 @@
         private System.Windows.Forms.TextBox user_name;
         private System.Windows.Forms.TextBox pass_word;
         private System.Windows.Forms.TextBox confirm_password;
-        private Controls.MetroComboBox role;
-        private Controls.MetroButton changeloginCredentials;
+        private MetroComboBox role;
+        private MetroFramework.Controls.MetroButton changeloginCredentials;
     }
 }

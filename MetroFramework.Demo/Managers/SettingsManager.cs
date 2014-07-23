@@ -1,4 +1,4 @@
-﻿using MetroFramework.Demo.Entitities;
+﻿using Nkujukira.Demo.Entitities;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class SettingsManager: Manager
     {
@@ -16,7 +16,7 @@ namespace MetroFramework.Demo.Managers
         private const int NAME          =1;
 
 
-        public static void CreateTable() 
+        public static bool CreateTable() 
         {
             try
             {
@@ -26,6 +26,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText = create_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception) 
+            {
+                return false;
             }
             finally
             {
@@ -33,7 +38,7 @@ namespace MetroFramework.Demo.Managers
             }
         }
 
-        public static void DropTable() 
+        public static bool DropTable() 
         {
             try
             {
@@ -43,6 +48,11 @@ namespace MetroFramework.Demo.Managers
                 sql_command.CommandText = drop_sql;
                 sql_command.Prepare();
                 database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally
             {
@@ -51,9 +61,16 @@ namespace MetroFramework.Demo.Managers
 
         }
 
-        public static void PopulateTable() 
+        public static bool PopulateTable() 
         {
-        
+            try
+            {
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static Setting GetSetting(String setting_name)
@@ -167,22 +184,49 @@ namespace MetroFramework.Demo.Managers
 
                 return true;
             }
+            catch (Exception)
+            {
+                return false;
+            }
             finally 
             {
                 database.CloseConnection();
             }
         }
 
-        public static bool Delete(Setting setting) 
+        public static bool Delete(int id)
         {
-            return false;
+            try
+            {
+                //insert sql
+                String delete_sql = "DELETE FROM " + TABLE_NAME + " WHERE ID=@id";
+
+                //Sql command
+                sql_command = new MySqlCommand();
+                sql_command.Connection = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText = delete_sql;
+
+                sql_command.Parameters.AddWithValue("@id", id);
+
+                sql_command.Prepare();
+
+
+                //get results in enum object
+                database.Delete(sql_command);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static bool Update(Setting setting) 
         {
             try
             {
-                String update_sql       = "UPDATE " + TABLE_NAME + " SET NAME=@name ,VALUE=@value WHERE NAME=@name";
+                String update_sql       = "UPDATE " + TABLE_NAME + " SET NAME=@name ,VALUE=@value WHERE ID=@id";
 
                 //Sql command
                 sql_command             = new MySqlCommand();
@@ -191,12 +235,16 @@ namespace MetroFramework.Demo.Managers
 
                 sql_command.Parameters.AddWithValue("@name", setting.name);
                 sql_command.Parameters.AddWithValue("@value", setting.value);
-
+                sql_command.Parameters.AddWithValue("@id", setting.id);
                 sql_command.Prepare();
 
                 //execute command
                 database.Update(sql_command);
                 return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
             finally 
             {

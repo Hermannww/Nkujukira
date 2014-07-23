@@ -5,21 +5,20 @@ using System.Diagnostics;
 using System.Threading;
 using System.Drawing;
 using MediaInfoNET;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 
 
 //THIS THREAD CONTINUOUSLY PICKS FRAMES FROM A GIVEN VIDEO FILE AND DUMPS THEM IN
 //SHARED DATASTORES FOR PROCESSING BY OTHER THREADS
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class VideoFromFileThread : AbstractThread
     {
         public static Capture video_capture;
         public Image<Bgr, byte> current_frame;
         public static bool WORK_DONE;
-        public static double VIDEO_LENGTH;
-        public static string VIDEO_LENGTH_STRING;
+       
 
         public VideoFromFileThread(String file_name): base()
         {
@@ -31,12 +30,6 @@ namespace MetroFramework.Demo.Threads
             //CREATE HANDLE TO VIDEO FILE
             video_capture              = new Capture(file_name);
 
-            //GET PROPERTIES OF THE VIDEO FILE
-            MediaFile video_properties = new MediaFile(file_name);
-
-            //VIDEO LENGTH IN SECONDS
-            VIDEO_LENGTH               = video_properties.General.DurationMillis;
-            VIDEO_LENGTH_STRING        = video_properties.General.DurationString;
             WORK_DONE                  = false;
         }
 
@@ -77,8 +70,9 @@ namespace MetroFramework.Demo.Threads
                 {
                     int width      =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
                     int height     =Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
+                    Size new_size = new Size(width, height);
 
-                    Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeImage(current_frame,width,height));
+                    Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeColoredImage(current_frame,new_size));
                 
                     return true;
                 }
@@ -105,10 +99,11 @@ namespace MetroFramework.Demo.Threads
         }
 
         //JUMPS FORWARD OR BACKWARDS IN THE VIDEO PLAYING
-        public void RewindOrForwardVideo(double millisecond_to_jump_to)
+        public bool RewindOrForwardVideo(double millisecond_to_jump_to)
         {
             //SETS THE POINTER TO THE FRAME BEFORE THE SPECIFIED MILLISECOND
             bool sucess = FramesManager.PerformSeekOperationInVideo(millisecond_to_jump_to, video_capture);
+            return sucess;
         }
 
         //WHEN THREAD IS STOPPED WE DO SOME CLEAN UP

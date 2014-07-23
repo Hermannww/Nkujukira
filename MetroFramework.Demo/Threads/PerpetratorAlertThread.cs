@@ -1,13 +1,13 @@
-﻿using MetroFramework.Demo.Custom_Controls;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Singletons;
+﻿using Nkujukira.Demo.Custom_Controls;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class PerpetratorAlertThread:AlertGenerationThread
     {

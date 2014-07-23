@@ -6,14 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Entitities
+namespace Nkujukira.Demo.Entitities
 {
     public class Perpetrator:Entity
     {
 
         public int id { get; set; }
         public string name { get; set; }
-        public Image<Gray, byte>[] faces { get; set; }
+        public Image<Bgr, byte>[] faces { get; set; }
 
         public bool is_a_student { get; set; }
         public bool is_still_active { get; set; }
@@ -25,7 +25,7 @@ namespace MetroFramework.Demo.Entitities
         
         }
 
-        public Perpetrator(Image<Gray, byte>[] faces, bool is_active, String gender)
+        public Perpetrator(Image<Bgr, byte>[] faces, bool is_active, String gender)
         {
             this.is_still_active = is_active;
             this.gender = gender;
@@ -33,7 +33,7 @@ namespace MetroFramework.Demo.Entitities
 
         }
 
-        public Perpetrator(int id1, string name1, Image<Gray, byte>[] faces1, bool is_a_student1, bool is_active, string gender1, String created_at)
+        public Perpetrator(int id1, string name1, Image<Bgr, byte>[] faces1, bool is_a_student1, bool is_active, string gender1, String created_at)
         {
             // TODO: Complete member initialization
             this.id = id1;

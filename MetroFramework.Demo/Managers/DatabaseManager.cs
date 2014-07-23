@@ -1,73 +1,129 @@
-﻿using MetroFramework.Demo.Factories;
+﻿using Nkujukira.Demo.Factories;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
-    class DatabaseManager : Manager
+    public class DatabaseManager : Manager
     {
-        private const string DATABASE_NAME = DatabaseFactory.DATABASE;
+        private const string DATABASE_NAME = DatabaseFactory.DATABASE_NAME;
 
         //CREATE NEW DATABASE
-        public static void CreateDatabase() 
+        public static bool CreateDatabase()
         {
-            String create_sql              = "create database " + DATABASE_NAME;
-            sql_command                    = new MySql.Data.MySqlClient.MySqlCommand();
-            sql_command.Connection         = (MySqlConnection)database.OpenConnection();
-            sql_command.CommandText        = create_sql;
-            sql_command.Prepare();
-            database.Update(sql_command);
+            try
+            {
+                String create_sql          = "CREATE DATABASE IF NOT EXITS " + DATABASE_NAME;
+                sql_command                = new MySql.Data.MySqlClient.MySqlCommand();
+                sql_command.Connection     = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText    = create_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         //CREATE TABLES IN DATABASE
-        public static void CreateTables() 
+        public static bool CreateTables()
         {
-            AdminManager.CreateTable();
-
-            StudentsManager.CreateTable();
-
-            PerpetratorsManager.CreateTable();
-
-            VictimsManager.CreateTable();
-
-            SettingsManager.CreateTable();
-
-            CrimesManager.CreateTable();
+            try
+            {
+                AdminManager.CreateTable();
+                StudentsManager.CreateTable();
+                PerpetratorsManager.CreateTable();
+                VictimsManager.CreateTable();
+                SettingsManager.CreateTable();
+                CrimesManager.CreateTable();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         //POPULATE TABLES WITH INITIAL DATA
-        public static void PopulateTables() 
+        public static bool PopulateTables()
         {
-            AdminManager.PopulateTable();
-
-            StudentsManager.PopulateTable();
-
-            PerpetratorsManager.PopulateTable();
-
-            VictimsManager.PopulateTable();
-
-            SettingsManager.PopulateTable();
-
-            CrimesManager.PopulateTable();
+            try
+            {
+                AdminManager.PopulateTable();
+                StudentsManager.PopulateTable();
+                PerpetratorsManager.PopulateTable();
+                VictimsManager.PopulateTable();
+                SettingsManager.PopulateTable();
+                CrimesManager.PopulateTable();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
         }
 
         //DROP ALL TABLES IN DATABASE
-        public static void Droptables()
+        public static bool DropTables()
         {
-            AdminManager.DropTable();
+            try
+            {
+                AdminManager.DropTable();
+                StudentsManager.DropTable();
+                PerpetratorsManager.DropTable();
+                VictimsManager.DropTable();
+                SettingsManager.DropTable();
+                CrimesManager.DropTable();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                database.CloseConnection();
+            }
+        }
 
-            StudentsManager.DropTable();
-
-            PerpetratorsManager.DropTable();
-
-            VictimsManager.DropTable();
-
-            SettingsManager.DropTable();
-
-            CrimesManager.DropTable();
+        public static bool DropDatabase() 
+        {
+            try
+            {
+                String create_sql          = "DROP DATABASE IF EXITS " + DATABASE_NAME;
+                sql_command                = new MySql.Data.MySqlClient.MySqlCommand();
+                sql_command.Connection     = (MySqlConnection)database.OpenConnection();
+                sql_command.CommandText    = create_sql;
+                sql_command.Prepare();
+                database.Update(sql_command);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally 
+            {
+                database.CloseConnection();
+            }
+        
         }
     }
 }

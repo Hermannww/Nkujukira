@@ -1,4 +1,6 @@
-﻿namespace MetroFramework.Demo.Views
+﻿using MetroFramework;
+using MetroFramework.Controls;
+namespace Nkujukira.Demo.Views
 {
     partial class VictimsDetailsForm
     {
@@ -89,7 +91,7 @@
             this.progressBar.Location = new System.Drawing.Point(151, 391);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(385, 5);
-            this.progressBar.Style = MetroFramework.MetroColorStyle.Green;
+            this.progressBar.Style = MetroColorStyle.Green;
             this.progressBar.TabIndex = 43;
             this.progressBar.Visible = false;
             // 
@@ -271,11 +273,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private Controls.MetroButton button_save;
-        private Controls.MetroButton button_another_victim;
+        private MetroFramework.Controls.MetroButton button_save;
+        private MetroFramework.Controls.MetroButton button_another_victim;
         private System.Windows.Forms.Label label1;
-        private Controls.MetroProgressBar progressBar;
+        private MetroProgressBar progressBar;
         private System.Windows.Forms.Timer timer1;
-        private Controls.MetroButton button_another_crime;
+        private MetroFramework.Controls.MetroButton button_another_crime;
     }
 }

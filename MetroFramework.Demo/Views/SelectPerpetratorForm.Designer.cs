@@ -1,4 +1,4 @@
-﻿namespace MetroFramework.Demo
+﻿namespace Nkujukira.Demo
 {
     partial class SelectPerpetratorForm
     {
@@ -106,7 +106,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox perpetrator_frame_picture_box;
-        private Controls.MetroButton done_button;
+        private MetroFramework.Controls.MetroButton done_button;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label_separator;
 

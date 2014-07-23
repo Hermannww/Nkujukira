@@ -1,10 +1,10 @@
-﻿using MetroFramework.Demo.Entitities;
+﻿using Nkujukira.Demo.Entitities;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class AdminManager : Manager
     {
@@ -158,7 +158,7 @@ namespace MetroFramework.Demo.Managers
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -238,7 +238,7 @@ namespace MetroFramework.Demo.Managers
                 admin.id                           = Convert.ToInt32(sql_command.LastInsertedId);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -273,8 +273,10 @@ namespace MetroFramework.Demo.Managers
                 database.Update(sql_command);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
+
+
                 return false;
             }
             finally
@@ -308,7 +310,7 @@ namespace MetroFramework.Demo.Managers
                 database.Update(sql_command);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

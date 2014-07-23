@@ -1,7 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Singletons;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Concurrent;
@@ -12,13 +12,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Managers
+namespace Nkujukira.Demo.Managers
 {
     public class PerpetratorsManager : Manager
     {
         public static int PERPETRATOR_ID            = 0;
         private const string TABLE_NAME             = "PERPETRATORS";
-        private static string PATH_TO_IMAGES        = Singleton.RESOURCES_DIRECTORY + TABLE_NAME + @"\";
+        private static string PATH_TO_IMAGES        = Singleton.IMAGES_DIRECTORY + TABLE_NAME + @"\";
         private const int ID                        = 0;
         private const int NAME                      = 1;
         private const int IS_A_STUDENT              = 2;
@@ -99,6 +99,7 @@ namespace MetroFramework.Demo.Managers
 
         public static Perpetrator GetPerpetrator(int id)
         {
+            List<Perpetrator> perpetrators = new List<Perpetrator>();
             try
             {
                 //select sql
@@ -109,14 +110,14 @@ namespace MetroFramework.Demo.Managers
                 sql_command.Connection              = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText             = select_sql;
 
-                sql_command.Parameters.AddWithValue("@id", "" + id);
+                sql_command.Parameters.AddWithValue("@id", id);
 
                 sql_command.Prepare();
 
                 //get results in enum object
                 data_reader                         = database.Select(sql_command);
 
-                List<Perpetrator> perpetrators      = new List<Perpetrator>();
+              
 
                 //loop thru em 
                 while (data_reader.Read())
@@ -124,7 +125,7 @@ namespace MetroFramework.Demo.Managers
 
                     //create new student
                     String name                     = data_reader.GetString(NAME);
-                    Image<Gray, byte>[] faces       = GetPerpetratorFaces(id);
+                    Image<Bgr, byte>[] faces       = GetPerpetratorFaces(id);
                     bool is_a_student               = data_reader.GetBoolean(IS_A_STUDENT);
                     bool is_active                  = data_reader.GetBoolean(IS_ACTIVE);
                     String gender                   = data_reader.GetString(GENDER);
@@ -136,12 +137,11 @@ namespace MetroFramework.Demo.Managers
                     perpetrators.Add(perp);
                 }
 
-                //return array of results
-                return perpetrators.ToArray()[0];
+               
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                Debug.WriteLine(e.Message);
             }
             finally
             {
@@ -149,10 +149,14 @@ namespace MetroFramework.Demo.Managers
                 database.CloseConnection();
             }
 
+            //return array of results
+            return perpetrators.ToArray()[0];
         }
 
         public static Perpetrator[] GetAllPerpetrators()
         {
+
+            List<Perpetrator> perpetrators = new List<Perpetrator>();
             try
             {
                 //select sql
@@ -167,32 +171,30 @@ namespace MetroFramework.Demo.Managers
                 //get results in enum object
                 data_reader                         = database.Select(sql_command);
 
-                List<Perpetrator> perpetrators      = new List<Perpetrator>();
 
                 //loop thru em 
                 while (data_reader.Read())
                 {
-                    //create new student
+                    //create new perp
 
                     int id                          = data_reader.GetInt32(ID);
                     String name                     = data_reader.GetString(NAME);
-                    Image<Gray, byte>[] faces       = GetPerpetratorFaces(id);
+                    Image<Bgr, byte>[] faces        = GetPerpetratorFaces(id);
                     bool is_a_student               = data_reader.GetBoolean(IS_A_STUDENT);
                     bool is_active                  = data_reader.GetBoolean(IS_ACTIVE);
                     String gender                   = data_reader.GetString(GENDER);
                     String created_at               = data_reader.GetString(CREATED_AT);
                     Perpetrator perp                = new Perpetrator(id, name, faces, is_a_student, is_active, gender, created_at);
 
-                    //add student to list
+                    //add perp to list
                     perpetrators.Add(perp);
                 }
 
-                //return array of results
-                return perpetrators.ToArray();
+              
             }
             catch (Exception)
             {
-                return null;
+                    
             }
             finally
             {
@@ -200,17 +202,20 @@ namespace MetroFramework.Demo.Managers
                 database.CloseConnection();
             }
 
+            //return array of results
+            return perpetrators.ToArray();
         }
 
-        public static Image<Gray, byte>[] GetPerpetratorFaces(int id)
+        public static Image<Bgr, byte>[] GetPerpetratorFaces(int id)
         {
             String path                             = PATH_TO_IMAGES + id + @"\";
-            Image<Gray, byte>[] images              = FileManager.GetAllImagesInDirectory(path);
+            Image<Bgr, byte>[] images              = FileManager.GetAllImagesInDirectory(path);
             return images;
         }
 
         public static Perpetrator[] GetAllActivePerpetrators()
         {
+            List<Perpetrator> perpetrators_list = new List<Perpetrator>();
             try
             {
                 //select sql
@@ -225,7 +230,7 @@ namespace MetroFramework.Demo.Managers
                 //get results in enum object
                 data_reader                         = database.Select(sql_command);
 
-                List<Perpetrator> perpetrators_list = new List<Perpetrator>();
+               
 
                 //loop thru em 
                 while (data_reader.Read())
@@ -234,7 +239,7 @@ namespace MetroFramework.Demo.Managers
 
                     int id                          = data_reader.GetInt32(ID);
                     String name                     = data_reader.GetString(NAME);
-                    Image<Gray, byte>[] faces       = GetPerpetratorFaces(id);
+                    Image<Bgr, byte>[] faces       = GetPerpetratorFaces(id);
                     bool is_a_student               = data_reader.GetBoolean(IS_A_STUDENT);
                     bool is_active                  = data_reader.GetBoolean(IS_ACTIVE);
                     String gender                   = data_reader.GetString(GENDER);
@@ -248,9 +253,7 @@ namespace MetroFramework.Demo.Managers
 
 
 
-                //return array of results
-                return perpetrators_list.ToArray();
-
+              
             }
 
             catch (Exception e)
@@ -263,7 +266,10 @@ namespace MetroFramework.Demo.Managers
                 data_reader.Close();
                 database.CloseConnection();
             }
-            return null;
+
+            //return array of results
+            return perpetrators_list.ToArray();
+;
         }
 
 

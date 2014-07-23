@@ -10,12 +10,15 @@ using System.Xml;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     // The SplashScreen class definition.  AKO Form
     public partial class SplashScreen : Form
     {
         #region Member Variables
+        //color of the progress bar
+        private Color PROGRESS_BAR_COLOR = Color.Crimson;
+
         // Threading
         private static SplashScreen ms_frmSplash = null;
         private static Thread ms_oThread = null;
@@ -43,7 +46,7 @@ namespace MetroFramework.Demo.Views
         private DateTime m_dtStart;
         private bool m_bFirstLaunch = false;
         private bool m_bDTSet = false;
-        private Color PROGRESS_BAR_COLOR=Color.Green;
+        
 
         #endregion Member Variables
 

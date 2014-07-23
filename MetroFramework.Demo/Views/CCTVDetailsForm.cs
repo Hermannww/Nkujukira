@@ -1,9 +1,9 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Threads;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Threads;
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class CCTVDetailsForm : MetroForm
     {

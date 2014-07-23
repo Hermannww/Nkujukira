@@ -8,11 +8,12 @@ using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Entitities;
+using MetroFramework;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class ChangeUserTypeDialog : MetroForm
     {
@@ -45,11 +46,11 @@ namespace MetroFramework.Demo
                 admin.user_type = role.Text;
                 if (AdminManager.Update(admin))
                 {
-                    MetroMessageBox.Show(this, "User Role Updated Successfully", "CONGRATULATIONS");
+                    MessageBox.Show(this, "User Role Updated Successfully", "CONGRATULATIONS");
                 }
                 else 
                 {
-                    MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                    MessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
                 }
             }catch(Exception ex){
                 Debug.WriteLine(ex.Message);

@@ -9,33 +9,36 @@ using Nkujukira.Entities;
 using System.Diagnostics;
 using Emgu.CV.UI;
 using MB.Controls;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Views;
-using MetroFramework.Demo.Threads;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Interfaces;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Views;
+using Nkujukira.Demo.Threads;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Interfaces;
 using MetroFramework.Controls;
 using System.Threading;
+using MetroFramework;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class MainWindow : MetroForm
     {
-        private const string SELECT_VIDEO_MESSAGE = "Please Select a Video file";
+        private const string SELECT_VIDEO_MESSAGE        = "Please Select a Video file";
         private const string LOAD_CAMERA_FOOTAGE_MESSAGE = "You Are Loading Footage From Your camera!!";
-        private const string FILE_FILTER = "All files (*.*)|*.*";
-        private const string MESSAGE_BOX_TITLE = "Message!!";
-        private const string PAUSE_BUTTON_TEXT = "Pause";
-        private const string PLAY_BUTTON_TEXT = "Play";
-        private bool cctv_cameras_are_on = false;
+        private const string FILE_FILTER                 = "All files (*.*)|*.*";
+        private const string MESSAGE_BOX_TITLE           = "Message!!";
+        private const string PAUSE_BUTTON_TEXT           = "Pause";
+        private const string PLAY_BUTTON_TEXT            = "Play";
+        private bool cctv_cameras_are_on                 = false;
 
 
         public MainWindow()
         {
             InitializeComponent();
 
+            //AM THINKING I WILL NEED TO KEEP A REFERENCE OF THIS SO I CAN ACCESS THE SAME INSTANCE OF THE MAINWINDOW
+            //IN OTHER FORMS AND VIEWS
             Singleton.MAIN_WINDOW = this;
 
             DisableControls();
@@ -47,11 +50,11 @@ namespace MetroFramework.Demo
         {
             try
             {
-                ThreadFactory.StopReviewStreamThreads();
+                ThreadFactory.StopReviewFootageThreads();
                 Singleton.ClearReviewFootageDataStores();
                 ThreadFactory.ReleaseAllThreadResources();
 
-                String file_name = LoadVideoFromFile();
+                String file_name = PickVideoFileToPlay();
 
                 if (file_name != null)
                 {
@@ -59,18 +62,10 @@ namespace MetroFramework.Demo
                     EnableControls();
                     return;
                 }
-                else
-                {
-
-                    MetroMessageBox.Show(this, SELECT_VIDEO_MESSAGE, MESSAGE_BOX_TITLE, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    return;
-                }
-
-
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Exception in Pick Video" + ex.Message);
+                MessageBox.Show(this, ex.Message, MESSAGE_BOX_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -93,7 +88,7 @@ namespace MetroFramework.Demo
             try
             {
                 //STOP ALL RUNNING THREADS
-                ThreadFactory.StopReviewStreamThreads();
+                ThreadFactory.StopReviewFootageThreads();
 
                 //CLEARS DATASTORES
                 Singleton.ClearReviewFootageDataStores();
@@ -239,7 +234,7 @@ namespace MetroFramework.Demo
             Singleton.ClearReviewFootageDataStores();
 
             //GET THE MILLESCONDS TO FORWARD TO
-            double millescond_to_jump_to = ratio * VideoFromFileThread.VIDEO_LENGTH;
+            double millescond_to_jump_to = ratio * Singleton.VIDEO_LENGTH_IN_MILLISECS;
 
             //FORWARD THE VIDEO
             ((VideoFromFileThread)ThreadFactory.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
@@ -254,7 +249,7 @@ namespace MetroFramework.Demo
 
         //THIS RETURNS A FILEPATH TO A GIVEN VIDEO 
         //AFTER PRESENTING A USER WITH A DIALOG
-        private String LoadVideoFromFile()
+        private String PickVideoFileToPlay()
         {
             String file_name = null;
             try
@@ -268,7 +263,16 @@ namespace MetroFramework.Demo
                 if (result == DialogResult.OK)
                 {
                     file_name = dialog.FileName;
-                    return file_name;
+
+                    if (file_name != null)
+                    {
+                        return file_name;
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, SELECT_VIDEO_MESSAGE, MESSAGE_BOX_TITLE, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                        return PickVideoFileToPlay();
+                    }
                 }
             }
             catch (Exception)
@@ -483,7 +487,7 @@ namespace MetroFramework.Demo
 
         }
 
-        LoadingScreen screen = new LoadingScreen();
+       
         private void turn_on_button_Click(object sender, EventArgs e)
         {
 
@@ -526,7 +530,7 @@ namespace MetroFramework.Demo
         private void TurnOnCamerasUsingVideo(object state)
         {
             DisableLiveStreamControls();
-            ThreadFactory.StopLiveStreamThreads();
+            ThreadFactory.StopLiveStreamThreads();        
             Singleton.ClearLiveStreamDataStores();
             ThreadFactory.ReleaseLiveStreamThreadsResources();
             ThreadFactory.StartLiveStreamThreadsUsingVideo();
@@ -559,12 +563,12 @@ namespace MetroFramework.Demo
         }
 
         public void DisableLiveStreamControls()
-        {        
-            Action action=()=> turn_on_button.Enabled = false;
+        {
+            Action action = () => turn_on_button.Enabled = false;
             turn_on_button.Invoke(action);
-            action=()=> use_video_button.Enabled = false;
+            action = () => use_video_button.Enabled = false;
             use_video_button.Invoke(action);
-            action=()=> spining_progress_live.Visible = true;
+            action = () => spining_progress_live.Visible = true;
             spining_progress_live.Invoke(action);
         }
 
@@ -573,16 +577,16 @@ namespace MetroFramework.Demo
             Action action;
             if (!cctv_cameras_are_on)
             {
-                action=()=>turn_on_button.Text = "Use Camera";
+                action = () => turn_on_button.Text = "Use Camera";
                 turn_on_button.Invoke(action);
-                action=()=>use_video_button.Text = "Use Video";
+                action = () => use_video_button.Text = "Use Video";
                 use_video_button.Invoke(action);
             }
             else
             {
-                action=()=> turn_on_button.Text = "Turn Off";
+                action = () => turn_on_button.Text = "Turn Off";
                 turn_on_button.Invoke(action);
-                action=()=>use_video_button.Text = "Turn Off";
+                action = () => use_video_button.Text = "Turn Off";
                 use_video_button.Invoke(action);
             }
         }
@@ -604,7 +608,7 @@ namespace MetroFramework.Demo
             Singleton.ADMIN = null;
             Program.Running = true;
             this.Close();
-           
+
         }
 
         public void EnableReviewControls()
@@ -660,11 +664,13 @@ namespace MetroFramework.Demo
             Program.Running = false;
         }
 
+
         private void ButtonUseVideo_Click(object sender, EventArgs e)
         {
             if (!cctv_cameras_are_on)
             {
                 cctv_cameras_are_on = true;
+                Singleton.CURRENT_FILE_NAME = PickVideoFileToPlay();
                 ThreadPool.QueueUserWorkItem(TurnOnCamerasUsingVideo);
             }
             else

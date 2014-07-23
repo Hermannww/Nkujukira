@@ -1,8 +1,8 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,34 +10,34 @@ using System.IO;
 using System.Threading;
 using System.Timers;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     class FootageSavingThread : AbstractThread
     {
         //INTERVAL INDICATING HOW OFTEN WE CHANGE FILES : EVERY 1 HOUR (60 min * 60 sec * 1000msc)
-        private const double SAVING_INTERVAL_MILLISECS= 60 * 60 * 1000;
+        private const double SAVING_INTERVAL_MILLISECS = 60 * 60 * 1000;
 
         //THE NAME OF THE VIDEO FILE WE SAVE TO
-        private static String FILE_NAME            = GetSystemTimeAndDate() + "avi";
+        private static String FILE_NAME                = GetSystemTimeAndDate() + "avi";
         
         //PATH TO THE FOLDER WE SAVE TO
-        private static String PATH_TO_FOLDER       = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Ours\";
+        private static String PATH_TO_FOLDER           = Singleton.VIDEOS_DIRECTORY;
        
         //PATH TO FILES WE SAVE TO
-        private static String PATH_TO_SAVED_FILES  = Path.Combine(PATH_TO_FOLDER, FILE_NAME);
+        private static String PATH_TO_SAVED_FILES      = Path.Combine(PATH_TO_FOLDER, FILE_NAME);
         
         //WRITER TO WRITE TO FILE
-        private VideoWriter video_writer           = null;
-        private Capture camera_capture             = null;
+        private VideoWriter video_writer               = null;
+        private Capture camera_capture                 = null;
         
         //THE FRAME WE ARE CURRENTLY WRITING TO FILE
-        private Image<Bgr, byte> frame_to_be_saved = null;
+        private Image<Bgr, byte> frame_to_be_saved     = null;
         
         //TIMER TO INDICATE WHEN SAVING INTERVAL HAS ELAPSED
-        private System.Timers.Timer timer          = null;
+        private System.Timers.Timer timer              = null;
 
         //SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
-        public static bool WORKDONE                = false;
+        public static bool WORKDONE                    = false;
 
 
         //CONSTRUCTOR

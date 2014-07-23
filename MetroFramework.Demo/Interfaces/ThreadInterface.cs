@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace MetroFramework.Demo.Interfaces
+namespace Nkujukira.Demo.Interfaces
 {
     public interface ThreadInterface
     {

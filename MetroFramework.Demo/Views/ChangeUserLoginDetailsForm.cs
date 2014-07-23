@@ -8,11 +8,12 @@ using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using System.Diagnostics;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Factories;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Factories;
+using Nkujukira.Demo.Entitities;
+using MetroFramework;
 
-namespace MetroFramework.Demo
+namespace Nkujukira.Demo
 {
     public partial class ChangeUserLoginDetailsForm : MetroForm
     {
@@ -46,12 +47,12 @@ namespace MetroFramework.Demo
                 admin.user_name = new_user_name.Text;
                 if (admin.user_name.Length <= 0)
                 {
-                    MetroMessageBox.Show(this, "Please Enter Your User Name", "ERROR");
+                    MessageBox.Show(this, "Please Enter Your User Name", "ERROR");
 
                 }
                 else if (admin.password.Length <= 0)
                 {
-                    MetroMessageBox.Show(this, "Please Enter Your PassWord", "ERROR");
+                    MessageBox.Show(this, "Please Enter Your PassWord", "ERROR");
                     
                 }
                 else
@@ -61,18 +62,18 @@ namespace MetroFramework.Demo
 
                         if (AdminManager.Update(admin))
                         {
-                            MetroMessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
+                            MessageBox.Show(this, "Your Login details have been Updated Successfully", "CONGRATULATIONS");
                             //this.Hide();
                             //this.Dispose();
                         }
                         else
                         {
-                            MetroMessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
+                            MessageBox.Show(this, "Unexpected error occured. Please try again", "ERROR");
                         }
                     }
                     else
                     {
-                        MetroMessageBox.Show(this, "Please try to confirm your new Password\n They dont Match", "ERROR");
+                        MessageBox.Show(this, "Please try to confirm your new Password\n They dont Match", "ERROR");
                     }
                 }
 

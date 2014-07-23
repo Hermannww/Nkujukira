@@ -8,7 +8,7 @@ using AForge.Imaging;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Luxand;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Entitities;
 
 
 namespace Nkujukira.Entities

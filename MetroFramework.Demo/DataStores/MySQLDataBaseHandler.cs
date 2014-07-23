@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MetroFramework.Demo.Entitities;
+using Nkujukira.Demo.Entitities;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
-using MetroFramework.Demo.Interfaces;
+using Nkujukira.Demo.Interfaces;
 using System.Data.SqlClient;
 using System.Data.Common;
 
-namespace MetroFramework.Demo.DataStores
+namespace Nkujukira.Demo.DataStores
 {
-    class MySQLDatabaseHandler : DatabaseInterface,IDisposable
+    public class MySQLDatabaseHandler : DatabaseInterface,IDisposable
     {
         private MySqlConnection connection;
         private String server;
@@ -164,11 +164,11 @@ namespace MetroFramework.Demo.DataStores
                 if (this.OpenConnection() != null)
                 {
                     
-                    //Create a data reader and Execute the commandC:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\Managers\
+                    //Create a data reader and Execute the command
                     IDataReader data_reader = select_query.ExecuteReader();
 
                     
-                    //return list to be displayed
+                    //return data reader so programmer can read results
                     return data_reader;
                 }
                

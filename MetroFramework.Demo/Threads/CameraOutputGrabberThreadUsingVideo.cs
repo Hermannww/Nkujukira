@@ -3,14 +3,17 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Diagnostics;
 using Emgu.CV.UI;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System.Threading;
+using System.Drawing;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
-    public class CameraOutputGrabberThreadUsingVideo : AbstractThread
+    public class CameraOutputGrabberThreadUsingVideo:AbstractThread
     {
+        private readonly String FILE_NAME ;
+
         //HANDLE TO THE WEB CAM
         public static Capture camera_capture;
 
@@ -20,12 +23,11 @@ namespace MetroFramework.Demo.Threads
         //SIGNALS TO OTHER THREADS THAT THIS THREAD HAS FINIHSED WORK
         public static bool WORK_DONE = false;
 
-        private const String FILE_NAME = @"C:\Users\ken\Pictures\VDs\video4.mp4";
 
         //CONSTRUCTOR
-        public CameraOutputGrabberThreadUsingVideo()
-            : base()
+        public CameraOutputGrabberThreadUsingVideo(String FILE_NAME)
         {
+            this.FILE_NAME = FILE_NAME;
             Debug.WriteLine("Cam output thread starting");
             camera_capture = new Capture(FILE_NAME);
             WORK_DONE = false;
@@ -65,18 +67,23 @@ namespace MetroFramework.Demo.Threads
 
             if (current_frame != null)
             {
+                int new_width = Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width;
+                int new_height = Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height;
+                Size new_size = new Size(new_width, new_height);
 
                 //add frame to queue for display
-                Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeImage(current_frame.Clone(), Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height));
+                Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeColoredImage(current_frame.Clone(), new_size));
 
                 //add frame to queue for storage
-                Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
+                //Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
 
                 //resize frame to save on memory and improve performance
                 int width = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
                 int height = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
 
-                current_frame = FramesManager.ResizeImage(current_frame, width, height);
+                Size size = new Size(width, height);
+
+                current_frame = FramesManager.ResizeColoredImage(current_frame, size);
 
                 //add frame to queue for face detection and recognition
                 Singleton.LIVE_FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
@@ -94,9 +101,11 @@ namespace MetroFramework.Demo.Threads
                 WORK_DONE = true;
                 running = false;
                 Debug.WriteLine("Terminating camera output");
+                return false;
             }
-            return false;
+
 
         }
+       
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace MetroFramework.Demo
+﻿using MetroFramework.Controls;
+namespace Nkujukira.Demo
 {
     partial class ChangeUserTypeDialog
     {
@@ -114,8 +115,8 @@
 
         #endregion
 
-        private Controls.MetroButton changeUserRole;
-        private Controls.MetroComboBox role;
+        private MetroButton changeUserRole;
+        private MetroComboBox role;
         private System.Windows.Forms.TextBox user_name;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;

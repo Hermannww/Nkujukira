@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Nkujukira
 {
-    class FramesManager
+    public class FramesManager
     {
         public static Color COLOR_OF_FACE_RECTANGLE = Color.Green;
         private const int THICKNESS                 = 1;
@@ -24,28 +24,30 @@ namespace Nkujukira
         {
             if (capture == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException();
             }
 
             try
             {
                 Image<Bgr, byte> frame = null;
+
                 lock (capture)
                 {
                     frame = capture.QueryFrame();
                 }
+
                 return frame;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debug.WriteLine(e.Message);
+                return null;
             }
-            return null;
+           
         }
 
 
         //THIS RESIZES AN IMAGE ACCORDING TO GIVEN WIDTH AND HEIGHT
-        public static Image<Bgr, byte> ResizeImage(Image<Bgr, byte> frame, int width, int height)
+        public static Image<Bgr, byte> ResizeColoredImage(Image<Bgr, byte> frame, Size new_size)
         {
             if (frame == null)
             {
@@ -53,7 +55,7 @@ namespace Nkujukira
             }
             try
             {
-                return frame.Resize(width, height, INTER.CV_INTER_LINEAR);
+                return frame.Resize(new_size.Width, new_size.Height, INTER.CV_INTER_LINEAR);
 
             }
             catch (Exception)
@@ -112,8 +114,6 @@ namespace Nkujukira
                         grayscale_image._EqualizeHist();
 
                         MCvAvgComp[] detected_faces                   = grayscale_image.DetectHaarCascade(haarcascade, SCALEFACTOR, MINIMUM_NEIGBHOURS, HAAR_DETECTION_TYPE.DO_CANNY_PRUNING, new System.Drawing.Size(WINDOW_SIZE, WINDOW_SIZE))[0];
-                        
-                        //Debug.WriteLine("NUMBER OF FACES FOUND        =" + detected_faces.Length);
                         
                         if (detected_faces.Length != 0)
                         {
@@ -182,7 +182,7 @@ namespace Nkujukira
         }
 
 
-        public static Image<Gray, byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
+        public static Image<Bgr, byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
         {
             try
             {
@@ -191,9 +191,8 @@ namespace Nkujukira
                     throw new ArgumentNullException();
                 }
 
-                Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
-                gray_scale.ROI                 = detected_face;
-                Image<Gray, byte> cropped_face = gray_scale.Copy();
+                frame.ROI                     = detected_face;
+                Image<Bgr, byte> cropped_face = frame.Copy();
                 return cropped_face;
             }
             catch (Exception e)
@@ -201,8 +200,19 @@ namespace Nkujukira
                 Debug.WriteLine(e.Message);
                 return null;
             }
+        }
 
-
+        public static Image<Gray, byte> ConvertToGrayScale(Image<Bgr, byte> frame) 
+        {
+            try
+            {
+                 Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
+                 return gray_scale;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static Bitmap ResizeBitmap(Bitmap image, Size new_size)

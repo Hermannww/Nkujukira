@@ -1,4 +1,4 @@
-﻿namespace MetroFramework.Demo.Views
+﻿namespace Nkujukira.Demo.Views
 {
     partial class CrimeDetailsForm
     {
@@ -311,8 +311,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private Controls.MetroButton button_save;
-        private Controls.MetroButton button_getVictims;
+        private MetroFramework.Controls.MetroButton button_save;
+        private MetroFramework.Controls.MetroButton button_getVictims;
         private System.Windows.Forms.ComboBox comboBox_crimeCommited;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;

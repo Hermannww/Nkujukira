@@ -1,6 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System;
 using System.Collections.Generic;
@@ -12,11 +12,11 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class LiveStreamFaceDetectingThread : AbstractThread
     {
-        public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
+        public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Singleton.HAARCASCADE_FILE_PATH;
 
         //signals whether this thread has finished working
         public static bool WORK_DONE;
@@ -39,16 +39,15 @@ namespace MetroFramework.Demo.Threads
         //indicates whether frame grabbing from the cameras has been successfull
         //private bool sucessfull;
 
-        public LiveStreamFaceDetectingThread(int frame_width, int frame_height)
+        public LiveStreamFaceDetectingThread(Size frame_size)
             : base()
         {
             haarcascade       = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
-            this.frame_width  = frame_width;
-            this.frame_height = frame_height;
+            this.frame_width  = frame_size.Width;
+            this.frame_height = frame_size.Height;
             WORK_DONE         = false;
       
         }
-
 
         public override void DoWork(object sender, DoWorkEventArgs ex)
         {
@@ -57,13 +56,9 @@ namespace MetroFramework.Demo.Threads
             {
                 if (!paused)
                 {
-                    //Debug.WriteLine("Face Detecting Running");
                     //GET NEXT FRAME
                     //GET DETECTED FACES IN FRAME
-                    DetectFacesInFrame();
-
-                    //ADD FRAME TO THE QUEUE FOR DISPLAY
-                    //StartRecognitionForEachDetectedFace();
+                    DetectFacesInFrame();                
                 }
                 //Thread.Sleep(SLEEP_TIME);
             }
@@ -77,73 +72,63 @@ namespace MetroFramework.Demo.Threads
             WORK_DONE = true;
         }
 
-        //ADDS A FRAME TO THE DATASTORE MEANT FOR FRAMES TO BE DISPLAYED
-        public void StartRecognitionForEachDetectedFace()
+        
+        //DETECTS FACES IN THE CURRENT FRAME
+        public bool DetectFacesInFrame()
         {
-            //if frame grabbing was sucessfull
-            //if (sucessfull)
+            try
             {
-                //and faces were detected 
-                if (detected_faces != null)
-                {
-                    Debug.WriteLine("Enqueueing faces");
-                    //for each face we have detected in the frame
-                    foreach (var detected_face in detected_faces)
-                    {
-                        //get the face
-                        Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
+                //try to get a frame from the shared datastore for captured frames
+                bool sucessfull = Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
 
-                        //add face to shared datastore so face recog thread can access it
-                        Singleton.FACES_TO_RECOGNIZE.Enqueue(face);
+
+                //if ok
+                if (sucessfull)
+                {
+                    //detect faces in frame
+                    detected_faces = FramesManager.DetectFacesInFrame(current_frame.Clone(), haarcascade);
+
+                    if (detected_faces != null)
+                    {
+                        //for each face we have detected in the frame
+                        foreach (var detected_face in detected_faces)
+                        {
+                            //get the face
+                            Image<Bgr, byte> face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
+
+                            //add face to shared datastore so face recog thread can access it
+                            Singleton.FACES_TO_RECOGNIZE.Enqueue(face);
+                        }
+                        detected_faces = null;
                     }
+                    return true;
+
+
                 }
 
+                //IF NO FRAMES IN DATA STORE THEN CHECK SUPPLIER THREAD FOR LIFE
+                else
+                {
+                    CheckForTerminationOfThisThread();
+                    return true;
+                }
             }
+            catch (Exception) 
+            {
+                return false;
+            }
+           
         }
 
-
-
-        //DETECTS FACES IN THE CURRENT FRAME
-        public void DetectFacesInFrame()
+        private void CheckForTerminationOfThisThread()
         {
-            //try to get a frame from the shared datastore for captured frames
-            bool sucessfull = Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
-
-
-            //if ok
-            if (sucessfull)
+            //IF OUTPUT GRABBER THREAD IS DONE THEN IT MEANS THE FRAMES ARE DONE
+            //TERMINATE THIS THREAD AND SIGNAL TO OTHERS THAT IT IS DONE
+            if (CameraOutputGrabberThread.WORK_DONE)
             {
-                //detect faces in frame
-                detected_faces = FramesManager.DetectFacesInFrame(current_frame.Clone(), haarcascade);
-                if (detected_faces != null)
-                {
-                    Debug.WriteLine("Enqueueing faces");
-                    //for each face we have detected in the frame
-                    foreach (var detected_face in detected_faces)
-                    {
-                        //get the face
-                        Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_face, current_frame.Clone());
-
-                        //add face to shared datastore so face recog thread can access it
-                        Singleton.FACES_TO_RECOGNIZE.Enqueue(face);
-                    }
-                    detected_faces = null;
-                }
-      
-
-            }
-
-            //IF NO FRAMES IN DATA STORE THEN CHECK SUPPLIER THREAD FOR LIFE
-            else
-            {
-                //IF OUTPUT GRABBER THREAD IS DONE THEN IT MEANS THE FRAMES ARE DONE
-                //TERMINATE THIS THREAD AND SIGNAL TO OTHERS THAT IT IS DONE
-                if (CameraOutputGrabberThread.WORK_DONE)
-                {
-                    WORK_DONE = true;
-                    running = false;
-                    Debug.WriteLine("Terminating live face detection");
-                }
+                WORK_DONE = true;
+                running = false;
+                Debug.WriteLine("Terminating live face detection");
             }
         }
     }

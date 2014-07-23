@@ -1,7 +1,7 @@
-﻿using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
-using MetroFramework.Demo.Singletons;
-using MetroFramework.Demo.Threads;
+﻿using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
+using Nkujukira.Demo.Singletons;
+using Nkujukira.Demo.Threads;
 using MetroFramework.Forms;
 using ProgressControls;
 using System;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class VictimsDetailsForm : MetroForm
     {

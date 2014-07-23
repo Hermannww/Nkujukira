@@ -1,7 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Manina.Windows.Forms;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System;
 using System.ComponentModel;
@@ -11,18 +11,18 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace MetroFramework.Demo.Threads
+namespace Nkujukira.Demo.Threads
 {
     public class ReviewFaceDetectingThread : AbstractThread
     {
-        public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
-        
+        public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Singleton.HAARCASCADE_FILE_PATH;
+
         public static bool WORK_DONE;
         public static bool draw_detected_faces;
 
-        public static volatile int previous_id ;
-        public static volatile bool its_time_to_pick_perpetrator_faces=false;
-        
+        public static volatile int previous_id;
+        public static volatile bool its_time_to_pick_perpetrator_faces = false;
+
         private Image<Bgr, byte> current_frame;
         private HaarCascade haarcascade;
         public Rectangle[] detected_faces;
@@ -31,22 +31,22 @@ namespace MetroFramework.Demo.Threads
         private bool sucessfull;
         private Point location;
 
-        private int counter ;
+        private int counter;
 
-      
+
         public ReviewFaceDetectingThread(int frame_width, int frame_height)
             : base()
         {
-            haarcascade                        = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
+            haarcascade = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
             its_time_to_pick_perpetrator_faces = false;
-            this.frame_width                   = frame_width;
-            this.frame_height                  = frame_height;
-            WORK_DONE                          = false;
-            draw_detected_faces                = false;
-            counter                            = 0;
-            previous_id                        = 0;
-            location                           = new Point(2, 2);
-           
+            this.frame_width = frame_width;
+            this.frame_height = frame_height;
+            WORK_DONE = false;
+            draw_detected_faces = false;
+            counter = 0;
+            previous_id = 0;
+            location = new Point(2, 2);
+
 
         }
 
@@ -60,18 +60,21 @@ namespace MetroFramework.Demo.Threads
                 {
                     //GET NEXT FRAME
                     //GET DETECTED FACES IN FRAME
-                    
+
                     DetectFacesInFrame();
 
-                    //IF OPTION IS ENABLED ADD DETECTED FACES TO PANEL
-                    AddDetectedFacesToListViewPanel();
+                    if (sucessfull)
+                    {
+                        //IF OPTION IS ENABLED ADD DETECTED FACES TO PANEL
+                        AddDetectedFacesToListViewPanel();
 
-                    //FOR EACH FACE DRAW A RECTANGLE AROUND FACE IN PARALLEL
-                    DrawShapeAroundDetectedfaces();
+                        //FOR EACH FACE DRAW A RECTANGLE AROUND FACE IN PARALLEL
+                        DrawShapeAroundDetectedfaces();
 
-                    //ADD FRAME TO THE QUEUE FOR DISPLAY
-                    AddFrameToQueueForDisplay();
-                 }
+                        //ADD FRAME TO THE QUEUE FOR DISPLAY
+                        AddFrameToQueueForDisplay();
+                    }
+                }
                 //Thread.Sleep(SLEEP_TIME);
             }
         }
@@ -86,16 +89,13 @@ namespace MetroFramework.Demo.Threads
                     {
                         ImageListView image_list_view = Singleton.SELECT_PERP_FACES.GetImageListView();
 
-                        
-
-
                         for (int i = 0; i < detected_faces.Length; i++)
                         {
                             //get face
-                            Image<Gray, byte> face = FramesManager.CropSelectedFace(detected_faces[i], current_frame.Clone());
+                            Image<Bgr, byte> face = FramesManager.CropSelectedFace(detected_faces[i], current_frame.Clone());
 
                             //resize face
-                            face = FramesManager.ResizeGrayImage(face, new Size(120, 120));
+                            face = FramesManager.ResizeColoredImage(face, new Size(120, 120));
 
                             //add face to image list
                             Singleton.SELECT_PERP_FACES.suspect_faces.TryAdd(count, face);
@@ -107,7 +107,7 @@ namespace MetroFramework.Demo.Threads
                             count++;
 
                         }
-                        
+
                     }
                 }
 
@@ -119,9 +119,9 @@ namespace MetroFramework.Demo.Threads
 
         }
 
-        public delegate void AddImage(Object key,String txt,Image thumbnail);
+        public delegate void AddImage(Object key, String txt, Image thumbnail);
 
-        
+
 
         //CAN UPDATE UI THREAD
         public override void ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -137,15 +137,16 @@ namespace MetroFramework.Demo.Threads
         }
 
         //ADDS A FRAME TO THE DATASTORE MEANT FOR FRAMES TO BE DISPLAYED
-        public void AddFrameToQueueForDisplay()
+        public bool AddFrameToQueueForDisplay()
         {
-            if (sucessfull)
+
+            if (!draw_detected_faces)
             {
-                if (!draw_detected_faces)
-                {
-                    Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
-                }
+                Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
             }
+            return true;
+
+            return false;
         }
 
 
@@ -164,7 +165,7 @@ namespace MetroFramework.Demo.Threads
 
                         if (counter == 250)
                         {
-                            counter     = 0;
+                            counter = 0;
                             previous_id = 0;
                         }
                         return true;
@@ -179,17 +180,18 @@ namespace MetroFramework.Demo.Threads
         }
 
         //DETECTS FACES IN THE CURRENT FRAME
-        public void DetectFacesInFrame()
+        public bool DetectFacesInFrame()
         {
             //try to get a frame from the shared datastore for captured frames
             sucessfull = Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.TryDequeue(out current_frame);
-            
-            
+
+
             //if ok
             if (sucessfull)
             {
                 //detect faces in frame
                 detected_faces = FramesManager.DetectFacesInFrame(current_frame.Clone(), haarcascade);
+                return true;
 
             }
             //IF NO FRAMES IN DATA STORE
@@ -200,12 +202,13 @@ namespace MetroFramework.Demo.Threads
                 if (VideoFromFileThread.WORK_DONE)
                 {
                     WORK_DONE = true;
-                    running = false;     
+                    running = false;
                 }
+                return false;
             }
         }
 
 
-        
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Manina.Windows.Forms;
-using MetroFramework.Demo.Singletons;
+using Nkujukira.Demo.Singletons;
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
@@ -11,19 +11,19 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.Concurrent;
-using MetroFramework.Demo.Entitities;
-using MetroFramework.Demo.Managers;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using MetroFramework.Demo.Threads;
+using Nkujukira.Demo.Threads;
 
-namespace MetroFramework.Demo.Views
+namespace Nkujukira.Demo.Views
 {
     public partial class SelectPerpetratorFacesForm : MetroForm
     {
-        private LoadingScreen screen = new LoadingScreen();
-        //private const int WORKLOAD_THRESHOLD                       = 1000;
-        public ConcurrentDictionary<int, Image<Gray, byte>> suspect_faces = new ConcurrentDictionary<int, Image<Gray, byte>>();
+        private LoadingScreen screen                                      = new LoadingScreen();
+        public ConcurrentDictionary<int, Image<Bgr, byte>> suspect_faces = new ConcurrentDictionary<int, Image<Bgr, byte>>();
+        private int MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED                  =5;
 
 
         public SelectPerpetratorFacesForm()
@@ -31,13 +31,9 @@ namespace MetroFramework.Demo.Views
 
 
             InitializeComponent();
-
-            done_button.Enabled = false;
-
+            done_button.Enabled         = false;
             Singleton.SELECT_PERP_FACES = this;
-
-            DisplayLoadingScreen(true);
-
+            DisplayLoadingScreen();
             PlayVideoToDetectMoreFaces();
 
         }
@@ -49,18 +45,16 @@ namespace MetroFramework.Demo.Views
         }
 
 
-        private void DisplayLoadingScreen(bool is_true)
+        private void DisplayLoadingScreen()
+        {        
+           screen.StartWorking();
+           screen.Show();
+        }
+
+        private void CloseLoadingScreen() 
         {
-            if (is_true)
-            {
-                screen.StartWorking();
-                screen.Show();
-            }
-            else
-            {
-                screen.StopWorking();
-                screen.Close();
-            }
+          screen.StopWorking();
+          screen.Close();
         }
 
 
@@ -69,9 +63,7 @@ namespace MetroFramework.Demo.Views
         private void PlayVideoToDetectMoreFaces()
         {
             ReviewFaceDetectingThread.its_time_to_pick_perpetrator_faces = true;
-
             Singleton.MAIN_WINDOW.ResumeVideo();
-
         }
 
         private void DoneButton_Click(object sender, EventArgs e)
@@ -80,8 +72,7 @@ namespace MetroFramework.Demo.Views
             ReviewFaceDetectingThread.its_time_to_pick_perpetrator_faces = false;
 
             //create array for the identified perpetrator faces
-            Image<Gray, byte>[] perpetrator_faces = new Image<Gray, byte>[image_list_view.SelectedItems.Count];
-
+            Image<Bgr, byte>[] perpetrator_faces = new Image<Bgr, byte>[image_list_view.SelectedItems.Count];
 
             int i = 0;
 
@@ -105,8 +96,6 @@ namespace MetroFramework.Demo.Views
             this.Close();
 
             form.ShowDialog();
-
-          
         }
 
         public ImageListView GetImageListView()
@@ -117,7 +106,7 @@ namespace MetroFramework.Demo.Views
         private void ImageListView1_SelectionChanged(object sender, EventArgs e)
         {
 
-            if (image_list_view.SelectedItems.Count >= 5)
+            if (image_list_view.SelectedItems.Count >= MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED)
             {
                 done_button.Enabled = true;
             }
