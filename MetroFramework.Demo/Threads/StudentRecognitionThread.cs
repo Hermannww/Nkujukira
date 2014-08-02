@@ -28,21 +28,24 @@ namespace Nkujukira.Demo.Threads
         protected Label progress_label = null;
 
         //ADD CONTROLS TO PANEL IN A THREAD SAFE WAY
-        Panel panel_review_stream = (Panel)Singleton.MAIN_WINDOW.GetControl("review_footage_panel");
+        Panel face_recog_progress_panel = (Panel)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_footage_panel);
 
         //STUDENTS TO BE COMPARED AGAINIST
         private Student[] students = null;
 
         //CLASS VARIABLES THAT HANDLE POSITIONING OF CONTROLS
         private int x = 15;
-        private int y = 40;
+        private int y = 50;
 
         //RESULT OF FACE RECOGNITION OPERATION
         private FaceRecognitionResult face_recognition_result = null;
 
+        //THE FACES WE WISH TO RECOGNIZE
         private List<Image<Bgr, byte>> faces_to_recognize = new List<Image<Bgr, byte>>();
 
+        //
         private FacesManager faces_manager;
+
         public static bool WORK_DONE=false;
 
         //CONSTRUCTOR
@@ -51,7 +54,7 @@ namespace Nkujukira.Demo.Threads
         {
             running            = true;
             paused             = false;
-            WORK_DONE = false;
+            WORK_DONE          = false;
             this.faces_manager = new FacesManager();
 
             this.faces_to_recognize.AddRange(faces_to_recognize);
@@ -171,7 +174,7 @@ namespace Nkujukira.Demo.Threads
                 //IF THERE IS NO ALERT ALREADY ABOUT THE SAME STUDENT
                 
                 //ADD THE ALERT TO THE GLOBALS WATCH LIST
-                Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result.identified_student);
+                Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result);
             }
         }
 
@@ -272,18 +275,18 @@ namespace Nkujukira.Demo.Threads
 
 
                     //SINCE THIS THREAD IS STARTED OFF THE GUI THREAD THEN INVOKES MAY BE REQUIRED
-                    if (panel_review_stream.InvokeRequired)
+                    if (face_recog_progress_panel.InvokeRequired)
                     {
                         //ADD GUI CONTROLS USING INVOKES
-                        Action action = () => panel_review_stream.Controls.Add(panel);
-                        panel_review_stream.Invoke(action);
+                        Action action = () => face_recog_progress_panel.Controls.Add(panel);
+                        face_recog_progress_panel.Invoke(action);
                     }
 
                     //IF NO INVOKES ARE NEEDED THEN
                     else
                     {
                         //JUST ADD THE CONTROLS
-                        panel_review_stream.Controls.Add(panel);
+                        face_recog_progress_panel.Controls.Add(panel);
                     }
 
 

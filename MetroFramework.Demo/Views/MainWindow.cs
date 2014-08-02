@@ -54,11 +54,11 @@ namespace Nkujukira.Demo
                 Singleton.ClearReviewFootageDataStores();
                 ThreadFactory.ReleaseAllThreadResources();
 
-                String file_name = PickVideoFileToPlay();
+                VideoFile vid = PickVideoFileToPlay();
 
-                if (file_name != null)
+                if (vid != null)
                 {
-                    StartReviewFootageThreads(file_name);
+                    StartReviewFootageThreads(vid);
                     EnableControls();
                     return;
                 }
@@ -191,9 +191,9 @@ namespace Nkujukira.Demo
 
 
         //STARTS ALL NECESSARY THREADS
-        private void StartReviewFootageThreads(String file_name)
+        private void StartReviewFootageThreads(VideoFile video)
         {
-            Singleton.CURRENT_FILE_NAME = file_name;
+            Singleton.CURRENT_VIDEO_FILE = video;
             ThreadFactory.StartReviewFootageThreads();
         }
 
@@ -227,29 +227,33 @@ namespace Nkujukira.Demo
         //FORWARDS TO A CERTAIN PART OF A VIDEO
         private void GoToThatPartOfTheVideo(double ratio)
         {
-            //PAUSE THE VIDEO
-            ThreadFactory.PauseAllThreads();
+            //IF THERE IS A PLAYING VIDEO
+            if (Singleton.CURRENT_VIDEO_FILE != null)
+            {
+                //PAUSE THE VIDEO
+                ThreadFactory.PauseAllThreads();
 
-            //CLEAR ALL THE DATA STORES 
-            Singleton.ClearReviewFootageDataStores();
+                //CLEAR ALL THE DATA STORES 
+                Singleton.ClearReviewFootageDataStores();
 
-            //GET THE MILLESCONDS TO FORWARD TO
-            double millescond_to_jump_to = ratio * Singleton.VIDEO_LENGTH_IN_MILLISECS;
+                //GET THE MILLESCONDS GO FORWARD TO
+                double millescond_to_jump_to = ratio * Singleton.CURRENT_VIDEO_FILE.video_length_in_millisecs;
 
-            //FORWARD THE VIDEO
-            ((VideoFromFileThread)ThreadFactory.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
+                //FORWARD THE VIDEO
+                ((VideoFromFileThread)ThreadFactory.GetThread(ThreadFactory.VIDEO_THREAD)).RewindOrForwardVideo(millescond_to_jump_to);
 
-            //SET THE TIME ELAPSED ON THE VIDEO
-            ((ReviewDisplayUpdater)ThreadFactory.GetThread(ThreadFactory.REVIEW_DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
+                //SET THE TIME ELAPSED ON THE VIDEO
+                ((ReviewDisplayUpdater)ThreadFactory.GetThread(ThreadFactory.REVIEW_DISPLAY_UPDATER)).SetTimeElapsed(millescond_to_jump_to);
 
-            //RESUME PLAYING THE VIDEO
-            ThreadFactory.ResumeAllThreads();
+                //RESUME PLAYING THE VIDEO
+                ThreadFactory.ResumeAllThreads();
+            }
         }
 
 
         //THIS RETURNS A FILEPATH TO A GIVEN VIDEO 
         //AFTER PRESENTING A USER WITH A DIALOG
-        private String PickVideoFileToPlay()
+        private VideoFile PickVideoFileToPlay()
         {
             String file_name = null;
             try
@@ -266,7 +270,7 @@ namespace Nkujukira.Demo
 
                     if (file_name != null)
                     {
-                        return file_name;
+                        return new VideoFile(1, file_name);
                     }
                     else
                     {
@@ -355,36 +359,56 @@ namespace Nkujukira.Demo
         }
 
         //returns a given control on this form provided its name
-        public Control GetControl(String name)
+        public Control GetControl(MainWindowControls name)
         {
             switch (name)
             {
-                case "time_elapsed":
+                case MainWindowControls.time_elapsed:
                     return time_elapsed_label;
 
-                case "total_time":
+                case MainWindowControls.total_time:
                     return total_time_label;
 
-                case "review_image_box":
+                case MainWindowControls.review_image_box:
                     return review_footage_image_box;
 
-                case "review_footage_imagebox":
-                    return review_footage_image_box;
+                case MainWindowControls.live_stream_image_box1:
+                    return imageBox1;
 
-                case "live_stream_imagebox":
+                case MainWindowControls.live_stream_image_box2:
+                    return imageBox2;
+
+                case MainWindowControls.live_stream_image_box3:
+                    return imageBox3;
+
+                case MainWindowControls.live_stream_image_box4:
                     return imageBox4;
 
-                case "review_footage_panel":
+                case MainWindowControls.review_footage_panel:
                     return panel_for_detected_faces;
 
-                case "live_stream_panel":
+                case MainWindowControls.live_stream_panel:
                     return live_stream_recognition_panel;
 
-                case "spining_progress_review":
+                case MainWindowControls.spining_progress_review:
                     return spining_progress_review;
 
             }
             return null;
+        }
+
+        public enum MainWindowControls 
+        {
+            time_elapsed,
+            total_time,
+            review_footage_panel,
+            review_image_box,
+            live_stream_image_box1,
+            live_stream_image_box2,
+            live_stream_image_box3,
+            live_stream_image_box4,
+            live_stream_panel,
+            spining_progress_review,
         }
 
 
@@ -511,6 +535,7 @@ namespace Nkujukira.Demo
             ThreadFactory.StopLiveStreamThreads();
             Singleton.ClearLiveStreamDataStores();
             ThreadFactory.ReleaseLiveStreamThreadsResources();
+
             StartLiveFootageThreads();
             ChangeButtonText();
             EnableLiveStreamControls();
@@ -624,6 +649,7 @@ namespace Nkujukira.Demo
             }
             else
             {
+                spining_progress_review.Visible = false;
                 spining_progress_review.Enabled = false;
                 pick_video_button.Enabled = true;
                 pause_button.Enabled = true;
@@ -645,6 +671,7 @@ namespace Nkujukira.Demo
             else
             {
                 spining_progress_review.Visible = true;
+                spining_progress_review.Enabled = true;
                 pick_video_button.Enabled = false;
                 pause_button.Enabled = false;
             }
@@ -670,8 +697,13 @@ namespace Nkujukira.Demo
             if (!cctv_cameras_are_on)
             {
                 cctv_cameras_are_on = true;
-                Singleton.CURRENT_FILE_NAME = PickVideoFileToPlay();
-                ThreadPool.QueueUserWorkItem(TurnOnCamerasUsingVideo);
+                Singleton.CURRENT_VIDEO_FILE = PickVideoFileToPlay();
+                if (Singleton.CURRENT_VIDEO_FILE != null)
+                {
+                    ThreadPool.QueueUserWorkItem(TurnOnCamerasUsingVideo);
+                    return;
+                }
+                cctv_cameras_are_on = false;
             }
             else
             {
@@ -679,6 +711,47 @@ namespace Nkujukira.Demo
                 cctv_cameras_are_on = false;
             }
         }
+
+        private void button_camera_enroll_Click(object sender, EventArgs e)
+        {
+            ThreadFactory.StopReviewFootageThreads();
+            Singleton.ClearReviewFootageDataStores();
+            ThreadFactory.ReleaseAllThreadResources();
+
+            //WHEN THIS BUTTON IS CLICKED 
+            //A CONFIRMATION MESSAGE BOX POPS UP
+            //ON CONFIRMATION A CHECK IS MADE TO ENSURE THAT THE SYSTEM HAS ATLEAST A CAMERA CONNECTED
+            //NECESSARY THREADS ARE SPAWNED
+            //AND THE FRAMES ARE GRABBED FROM THE CONNECTED CAMERA
+
+            PickCameraForm form = new PickCameraForm();
+            DisableReviewControls();
+
+            form.ShowDialog();
+
+            if (PickCameraForm.selected_camera != null)
+            {
+                ThreadFactory.StartReviewFootageThreadsUsingCamera(PickCameraForm.selected_camera);
+                Debug.WriteLine("Enabling review controls 1");
+                EnableReviewControls();
+                Debug.WriteLine("Enabling review controls 2");
+            }
+
+            Debug.WriteLine("Enabling review controls 3");
+            EnableReviewControls();
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+     
+
+    
+
+       
 
 
     }

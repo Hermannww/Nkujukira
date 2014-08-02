@@ -199,3 +199,8 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\MetroF
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\MetroFramework.Fonts.pdb
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\tr\ImageListView.resources.dll
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.csprojResolveAssemblyReference.cache
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\bin\x86\Debug\DirectShowLib-2005.dll
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.PickCameraForm.resources
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.PerpetratorAertForm.resources
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.StudentAlertForm.resources
+C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.GetIpAdressForm.resources

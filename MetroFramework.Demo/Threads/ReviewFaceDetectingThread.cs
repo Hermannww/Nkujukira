@@ -26,27 +26,24 @@ namespace Nkujukira.Demo.Threads
         private Image<Bgr, byte> current_frame;
         private HaarCascade haarcascade;
         public Rectangle[] detected_faces;
-        private int frame_width;
-        private int frame_height;
+        private Size frame_size;
+       
         private bool sucessfull;
-        private Point location;
 
         private int counter;
 
 
-        public ReviewFaceDetectingThread(int frame_width, int frame_height)
+        public ReviewFaceDetectingThread(Size frame_size)
             : base()
         {
-            haarcascade = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
+            haarcascade                        = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
             its_time_to_pick_perpetrator_faces = false;
-            this.frame_width = frame_width;
-            this.frame_height = frame_height;
-            WORK_DONE = false;
-            draw_detected_faces = false;
-            counter = 0;
-            previous_id = 0;
-            location = new Point(2, 2);
-
+            this.frame_size = frame_size;
+            WORK_DONE                          = false;
+            draw_detected_faces                = false;
+            counter                            = 0;
+            previous_id                        = 0;
+            
 
         }
 
@@ -143,9 +140,9 @@ namespace Nkujukira.Demo.Threads
             if (!draw_detected_faces)
             {
                 Singleton.REVIEW_FRAMES_TO_BE_DISPLAYED.Enqueue(current_frame.Clone());
+                return true;
             }
-            return true;
-
+          
             return false;
         }
 

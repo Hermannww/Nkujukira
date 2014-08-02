@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Nkujukira.Demo.DataStores;
 
 namespace Nkujukira.Demo.Managers
 {
@@ -19,11 +20,11 @@ namespace Nkujukira.Demo.Managers
             try
             {
                 //sql string
-                String create_sql                  = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
-                                    " (ID INT AUTO_INCREMENT PRIMARY KEY,"+
-                                    "USERNAME VARCHAR(30),"+
-                                    "PASSWORD VARCHAR(30),"+
-                                    "USERTYPE VARCHAR(10) )";
+                String create_sql                = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                                                   " (ID INT AUTO_INCREMENT PRIMARY KEY,"+
+                                                   "USERNAME VARCHAR(30),"+
+                                                   "PASSWORD VARCHAR(30),"+
+                                                   "USERTYPE VARCHAR(10) )";
                 //create sql command
                 sql_command                        = new MySqlCommand();
                 sql_command.Connection             = (MySqlConnection)database.OpenConnection();
@@ -40,7 +41,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -66,7 +67,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -119,15 +120,18 @@ namespace Nkujukira.Demo.Managers
                     admin                          = new Admin(id, username, password, type);
                 }
             }
-            catch (Exception e)
+            catch (CantAcessDatabaseException)
             {
-                Debug.WriteLine(e.Message);
+                throw;
+            }
+            catch (Exception) 
+            {
+            
             }
             finally
             {
                 //close reader
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
             return admin;
         }
@@ -164,9 +168,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                //close reader
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
             return false;
         }
@@ -208,9 +210,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                //close reader
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
             return all_admins.ToArray();
         }
@@ -244,7 +244,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
         }
@@ -281,7 +281,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -316,7 +316,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
     }

@@ -126,28 +126,28 @@ namespace Nkujukira.Demo.Views
             //save perp
             if (close_after_saving) 
             { 
-            //PerpetratorsManager.Save(perpetrator);
+                PerpetratorsManager.Save(perpetrator);
 
-            //set the perp id in the crime
-            //crime.perpetrator_id = perpetrator.id;
+                //set the perp id in the crime
+                crime.perpetrator_id = perpetrator.id;
 
-            //save crime
-            //CrimesManager.Save(crime);
+                //save crime
+                CrimesManager.Save(crime);
             }
 
-            //StolenItem[] items_lost                           = GetItemsLost();
+            StolenItem[] items_lost                           = GetItemsLost();
 
             //create victims object
-            //victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
+            victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            //VictimsManager.Save(victim);
+            VictimsManager.Save(victim);
 
             //SAVE EACH STOLEN ITEM IN THE DATABASE
-            //foreach (var item in items_lost) 
+            foreach (var item in items_lost) 
             {
-                //item.victims_id = victim.id;
-                //StolenItemsManager.Save(item);
+                item.victims_id = victim.id;
+                StolenItemsManager.Save(item);
             }
 
     
@@ -275,7 +275,7 @@ namespace Nkujukira.Demo.Views
         {
             Debug.WriteLine("STARTING FACE RECOGNITION FOR FACE");
             FaceRecognitionThread face_recognizer = new StudentRecognitionThread(perpetrator.faces);
-             face_recognizer.StartWorking();
+            face_recognizer.StartWorking();
         }
 
         private void button_another_crime_Click(object sender, EventArgs e)

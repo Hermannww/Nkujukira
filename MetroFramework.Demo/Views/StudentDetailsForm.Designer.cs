@@ -32,6 +32,8 @@ namespace Nkujukira.Demo.Views
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudentDetailsForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.status_label = new System.Windows.Forms.Label();
             this.picturebox_studentPic = new Nkujukira.Demo.Custom_Controls.MyPictureBox();
             this.label_status = new System.Windows.Forms.Label();
             this.combobox_year = new System.Windows.Forms.TextBox();
@@ -55,8 +57,7 @@ namespace Nkujukira.Demo.Views
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.status_label = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_studentPic)).BeginInit();
             this.SuspendLayout();
@@ -89,10 +90,32 @@ namespace Nkujukira.Demo.Views
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(14, 54);
+            this.panel1.Location = new System.Drawing.Point(14, 63);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(482, 556);
             this.panel1.TabIndex = 0;
+            // 
+            // label9
+            // 
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label9.Location = new System.Drawing.Point(0, 485);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(480, 2);
+            this.label9.TabIndex = 60;
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // status_label
+            // 
+            this.status_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.status_label.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.status_label.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.status_label.Location = new System.Drawing.Point(0, 143);
+            this.status_label.Name = "status_label";
+            this.status_label.Size = new System.Drawing.Size(480, 2);
+            this.status_label.TabIndex = 59;
+            this.status_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // picturebox_studentPic
             // 
@@ -378,40 +401,28 @@ namespace Nkujukira.Demo.Views
             this.label1.TabIndex = 35;
             this.label1.Text = "First Name";
             // 
-            // status_label
+            // label12
             // 
-            this.status_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.status_label.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.status_label.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.status_label.Location = new System.Drawing.Point(0, 143);
-            this.status_label.Name = "status_label";
-            this.status_label.Size = new System.Drawing.Size(480, 2);
-            this.status_label.TabIndex = 59;
-            this.status_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label9
-            // 
-            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label9.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label9.Location = new System.Drawing.Point(0, 485);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(480, 2);
-            this.label9.TabIndex = 60;
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(0, 55);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(510, 2);
+            this.label12.TabIndex = 3;
             // 
             // StudentDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(509, 619);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "StudentDetailsForm";
             this.Resizable = false;
             this.ShowInTaskbar = false;
-            this.Text = "Add Student";
+            this.Text = "Student Details";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.TopMost = true;
@@ -451,6 +462,7 @@ namespace Nkujukira.Demo.Views
         private MyPictureBox picturebox_studentPic;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label status_label;
+        private System.Windows.Forms.Label label12;
 
     }
 }

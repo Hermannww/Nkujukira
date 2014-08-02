@@ -43,22 +43,23 @@ namespace Nkujukira.Demo
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.metroStyleManager = new MetroStyleManager(this.components);
-            this.metroToolTip = new MetroToolTip();
+            this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
+            this.metroToolTip = new MetroFramework.Components.MetroToolTip();
             this.stop_button_2 = new MetroFramework.Controls.MetroButton();
             this.pick_video_button = new MetroFramework.Controls.MetroButton();
             this.show_detected_faces2 = new MetroFramework.Controls.MetroCheckBox();
             this.pause_button = new MetroFramework.Controls.MetroButton();
             this.turn_on_button = new MetroFramework.Controls.MetroButton();
             this.use_video_button = new MetroFramework.Controls.MetroButton();
-            this.metroStyleExtender = new MetroStyleExtender(this.components);
+            this.button_camera_enroll = new MetroFramework.Controls.MetroButton();
+            this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
+            this.metroStyleExtender = new MetroFramework.Components.MetroStyleExtender(this.components);
             this.linkLabel_logout = new System.Windows.Forms.LinkLabel();
-            this.panel_for_detected_faces = new System.Windows.Forms.Panel();
             this.label_face_recognition_status = new System.Windows.Forms.Label();
             this.label_separator = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
-            this.imageBox4 = new Nkujukira.Demo.Custom_Controls.MyImageBox();
+            this.imageBox1 = new Nkujukira.Demo.Custom_Controls.MyImageBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -71,13 +72,13 @@ namespace Nkujukira.Demo
             this.label6 = new System.Windows.Forms.Label();
             this.spining_progress_live = new ProgressControls.ProgressIndicator();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.spining_progress_review = new ProgressControls.ProgressIndicator();
             this.total_time_label = new System.Windows.Forms.Label();
             this.time_elapsed_label = new System.Windows.Forms.Label();
             this.review_footage_color_slider = new MB.Controls.ColorSlider();
-            this.review_footage_image_box = new Emgu.CV.UI.ImageBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.metroTile6 = new MetroFramework.Controls.MetroTile();
@@ -89,32 +90,40 @@ namespace Nkujukira.Demo
             this.metroTile1 = new MetroFramework.Controls.MetroTile();
             this.metroTile3 = new MetroFramework.Controls.MetroTile();
             this.metroTile5 = new MetroFramework.Controls.MetroTile();
+            this.label11 = new System.Windows.Forms.Label();
             this.icons_list = new System.Windows.Forms.ImageList(this.components);
             this.metroTabPage11 = new MetroFramework.Controls.MetroTabPage();
             this.tile1 = new MetroFramework.Controls.MetroTile();
             this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel_for_detected_faces = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
             this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.metroTabControl1 = new MetroFramework.Controls.MetroTabControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.turn_on_menu_item = new System.Windows.Forms.ToolStripMenuItem();
+            this.webCamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.networkCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
-            this.panel_for_detected_faces.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             this.panel2.SuspendLayout();
             this.live_stream_recognition_panel.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.metroTabPage11.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel_for_detected_faces.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroContextMenu1
@@ -182,7 +191,7 @@ namespace Nkujukira.Demo
             // 
             // metroToolTip
             // 
-            this.metroToolTip.Style = MetroColorStyle.Blue;
+            this.metroToolTip.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroToolTip.StyleManager = null;
             this.metroToolTip.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
@@ -190,7 +199,7 @@ namespace Nkujukira.Demo
             // 
             this.stop_button_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.stop_button_2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop_button_2.Location = new System.Drawing.Point(141, 487);
+            this.stop_button_2.Location = new System.Drawing.Point(138, 452);
             this.stop_button_2.Name = "stop_button_2";
             this.stop_button_2.Size = new System.Drawing.Size(103, 43);
             this.stop_button_2.TabIndex = 31;
@@ -203,7 +212,7 @@ namespace Nkujukira.Demo
             // 
             this.pick_video_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pick_video_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pick_video_button.Location = new System.Drawing.Point(328, 487);
+            this.pick_video_button.Location = new System.Drawing.Point(325, 452);
             this.pick_video_button.Name = "pick_video_button";
             this.pick_video_button.Size = new System.Drawing.Size(123, 43);
             this.pick_video_button.TabIndex = 30;
@@ -215,7 +224,7 @@ namespace Nkujukira.Demo
             // show_detected_faces2
             // 
             this.show_detected_faces2.AutoSize = true;
-            this.show_detected_faces2.Location = new System.Drawing.Point(160, 446);
+            this.show_detected_faces2.Location = new System.Drawing.Point(160, 423);
             this.show_detected_faces2.Name = "show_detected_faces2";
             this.show_detected_faces2.Size = new System.Drawing.Size(134, 15);
             this.show_detected_faces2.TabIndex = 29;
@@ -228,7 +237,7 @@ namespace Nkujukira.Demo
             // 
             this.pause_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pause_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pause_button.Location = new System.Drawing.Point(32, 487);
+            this.pause_button.Location = new System.Drawing.Point(32, 452);
             this.pause_button.Name = "pause_button";
             this.pause_button.Size = new System.Drawing.Size(103, 43);
             this.pause_button.TabIndex = 28;
@@ -250,18 +259,45 @@ namespace Nkujukira.Demo
             this.turn_on_button.UseSelectable = true;
             this.turn_on_button.Click += new System.EventHandler(this.turn_on_button_Click);
             // 
-            // button_use_video
+            // use_video_button
             // 
             this.use_video_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.use_video_button.Cursor = System.Windows.Forms.Cursors.Hand;
             this.use_video_button.Location = new System.Drawing.Point(291, 8);
-            this.use_video_button.Name = "button_use_video";
+            this.use_video_button.Name = "use_video_button";
             this.use_video_button.Size = new System.Drawing.Size(178, 44);
             this.use_video_button.TabIndex = 35;
             this.use_video_button.Text = "Use Video File";
             this.metroToolTip.SetToolTip(this.use_video_button, "Button Tooltip");
             this.use_video_button.UseSelectable = true;
             this.use_video_button.Click += new System.EventHandler(this.ButtonUseVideo_Click);
+            // 
+            // button_camera_enroll
+            // 
+            this.button_camera_enroll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button_camera_enroll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_camera_enroll.Location = new System.Drawing.Point(96, 512);
+            this.button_camera_enroll.Name = "button_camera_enroll";
+            this.button_camera_enroll.Size = new System.Drawing.Size(276, 43);
+            this.button_camera_enroll.TabIndex = 38;
+            this.button_camera_enroll.Text = "Enroll Using Camera";
+            this.metroToolTip.SetToolTip(this.button_camera_enroll, "Button Tooltip");
+            this.button_camera_enroll.UseSelectable = true;
+            this.button_camera_enroll.Click += new System.EventHandler(this.button_camera_enroll_Click);
+            // 
+            // review_footage_image_box
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.review_footage_image_box, true);
+            this.review_footage_image_box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.review_footage_image_box.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.review_footage_image_box.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            this.review_footage_image_box.Location = new System.Drawing.Point(32, 7);
+            this.review_footage_image_box.Name = "review_footage_image_box";
+            this.review_footage_image_box.Size = new System.Drawing.Size(416, 372);
+            this.review_footage_image_box.TabIndex = 27;
+            this.review_footage_image_box.TabStop = false;
+            this.metroToolTip.SetToolTip(this.review_footage_image_box, "Click on Frame to Enroll Perpetrator");
+            this.review_footage_image_box.Click += new System.EventHandler(this.review_footage_image_box_Click);
             // 
             // linkLabel_logout
             // 
@@ -276,18 +312,6 @@ namespace Nkujukira.Demo
             this.linkLabel_logout.TabStop = true;
             this.linkLabel_logout.Text = "Admin: Log out";
             this.linkLabel_logout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LogoutLabel_LinkClicked);
-            // 
-            // panel_for_detected_faces
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.panel_for_detected_faces, true);
-            this.panel_for_detected_faces.AutoScroll = true;
-            this.panel_for_detected_faces.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_for_detected_faces.Controls.Add(this.label_face_recognition_status);
-            this.panel_for_detected_faces.Controls.Add(this.label_separator);
-            this.panel_for_detected_faces.Location = new System.Drawing.Point(12, 8);
-            this.panel_for_detected_faces.Name = "panel_for_detected_faces";
-            this.panel_for_detected_faces.Size = new System.Drawing.Size(372, 510);
-            this.panel_for_detected_faces.TabIndex = 23;
             // 
             // label_face_recognition_status
             // 
@@ -316,7 +340,7 @@ namespace Nkujukira.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.panel1, true);
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.imageBox6);
-            this.panel1.Controls.Add(this.imageBox4);
+            this.panel1.Controls.Add(this.imageBox1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -340,18 +364,19 @@ namespace Nkujukira.Demo
             this.imageBox6.TabIndex = 29;
             this.imageBox6.TabStop = false;
             // 
-            // imageBox4
+            // imageBox1
             // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox4, true);
-            this.imageBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox4.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.imageBox4.Location = new System.Drawing.Point(12, 17);
-            this.imageBox4.Name = "imageBox4";
-            this.imageBox4.Size = new System.Drawing.Size(230, 219);
-            this.imageBox4.TabIndex = 21;
-            this.imageBox4.TabStop = false;
-            this.imageBox4.Click += new System.EventHandler(this.imageBox4_Click);
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox1, true);
+            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBox1.ContextMenuStrip = this.contextMenuStrip1;
+            this.imageBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox1.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            this.imageBox1.Location = new System.Drawing.Point(12, 17);
+            this.imageBox1.Name = "imageBox1";
+            this.imageBox1.Size = new System.Drawing.Size(230, 219);
+            this.imageBox1.TabIndex = 21;
+            this.imageBox1.TabStop = false;
+            this.imageBox1.Click += new System.EventHandler(this.imageBox4_Click);
             // 
             // label5
             // 
@@ -479,6 +504,8 @@ namespace Nkujukira.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.panel4, true);
             this.panel4.BackColor = System.Drawing.Color.Transparent;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.label10);
+            this.panel4.Controls.Add(this.button_camera_enroll);
             this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.label7);
             this.panel4.Controls.Add(this.spining_progress_review);
@@ -490,10 +517,20 @@ namespace Nkujukira.Demo
             this.panel4.Controls.Add(this.show_detected_faces2);
             this.panel4.Controls.Add(this.pause_button);
             this.panel4.Controls.Add(this.review_footage_image_box);
-            this.panel4.Location = new System.Drawing.Point(4, 4);
+            this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(479, 544);
+            this.panel4.Size = new System.Drawing.Size(479, 566);
             this.panel4.TabIndex = 28;
+            // 
+            // label10
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label10, true);
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label10.Location = new System.Drawing.Point(0, 503);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(477, 1);
+            this.label10.TabIndex = 39;
             // 
             // label9
             // 
@@ -502,7 +539,7 @@ namespace Nkujukira.Demo
             this.label9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label9.Location = new System.Drawing.Point(0, 392);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(477, 2);
+            this.label9.Size = new System.Drawing.Size(477, 1);
             this.label9.TabIndex = 37;
             // 
             // label7
@@ -510,9 +547,9 @@ namespace Nkujukira.Demo
             this.metroStyleExtender.SetApplyMetroTheme(this.label7, true);
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(0, 471);
+            this.label7.Location = new System.Drawing.Point(1, 441);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(477, 2);
+            this.label7.Size = new System.Drawing.Size(477, 1);
             this.label7.TabIndex = 36;
             // 
             // spining_progress_review
@@ -533,7 +570,7 @@ namespace Nkujukira.Demo
             // total_time_label
             // 
             this.total_time_label.AutoSize = true;
-            this.total_time_label.Location = new System.Drawing.Point(399, 446);
+            this.total_time_label.Location = new System.Drawing.Point(399, 423);
             this.total_time_label.Name = "total_time_label";
             this.total_time_label.Size = new System.Drawing.Size(49, 13);
             this.total_time_label.TabIndex = 34;
@@ -542,7 +579,7 @@ namespace Nkujukira.Demo
             // time_elapsed_label
             // 
             this.time_elapsed_label.AutoSize = true;
-            this.time_elapsed_label.Location = new System.Drawing.Point(29, 446);
+            this.time_elapsed_label.Location = new System.Drawing.Point(29, 425);
             this.time_elapsed_label.Name = "time_elapsed_label";
             this.time_elapsed_label.Size = new System.Drawing.Size(49, 13);
             this.time_elapsed_label.TabIndex = 33;
@@ -556,7 +593,7 @@ namespace Nkujukira.Demo
             this.review_footage_color_slider.ElapsedInnerColor = System.Drawing.Color.Turquoise;
             this.review_footage_color_slider.ElapsedOuterColor = System.Drawing.Color.Teal;
             this.review_footage_color_slider.LargeChange = ((uint)(5u));
-            this.review_footage_color_slider.Location = new System.Drawing.Point(32, 408);
+            this.review_footage_color_slider.Location = new System.Drawing.Point(29, 397);
             this.review_footage_color_slider.Name = "review_footage_color_slider";
             this.review_footage_color_slider.Size = new System.Drawing.Size(419, 23);
             this.review_footage_color_slider.SmallChange = ((uint)(1u));
@@ -564,19 +601,6 @@ namespace Nkujukira.Demo
             this.review_footage_color_slider.Text = "colorSlider2";
             this.review_footage_color_slider.ThumbRoundRectSize = new System.Drawing.Size(8, 8);
             this.review_footage_color_slider.Value = 0;
-            // 
-            // review_footage_image_box
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.review_footage_image_box, true);
-            this.review_footage_image_box.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.review_footage_image_box.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.review_footage_image_box.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.review_footage_image_box.Location = new System.Drawing.Point(32, 7);
-            this.review_footage_image_box.Name = "review_footage_image_box";
-            this.review_footage_image_box.Size = new System.Drawing.Size(416, 372);
-            this.review_footage_image_box.TabIndex = 27;
-            this.review_footage_image_box.TabStop = false;
-            this.review_footage_image_box.Click += new System.EventHandler(this.review_footage_image_box_Click);
             // 
             // panel5
             // 
@@ -614,7 +638,7 @@ namespace Nkujukira.Demo
             this.metroTile6.Location = new System.Drawing.Point(16, 369);
             this.metroTile6.Name = "metroTile6";
             this.metroTile6.Size = new System.Drawing.Size(231, 156);
-            this.metroTile6.Style = MetroColorStyle.Green;
+            this.metroTile6.Style = MetroFramework.MetroColorStyle.Green;
             this.metroTile6.TabIndex = 9;
             this.metroTile6.Text = "Help";
             this.metroTile6.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile6.TileImage")));
@@ -629,7 +653,7 @@ namespace Nkujukira.Demo
             this.metroTile7.Location = new System.Drawing.Point(253, 369);
             this.metroTile7.Name = "metroTile7";
             this.metroTile7.Size = new System.Drawing.Size(220, 156);
-            this.metroTile7.Style = MetroColorStyle.Pink;
+            this.metroTile7.Style = MetroFramework.MetroColorStyle.Pink;
             this.metroTile7.TabIndex = 10;
             this.metroTile7.Text = "Most Wanted List";
             this.metroTile7.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile7.TileImage")));
@@ -645,7 +669,7 @@ namespace Nkujukira.Demo
             this.metroTile8.Location = new System.Drawing.Point(479, 369);
             this.metroTile8.Name = "metroTile8";
             this.metroTile8.Size = new System.Drawing.Size(225, 156);
-            this.metroTile8.Style = MetroColorStyle.Teal;
+            this.metroTile8.Style = MetroFramework.MetroColorStyle.Teal;
             this.metroTile8.TabIndex = 11;
             this.metroTile8.Text = "About Us";
             this.metroTile8.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile8.TileImage")));
@@ -660,7 +684,7 @@ namespace Nkujukira.Demo
             this.metroTile9.Location = new System.Drawing.Point(16, 19);
             this.metroTile9.Name = "metroTile9";
             this.metroTile9.Size = new System.Drawing.Size(231, 166);
-            this.metroTile9.Style = MetroColorStyle.Blue;
+            this.metroTile9.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroTile9.TabIndex = 12;
             this.metroTile9.Text = "Add New User";
             this.metroTile9.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -675,7 +699,7 @@ namespace Nkujukira.Demo
             this.metroTile4.Location = new System.Drawing.Point(479, 19);
             this.metroTile4.Name = "metroTile4";
             this.metroTile4.Size = new System.Drawing.Size(225, 165);
-            this.metroTile4.Style = MetroColorStyle.Brown;
+            this.metroTile4.Style = MetroFramework.MetroColorStyle.Brown;
             this.metroTile4.TabIndex = 6;
             this.metroTile4.Text = "Change User role";
             this.metroTile4.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile4.TileImage")));
@@ -691,7 +715,7 @@ namespace Nkujukira.Demo
             this.metroTile2.Location = new System.Drawing.Point(16, 191);
             this.metroTile2.Name = "metroTile2";
             this.metroTile2.Size = new System.Drawing.Size(231, 172);
-            this.metroTile2.Style = MetroColorStyle.Purple;
+            this.metroTile2.Style = MetroFramework.MetroColorStyle.Purple;
             this.metroTile2.TabIndex = 4;
             this.metroTile2.Text = "Add Student";
             this.metroTile2.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile2.TileImage")));
@@ -707,7 +731,7 @@ namespace Nkujukira.Demo
             this.metroTile1.Location = new System.Drawing.Point(253, 19);
             this.metroTile1.Name = "metroTile1";
             this.metroTile1.Size = new System.Drawing.Size(220, 165);
-            this.metroTile1.Style = MetroColorStyle.Lime;
+            this.metroTile1.Style = MetroFramework.MetroColorStyle.Lime;
             this.metroTile1.TabIndex = 3;
             this.metroTile1.Text = "Change Login Credentials";
             this.metroTile1.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile1.TileImage")));
@@ -723,7 +747,7 @@ namespace Nkujukira.Demo
             this.metroTile3.Location = new System.Drawing.Point(479, 191);
             this.metroTile3.Name = "metroTile3";
             this.metroTile3.Size = new System.Drawing.Size(225, 172);
-            this.metroTile3.Style = MetroColorStyle.Red;
+            this.metroTile3.Style = MetroFramework.MetroColorStyle.Red;
             this.metroTile3.TabIndex = 8;
             this.metroTile3.Text = "History";
             this.metroTile3.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile3.TileImage")));
@@ -738,7 +762,7 @@ namespace Nkujukira.Demo
             this.metroTile5.Location = new System.Drawing.Point(253, 190);
             this.metroTile5.Name = "metroTile5";
             this.metroTile5.Size = new System.Drawing.Size(220, 173);
-            this.metroTile5.Style = MetroColorStyle.Yellow;
+            this.metroTile5.Style = MetroFramework.MetroColorStyle.Yellow;
             this.metroTile5.TabIndex = 7;
             this.metroTile5.Text = "DashBoard";
             this.metroTile5.TileImage = ((System.Drawing.Image)(resources.GetObject("metroTile5.TileImage")));
@@ -746,6 +770,19 @@ namespace Nkujukira.Demo
             this.metroTile5.UseSelectable = true;
             this.metroTile5.UseTileImage = true;
             this.metroTile5.Click += new System.EventHandler(this.DashBoard_Tile_Click);
+            // 
+            // label11
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.label11, true);
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.White;
+            this.label11.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label11.Location = new System.Drawing.Point(74, 11);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(205, 19);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "FACE COMPARISON ONGOING";
             // 
             // icons_list
             // 
@@ -769,8 +806,8 @@ namespace Nkujukira.Demo
             this.metroTabPage11.HorizontalScrollbarSize = 10;
             this.metroTabPage11.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage11.Name = "metroTabPage11";
-            this.metroTabPage11.Size = new System.Drawing.Size(918, 580);
-            this.metroTabPage11.Style = MetroColorStyle.Magenta;
+            this.metroTabPage11.Size = new System.Drawing.Size(918, 586);
+            this.metroTabPage11.Style = MetroFramework.MetroColorStyle.Magenta;
             this.metroTabPage11.TabIndex = 6;
             this.metroTabPage11.Text = "Settings";
             this.metroTabPage11.VerticalScrollbarBarColor = true;
@@ -787,7 +824,7 @@ namespace Nkujukira.Demo
             this.tile1.Location = new System.Drawing.Point(-6429, 26);
             this.tile1.Name = "tile1";
             this.tile1.Size = new System.Drawing.Size(231, 0);
-            this.tile1.Style = MetroColorStyle.Blue;
+            this.tile1.Style = MetroFramework.MetroColorStyle.Blue;
             this.tile1.TabIndex = 2;
             this.tile1.Text = "Add User";
             this.tile1.TileImage = ((System.Drawing.Image)(resources.GetObject("tile1.TileImage")));
@@ -809,8 +846,8 @@ namespace Nkujukira.Demo
             this.metroTabPage2.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage2.Name = "metroTabPage2";
             this.metroTabPage2.Padding = new System.Windows.Forms.Padding(25);
-            this.metroTabPage2.Size = new System.Drawing.Size(918, 580);
-            this.metroTabPage2.Style = MetroColorStyle.Black;
+            this.metroTabPage2.Size = new System.Drawing.Size(918, 586);
+            this.metroTabPage2.Style = MetroFramework.MetroColorStyle.Black;
             this.metroTabPage2.TabIndex = 2;
             this.metroTabPage2.Text = "Review Footage";
             this.metroTabPage2.VerticalScrollbar = true;
@@ -824,10 +861,30 @@ namespace Nkujukira.Demo
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.panel_for_detected_faces);
-            this.panel3.Location = new System.Drawing.Point(507, 4);
+            this.panel3.Location = new System.Drawing.Point(504, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(397, 541);
+            this.panel3.Size = new System.Drawing.Size(397, 566);
             this.panel3.TabIndex = 27;
+            // 
+            // panel_for_detected_faces
+            // 
+            this.panel_for_detected_faces.AutoScroll = true;
+            this.panel_for_detected_faces.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_for_detected_faces.Controls.Add(this.label11);
+            this.panel_for_detected_faces.Controls.Add(this.label12);
+            this.panel_for_detected_faces.Location = new System.Drawing.Point(12, 8);
+            this.panel_for_detected_faces.Name = "panel_for_detected_faces";
+            this.panel_for_detected_faces.Size = new System.Drawing.Size(372, 548);
+            this.panel_for_detected_faces.TabIndex = 23;
+            // 
+            // label12
+            // 
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(19, 39);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(335, 2);
+            this.label12.TabIndex = 2;
+            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // metroTabPage1
             // 
@@ -843,7 +900,7 @@ namespace Nkujukira.Demo
             this.metroTabPage1.Location = new System.Drawing.Point(4, 41);
             this.metroTabPage1.Name = "metroTabPage1";
             this.metroTabPage1.Padding = new System.Windows.Forms.Padding(25);
-            this.metroTabPage1.Size = new System.Drawing.Size(918, 580);
+            this.metroTabPage1.Size = new System.Drawing.Size(918, 586);
             this.metroTabPage1.TabIndex = 0;
             this.metroTabPage1.Text = "Live Stream";
             this.metroTabPage1.VerticalScrollbar = true;
@@ -862,10 +919,39 @@ namespace Nkujukira.Demo
             this.metroTabControl1.Multiline = true;
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
-            this.metroTabControl1.Size = new System.Drawing.Size(926, 625);
+            this.metroTabControl1.Size = new System.Drawing.Size(926, 631);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
             this.metroTabControl1.SelectedIndexChanged += new System.EventHandler(this.metroTabControl1_SelectedIndexChanged);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.turn_on_menu_item});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(119, 26);
+            // 
+            // turn_on_menu_item
+            // 
+            this.turn_on_menu_item.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.webCamToolStripMenuItem,
+            this.networkCameraToolStripMenuItem});
+            this.turn_on_menu_item.Name = "turn_on_menu_item";
+            this.turn_on_menu_item.Size = new System.Drawing.Size(118, 22);
+            this.turn_on_menu_item.Text = "Turn On";
+            // 
+            // webCamToolStripMenuItem
+            // 
+            this.webCamToolStripMenuItem.Name = "webCamToolStripMenuItem";
+            this.webCamToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.webCamToolStripMenuItem.Text = "WebCam";
+            // 
+            // networkCameraToolStripMenuItem
+            // 
+            this.networkCameraToolStripMenuItem.Name = "networkCameraToolStripMenuItem";
+            this.networkCameraToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.networkCameraToolStripMenuItem.Text = "Network Camera";
             // 
             // MainWindow
             // 
@@ -874,7 +960,7 @@ namespace Nkujukira.Demo
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackImagePadding = new System.Windows.Forms.Padding(210, 10, 0, 0);
             this.BackMaxSize = 50;
-            this.ClientSize = new System.Drawing.Size(966, 705);
+            this.ClientSize = new System.Drawing.Size(966, 711);
             this.Controls.Add(this.linkLabel_logout);
             this.Controls.Add(this.metroTabControl1);
             this.IsMdiContainer = true;
@@ -889,12 +975,11 @@ namespace Nkujukira.Demo
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.metroContextMenu1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).EndInit();
-            this.panel_for_detected_faces.ResumeLayout(false);
-            this.panel_for_detected_faces.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -902,14 +987,16 @@ namespace Nkujukira.Demo
             this.live_stream_recognition_panel.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.metroTabPage11.ResumeLayout(false);
             this.metroTabPage2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel_for_detected_faces.ResumeLayout(false);
+            this.panel_for_detected_faces.PerformLayout();
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabControl1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -941,7 +1028,7 @@ namespace Nkujukira.Demo
         private System.Windows.Forms.ImageList icons_list;
         public static Emgu.CV.UI.ImageBox imageBox3;
         public static Emgu.CV.UI.ImageBox imageBox2;
-        public static Emgu.CV.UI.ImageBox imageBox1;
+        public static Emgu.CV.UI.ImageBox imageBox4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel_logout;
         private MetroTabControl metroTabControl1;
@@ -953,7 +1040,7 @@ namespace Nkujukira.Demo
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel1;
         private ImageBox imageBox6;
-        private MyImageBox imageBox4;
+        private MyImageBox imageBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -972,7 +1059,7 @@ namespace Nkujukira.Demo
         private MetroFramework.Controls.MetroButton pause_button;
         private ImageBox review_footage_image_box;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel_for_detected_faces;
+       
         private System.Windows.Forms.Label label_face_recognition_status;
         private System.Windows.Forms.Label label_separator;
         private MetroTabPage metroTabPage11;
@@ -992,6 +1079,15 @@ namespace Nkujukira.Demo
         private MetroFramework.Controls.MetroButton turn_on_button;
         private System.Windows.Forms.Panel panel6;
         private MetroFramework.Controls.MetroButton use_video_button;
+        private System.Windows.Forms.Label label10;
+        private MetroButton button_camera_enroll;
+        private System.Windows.Forms.Panel panel_for_detected_faces;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem turn_on_menu_item;
+        private System.Windows.Forms.ToolStripMenuItem webCamToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem networkCameraToolStripMenuItem;
         
      
 

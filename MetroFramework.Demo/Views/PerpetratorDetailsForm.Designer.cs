@@ -42,6 +42,9 @@ namespace Nkujukira.Demo
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.perpetrator_picture_box = new Nkujukira.Demo.Custom_Controls.MyPictureBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.perpetrator_picture_box)).BeginInit();
             this.SuspendLayout();
@@ -49,6 +52,8 @@ namespace Nkujukira.Demo
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.button_is_apprehended);
             this.panel1.Controls.Add(this.button_getCrimes);
             this.panel1.Controls.Add(this.comboBox_gender);
@@ -63,7 +68,7 @@ namespace Nkujukira.Demo
             this.panel1.Controls.Add(this.perpetrator_picture_box);
             this.panel1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.panel1.Location = new System.Drawing.Point(18, 63);
+            this.panel1.Location = new System.Drawing.Point(14, 76);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(516, 270);
             this.panel1.TabIndex = 0;
@@ -111,7 +116,7 @@ namespace Nkujukira.Demo
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label4.Location = new System.Drawing.Point(200, 150);
+            this.label4.Location = new System.Drawing.Point(191, 150);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 19);
             this.label4.TabIndex = 30;
@@ -198,12 +203,37 @@ namespace Nkujukira.Demo
             this.perpetrator_picture_box.TabIndex = 0;
             this.perpetrator_picture_box.TabStop = false;
             // 
+            // label12
+            // 
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(0, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(545, 2);
+            this.label12.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Location = new System.Drawing.Point(-1, 190);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(515, 2);
+            this.label5.TabIndex = 34;
+            // 
+            // label6
+            // 
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label6.Location = new System.Drawing.Point(180, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(2, 190);
+            this.label6.TabIndex = 35;
+            // 
             // PerpetratorDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(543, 359);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.Name = "PerpetratorDetailsForm";
@@ -237,5 +267,8 @@ namespace Nkujukira.Demo
         private System.Windows.Forms.Label label4;
         private MetroFramework.Controls.MetroButton button_getCrimes;
         private MetroFramework.Controls.MetroButton button_is_apprehended;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }

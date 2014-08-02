@@ -176,5 +176,10 @@ namespace Nkujukira.Demo.Views
                 PerpetratorDetailsForm.another_crime = false;
             }
         }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

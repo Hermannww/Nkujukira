@@ -11,7 +11,7 @@ namespace Nkujukira.Demo.Threads
 {
     public class StudentAlertThread : AlertGenerationThread
     {
-        private Student identified_student = null;
+        private FaceRecognitionResult face_recog_result = null;
         private List<int> ids_of_students  = null;
         public static bool WORK_DONE       = false;
 
@@ -32,9 +32,9 @@ namespace Nkujukira.Demo.Threads
 
         protected override bool ThereIsSimilarAlert()
         {
-            if (identified_student != null)
+            if (face_recog_result != null)
             {
-                if (ids_of_students.Contains(identified_student.id)) 
+                if (ids_of_students.Contains(face_recog_result.identified_student.id)) 
                 {
                     return true;
                 }
@@ -47,28 +47,26 @@ namespace Nkujukira.Demo.Threads
         protected override bool GetIdentifiedIndividual()
         {
             //IF THE ATTEMPT TO DEQUEUE FROM 1 OF THE SHARED DATASTORES RETURNS TRUE THEN PROCEED ELSE FALSE
-            return Singleton.IDENTIFIED_STUDENTS.TryDequeue(out identified_student);
+            return Singleton.IDENTIFIED_STUDENTS.TryDequeue(out face_recog_result);
         }
 
         protected override void DisplayDetails()
         {
             //IF ITS BECOZ A STUDENT HAS BEEN IDENTIFIED
-            if (identified_student != null)
+            if (face_recog_result != null)
             {
-
-
                 //ADD THE ID OF THE STUDENT SO WE CAN TRACK IT FOR LATER
-                ids_of_students.Add(identified_student.id);
+                ids_of_students.Add(face_recog_result.id);
 
                 //create form
-                StudentDetailsForm form    = new StudentDetailsForm(identified_student);
+                StudentAlertForm form = new StudentAlertForm(face_recog_result);
 
                 //show details form
                 form.ShowDialog();
 
                 return;
             }
-            identified_student             = null;
+            face_recog_result             = null;
         }
     }
 }

@@ -22,8 +22,8 @@ namespace Nkujukira.Demo.Views
     public partial class SelectPerpetratorFacesForm : MetroForm
     {
         private LoadingScreen screen                                      = new LoadingScreen();
-        public ConcurrentDictionary<int, Image<Bgr, byte>> suspect_faces = new ConcurrentDictionary<int, Image<Bgr, byte>>();
-        private int MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED                  =5;
+        public ConcurrentDictionary<int, Image<Bgr, byte>> suspect_faces  = new ConcurrentDictionary<int, Image<Bgr, byte>>();
+        private int MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED                  = 3;
 
 
         public SelectPerpetratorFacesForm()
@@ -46,19 +46,10 @@ namespace Nkujukira.Demo.Views
 
 
         private void DisplayLoadingScreen()
-        {        
-           screen.StartWorking();
-           screen.Show();
-        }
-
-        private void CloseLoadingScreen() 
         {
-          screen.StopWorking();
-          screen.Close();
+            screen.StartWorking();
+            screen.Show();
         }
-
-
-
 
         private void PlayVideoToDetectMoreFaces()
         {
@@ -114,6 +105,11 @@ namespace Nkujukira.Demo.Views
             {
                 done_button.Enabled = false;
             }
+        }
+
+        private void SelectPerpetratorFacesForm_Load(object sender, EventArgs e)
+        {
+            minimum_faces_label.Text = "PICK AT LEAST: " + MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED + " FACES";
         }
 
     }

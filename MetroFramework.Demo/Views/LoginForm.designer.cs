@@ -34,6 +34,7 @@ namespace Nkujukira.Demo
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.label_separator = new System.Windows.Forms.Label();
             this.status_label = new System.Windows.Forms.Label();
             this.textbox_password = new System.Windows.Forms.TextBox();
@@ -44,6 +45,7 @@ namespace Nkujukira.Demo
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button_login = new MetroFramework.Controls.MetroButton();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -65,6 +67,7 @@ namespace Nkujukira.Demo
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label_separator);
             this.panel1.Controls.Add(this.status_label);
             this.panel1.Controls.Add(this.textbox_password);
@@ -75,6 +78,15 @@ namespace Nkujukira.Demo
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(405, 162);
             this.panel1.TabIndex = 20;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label4.Location = new System.Drawing.Point(-35, 147);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(477, 1);
+            this.label4.TabIndex = 39;
             // 
             // label_separator
             // 
@@ -144,7 +156,7 @@ namespace Nkujukira.Demo
             this.spining_progress_indicator.CircleColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.spining_progress_indicator.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.spining_progress_indicator.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.spining_progress_indicator.Location = new System.Drawing.Point(205, 10);
+            this.spining_progress_indicator.Location = new System.Drawing.Point(24, 4);
             this.spining_progress_indicator.Name = "spining_progress_indicator";
             this.spining_progress_indicator.Percentage = 0F;
             this.spining_progress_indicator.ShowText = true;
@@ -187,12 +199,21 @@ namespace Nkujukira.Demo
             this.button_login.UseSelectable = true;
             this.button_login.Click += new System.EventHandler(this.user_login_Click);
             // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Location = new System.Drawing.Point(-42, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(477, 1);
+            this.label5.TabIndex = 39;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(422, 316);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.spining_progress_indicator);
             this.Controls.Add(this.panel1);
@@ -204,6 +225,7 @@ namespace Nkujukira.Demo
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowIcon = false;
             this.Text = "LOG!N";
+            this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
@@ -229,5 +251,7 @@ namespace Nkujukira.Demo
         private System.Windows.Forms.Label status_label;
         private ProgressControls.ProgressIndicator spining_progress_indicator;
         private System.Windows.Forms.Label label_separator;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

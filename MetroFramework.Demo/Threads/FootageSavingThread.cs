@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
+using Nkujukira.Demo.Entitities;
 using Nkujukira.Demo.Managers;
 using Nkujukira.Demo.Singletons;
 using System;
@@ -41,11 +42,11 @@ namespace Nkujukira.Demo.Threads
 
 
         //CONSTRUCTOR
-        public FootageSavingThread(Capture video_capture)
+        public FootageSavingThread(Camera camera)
             : base()
         {
             //GET HANDLE TO VIDEO CAPTURE
-            this.camera_capture = video_capture;
+            this.camera_capture = camera.camera_capture;
 
             //CREATE FOLDER IF IT DOESNT EXIST
             FileManager.CreateFolderIfMissing(PATH_TO_FOLDER);
@@ -89,13 +90,18 @@ namespace Nkujukira.Demo.Threads
         //INITIALIZES THE VIDEO WRITER
         public void InitilaizeWriter()
         {
+            Debug.WriteLine("path=" + PATH_TO_SAVED_FILES);
+            if (Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1) == null)
+            {
+                Debug.WriteLine("window is null");
+            }
 
             video_writer = new VideoWriter(
                                             PATH_TO_SAVED_FILES,
                                             (int)camera_capture.GetCaptureProperty(CAP_PROP.CV_CAP_PROP_FOURCC),
                                             (int)5,
-                                            Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width,
-                                            Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height,
+                                            Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1).Width,
+                                            Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1).Height,
                                             true
                                           );
         }

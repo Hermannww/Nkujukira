@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Nkujukira.Demo.Threads
 {
@@ -43,32 +44,32 @@ namespace Nkujukira.Demo.Threads
 
             time_elapsed_in_seconds_global                      = 0;
 
-            //GET PROPERTIES OF THE VIDEO FILE
-            MediaFile video_properties                          = new MediaFile(Singleton.CURRENT_FILE_NAME);
+            if (Singleton.CURRENT_VIDEO_FILE != null)
+            {
+                //TO FIND THE MILLISECONDS THAT HAVE TO ELAPSE BEFORE MOVING  THE SLIDER,I DIVIDED THE
+                //VIDEO_LENGTH BY 100 WHICH IS THE TOTAL PERCENTAGE OF A SLIDER
+                double milliseconds_between_moving_slider = (((Singleton.CURRENT_VIDEO_FILE.video_length_in_millisecs)) / (double)100);
 
-            //VIDEO LENGTH IN MILLISECONDS SECONDS
-            Singleton.VIDEO_LENGTH_IN_MILLISECS                 = video_properties.General.DurationMillis;
+                //TO GET SECS DIVIDE BY 1000 : 1 SEC                = 1000MSC
+                seconds_btn_moving_slider = milliseconds_between_moving_slider / 1000;
 
-            //TO FIND THE MILLISECONDS THAT HAVE TO ELAPSE BEFORE MOVING  THE SLIDER,I DIVIDED THE
-            //VIDEO_LENGTH BY 100 WHICH IS THE TOTAL PERCENTAGE OF A SLIDER
-            double milliseconds_between_moving_slider           = (((Singleton.VIDEO_LENGTH_IN_MILLISECS)) / (double)100);
+                //SET A TIMER THAT FIRES AFTER THE INTERVAL SO WE CAN MOVE THE SLIDER
+                timer = new System.Timers.Timer(milliseconds_between_moving_slider);
 
-            //TO GET SECS DIVIDE BY 1000 : 1 SEC                = 1000MSC
-            seconds_btn_moving_slider                           = milliseconds_between_moving_slider / 1000;
+                //BOOL SET WHENEVER TIMER FIRES
+                time_interval_has_elapsed = false;
 
-            //SET A TIMER THAT FIRES AFTER THE INTERVAL SO WE CAN MOVE THE SLIDER
-            timer                                               = new System.Timers.Timer(milliseconds_between_moving_slider);
+                //SET TIMER HANDLERS
+                timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimeExpired);
 
-            //BOOL SET WHENEVER TIMER FIRES
-            time_interval_has_elapsed                           = false;
+                //SET VIDEO LENGTH TIME BEFORE THE VIDEO STARTS PLAYING
+                Label total_time = (Label)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.total_time);
 
-            //SET TIMER HANDLERS
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimeExpired);
+                total_time.Text = "" + Singleton.CURRENT_VIDEO_FILE.video_length_string;
 
-            //SET VIDEO LENGTH TIME BEFORE THE VIDEO STARTS PLAYING
-            Singleton.MAIN_WINDOW.GetControl("total_time").Text = "" + video_properties.General.DurationString;
-
-
+                //ENABLE TIMER
+                timer.Enabled = true;
+            }
         }
 
 
@@ -120,15 +121,15 @@ namespace Nkujukira.Demo.Threads
         private void SetLabelText(String text)
         {
             //UPDATE THE LABEL IN A THREAD SAFE WAY : THIS IS OFF THE GUI THREAD 
-            SetControlPropertyThreadSafe(Singleton.MAIN_WINDOW.GetControl("time_elapsed"), "Text", text);
+            Label time_elapsed=(Label)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.time_elapsed);
+            SetControlPropertyThreadSafe(time_elapsed, "Text", text);
         }
 
         public override void DoWork(object sender, DoWorkEventArgs ex)
         {
             try
             {
-                //ENABLE TIMER
-                timer.Enabled                                   = true;
+               
 
                 Debug.WriteLine("Review Display Thread Running");
                 //IF THREAD IS ALIVE
@@ -167,14 +168,17 @@ namespace Nkujukira.Demo.Threads
         {
             base.ThreadIsDone(sender, e);
 
-            //DISABLE TIMER SO IT STOPS FIRING UNECESSARILY
-            timer.Enabled                                       = false;
+            if (Singleton.CURRENT_VIDEO_FILE != null)
+            {
+                //DISABLE TIMER SO IT STOPS FIRING UNECESSARILY
+                timer.Enabled = false;
 
-            //CHANGE TIMER LABELS
-            SetLabelText(DEFAULT_TIME_LABEL_TEXT);
+                //CHANGE TIMER LABELS
+                SetLabelText(DEFAULT_TIME_LABEL_TEXT);
 
-            //SET SLIDER VALUE TO 0
-            Singleton.MAIN_WINDOW.GetColorSlider().Value        = 0;
+                //SET SLIDER VALUE TO 0
+                Singleton.MAIN_WINDOW.GetColorSlider().Value = 0;
+            }
 
         }
 
@@ -268,9 +272,7 @@ namespace Nkujukira.Demo.Threads
         public override bool Pause()
         {
             paused                                              = true;
-
-            timer.Enabled                                       = false;
-
+            if (timer != null) { timer.Enabled                  = false; }
             return true;
         }
 
@@ -278,10 +280,7 @@ namespace Nkujukira.Demo.Threads
         public override bool Resume()
         {
             paused                                              = false;
-
-
-            timer.Enabled                                       = true;
-
+            if (timer != null) { timer.Enabled                  = true; }
             return true;
         }
 
@@ -289,14 +288,15 @@ namespace Nkujukira.Demo.Threads
         //DISPOSE OF ALL OBJECTS
         public override bool RequestStop()
         {
-            running                                             = false;
-
-
-            timer.Enabled                                       = false;
-            Singleton.MAIN_WINDOW.GetColorSlider().Value        = 0;
-            SetLabelText(DEFAULT_TIME_LABEL_TEXT);
-
-            return true;
+            try
+            {
+                running = false;
+                timer.Enabled = false;
+                Singleton.MAIN_WINDOW.GetColorSlider().Value = 0;
+                SetLabelText(DEFAULT_TIME_LABEL_TEXT);
+                return true;
+            }
+            catch (Exception) { return false; }
         }
 
     }

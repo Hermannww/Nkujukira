@@ -30,7 +30,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -53,7 +53,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -76,7 +76,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -99,7 +99,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -121,7 +121,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally 
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         
         }

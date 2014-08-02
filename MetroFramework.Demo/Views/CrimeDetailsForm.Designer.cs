@@ -45,12 +45,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.textfield_crime_location);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
@@ -67,7 +70,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(13, 63);
+            this.panel1.Location = new System.Drawing.Point(10, 63);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(534, 419);
             this.panel1.TabIndex = 0;
@@ -128,7 +131,7 @@
             // 
             this.button_getVictims.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_getVictims.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_getVictims.Location = new System.Drawing.Point(366, 370);
+            this.button_getVictims.Location = new System.Drawing.Point(366, 373);
             this.button_getVictims.Name = "button_getVictims";
             this.button_getVictims.Size = new System.Drawing.Size(152, 37);
             this.button_getVictims.TabIndex = 42;
@@ -140,7 +143,7 @@
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_save.Location = new System.Drawing.Point(174, 370);
+            this.button_save.Location = new System.Drawing.Point(174, 373);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(150, 37);
             this.button_save.TabIndex = 41;
@@ -276,12 +279,30 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Date Of Crime";
             // 
+            // label12
+            // 
+            this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label12.Location = new System.Drawing.Point(0, 55);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(555, 2);
+            this.label12.TabIndex = 3;
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // label8
+            // 
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label8.Location = new System.Drawing.Point(0, 365);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(535, 2);
+            this.label8.TabIndex = 48;
+            // 
             // CrimeDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
-            this.ClientSize = new System.Drawing.Size(555, 494);
+            this.ClientSize = new System.Drawing.Size(555, 491);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -291,6 +312,7 @@
             this.Text = "Crime Details Form";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CrimeDetailsForm_FormClosing);
             this.Load += new System.EventHandler(this.CrimeDetailsForm_Load);
             this.panel1.ResumeLayout(false);
@@ -318,5 +340,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textfield_crime_location;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label8;
     }
 }

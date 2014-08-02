@@ -26,6 +26,8 @@ namespace Nkujukira.Demo.Managers
         private static int GENDER                   = 4;
         private static int CREATED_AT               = 5;
 
+        public static Perpetrator[] all_active_perps;
+
 
         public static bool CreateTable()
         {
@@ -56,7 +58,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -81,7 +83,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -145,8 +147,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
             //return array of results
@@ -198,8 +199,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
             //return array of results
@@ -263,8 +263,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
             //return array of results
@@ -321,7 +320,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -358,6 +357,7 @@ namespace Nkujukira.Demo.Managers
             {
                 return false;
             }
+            finally { CloseDatabaseConnection(); }
 
         }
 
@@ -393,7 +393,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 

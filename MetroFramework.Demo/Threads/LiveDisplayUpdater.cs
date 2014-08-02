@@ -102,10 +102,6 @@ namespace Nkujukira.Demo.Threads
             return true;
         }
 
-        public void Dispose()
-        {
-
-            this.RequestStop();
-        }
+     
     }
 }

@@ -23,6 +23,11 @@ namespace Nkujukira.Demo.Managers
         //Sql commad
         public static MySqlCommand sql_command = null ;
 
+        public static void  CloseDatabaseConnection()
+        {
+            if (data_reader != null) {data_reader.Close();}
+            if (database != null)    { database.CloseConnection();}
+        }
        
     }
 }

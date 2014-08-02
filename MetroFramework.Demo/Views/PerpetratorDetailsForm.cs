@@ -51,7 +51,8 @@ namespace Nkujukira.Demo
         //DISABLES NECESSARY CONTROLS WHEN IN ALERT MODE
         private void DisableControls()
         {
-            this.ControlBox = false;
+            
+            //this.ControlBox = false;
             this.TopMost = true;
             comboBox_gender.Enabled              = false;
             button_getCrimes.Visible             = true;
@@ -138,7 +139,7 @@ namespace Nkujukira.Demo
         private void PerpetratorDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SoundManager.StopPlayingSound();
-            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).DisableAlertMode();
+            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1)).DisableAlertMode();
         }
 
     }

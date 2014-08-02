@@ -43,20 +43,8 @@ namespace Nkujukira.Demo.Singletons
         public static SelectPerpetratorFacesForm SELECT_PERP_FACES { get; set; }
 
         //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
-        private static String current_file_name = "";
-
-        //THE FILENAME OF THE VIDEO CURRENTLY PLAYING IF A VIDEO IS PLAYING
-        public static String CURRENT_FILE_NAME
-        {
-            get
-            {
-                return Singleton.current_file_name;
-            }
-            set
-            {
-                Singleton.current_file_name = value;
-            }
-        }
+        public static VideoFile CURRENT_VIDEO_FILE { get; set; }
+       
 
         //THIS HOLDS FRAMES AWAITING FACE DETECTION
         private static ConcurrentQueue<Image<Bgr, byte>> live_frames_to_be_processed = new ConcurrentQueue<Image<Bgr, byte>>();
@@ -91,20 +79,20 @@ namespace Nkujukira.Demo.Singletons
         }
 
         //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED AS STUDENTS
-        private static ConcurrentQueue<Student> identified_students = new ConcurrentQueue<Student>();
+        private static ConcurrentQueue<FaceRecognitionResult> identified_students = new ConcurrentQueue<FaceRecognitionResult>();
 
         //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED AS STUDENTS
-        public static ConcurrentQueue<Student> IDENTIFIED_STUDENTS
+        public static ConcurrentQueue<FaceRecognitionResult> IDENTIFIED_STUDENTS
         {
             get { return identified_students; }
             set { identified_students = value; }
         }
 
         //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED 
-        private static ConcurrentQueue<Perpetrator> identified_perpetrators = new ConcurrentQueue<Perpetrator>();
+        private static ConcurrentQueue<FaceRecognitionResult> identified_perpetrators = new ConcurrentQueue<FaceRecognitionResult>();
 
         //THIS HOLDS PERPETRATORS WHO HAVE BEEN IDENTIFIED 
-        public static ConcurrentQueue<Perpetrator> IDENTIFIED_PERPETRATORS
+        public static ConcurrentQueue<FaceRecognitionResult> IDENTIFIED_PERPETRATORS
         {
             get { return identified_perpetrators; }
             set { identified_perpetrators = value; }
@@ -209,7 +197,7 @@ namespace Nkujukira.Demo.Singletons
         private static ConcurrentDictionary<int, Face> review_detected_faces_datastore = new ConcurrentDictionary<int, Face>();
 
         public static string HAARCASCADE_FILE_PATH = Application.StartupPath + @"\Resources\Haarcascades\haarcascade_frontalface_default.xml";
-        public static double VIDEO_LENGTH_IN_MILLISECS;
+
 
         //THIS HOLDS IMAGES OF FACES DETECTED IN FRAMES
         public static ConcurrentDictionary<int, Face> REVIEW_DETECTED_FACES_DATASTORE
@@ -229,19 +217,17 @@ namespace Nkujukira.Demo.Singletons
         {
             Image<Bgr, byte> color_image;
             FaceRecognitionResult result;
-            Image<Gray, byte> gray_image;
             Perpetrator perp;
 
             while (Singleton.LIVE_FRAMES_TO_BE_PROCESSED.TryDequeue(out color_image)) ;
             while (Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.TryDequeue(out color_image)) ;
             while (Singleton.FACES_TO_RECOGNIZE.TryDequeue(out color_image)) ;
-            while (Singleton.identified_perpetrators.TryDequeue(out perp)) ;
+            while (Singleton.identified_perpetrators.TryDequeue(out result)) ;
             while (Singleton.FACE_RECOGNITION_RESULTS.TryDequeue(out result)) ;
             while (Singleton.FRAMES_TO_BE_STORED.TryDequeue(out color_image)) ;
             Singleton.LIVE_DETECTED_FACES_DATASTORE.Clear() ;
 
             color_image= null;
-            gray_image = null;
             result     = null;
             perp       = null;
 

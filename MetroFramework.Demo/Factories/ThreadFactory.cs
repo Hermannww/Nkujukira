@@ -1,29 +1,33 @@
 ﻿using Emgu.CV;
 using Emgu.CV.UI;
+using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Managers;
 using Nkujukira.Demo.Singletons;
 using Nkujukira.Demo.Threads;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Nkujukira.Demo.Factories
 {
     public static class ThreadFactory
     {
-        public const String PERP_ALERT_THREAD                                     = "perp_alert";
-        public const String STUDENT_ALERT_THREAD                                  = "student_alert";
-        public const String CAMERA_THREAD                                         = "camera_output";
-        public const String CAMERA_THREAD_USING_VIDEO                             = "camera_output_using_video";
-        public const String REVIEW_DISPLAY_UPDATER                                = "review_display_updater";
-        public const String LIVE_DISPLAY_UPDATER                                  = "livedisplay_updater";
-        public const String REVIEW_FACE_DETECTOR                                  = "review_face_detector";
-        public const String LIVE_FACE_DETECTOR                                    = "live_face_detector";
-        public const String FACE_DRAWER                                           = "face_drawer";
-        public const String FOOTAGE_SAVER                                         = "footage_saver";
-        public const String VIDEO_THREAD                                          = "video_from_file";
-        public const String PERP_RECOGNIZER                                       = "perpetrator_recognizer";
-        public const String PROGRESS_THREAD                                       = "face_recog_progress";
+        public const String PERP_ALERT_THREAD         = "perp_alert";
+        public const String STUDENT_ALERT_THREAD      = "student_alert";
+        public const String CAMERA_THREAD             = "camera_output";
+        public const String CAMERA_THREAD_USING_VIDEO = "camera_output_using_video";
+        public const String REVIEW_DISPLAY_UPDATER    = "review_display_updater";
+        public const String LIVE_DISPLAY_UPDATER      = "livedisplay_updater";
+        public const String REVIEW_FACE_DETECTOR      = "review_face_detector";
+        public const String LIVE_FACE_DETECTOR        = "live_face_detector";
+        public const String FACE_DRAWER               = "face_drawer";
+        public const String FOOTAGE_SAVER             = "footage_saver";
+        public const String VIDEO_THREAD              = "video_from_file";
+        public const String VIDEO_THREAD_USING_CAMERA = "video_from_file_using_camera";
+        public const String PERP_RECOGNIZER           = "perpetrator_recognizer";
+        public const String PROGRESS_THREAD           = "face_recog_progress";
 
-        public static String[] ALL_THREADS                                        = { 
+        public static String[] ALL_THREADS = { 
                                                  PERP_ALERT_THREAD,
                                                  STUDENT_ALERT_THREAD,
                                                  CAMERA_THREAD,
@@ -35,32 +39,35 @@ namespace Nkujukira.Demo.Factories
                                                  FACE_DRAWER,       
                                                  FOOTAGE_SAVER, 
                                                  VIDEO_THREAD,
+                                                 VIDEO_THREAD_USING_CAMERA,
                                                  PROGRESS_THREAD,
                                                   PERP_RECOGNIZER
                                               };
-        public static String[] ALL_LIVE_THREADS                                   = { 
-                                                   PERP_ALERT_THREAD,                                                                                
-                                                   CAMERA_THREAD, 
-                                                   CAMERA_THREAD_USING_VIDEO,
-                                                   LIVE_DISPLAY_UPDATER,                                                                                 
-                                                   LIVE_FACE_DETECTOR,                                                                                       
-                                                   FOOTAGE_SAVER,                                                                                
-                                                   PROGRESS_THREAD,
-                                                   PERP_RECOGNIZER
+        public static String[] ALL_LIVE_THREADS = { 
+                                                    PERP_ALERT_THREAD,                                                                                
+                                                    CAMERA_THREAD, 
+                                                    CAMERA_THREAD_USING_VIDEO,
+                                                    LIVE_DISPLAY_UPDATER,                                                                                 
+                                                    LIVE_FACE_DETECTOR,                                                                                       
+                                                    FOOTAGE_SAVER,                                                                                
+                                                    PROGRESS_THREAD,
+                                                    PERP_RECOGNIZER
                                                    };
 
-        public static String[] ALL_REVIEW_THREADS                                 = {                                                                                
+        public static String[] ALL_REVIEW_THREADS = {                                                                                
                                                         STUDENT_ALERT_THREAD,                                                                               
                                                         REVIEW_DISPLAY_UPDATER,                                                                                 
                                                         REVIEW_FACE_DETECTOR,                                                                                
                                                         FACE_DRAWER,                                                                                       
-                                                         VIDEO_THREAD                                                                                                                                                               
+                                                        VIDEO_THREAD,
+                                                        VIDEO_THREAD_USING_CAMERA                                                                                                     
                                                       };
 
         //ALL THREADS AVAILABLE
         private static CameraOutputGrabberThread cam_output                       = null;
         private static CameraOutputGrabberThreadUsingVideo cam_output_using_video = null;
         private static VideoFromFileThread video_from_file_grabber                = null;
+        private static VideoFromFileThreadUsingCamera video_from_camera           = null;
         private static ReviewFaceDetectingThread review_face_detector             = null;
         private static LiveStreamFaceDetectingThread live_face_detector           = null;
         private static DisplayUpdaterThread live_display_updater                  = null;
@@ -75,43 +82,59 @@ namespace Nkujukira.Demo.Factories
         //STARTS THE THREADS RESPONSIBLEFOR STREAMING LIVE FOOTAGE FROM CCTV CAMERAS
         public static bool StartLiveStreamThreads()
         {
+            Camera[] all_cameras = CameraManager.GetAllCamerasConnectedToSystem();
 
-
-            CreateNewPerpetratorRecognitionThread();
-            CreateNewCameraOutputGrabberThread();
-            CreateLiveStreamFaceDetectorThread();
-            CreateFaceRecogProgressThread();
-            CreateFootageSaverThread();
-            CreateNewPerpAlertThread();
-            CreateLiveDisplayUpdaterThread();
+            foreach (var camera in all_cameras)
+            {
+                CreateNewPerpetratorRecognitionThread();
+                CreateNewCameraOutputGrabberThread(camera);
+                CreateLiveStreamFaceDetectorThread();
+                CreateFaceRecogProgressThread();
+                CreateFootageSaverThread(camera);
+                CreateNewPerpAlertThread();
+                CreateLiveDisplayUpdaterThread(camera.camera_imagebox);
+            }
 
             return true;
         }
 
+      
+
         //STARTS THE THREADS RESPONSIBLEFOR STREAMING LIVE FOOTAGE FROM CCTV CAMERAS
         public static bool StartLiveStreamThreadsUsingVideo()
         {
-            CreateNewPerpetratorRecognitionThread();
-            CreateNewCameraOutputGrabberThreadUsingVideo();
-            CreateLiveStreamFaceDetectorThread();
-            CreateFaceRecogProgressThread();
-            //CreateFootageSaverThread();
-            CreateNewPerpAlertThread();
-            CreateLiveDisplayUpdaterThread();
+            if (Singleton.CURRENT_VIDEO_FILE != null)
+            {
+                CreateNewPerpetratorRecognitionThread();
+                CreateNewCameraOutputGrabberThreadUsingVideo(Singleton.CURRENT_VIDEO_FILE);
+                CreateLiveStreamFaceDetectorThread();
+                CreateFaceRecogProgressThread();
+                CreateNewPerpAlertThread();
 
-            return true;
+                MainWindow.MainWindowControls imagebox_name = MainWindow.MainWindowControls.live_stream_image_box1;
+                ImageBox live_stream_imagebox = (ImageBox)Singleton.MAIN_WINDOW.GetControl(imagebox_name);
+
+                CreateLiveDisplayUpdaterThread(live_stream_imagebox);
+                return true;
+            }
+
+            throw new ArgumentNullException();
         }
 
         //STARTS THREADS RESPONSIBLE FOR STREAMING FRAMES FROM A VIDEO FILE
         public static bool StartReviewFootageThreads()
         {
+            if (Singleton.CURRENT_VIDEO_FILE != null)
+            {
+                CreateVideoFileGrabberThread(Singleton.CURRENT_VIDEO_FILE);
+                CreateReviewFaceDetectingThread();
+                CreateNewStudentAlertThread();
+                CreateReviewDisplayUpdaterThread();
 
-            CreateVideoFileGrabberThread();
-            CreateReviewFaceDetectingThread();
-            CreateNewStudentAlertThread();
-            CreateReviewDisplayUpdaterThread();
+                return true;
+            }
 
-            return true;
+            throw new ArgumentNullException();
         }
 
 
@@ -133,6 +156,7 @@ namespace Nkujukira.Demo.Factories
                 perp_recognizer = new PerpetratorRecognitionThread();
                 perp_recognizer.StartWorking();
             }
+
             return perp_recognizer;
         }
 
@@ -161,33 +185,42 @@ namespace Nkujukira.Demo.Factories
 
 
         //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE CAMERA IN THE BACKGROUND
-        private static CameraOutputGrabberThread CreateNewCameraOutputGrabberThread()
+        private static CameraOutputGrabberThread CreateNewCameraOutputGrabberThread(Camera camera)
         {
-            if (cam_output == null)
-            {
-                cam_output = new CameraOutputGrabberThread();
-                cam_output.StartWorking();
-            }
+
+            CameraOutputGrabberThread cam_output = new CameraOutputGrabberThread(camera);
+            cam_output.StartWorking();
             return cam_output;
         }
 
         //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE CAMERA IN THE BACKGROUND
-        private static CameraOutputGrabberThreadUsingVideo CreateNewCameraOutputGrabberThreadUsingVideo()
+        private static CameraOutputGrabberThreadUsingVideo CreateNewCameraOutputGrabberThreadUsingVideo(VideoFile video_file)
         {
             if (cam_output_using_video == null)
             {
-                cam_output_using_video = new CameraOutputGrabberThreadUsingVideo(Singleton.CURRENT_FILE_NAME);
+                cam_output_using_video = new CameraOutputGrabberThreadUsingVideo(video_file);
                 cam_output_using_video.StartWorking();
             }
             return cam_output_using_video;
         }
 
+        //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE CAMERA IN THE BACKGROUND
+        private static VideoFromFileThreadUsingCamera CreateNewVideoFromCameraThread(Camera camera)
+        {
+            if (video_from_camera == null)
+            {
+                video_from_camera = new VideoFromFileThreadUsingCamera(camera);
+                video_from_camera.StartWorking();
+            }
+            return video_from_camera;
+        }
+
         //STARTS A CONTINUOUS RUNNING THREAD TO GRAB FRAMES FROM THE VIDEO FILE IN THE BACKGROUND
-        private static VideoFromFileThread CreateVideoFileGrabberThread()
+        private static VideoFromFileThread CreateVideoFileGrabberThread(VideoFile video_file)
         {
             if (video_from_file_grabber == null)
             {
-                video_from_file_grabber = new VideoFromFileThread(Singleton.CURRENT_FILE_NAME);
+                video_from_file_grabber = new VideoFromFileThread(video_file);
                 video_from_file_grabber.StartWorking();
             }
             return video_from_file_grabber;
@@ -198,7 +231,11 @@ namespace Nkujukira.Demo.Factories
         {
             if (review_face_detector == null)
             {
-                review_face_detector = new ReviewFaceDetectingThread(Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height);
+                var controls_name    = MainWindow.MainWindowControls.review_image_box;
+                int width            = Singleton.MAIN_WINDOW.GetControl(controls_name).Width;
+                int height           = Singleton.MAIN_WINDOW.GetControl(controls_name).Width;
+                Size frame_size      = new Size(width, height);
+                review_face_detector = new ReviewFaceDetectingThread(frame_size);
                 review_face_detector.StartWorking();
             }
             return review_face_detector;
@@ -209,7 +246,10 @@ namespace Nkujukira.Demo.Factories
         {
             if (live_face_detector == null)
             {
-                Size frame_size = new Size(Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width, Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height);
+                var controls_name = MainWindow.MainWindowControls.live_stream_image_box1;
+                int width = Singleton.MAIN_WINDOW.GetControl(controls_name).Width;
+                int height = Singleton.MAIN_WINDOW.GetControl(controls_name).Width;
+                Size frame_size = new Size(width, height);
                 live_face_detector = new LiveStreamFaceDetectingThread(frame_size);
                 live_face_detector.StartWorking();
             }
@@ -217,11 +257,11 @@ namespace Nkujukira.Demo.Factories
         }
 
         //STARTS A NEW FOOTAGE SAVING THREAD
-        private static FootageSavingThread CreateFootageSaverThread()
+        private static FootageSavingThread CreateFootageSaverThread(Camera camera)
         {
             if (footage_saver == null)
             {
-                footage_saver = new FootageSavingThread(CameraOutputGrabberThread.camera_capture);
+                footage_saver = new FootageSavingThread(camera);
                 footage_saver.StartWorking();
             }
             return footage_saver;
@@ -232,19 +272,19 @@ namespace Nkujukira.Demo.Factories
         {
             if (review_display_updater == null)
             {
-                review_display_updater = new ReviewDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox"));
+                var controls_name = MainWindow.MainWindowControls.review_image_box;
+
+                review_display_updater = new ReviewDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl(controls_name));
                 review_display_updater.StartWorking();
             }
             return review_display_updater;
         }
 
-        public static DisplayUpdaterThread CreateLiveDisplayUpdaterThread()
+        public static DisplayUpdaterThread CreateLiveDisplayUpdaterThread(ImageBox image_box)
         {
-            if (live_display_updater == null)
-            {
-                live_display_updater = new LiveDisplayUpdater((ImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox"));
-                live_display_updater.StartWorking();
-            }
+
+            live_display_updater = new LiveDisplayUpdater(image_box);
+            live_display_updater.StartWorking();
             return live_display_updater;
         }
 
@@ -292,6 +332,10 @@ namespace Nkujukira.Demo.Factories
 
                 case ThreadFactory.VIDEO_THREAD:
                     return video_from_file_grabber;
+
+                case ThreadFactory.VIDEO_THREAD_USING_CAMERA:
+                    return video_from_camera;
+                    
             }
             return null;
         }
@@ -350,6 +394,10 @@ namespace Nkujukira.Demo.Factories
 
                 case ThreadFactory.VIDEO_THREAD:
                     if (video_from_file_grabber != null) { video_from_file_grabber.Pause(); }
+                    break;
+
+                case ThreadFactory.VIDEO_THREAD_USING_CAMERA:
+                    if (video_from_camera != null) { video_from_camera.Pause(); }
                     break;
             }
             return true;
@@ -439,6 +487,10 @@ namespace Nkujukira.Demo.Factories
 
                 case ThreadFactory.VIDEO_THREAD:
                     if (video_from_file_grabber != null) { video_from_file_grabber.Resume(); }
+                    break;
+
+                case ThreadFactory.VIDEO_THREAD_USING_CAMERA:
+                    if (video_from_camera != null) { video_from_camera.Resume(); }
                     break;
             }
             return true;
@@ -532,6 +584,10 @@ namespace Nkujukira.Demo.Factories
                 case ThreadFactory.VIDEO_THREAD:
                     if (video_from_file_grabber != null) { video_from_file_grabber.RequestStop(); }
                     break;
+
+                case ThreadFactory.VIDEO_THREAD_USING_CAMERA:
+                    if (video_from_camera != null) { video_from_camera.RequestStop(); }
+                    break;
             }
             return true;
         }
@@ -622,6 +678,10 @@ namespace Nkujukira.Demo.Factories
                 case ThreadFactory.VIDEO_THREAD:
                     video_from_file_grabber = null;
                     break;
+
+                case ThreadFactory.VIDEO_THREAD_USING_CAMERA:
+                    video_from_camera = null;
+                    break;
             }
             return true;
         }
@@ -657,5 +717,14 @@ namespace Nkujukira.Demo.Factories
             return true;
         }
 
+
+        public static bool StartReviewFootageThreadsUsingCamera(Camera camera)
+        {   
+            CreateNewVideoFromCameraThread(camera);
+            CreateReviewFaceDetectingThread();
+            CreateNewStudentAlertThread();
+            CreateReviewDisplayUpdaterThread();
+            return true;
+        }
     }
 }

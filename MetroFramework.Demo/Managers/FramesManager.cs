@@ -7,6 +7,9 @@ using System.Diagnostics;
 using AForge.Imaging;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Nkujukira.Demo.Entitities;
+using DirectShowLib;
 
 namespace Nkujukira
 {
@@ -45,7 +48,6 @@ namespace Nkujukira
            
         }
 
-
         //THIS RESIZES AN IMAGE ACCORDING TO GIVEN WIDTH AND HEIGHT
         public static Image<Bgr, byte> ResizeColoredImage(Image<Bgr, byte> frame, Size new_size)
         {
@@ -53,20 +55,6 @@ namespace Nkujukira
             {
                 throw new ArgumentNullException();
             }
-            try
-            {
-                return frame.Resize(new_size.Width, new_size.Height, INTER.CV_INTER_LINEAR);
-
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        //THIS RESIZES AN IMAGE ACCORDING TO GIVEN WIDTH AND HEIGHT
-        public static Image<Gray, byte> ResizeGrayImage(Image<Gray, byte> frame, Size new_size)
-        {
             try
             {
                 return frame.Resize(new_size.Width, new_size.Height, INTER.CV_INTER_LINEAR);
@@ -96,7 +84,6 @@ namespace Nkujukira
             }
 
         }
-
 
         public static Rectangle[] DetectFacesInFrame(Image<Bgr, byte> current_frame, HaarCascade haarcascade)
         {
@@ -137,19 +124,6 @@ namespace Nkujukira
             return null;
         }
 
-        public static Image<Bgr, byte> DrawShapeAroundDetectedFaces(Rectangle rectangle_of_detected_face, Image<Bgr, byte> current_frame, out bool sucess)
-        {
-            if (current_frame == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            current_frame.Draw(rectangle_of_detected_face, new Bgr(COLOR_OF_FACE_RECTANGLE), THICKNESS);
-            sucess            = true;
-            return current_frame;
-        }
-
-
         public static Bitmap DrawShapeOnTransparentBackGround(Rectangle a_rectangle, int frame_width, int frame_height)
         {
             Bitmap bitmap     = new Bitmap(frame_width, frame_height);
@@ -159,7 +133,6 @@ namespace Nkujukira
             graphics.Flush();
             return bitmap;
         }
-
 
         public static bool OverLayBitmapToFormNewImage(Bitmap to_be_overlaid, Graphics graphics)
         {
@@ -181,7 +154,6 @@ namespace Nkujukira
             }
         }
 
-
         public static Image<Bgr, byte> CropSelectedFace(Rectangle detected_face, Image<Bgr, byte> frame)
         {
             try
@@ -198,19 +170,6 @@ namespace Nkujukira
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        public static Image<Gray, byte> ConvertToGrayScale(Image<Bgr, byte> frame) 
-        {
-            try
-            {
-                 Image<Gray, byte> gray_scale   = frame.Convert<Gray, byte>();
-                 return gray_scale;
-            }
-            catch (Exception)
-            {
                 return null;
             }
         }

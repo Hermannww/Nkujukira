@@ -48,12 +48,15 @@ namespace Nkujukira.Demo.Views
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label_separator = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.button_another_crime);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.label1);
@@ -78,7 +81,7 @@ namespace Nkujukira.Demo.Views
             // 
             this.button_another_crime.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_another_crime.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_another_crime.Location = new System.Drawing.Point(303, 296);
+            this.button_another_crime.Location = new System.Drawing.Point(308, 310);
             this.button_another_crime.Name = "button_another_crime";
             this.button_another_crime.Size = new System.Drawing.Size(112, 37);
             this.button_another_crime.TabIndex = 44;
@@ -91,7 +94,7 @@ namespace Nkujukira.Demo.Views
             this.progressBar.Location = new System.Drawing.Point(151, 391);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(385, 5);
-            this.progressBar.Style = MetroColorStyle.Green;
+            this.progressBar.Style = MetroFramework.MetroColorStyle.Green;
             this.progressBar.TabIndex = 43;
             this.progressBar.Visible = false;
             // 
@@ -110,7 +113,7 @@ namespace Nkujukira.Demo.Views
             // 
             this.button_another_victim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_another_victim.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_another_victim.Location = new System.Drawing.Point(428, 296);
+            this.button_another_victim.Location = new System.Drawing.Point(427, 310);
             this.button_another_victim.Name = "button_another_victim";
             this.button_another_victim.Size = new System.Drawing.Size(108, 37);
             this.button_another_victim.TabIndex = 41;
@@ -122,7 +125,7 @@ namespace Nkujukira.Demo.Views
             // 
             this.button_save.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button_save.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_save.Location = new System.Drawing.Point(151, 296);
+            this.button_save.Location = new System.Drawing.Point(151, 310);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(133, 37);
             this.button_save.TabIndex = 40;
@@ -238,12 +241,29 @@ namespace Nkujukira.Demo.Views
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label_separator
+            // 
+            this.label_separator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_separator.Location = new System.Drawing.Point(0, 53);
+            this.label_separator.Name = "label_separator";
+            this.label_separator.Size = new System.Drawing.Size(568, 2);
+            this.label_separator.TabIndex = 30;
+            // 
+            // label2
+            // 
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Location = new System.Drawing.Point(3, 300);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(542, 1);
+            this.label2.TabIndex = 45;
+            // 
             // VictimsDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(568, 492);
+            this.Controls.Add(this.label_separator);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -253,6 +273,7 @@ namespace Nkujukira.Demo.Views
             this.Text = "Victims Details";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.VictimsDetailsForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -279,5 +300,7 @@ namespace Nkujukira.Demo.Views
         private MetroProgressBar progressBar;
         private System.Windows.Forms.Timer timer1;
         private MetroFramework.Controls.MetroButton button_another_crime;
+        private System.Windows.Forms.Label label_separator;
+        private System.Windows.Forms.Label label2;
     }
 }

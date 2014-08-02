@@ -1,36 +1,32 @@
-﻿using System;
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
-using System.Diagnostics;
-using System.Threading;
-using System.Drawing;
-using MediaInfoNET;
-using Nkujukira.Demo.Singletons;
-using Nkujukira;
 using Nkujukira.Demo.Entitities;
+using Nkujukira.Demo.Singletons;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
 
-
-//THIS THREAD CONTINUOUSLY PICKS FRAMES FROM A GIVEN VIDEO FILE AND DUMPS THEM IN
-//SHARED DATASTORES FOR PROCESSING BY OTHER THREADS
 namespace Nkujukira.Demo.Threads
 {
-    public class VideoFromFileThread : AbstractThread
+    public class VideoFromFileThreadUsingCamera:AbstractThread
     {
-        private VideoFile video_file;
+        private Camera camera;
         private Image<Bgr, byte> current_frame;
         public static bool WORK_DONE;
-       
 
-        public VideoFromFileThread(VideoFile video_file): base()
+        public VideoFromFileThreadUsingCamera(Camera camera) :base()
         {
-            this.video_file = video_file;
+            this.camera = camera;
             WORK_DONE = false;
         }
 
 
-
         //WHILE RUNNING THIS THREAD WILL GET THE NEXT FRAME FROM THE CAMERA
-        //IT WILL THEN ADD IT TO THE CONCURRENT QUEUE FOR CAMERA OUTPUT
+        //IT WILL THEN ADD IT TO THE CONCURRENT QUEUE FOR OTHER THREADS TO PROCESS
         public override void DoWork(object sender, System.ComponentModel.DoWorkEventArgs ex)
         {
             try
@@ -58,16 +54,16 @@ namespace Nkujukira.Demo.Threads
         public bool AddNextFrameToQueueForProcessing()
         {
 
-            using (current_frame   = FramesManager.GetNextFrame(video_file.video_capture))
+            using (current_frame   = FramesManager.GetNextFrame(camera.camera_capture))
             {
                 if (current_frame != null)
                 {
-                    int width      =Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Width;
-                    int height     =Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Height;
-                    Size new_size = new Size(width, height);
+                    int width      = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Width;
+                    int height     = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Height;
+                    Size new_size  = new Size(width, height);
 
-                    Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeColoredImage(current_frame,new_size));
-                
+                    Singleton.REVIEW_FRAMES_TO_BE_PROCESSED.Enqueue(FramesManager.ResizeColoredImage(current_frame.Clone(), new_size));
+
                     return true;
                 }
 
@@ -77,23 +73,26 @@ namespace Nkujukira.Demo.Threads
                 {
                     //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
                     //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
-                    WORK_DONE      = true;
-                    running        = false;
+                    WORK_DONE = true;
+                    running   = false;
                     Debug.WriteLine("Terminating video from file");
+                    return false;
                 }
-                return false;
+               
             }
 
         }
+
+
 
         //JUMPS FORWARD OR BACKWARDS IN THE VIDEO PLAYING
         public bool RewindOrForwardVideo(double millisecond_to_jump_to)
         {
             //SETS THE POINTER TO THE FRAME BEFORE THE SPECIFIED MILLISECOND
-            bool sucess = FramesManager.PerformSeekOperationInVideo(millisecond_to_jump_to, video_file.video_capture);
-            return sucess;
+            //bool sucess = FramesManager.PerformSeekOperationInVideo(millisecond_to_jump_to, video_file.video_capture);
+            return true;
         }
 
-      
+       
     }
 }

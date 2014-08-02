@@ -35,7 +35,7 @@ namespace Nkujukira.Demo.Threads
         private int y;
 
         //REF TO MAIN PANEL TO WHICH WE ADD CONTROLS
-        Panel panel_live_stream                       = (Panel)Singleton.MAIN_WINDOW.GetControl("live_stream_panel");
+        Panel panel_live_stream                       = (Panel)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_panel);
 
         //MAXIMUM NUMBER OF CONTROLS THAT CAN BE SHOWN ON ABOVE PANEL BEFORE SCROLL BARS APPEAR
         private const int MAX_NUM_OF_CONTROLS_ALLOWED = 4;
@@ -290,7 +290,7 @@ namespace Nkujukira.Demo.Threads
             if (face_recognition_result.match_was_found)
             {              
                     //ADD THE ALERT TO THE GLOBALS WATCH LIST
-                    Singleton.IDENTIFIED_PERPETRATORS.Enqueue(face_recognition_result.identified_perpetrator);
+                    Singleton.IDENTIFIED_PERPETRATORS.Enqueue(face_recognition_result);
             }
 
         }

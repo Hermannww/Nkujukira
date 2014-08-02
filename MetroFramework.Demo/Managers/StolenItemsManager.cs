@@ -37,7 +37,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -59,7 +59,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
         }
@@ -117,8 +117,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
 
             //RETURN ARRAY OF RESULTS
@@ -152,7 +151,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
             
         }
@@ -186,7 +185,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
 
@@ -212,8 +211,7 @@ namespace Nkujukira.Demo.Managers
             }
             finally
             {
-                data_reader.Close();
-                database.CloseConnection();
+                CloseDatabaseConnection();
             }
         }
     }

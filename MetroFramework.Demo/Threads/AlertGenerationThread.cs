@@ -100,7 +100,7 @@ namespace Nkujukira.Demo.Threads
         {
 
             SoundManager.StopPlayingSound();
-            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox")).DisableAlertMode();
+            ((MyImageBox)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1)).DisableAlertMode();
             return base.RequestStop();
         }
     }

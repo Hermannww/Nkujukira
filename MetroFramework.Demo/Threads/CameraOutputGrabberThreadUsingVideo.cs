@@ -7,15 +7,15 @@ using Nkujukira.Demo.Singletons;
 using Nkujukira;
 using System.Threading;
 using System.Drawing;
+using Nkujukira.Demo.Entitities;
 
 namespace Nkujukira.Demo.Threads
 {
     public class CameraOutputGrabberThreadUsingVideo:AbstractThread
     {
-        private readonly String FILE_NAME ;
 
-        //HANDLE TO THE WEB CAM
-        public static Capture camera_capture;
+
+        private VideoFile video_file;
 
         //THE FRAME CURRENTLY BEING WORKED ON
         private Image<Bgr, byte> current_frame;
@@ -25,11 +25,11 @@ namespace Nkujukira.Demo.Threads
 
 
         //CONSTRUCTOR
-        public CameraOutputGrabberThreadUsingVideo(String FILE_NAME)
+        public CameraOutputGrabberThreadUsingVideo(VideoFile video_file)
         {
-            this.FILE_NAME = FILE_NAME;
+            this.video_file=video_file;
             Debug.WriteLine("Cam output thread starting");
-            camera_capture = new Capture(FILE_NAME);
+            
             WORK_DONE = false;
 
         }
@@ -63,27 +63,24 @@ namespace Nkujukira.Demo.Threads
         public bool AddNextFrameToQueuesForProcessing()
         {
             //get next frame from camera
-            current_frame = FramesManager.GetNextFrame(camera_capture);
+            current_frame      = FramesManager.GetNextFrame(video_file.video_capture);
 
             if (current_frame != null)
             {
-                int new_width = Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Width;
-                int new_height = Singleton.MAIN_WINDOW.GetControl("live_stream_imagebox").Height;
-                Size new_size = new Size(new_width, new_height);
+                int new_width  = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1).Width;
+                int new_height = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1).Height;
+                Size new_size  = new Size(new_width, new_height);
 
                 //add frame to queue for display
                 Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeColoredImage(current_frame.Clone(), new_size));
 
-                //add frame to queue for storage
-                //Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
-
                 //resize frame to save on memory and improve performance
-                int width = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Width;
-                int height = Singleton.MAIN_WINDOW.GetControl("review_footage_imagebox").Height;
+                int width      = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Width;
+                int height     = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Height;
 
-                Size size = new Size(width, height);
+                Size size      = new Size(width, height);
 
-                current_frame = FramesManager.ResizeColoredImage(current_frame, size);
+                current_frame  = FramesManager.ResizeColoredImage(current_frame, size);
 
                 //add frame to queue for face detection and recognition
                 Singleton.LIVE_FRAMES_TO_BE_PROCESSED.Enqueue(current_frame.Clone());
@@ -99,7 +96,7 @@ namespace Nkujukira.Demo.Threads
                 //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
                 //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
                 WORK_DONE = true;
-                running = false;
+                running   = false;
                 Debug.WriteLine("Terminating camera output");
                 return false;
             }
