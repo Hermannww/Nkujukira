@@ -14,6 +14,8 @@ namespace Nkujukira.Demo.Managers
         public const int PASSWORD                  = 2;
         public const int TYPE                      = 3;
         private static int ID                      = 0;
+        private static int EMAIL;
+        private static int PHONE;
 
         public static bool CreateTable()
         {
@@ -24,6 +26,8 @@ namespace Nkujukira.Demo.Managers
                                                    " (ID INT AUTO_INCREMENT PRIMARY KEY,"+
                                                    "USERNAME VARCHAR(30),"+
                                                    "PASSWORD VARCHAR(30),"+
+                                                   "EMAIL VARCHAR(30)," +
+                                                   "PHONE_NUMBER VARCHAR(30)," +
                                                    "USERTYPE VARCHAR(10) )";
                 //create sql command
                 sql_command                        = new MySqlCommand();
@@ -75,12 +79,6 @@ namespace Nkujukira.Demo.Managers
         {
             try 
             {
-                Admin nsubugak                     = new Admin("nsubugak", "@llison", "Admin");
-                Admin[] admins                     = {nsubugak};
-                foreach (var admin in admins) 
-                {
-                    Save(admin);
-                }
                 return true;
             }
             catch (Exception)
@@ -117,7 +115,9 @@ namespace Nkujukira.Demo.Managers
                     //create object
                     int id                         = data_reader.GetInt32(ID);
                     String type                    = data_reader.GetString(TYPE);
-                    admin                          = new Admin(id, username, password, type);
+                    String email                   = data_reader.GetString(EMAIL);
+                    String phone_number            = data_reader.GetString(PHONE);
+                    admin                          = new Admin(id, username, password,email,phone_number, type);
                 }
             }
             catch (CantAcessDatabaseException)
@@ -200,7 +200,9 @@ namespace Nkujukira.Demo.Managers
                     String username                = data_reader.GetString(USERNAME);
                     String password                = data_reader.GetString(PASSWORD);
                     String type                    = data_reader.GetString(TYPE);
-                    Admin admin                    = new Admin(id, username, password, type);
+                    String email                   = data_reader.GetString(EMAIL);
+                    String phone_number            = data_reader.GetString(PHONE);
+                    Admin admin                    = new Admin(id, username, password,email,phone_number, type);
                     all_admins.Add(admin);
                 }
             }
@@ -221,8 +223,8 @@ namespace Nkujukira.Demo.Managers
             {
 
                 String insert_sql = "INSERT INTO " + TABLE_NAME +
-                                    " (USERNAME,PASSWORD,USERTYPE)"+
-                                    " values(@username,@password,@usertype)";
+                                    " (USERNAME,PASSWORD,EMAIL,PHONE_NUMBER,USERTYPE)"+
+                                    " values(@username,@password,@email,@phone,@usertype)";
                 //Sql command
                 sql_command                        = new MySqlCommand();
                 sql_command.Connection             = (MySqlConnection)database.OpenConnection();
@@ -230,6 +232,8 @@ namespace Nkujukira.Demo.Managers
                 //add parameters
                 sql_command.Parameters.AddWithValue("@username", admin.user_name);
                 sql_command.Parameters.AddWithValue("@password", admin.password);
+                sql_command.Parameters.AddWithValue("@email", admin.email);
+                sql_command.Parameters.AddWithValue("@phone", admin.phone_number);
                 sql_command.Parameters.AddWithValue("@usertype", admin.user_type);
                 sql_command.Prepare();
                 //execute command
@@ -254,19 +258,14 @@ namespace Nkujukira.Demo.Managers
             try
             {
                 String delete_sql= "DELETE FROM " + TABLE_NAME + 
-                                    "WHERE USERNAME=@username ,"+
-                                    "PASSWORD      =@password,"+
-                                    "USERTYPE      =@type"+
-                                    " WHERE ID     =@id";
+                                    "WHERE ID=@id";
                 //Sql command
                 sql_command                        = new MySqlCommand();
                 sql_command.Connection             = (MySqlConnection)database.OpenConnection();
                 sql_command.CommandText            = delete_sql;
                 //add parameters
                 sql_command.Parameters.AddWithValue("@id", admin.id);
-                sql_command.Parameters.AddWithValue("@username", admin.user_name);
-                sql_command.Parameters.AddWithValue("@password", admin.password);
-                sql_command.Parameters.AddWithValue("@type", admin.user_type);
+                
                 //create prepared statement
                 sql_command.Prepare();
                 //execute command

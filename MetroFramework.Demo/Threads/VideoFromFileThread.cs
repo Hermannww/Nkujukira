@@ -43,6 +43,7 @@ namespace Nkujukira.Demo.Threads
                         Thread.Sleep(SLEEP_TIME);
                     }
                 }
+                CleanUp();
             }
             catch (Exception e)
             {
@@ -50,6 +51,17 @@ namespace Nkujukira.Demo.Threads
                 //LIKE OBJECT DISPOSED EXCEPTION
                 Debug.WriteLine(e.Message + "In FILE GRABBER");
             }
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                video_file.video_capture.Dispose();
+                video_file = null;
+                current_frame = null;
+            }
+            catch (Exception) { }
         }
 
 

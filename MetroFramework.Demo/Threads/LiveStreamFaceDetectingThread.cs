@@ -60,18 +60,20 @@ namespace Nkujukira.Demo.Threads
                     //GET DETECTED FACES IN FRAME
                     DetectFacesInFrame();                
                 }
-                //Thread.Sleep(SLEEP_TIME);
             }
+            CleanUp();
         }
 
-
-
-        //FIRED WHEN THREAD IS TERMINATING
-        public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)
+        private void CleanUp()
         {
-            WORK_DONE = true;
+            try
+            {
+                current_frame  = null;
+                detected_faces = null;
+                haarcascade    = null;
+            }
+            catch (Exception) { }
         }
-
         
         //DETECTS FACES IN THE CURRENT FRAME
         public bool DetectFacesInFrame()

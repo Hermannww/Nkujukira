@@ -17,7 +17,7 @@ namespace Nkujukira.Demo.Views
     {
         private string ERROR_MSG="Please select a camera to use";
         private Camera[] all_cameras;
-        public static Camera selected_camera;
+        public  Camera selected_camera{get;set;}
 
         public PickCameraForm()
         {
@@ -66,11 +66,10 @@ namespace Nkujukira.Demo.Views
                 //GET IP ADDRESS
                 GetIpAdressForm form = new GetIpAdressForm();
                 form.ShowDialog();
-                Debug.WriteLine("IP ADRESS=" + form.ip_adress);
                 selected_camera.ip_address = form.ip_adress;
             }
 
-            //selected_camera.InitializeCameraCapture();
+            selected_camera.InitializeCameraCapture();
 
             this.Close();
            

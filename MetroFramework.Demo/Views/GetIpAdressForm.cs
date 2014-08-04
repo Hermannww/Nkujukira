@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,34 @@ namespace Nkujukira.Demo.Views
 
         private void done_button_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(maskedTextBox2.Text)) 
+            if (TextInputIsValid())
             {
-                ip_adress = maskedTextBox2.Text+"//video?x.mpeg";
+                ip_adress = textBox1.Text + textBox2.Text + "." + textBox3.Text + "." + textBox4.Text + "." + textBox_5.Text + ":" + textBox6.Text;
+                Debug.WriteLine("IP ADDRESS=" + ip_adress);
+                this.Close();
             }
-            this.Close();
+
+            
+        }
+
+        private bool TextInputIsValid()
+        {
+            try
+            {
+                
+                Convert.ToInt32(textBox2.Text);
+                Convert.ToInt32(textBox3.Text);
+                Convert.ToInt32(textBox4.Text);
+                Convert.ToInt32(textBox_5.Text);
+                Convert.ToInt32(textBox6.Text);
+                return true;
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Please Enter A Valid Ip Address.Thank You");
+                return false;
+            }
+            
         }
     }
 }

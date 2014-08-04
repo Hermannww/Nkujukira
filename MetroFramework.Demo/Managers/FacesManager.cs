@@ -16,13 +16,13 @@ namespace Nkujukira.Demo.Managers
     public class FacesManager : Manager
     {
         //LICENCE KEY TO ACTIVATE THE FACE SDK LIB
-        private const string LICENSE_KEY = "KHL/2H1GmBZ1jXiF1zxfJXBZUXGZpss0v7msjyBE0Tw2pX7G0X1SUy+zjq7CxilEKs90hNL29oX7z350wIQXOAfWXkRXPmUqYjfdpxKQnHs7HO/HeVIfV0KIqR0T3LMwhcubF51Oxdm88Xyl3BL+f2wODspCL53IBUVo1cTMrEU=";
+        private const string LICENSE_KEY          = "KHL/2H1GmBZ1jXiF1zxfJXBZUXGZpss0v7msjyBE0Tw2pX7G0X1SUy+zjq7CxilEKs90hNL29oX7z350wIQXOAfWXkRXPmUqYjfdpxKQnHs7HO/HeVIfV0KIqR0T3LMwhcubF51Oxdm88Xyl3BL+f2wODspCL53IBUVo1cTMrEU=";
        
         public const float FaceDetectionThreshold = 3;
-        public const float FARValue = 100;
+        public const float FARValue               = 100;
         
         //THE MINIMUM SIMILARITY BETWEEN ANY 2 FACES FOR THEM TO BE CONSIDERED THE SAME
-        private const float SIMILARITY_THRESHOLD = 60.0f;
+        private static float SIMILARITY_THRESHOLD = GetSimilarityThreshold();
 
         private List<Face> known_faces_list { get; set; }
         private FaceRecognitionResult face_recog_results;
@@ -41,12 +41,20 @@ namespace Nkujukira.Demo.Managers
             {
                 //INITILIAZE THE LIBARARY
                 Debug.WriteLine("Library activated");
+                Debug.WriteLine("SIMILARITY THESHOLD=" + SIMILARITY_THRESHOLD);
                 FSDK.InitializeLibrary();
             }
             else
             {
                 throw new ArgumentException("FSDK Library must be activated with valid key for this to work");
             }
+        }
+
+        private static float GetSimilarityThreshold()
+        {
+            Setting similarity_threshold_setting = SettingsManager.GetSetting(SettingsManager.SETTINGS.SIMILARITY_THRESHOLD);
+            float similarity_threshold = (float)Convert.ToDouble(similarity_threshold_setting.value);
+            return similarity_threshold;
         }
 
         public bool EnrollPerpetratorFaces(Perpetrator perpetrator)

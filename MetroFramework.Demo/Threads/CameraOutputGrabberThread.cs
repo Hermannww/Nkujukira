@@ -44,6 +44,7 @@ namespace Nkujukira.Demo.Threads
             try
             {
                 Debug.WriteLine("Cam output thread running");
+
                 while (running)
                 {
                     if (!paused)
@@ -53,13 +54,21 @@ namespace Nkujukira.Demo.Threads
                         Thread.Sleep(100);
                     }
                 }
+
                 //THREAD IS TERMINATED
-                camera_capture.Dispose();
+                CleanUp();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        private void CleanUp()
+        {
+           
+            camera_capture = null;
+            current_frame  = null;
         }
 
         //ADDS A CAPTURED FRAME TO THREAD SAFE QUEUES 
@@ -79,13 +88,13 @@ namespace Nkujukira.Demo.Threads
                 Singleton.LIVE_FRAMES_TO_BE_DISPLAYED.Enqueue(FramesManager.ResizeColoredImage(current_frame.Clone(), new_size));
 
                 //add frame to queue for storage
-                //Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
+                Singleton.FRAMES_TO_BE_STORED.Enqueue(current_frame.Clone());
 
                 //resize frame to save on memory and improve performance
                 int width            = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Width;
                 int height           = Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.review_image_box).Height;
 
-                Size size            =new Size(width,height);
+                Size size            = new Size(width,height);
 
                 current_frame        = FramesManager.ResizeColoredImage(current_frame,size);
 
@@ -103,7 +112,8 @@ namespace Nkujukira.Demo.Threads
                 //ADD BLACK FRAME TO DATASTORE AND TERMINATE THREAD
                 //ALSO SIGNAL TO OTHERS THAT THIS THREAD IS DONE
                 WORK_DONE = true;
-                running = false;
+                running   = false;
+
                 Debug.WriteLine("Terminating camera output");
                 return false;
             }

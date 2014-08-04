@@ -36,12 +36,6 @@ namespace Nkujukira.Demo.Threads
 
         }
 
-        //UPDATES UI THREAD WHEN THIS THREAD HAS TERMINATED
-        public override void ThreadIsDone(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //MAKE BG BLACK
-            MakeBackGroundBlack();
-        }
 
 
         //DISPLAYS A BLACK FRAME IN THE REVIEW FOOTAGE IMAGE BOX

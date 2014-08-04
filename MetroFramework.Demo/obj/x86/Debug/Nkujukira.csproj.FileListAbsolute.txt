@@ -92,7 +92,6 @@ C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujuk
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.ChangeUserTypeDialog.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.CrimeDetailsForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.DashBoard.resources
-C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.DashBoardDialog.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.Views.LoadingScreen.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.LoginForm.resources
 C:\Users\ken\Documents\GitHub\Nkujukira\MetroFramework.Demo\obj\x86\Debug\Nkujukira.Demo.MainWindow.resources

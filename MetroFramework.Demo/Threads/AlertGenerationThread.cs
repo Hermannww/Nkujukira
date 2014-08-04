@@ -15,8 +15,8 @@ namespace Nkujukira.Demo.Threads
     public abstract class AlertGenerationThread : AbstractThread
     {
 
-        private bool dequeue_sucessful    = false;
-        protected bool play_sound         = false;
+        private bool dequeue_sucessful   ;
+        protected bool play_sound       ;
 
 
 
@@ -24,6 +24,8 @@ namespace Nkujukira.Demo.Threads
         public AlertGenerationThread()
             : base()
         {
+            dequeue_sucessful = false;
+            play_sound        = false;
         }
 
 
@@ -65,12 +67,18 @@ namespace Nkujukira.Demo.Threads
                     }
                     Thread.Sleep(200);
                 }
-
+                CleanUp();
+                
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void CleanUp()
+        {
+           
         }
 
         protected abstract bool TerminateThread();

@@ -41,7 +41,7 @@ namespace Nkujukira.Demo.Entitities
             this.id = id;
             this.name = name;
             this.camera_imagebox = cam_imagebox;
-            camera_capture = new Capture("http://192.168.42.129:8080/video?x.mjpeg");
+            
         }
 
         public Camera(String ip_adress,int id, String name, ImageBox cam_imagebox)
@@ -50,7 +50,7 @@ namespace Nkujukira.Demo.Entitities
             this.name = name;
             this.ip_address = ip_adress;
             this.camera_imagebox = cam_imagebox;
-            camera_capture = new Capture("http://192.168.42.129:8080/video?x.mjpeg");
+            
            
         }
 
@@ -60,7 +60,7 @@ namespace Nkujukira.Demo.Entitities
             {
                 if (ip_address != null) 
                 {
-                    camera_capture = new Capture("http://192.168.43.1:8080/video?x.mjpeg");
+                    camera_capture = new Capture(ip_address);
                     return true;
                 }
                 camera_capture = new Capture(id);

@@ -17,7 +17,7 @@ namespace Nkujukira.Demo.Views
     {
         #region Member Variables
         //color of the progress bar
-        private Color PROGRESS_BAR_COLOR = Color.DarkSeaGreen;
+        private Color PROGRESS_BAR_COLOR = Color.Silver;
 
         // Threading
         private static SplashScreen ms_frmSplash = null;

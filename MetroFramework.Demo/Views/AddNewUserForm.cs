@@ -44,9 +44,11 @@ namespace Nkujukira.Demo
 
             try
             {
-                String username = user_name.Text;
-                String password = pass_word.Text;
-                String type = role.Text;
+                String username     = user_name.Text;
+                String password     = pass_word.Text;
+                String type         = role.Text;
+                String email        = email_textbox.Text;
+                String phone_number = phone_textbox.Text;
                 if (username.Length<=0)
                 {
                     MessageBox.Show(this, "Please Enter your Name", "ERROR");
@@ -67,7 +69,7 @@ namespace Nkujukira.Demo
                         }
                         else
                         {
-                            Admin new_admin = new Admin(username, password, type);
+                            Admin new_admin = new Admin(username, password,email,phone_number, type);
                             if (AdminManager.Save(new_admin))
                             {
                                 MessageBox.Show(this, "New User Created Successfully", "CONGRATULATIONS");

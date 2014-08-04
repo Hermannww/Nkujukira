@@ -17,9 +17,8 @@ namespace Nkujukira
     {
         public static Color COLOR_OF_FACE_RECTANGLE = Color.Green;
         private const int THICKNESS                 = 1;
-        private const double SCALE                  = 3.0;
-        private const double SCALEFACTOR            = 1.4;
-        private const int MINIMUM_NEIGBHOURS        = 3;
+        private const double SCALEFACTOR            = 2.5;
+        private const int MINIMUM_NEIGBHOURS        = 1;
         private const int WINDOW_SIZE               = 50;
 
         //RETURNS THE NEXT FRAME FROM A WEB CAM OR VIDEO FILE
@@ -33,12 +32,7 @@ namespace Nkujukira
             try
             {
                 Image<Bgr, byte> frame = null;
-
-                lock (capture)
-                {
-                    frame = capture.QueryFrame();
-                }
-
+                frame = capture.QueryFrame();       
                 return frame;
             }
             catch (Exception)

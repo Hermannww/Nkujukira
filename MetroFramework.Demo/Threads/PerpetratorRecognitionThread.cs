@@ -28,11 +28,11 @@ namespace Nkujukira.Demo.Threads
         private Perpetrator[] active_perpetrators  = null;
 
         //USED TO SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
-        public static bool WORK_DONE               = false;
+        public static bool WORK_DONE ;
 
         //FLAG USED TO SIGNAL TO THE THREAD THAT IT SHOULD ENROLL PERP FACES AGAIN
         //BECAUSE THEY HAVE CHANGED IN THE DATABASE
-        public static volatile bool enroll_again   = false;
+        public static volatile bool enroll_again ;
 
         //CONSTRUCTOR
         public PerpetratorRecognitionThread()
@@ -154,6 +154,13 @@ namespace Nkujukira.Demo.Threads
                 }
                 Thread.Sleep(SLEEP_TIME);
             }
+            CleanUp();
         }
+
+        private void CleanUp()
+        {
+            active_perpetrators = null;
+        }
+   
     }
 }

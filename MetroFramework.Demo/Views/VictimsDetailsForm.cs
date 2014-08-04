@@ -126,13 +126,13 @@ namespace Nkujukira.Demo.Views
             //save perp
             if (close_after_saving) 
             { 
-                PerpetratorsManager.Save(perpetrator);
+                //PerpetratorsManager.Save(perpetrator);
 
                 //set the perp id in the crime
-                crime.perpetrator_id = perpetrator.id;
+               // crime.perpetrator_id = perpetrator.id;
 
                 //save crime
-                CrimesManager.Save(crime);
+               // CrimesManager.Save(crime);
             }
 
             StolenItem[] items_lost                           = GetItemsLost();
@@ -141,13 +141,13 @@ namespace Nkujukira.Demo.Views
             victim                                            = new Victim(name, d_o_b, items_lost, gender, is_a_student, crime.id);
 
             //save victim
-            VictimsManager.Save(victim);
+            //VictimsManager.Save(victim);
 
             //SAVE EACH STOLEN ITEM IN THE DATABASE
             foreach (var item in items_lost) 
             {
-                item.victims_id = victim.id;
-                StolenItemsManager.Save(item);
+                //item.victims_id = victim.id;
+                //StolenItemsManager.Save(item);
             }
 
     

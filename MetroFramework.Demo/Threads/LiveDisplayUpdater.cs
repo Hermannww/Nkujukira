@@ -50,11 +50,18 @@ namespace Nkujukira.Demo.Threads
                 }
 
                 MakeBackGroundBlack();
+                CleanUp();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message + "In VIDEO UPDATER");
             }
+        }
+
+        private void CleanUp()
+        {
+            current_frame = null;
+            video_display = null;
         }
 
         //THIS UPDATES THE DISPLAY(IMAGE BOX) 

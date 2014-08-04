@@ -23,7 +23,13 @@ namespace Nkujukira.Demo.Views
     {
         private LoadingScreen screen                                      = new LoadingScreen();
         public ConcurrentDictionary<int, Image<Bgr, byte>> suspect_faces  = new ConcurrentDictionary<int, Image<Bgr, byte>>();
-        private int MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED                  = 3;
+        private int MIN_NUMBER_OF_FACES_PER_PERP_ALLOWED                  = GetMinimumNumberOfFacesAllowed();
+
+        private static int GetMinimumNumberOfFacesAllowed()
+        {
+            Setting minimum_faces=SettingsManager.GetSetting(SettingsManager.SETTINGS.MINIMUM_NUMBER_OF_FACES_ALLOWED);
+            return Convert.ToInt32(minimum_faces.value);
+        }
 
 
         public SelectPerpetratorFacesForm()

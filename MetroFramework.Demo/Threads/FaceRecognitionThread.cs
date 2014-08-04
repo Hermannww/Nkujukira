@@ -10,7 +10,7 @@ namespace Nkujukira.Demo.Threads
     {
         //face of the perpetrator to be recognized
         protected Image<Bgr, byte> face_to_recognize = null;
-        protected Entity perp_or_student              = null;
+        //protected Entity perp_or_student              = null;
       
         
 
@@ -19,7 +19,7 @@ namespace Nkujukira.Demo.Threads
         {
             SLEEP_TIME = 30;
             this.face_to_recognize                    = face_to_recognize;
-            this.perp_or_student                      = null;
+            //this.perp_or_student                      = null;
             
         }
         

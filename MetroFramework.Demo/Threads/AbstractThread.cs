@@ -45,6 +45,7 @@ namespace Nkujukira.Demo.Threads
         
         //CALLED TO DO WORK IN THE BACKGROUND
         public abstract void DoWork(object sender, DoWorkEventArgs e);
+       
 
         //METHOD DELEGATE
         private delegate void SetControlPropertyThreadSafeDelegate(Control control, string propertyName, object propertyValue);
@@ -86,6 +87,7 @@ namespace Nkujukira.Demo.Threads
             return running;
         }
 
+        //CHECKS IF THREAD IS PAUSED
         public bool IsPaused() 
         {
             return paused;
@@ -115,8 +117,9 @@ namespace Nkujukira.Demo.Threads
 
         public void Dispose()
         {
-            background_worker.Dispose();
             this.RequestStop();
+            background_worker.Dispose();
+           
         }
     }
 }

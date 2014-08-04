@@ -29,6 +29,8 @@ namespace Nkujukira.Demo.Views
 
             //GET USER INPUT
             String username           = txtbox_username.Text;
+            String email              = email_textbox.Text;
+            String phone_number       = phone_textbox.Text;
             String password           = txtbox_password.Text;
             String confirmed_password = txtbox_confirmedPassword.Text;
             String images_folder      = txtbox_saveImagesPath.Text;
@@ -60,8 +62,9 @@ namespace Nkujukira.Demo.Views
             }
 
             //CREATE OBJECTS
-            Admin admin               = new Admin(username, password, "Admin");
+           
             Setting setting           = new Setting("images_folder", images_folder);
+            Admin admin = new Admin(username, password, email, phone_number, "Admin");
 
             //DROP ALL TABLES IN DATABASE
             DatabaseManager.DropTables();
@@ -72,11 +75,10 @@ namespace Nkujukira.Demo.Views
             //POPULATE THEM WITH INITIAL DATA
             DatabaseManager.PopulateTables();
 
-            //SAVE THE USER AS A NEW ADMIN
-            AdminManager.Save(admin);
-
             //SAVE HIS IMAGES FOLDER AS A SETTING
             SettingsManager.Save(setting);
+
+            AdminManager.Save(admin);
         }
 
         private void timer1_Tick(object sender, EventArgs e)

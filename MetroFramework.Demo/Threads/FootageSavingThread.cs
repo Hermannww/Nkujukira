@@ -38,13 +38,15 @@ namespace Nkujukira.Demo.Threads
         private System.Timers.Timer timer              = null;
 
         //SIGNAL TO OTHER THREADS THAT THIS THREAD IS DONE
-        public static bool WORKDONE                    = false;
+        public static bool WORKDONE;
 
 
         //CONSTRUCTOR
         public FootageSavingThread(Camera camera)
             : base()
         {
+            WORKDONE = false;
+
             //GET HANDLE TO VIDEO CAPTURE
             this.camera_capture = camera.camera_capture;
 
@@ -89,12 +91,7 @@ namespace Nkujukira.Demo.Threads
 
         //INITIALIZES THE VIDEO WRITER
         public void InitilaizeWriter()
-        {
-            Debug.WriteLine("path=" + PATH_TO_SAVED_FILES);
-            if (Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_image_box1) == null)
-            {
-                Debug.WriteLine("window is null");
-            }
+        {          
 
             video_writer = new VideoWriter(
                                             PATH_TO_SAVED_FILES,
@@ -148,7 +145,29 @@ namespace Nkujukira.Demo.Threads
 
                     Thread.Sleep(SLEEP_TIME);
                 }
+              
             }
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                camera_capture.Dispose();
+                video_writer.Dispose();
+                timer.Stop();
+                timer.Dispose();
+                timer = null;
+                frame_to_be_saved = null;
+                camera_capture = null;
+                video_writer = null;
+            }
+            catch (Exception) 
+            {
+            
+            }
+
         }
 
         //GETS THE SYSTEM DATE AND TIME

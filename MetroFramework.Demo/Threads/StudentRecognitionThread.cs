@@ -83,7 +83,7 @@ namespace Nkujukira.Demo.Threads
             if (students.Length != 0)
             {
 
-                //RESIZE THE FACE TO RECOGNIZE SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
+                //RESIZE THE FACE TO BE RECOGNIZED SO ITS EQUAL TO THE FACES ALREADY IN THE TRAINING SET
                 int width               = 120;
                 int height              = 120;
 
@@ -169,12 +169,15 @@ namespace Nkujukira.Demo.Threads
         protected void GenerateAlarm()
         {
             //IF FACE RECOGNITION RETURNS A RESULT
-            if (face_recognition_result.match_was_found)
+            if (face_recognition_result != null)
             {
-                //IF THERE IS NO ALERT ALREADY ABOUT THE SAME STUDENT
-                
-                //ADD THE ALERT TO THE GLOBALS WATCH LIST
-                Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result);
+                if (face_recognition_result.match_was_found)
+                {
+                    //IF THERE IS NO ALERT ALREADY ABOUT THE SAME STUDENT
+
+                    //ADD THE ALERT TO THE GLOBALS WATCH LIST
+                    Singleton.IDENTIFIED_STUDENTS.Enqueue(face_recognition_result);
+                }
             }
         }
 

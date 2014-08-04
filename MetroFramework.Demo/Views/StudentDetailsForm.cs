@@ -22,6 +22,7 @@ namespace Nkujukira.Demo.Views
         List<Image<Bgr, byte>> photos        = new List<Image<Bgr, byte>>();
         private const string FILE_FILTER      = "Image Files (*.bmp, *.jpg, *.png,*.jpeg)|*.bmp;*.jpg;*.png;*.jpeg";
         private string SELECT_PICTURES_MESSAGE= "Please Select 5 pictures of the student";
+        private const int MIN_PHOTOS_PER_STUDENT=3;
 
         //constructor called when u want to gather student details
         public StudentDetailsForm()
@@ -119,7 +120,7 @@ namespace Nkujukira.Demo.Views
                 String dob         = this.combobox_day.Text + "/" + this.combobox_month.Text + "/" +this.combobox_year.Text;
                 String gender      = this.combobox_gender.Text; 
 
-                if (String.IsNullOrEmpty(first_name) || String.IsNullOrEmpty(last_name) || String.IsNullOrEmpty(student_no) || String.IsNullOrEmpty(reg_no) || String.IsNullOrEmpty(course)||photos.Count<3)
+                if (String.IsNullOrEmpty(first_name) || String.IsNullOrEmpty(last_name) || String.IsNullOrEmpty(student_no) || String.IsNullOrEmpty(reg_no) || String.IsNullOrEmpty(course)||photos.Count<MIN_PHOTOS_PER_STUDENT)
                 {
 
                     label_status.Visible   = true;
@@ -131,9 +132,8 @@ namespace Nkujukira.Demo.Views
 
                 if (StudentsManager.Save(student))
                 {
-                    label_status.Visible   = true;
-                    label_status.Text      ="Student Added Successfully";
-                    ResetForm();
+                    MessageBox.Show("Student Added Successfully");
+                    this.Close();
                 }
                 else
                 {

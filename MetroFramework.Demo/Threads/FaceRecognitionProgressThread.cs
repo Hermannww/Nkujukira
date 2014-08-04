@@ -26,29 +26,32 @@ namespace Nkujukira.Demo.Threads
         //CONTROLS FOR DISPLAYING RESULTS
         protected MyPictureBox perpetrators_pictureBox  = null;
         protected MyPictureBox unknown_face_pictureBox  = null;
-
-        protected Label separator                     = null;
-        protected Label progress_label                = null;
+        protected Label separator                       = null;
+        protected Label progress_label                  = null;
 
         //CLASS VARIABLES THAT HANDLE POSITIONING OF CONTROLS
-        private int x;
-        private int y;
+        protected static volatile int x;
+        protected static volatile int y;
 
         //REF TO MAIN PANEL TO WHICH WE ADD CONTROLS
-        Panel panel_live_stream                       = (Panel)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_panel);
+        Panel panel_live_stream                       = null;
 
-        //MAXIMUM NUMBER OF CONTROLS THAT CAN BE SHOWN ON ABOVE PANEL BEFORE SCROLL BARS APPEAR
+        //MAXIMUM NUMBER OF CONTROLS THAT CAN BE SHOWN ON ABOVE PANEL BEFORE SCROLL BARS APPEAR:
+        //e.g 4 LEADS TO 3 controls, 5 leads to 4, 6 to 5 etc
         private const int MAX_NUM_OF_CONTROLS_ALLOWED = 4;
 
+        //ARRAY OF ALL CURRENTLY ACTIVE PERPS
         Perpetrator[] active_perpetrators;
 
         public static bool WORKDONE;
-        private const int SLEEP_TIME_MILLISEC=50;
+        private const int SLEEP_TIME_MILLISEC         = 50;
 
         public FaceRecognitionProgressThread()
             : base()
         {
             WORKDONE = false;
+
+            panel_live_stream = (Panel)Singleton.MAIN_WINDOW.GetControl(MainWindow.MainWindowControls.live_stream_panel);
 
             //GET ACTIVE PERPETRATORS
             active_perpetrators = Singleton.ACTIVE_PERPETRATORS;
@@ -96,6 +99,12 @@ namespace Nkujukira.Demo.Threads
 
                 }
             }
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            unknown_face_pictureBox = null;
         }
 
         public bool DisplayFaceRecognitionProgress(Image<Bgr, byte> face)
@@ -224,7 +233,9 @@ namespace Nkujukira.Demo.Threads
         private void ShowFaceRecognitionProgress()
         {
             //THIS KEEPS TRACK OF PROGRESS
-            double progress_decimal = 1;
+            double progress_decimal     = 1;
+            int total_num_of_perp_faces = GetTotalNumberOfPerpFaces(active_perpetrators);
+            int increment               = GetIncrementPerIteration(active_perpetrators);
 
             //DISPLAY EACH OF PERPETRATORS' FACES IN THE PERPETRATORS PICTURE BOX FOR A FLEETING MOMEMNT;REPEAT TILL ALL FACES ARE DONE
             foreach (var perpetrator in active_perpetrators)
@@ -232,7 +243,7 @@ namespace Nkujukira.Demo.Threads
                 foreach (var face in perpetrator.faces)
                 {
                     //GET THE AMOUNT OF WORK DONE                    PERPS.LENGTH*5 COZ EACH PERP HAS A MINIMUM OF 5 FACES
-                    int percentage_completed = (int)(((progress_decimal / (active_perpetrators.Length * 5) * 100)));
+                    int percentage_completed = (int)(((progress_decimal / total_num_of_perp_faces * 100)));
 
 
                     //DISPLAY PERP FACE
@@ -278,9 +289,33 @@ namespace Nkujukira.Demo.Threads
                     //LET THE THREAD SLEEP
                     Thread.Sleep(SLEEP_TIME_MILLISEC);
 
-                    progress_decimal++;
+                    progress_decimal+=increment;
                 }
             }
+        }
+
+        private int GetIncrementPerIteration(Perpetrator[] active_perpetrators)
+        {
+            int total_num_of_faces = GetTotalNumberOfPerpFaces(active_perpetrators);
+            if (total_num_of_faces != 0)
+            {
+                int increment = 100 / total_num_of_faces;
+                return increment;
+            }
+            return 0;
+        }
+
+        private int GetTotalNumberOfPerpFaces(Perpetrator[] perps) 
+        {
+            int total = 0;
+            foreach (var perp in perps) 
+            {
+                foreach (var face in perp.faces) 
+                {
+                    total++;
+                }
+            }
+            return total;
         }
 
         //GENERATES AN ALARM IF RECOGNITION IS SUCESSFULL

@@ -156,11 +156,20 @@ namespace Nkujukira.Demo.Threads
                 }
 
                 MakeBackGroundBlack();
+                CleanUp();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message + "In VIDEO UPDATER");
             }
+        }
+
+        private void CleanUp()
+        {  
+            timer.Stop();
+            timer.Dispose(); 
+            timer         = null;
+            current_frame = null;
         }
 
         //UPDATES UI THREAD
@@ -171,7 +180,7 @@ namespace Nkujukira.Demo.Threads
             if (Singleton.CURRENT_VIDEO_FILE != null)
             {
                 //DISABLE TIMER SO IT STOPS FIRING UNECESSARILY
-                timer.Enabled = false;
+                if (timer != null) { timer.Enabled = false; }
 
                 //CHANGE TIMER LABELS
                 SetLabelText(DEFAULT_TIME_LABEL_TEXT);
@@ -290,8 +299,8 @@ namespace Nkujukira.Demo.Threads
         {
             try
             {
-                running = false;
-                timer.Enabled = false;
+                running                                      = false;
+                timer.Enabled                                = false;
                 Singleton.MAIN_WINDOW.GetColorSlider().Value = 0;
                 SetLabelText(DEFAULT_TIME_LABEL_TEXT);
                 return true;

@@ -18,10 +18,10 @@ namespace Nkujukira.Demo.Threads
         public static string FRONTAL_FACE_HAARCASCADE_FILE_PATH = Singleton.HAARCASCADE_FILE_PATH;
 
         public static bool WORK_DONE;
-        public static bool draw_detected_faces;
+        public static bool draw_detected_faces=false;
 
         public static volatile int previous_id;
-        public static volatile bool its_time_to_pick_perpetrator_faces = false;
+        public static volatile bool its_time_to_pick_perpetrator_faces;
 
         private Image<Bgr, byte> current_frame;
         private HaarCascade haarcascade;
@@ -39,8 +39,7 @@ namespace Nkujukira.Demo.Threads
             haarcascade                        = new HaarCascade(FRONTAL_FACE_HAARCASCADE_FILE_PATH);
             its_time_to_pick_perpetrator_faces = false;
             this.frame_size = frame_size;
-            WORK_DONE                          = false;
-            draw_detected_faces                = false;
+            WORK_DONE = false;
             counter                            = 0;
             previous_id                        = 0;
             
@@ -72,8 +71,20 @@ namespace Nkujukira.Demo.Threads
                         AddFrameToQueueForDisplay();
                     }
                 }
-                //Thread.Sleep(SLEEP_TIME);
             }
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                current_frame.Dispose();
+                current_frame = null;
+                haarcascade = null;
+                detected_faces = null;
+            }
+            catch (Exception) { }
         }
         int count = 0;
         private void AddDetectedFacesToListViewPanel()

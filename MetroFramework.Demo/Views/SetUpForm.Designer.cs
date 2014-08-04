@@ -32,6 +32,10 @@ namespace Nkujukira.Demo.Views
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.phone_textbox = new System.Windows.Forms.TextBox();
+            this.email_textbox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.progressBar = new MetroFramework.Controls.MetroProgressBar();
             this.user_login = new MetroFramework.Controls.MetroButton();
@@ -50,6 +54,10 @@ namespace Nkujukira.Demo.Views
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.phone_textbox);
+            this.panel1.Controls.Add(this.email_textbox);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.user_login);
@@ -63,15 +71,53 @@ namespace Nkujukira.Demo.Views
             this.panel1.Controls.Add(this.txtbox_username);
             this.panel1.Location = new System.Drawing.Point(23, 85);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(449, 310);
+            this.panel1.Size = new System.Drawing.Size(449, 393);
             this.panel1.TabIndex = 0;
+            // 
+            // phone_textbox
+            // 
+            this.phone_textbox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.phone_textbox.Location = new System.Drawing.Point(224, 99);
+            this.phone_textbox.Name = "phone_textbox";
+            this.phone_textbox.Size = new System.Drawing.Size(161, 27);
+            this.phone_textbox.TabIndex = 23;
+            // 
+            // email_textbox
+            // 
+            this.email_textbox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.email_textbox.Location = new System.Drawing.Point(224, 61);
+            this.email_textbox.Name = "email_textbox";
+            this.email_textbox.Size = new System.Drawing.Size(161, 27);
+            this.email_textbox.TabIndex = 22;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label7.Location = new System.Drawing.Point(67, 102);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(154, 19);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Enter a Phone Number";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label6.Location = new System.Drawing.Point(67, 61);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(115, 19);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Enter your email";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label5.Location = new System.Drawing.Point(93, 256);
+            this.label5.Location = new System.Drawing.Point(93, 326);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 19);
             this.label5.TabIndex = 19;
@@ -80,10 +126,10 @@ namespace Nkujukira.Demo.Views
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(18, 287);
+            this.progressBar.Location = new System.Drawing.Point(18, 357);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(411, 10);
-            this.progressBar.Style = MetroColorStyle.Red;
+            this.progressBar.Style = MetroFramework.MetroColorStyle.Red;
             this.progressBar.TabIndex = 18;
             this.progressBar.Visible = false;
             // 
@@ -91,7 +137,7 @@ namespace Nkujukira.Demo.Views
             // 
             this.user_login.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.user_login.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.user_login.Location = new System.Drawing.Point(149, 219);
+            this.user_login.Location = new System.Drawing.Point(149, 289);
             this.user_login.Name = "user_login";
             this.user_login.Size = new System.Drawing.Size(161, 32);
             this.user_login.TabIndex = 17;
@@ -102,7 +148,7 @@ namespace Nkujukira.Demo.Views
             // txtbox_saveImagesPath
             // 
             this.txtbox_saveImagesPath.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbox_saveImagesPath.Location = new System.Drawing.Point(224, 155);
+            this.txtbox_saveImagesPath.Location = new System.Drawing.Point(224, 225);
             this.txtbox_saveImagesPath.Name = "txtbox_saveImagesPath";
             this.txtbox_saveImagesPath.Size = new System.Drawing.Size(161, 27);
             this.txtbox_saveImagesPath.TabIndex = 7;
@@ -112,7 +158,7 @@ namespace Nkujukira.Demo.Views
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(64, 155);
+            this.label4.Location = new System.Drawing.Point(64, 225);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(125, 19);
             this.label4.TabIndex = 6;
@@ -121,7 +167,7 @@ namespace Nkujukira.Demo.Views
             // txtbox_confirmedPassword
             // 
             this.txtbox_confirmedPassword.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbox_confirmedPassword.Location = new System.Drawing.Point(224, 107);
+            this.txtbox_confirmedPassword.Location = new System.Drawing.Point(224, 177);
             this.txtbox_confirmedPassword.Name = "txtbox_confirmedPassword";
             this.txtbox_confirmedPassword.Size = new System.Drawing.Size(161, 27);
             this.txtbox_confirmedPassword.TabIndex = 5;
@@ -131,7 +177,7 @@ namespace Nkujukira.Demo.Views
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(66, 107);
+            this.label3.Location = new System.Drawing.Point(66, 177);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 19);
             this.label3.TabIndex = 4;
@@ -142,7 +188,7 @@ namespace Nkujukira.Demo.Views
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(67, 66);
+            this.label2.Location = new System.Drawing.Point(67, 136);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(121, 19);
             this.label2.TabIndex = 3;
@@ -162,7 +208,7 @@ namespace Nkujukira.Demo.Views
             // txtbox_password
             // 
             this.txtbox_password.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbox_password.Location = new System.Drawing.Point(224, 66);
+            this.txtbox_password.Location = new System.Drawing.Point(224, 136);
             this.txtbox_password.Name = "txtbox_password";
             this.txtbox_password.Size = new System.Drawing.Size(161, 27);
             this.txtbox_password.TabIndex = 1;
@@ -185,14 +231,14 @@ namespace Nkujukira.Demo.Views
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(495, 418);
+            this.ClientSize = new System.Drawing.Size(495, 487);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.Name = "SetUpForm";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.ShowInTaskbar = false;
-            this.Style = MetroColorStyle.Red;
+            this.Style = MetroFramework.MetroColorStyle.Red;
             this.Text = "Set Up Options";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -218,5 +264,9 @@ namespace Nkujukira.Demo.Views
         private MetroProgressBar progressBar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox phone_textbox;
+        private System.Windows.Forms.TextBox email_textbox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

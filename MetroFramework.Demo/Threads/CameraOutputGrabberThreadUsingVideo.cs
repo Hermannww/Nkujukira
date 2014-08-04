@@ -51,11 +51,20 @@ namespace Nkujukira.Demo.Threads
                         Thread.Sleep(100);
                     }
                 }
+
+                CleanUp();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        private void CleanUp()
+        {
+            video_file.video_capture.Dispose();
+            video_file    = null;
+            current_frame = null;
         }
 
         //ADDS A CAPTURED FRAME TO THREAD SAFE QUEUES 

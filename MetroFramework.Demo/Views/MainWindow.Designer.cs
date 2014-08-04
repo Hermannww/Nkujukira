@@ -59,7 +59,6 @@ namespace Nkujukira.Demo
             this.label_separator = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox6 = new Emgu.CV.UI.ImageBox();
-            this.imageBox1 = new Nkujukira.Demo.Custom_Controls.MyImageBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -104,12 +103,12 @@ namespace Nkujukira.Demo
             this.turn_on_menu_item = new System.Windows.Forms.ToolStripMenuItem();
             this.webCamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.networkCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageBox1 = new Nkujukira.Demo.Custom_Controls.MyImageBox();
             this.metroContextMenu1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.review_footage_image_box)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).BeginInit();
             this.panel2.SuspendLayout();
@@ -124,6 +123,7 @@ namespace Nkujukira.Demo
             this.metroTabPage1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // metroContextMenu1
@@ -250,9 +250,9 @@ namespace Nkujukira.Demo
             // 
             this.turn_on_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.turn_on_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.turn_on_button.Location = new System.Drawing.Point(37, 8);
+            this.turn_on_button.Location = new System.Drawing.Point(37, 10);
             this.turn_on_button.Name = "turn_on_button";
-            this.turn_on_button.Size = new System.Drawing.Size(178, 44);
+            this.turn_on_button.Size = new System.Drawing.Size(178, 46);
             this.turn_on_button.TabIndex = 34;
             this.turn_on_button.Text = "Use Camera";
             this.metroToolTip.SetToolTip(this.turn_on_button, "Button Tooltip");
@@ -263,9 +263,9 @@ namespace Nkujukira.Demo
             // 
             this.use_video_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.use_video_button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.use_video_button.Location = new System.Drawing.Point(291, 8);
+            this.use_video_button.Location = new System.Drawing.Point(291, 10);
             this.use_video_button.Name = "use_video_button";
-            this.use_video_button.Size = new System.Drawing.Size(178, 44);
+            this.use_video_button.Size = new System.Drawing.Size(178, 46);
             this.use_video_button.TabIndex = 35;
             this.use_video_button.Text = "Use Video File";
             this.metroToolTip.SetToolTip(this.use_video_button, "Button Tooltip");
@@ -363,20 +363,6 @@ namespace Nkujukira.Demo
             this.imageBox6.Size = new System.Drawing.Size(230, 208);
             this.imageBox6.TabIndex = 29;
             this.imageBox6.TabStop = false;
-            // 
-            // imageBox1
-            // 
-            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox1, true);
-            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox1.ContextMenuStrip = this.contextMenuStrip1;
-            this.imageBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imageBox1.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.imageBox1.Location = new System.Drawing.Point(12, 17);
-            this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(230, 219);
-            this.imageBox1.TabIndex = 21;
-            this.imageBox1.TabStop = false;
-            this.imageBox1.Click += new System.EventHandler(this.imageBox4_Click);
             // 
             // label5
             // 
@@ -608,9 +594,9 @@ namespace Nkujukira.Demo
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.use_video_button);
             this.panel5.Controls.Add(this.turn_on_button);
-            this.panel5.Location = new System.Drawing.Point(4, 491);
+            this.panel5.Location = new System.Drawing.Point(4, 485);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(514, 62);
+            this.panel5.Size = new System.Drawing.Size(514, 68);
             this.panel5.TabIndex = 13;
             // 
             // panel6
@@ -778,11 +764,11 @@ namespace Nkujukira.Demo
             this.label11.BackColor = System.Drawing.Color.White;
             this.label11.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label11.Location = new System.Drawing.Point(74, 11);
+            this.label11.Location = new System.Drawing.Point(53, 12);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(205, 19);
+            this.label11.Size = new System.Drawing.Size(274, 19);
             this.label11.TabIndex = 3;
-            this.label11.Text = "FACE COMPARISON ONGOING";
+            this.label11.Text = "STUDENT FACE RECOGNITION ONGOING";
             // 
             // icons_list
             // 
@@ -953,6 +939,20 @@ namespace Nkujukira.Demo
             this.networkCameraToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.networkCameraToolStripMenuItem.Text = "Network Camera";
             // 
+            // imageBox1
+            // 
+            this.metroStyleExtender.SetApplyMetroTheme(this.imageBox1, true);
+            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBox1.ContextMenuStrip = this.contextMenuStrip1;
+            this.imageBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox1.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            this.imageBox1.Location = new System.Drawing.Point(12, 17);
+            this.imageBox1.Name = "imageBox1";
+            this.imageBox1.Size = new System.Drawing.Size(230, 219);
+            this.imageBox1.TabIndex = 21;
+            this.imageBox1.TabStop = false;
+            this.imageBox1.Click += new System.EventHandler(this.imageBox4_Click);
+            // 
             // MainWindow
             // 
             this.ApplyImageInvert = true;
@@ -979,7 +979,6 @@ namespace Nkujukira.Demo
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox7)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -997,6 +996,7 @@ namespace Nkujukira.Demo
             this.metroTabPage1.ResumeLayout(false);
             this.metroTabControl1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

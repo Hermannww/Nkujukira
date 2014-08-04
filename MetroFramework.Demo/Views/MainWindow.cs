@@ -198,9 +198,16 @@ namespace Nkujukira.Demo
         }
 
         //STARTS ALL NECESSARY THREADS
-        private void StartLiveFootageThreads()
+        private void StartLiveStreamThreads()
         {
-            ThreadFactory.StartLiveStreamThreads();
+            PickCameraForm form = new PickCameraForm();
+            form.ShowDialog();
+
+            if (form.selected_camera != null)
+            {
+                ThreadFactory.StartLiveStreamThreads(form.selected_camera);
+            }
+           
         }
 
         //ATTEMPTS TO PAUSE A RUNNING VIDEO
@@ -505,8 +512,7 @@ namespace Nkujukira.Demo
 
         private void DashBoard_Tile_Click(object sender, EventArgs e)
         {
-            DashBoardDialog dashBoard = new DashBoardDialog();
-            dashBoard.Visible = true;
+            DashBoard dashBoard = new DashBoard();
             dashBoard.Show();
 
         }
@@ -514,65 +520,73 @@ namespace Nkujukira.Demo
        
         private void turn_on_button_Click(object sender, EventArgs e)
         {
-
+            turn_on_button.Enabled       = false;
+            use_video_button.Enabled     = false;
 
             if (!cctv_cameras_are_on)
             {
-                cctv_cameras_are_on = true;
-                ThreadPool.QueueUserWorkItem(TurnOnCameras);
+                TurnOnCameras(null);
+                cctv_cameras_are_on      = true;
+                turn_on_button.Text      = "Turn Off";
+                turn_on_button.Enabled   = true;
             }
             else
             {
-
-                ThreadPool.QueueUserWorkItem(TurnOffCameras);
-                cctv_cameras_are_on = false;
+                TurnOffCameras(null);
+                cctv_cameras_are_on      = false;
+                turn_on_button.Text      = "Use Camera";
+                turn_on_button.Enabled   = true;
+                use_video_button.Enabled = true;
             }
         }
 
         private void TurnOnCameras(object state)
         {
-            DisableLiveStreamControls();
+            //DisableLiveStreamControls();
+
             ThreadFactory.StopLiveStreamThreads();
             Singleton.ClearLiveStreamDataStores();
-            ThreadFactory.ReleaseLiveStreamThreadsResources();
+            //ThreadFactory.ReleaseLiveStreamThreadsResources();
+            StartLiveStreamThreads();
+            //ChangeButtonText();
 
-            StartLiveFootageThreads();
-            ChangeButtonText();
-            EnableLiveStreamControls();
+            //EnableLiveStreamControls();
         }
 
         private void TurnOffCameras(object state)
         {
-            DisableLiveStreamControls();
+            //DisableLiveStreamControls();
+
             ThreadFactory.StopLiveStreamThreads();
             Singleton.ClearLiveStreamDataStores();
             ClearPanel(live_stream_recognition_panel);
-            ThreadFactory.ReleaseLiveStreamThreadsResources();
-            ChangeButtonText();
-            EnableLiveStreamControls();
+            //ThreadFactory.ReleaseLiveStreamThreadsResources();
+            //ChangeButtonText();
+
+            //EnableLiveStreamControls();
         }
 
         private void TurnOnCamerasUsingVideo(object state)
         {
-            DisableLiveStreamControls();
+            //DisableLiveStreamControls();
             ThreadFactory.StopLiveStreamThreads();        
             Singleton.ClearLiveStreamDataStores();
-            ThreadFactory.ReleaseLiveStreamThreadsResources();
+            //ThreadFactory.ReleaseLiveStreamThreadsResources();
             ThreadFactory.StartLiveStreamThreadsUsingVideo();
-            ChangeButtonText();
-            EnableLiveStreamControls();
+            //ChangeButtonText();
+            //EnableLiveStreamControls();
         }
 
 
         private void TurnOffCamerasUisngVideo(object state)
         {
-            DisableLiveStreamControls();
+            //DisableLiveStreamControls();
             ThreadFactory.StopLiveStreamThreads();
             Singleton.ClearLiveStreamDataStores();
             ClearPanel(live_stream_recognition_panel);
-            ThreadFactory.ReleaseLiveStreamThreadsResources();
-            ChangeButtonText();
-            EnableLiveStreamControls();
+            //ThreadFactory.ReleaseLiveStreamThreadsResources();
+            //ChangeButtonText();
+            //EnableLiveStreamControls();
         }
 
         private void EnableLiveStreamControls()
@@ -696,24 +710,37 @@ namespace Nkujukira.Demo
         {
             if (!cctv_cameras_are_on)
             {
-                cctv_cameras_are_on = true;
-                Singleton.CURRENT_VIDEO_FILE = PickVideoFileToPlay();
+                use_video_button.Enabled          = false;
+                turn_on_button.Enabled            = false;
+                Singleton.CURRENT_VIDEO_FILE      = PickVideoFileToPlay();
+
                 if (Singleton.CURRENT_VIDEO_FILE != null)
                 {
-                    ThreadPool.QueueUserWorkItem(TurnOnCamerasUsingVideo);
+                    TurnOnCamerasUsingVideo(null);
+                    cctv_cameras_are_on           = true;
+                    use_video_button.Text         = "Turn Off";
+                    use_video_button.Enabled      = true;
                     return;
                 }
-                cctv_cameras_are_on = false;
+
+                use_video_button.Enabled          = true;
+                turn_on_button.Enabled            = true;
+                
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(TurnOffCamerasUisngVideo);
-                cctv_cameras_are_on = false;
+                use_video_button.Enabled          = false;
+                TurnOffCamerasUisngVideo(null);
+                cctv_cameras_are_on               = false;
+                turn_on_button.Enabled            = true;
+                use_video_button.Text             = "Use Video";
+                use_video_button.Enabled          = true;
             }
         }
 
         private void button_camera_enroll_Click(object sender, EventArgs e)
         {
+            button_camera_enroll.Enabled = false;
             ThreadFactory.StopReviewFootageThreads();
             Singleton.ClearReviewFootageDataStores();
             ThreadFactory.ReleaseAllThreadResources();
@@ -729,9 +756,9 @@ namespace Nkujukira.Demo
 
             form.ShowDialog();
 
-            if (PickCameraForm.selected_camera != null)
+            if (form.selected_camera != null)
             {
-                ThreadFactory.StartReviewFootageThreadsUsingCamera(PickCameraForm.selected_camera);
+                ThreadFactory.StartReviewFootageThreadsUsingCamera(form.selected_camera);
                 Debug.WriteLine("Enabling review controls 1");
                 EnableReviewControls();
                 Debug.WriteLine("Enabling review controls 2");

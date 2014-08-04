@@ -15,6 +15,13 @@ namespace Nkujukira.Demo.Managers
         private const int ID            =0;
         private const int NAME          =1;
 
+        public enum SETTINGS 
+        {
+            SIMILARITY_THRESHOLD,
+            MINIMUM_NUMBER_OF_FACES_ALLOWED,
+            THEME
+        }
+
 
         public static bool CreateTable() 
         {
@@ -65,6 +72,10 @@ namespace Nkujukira.Demo.Managers
         {
             try
             {
+                Setting similarity_threshold = new Setting("similarity_threshold", "70");
+                Setting theme                = new Setting("theme", "Dark");
+                SettingsManager.Save(similarity_threshold);
+                SettingsManager.Save(theme);
                 return true;
             }
             catch (Exception)
@@ -73,8 +84,10 @@ namespace Nkujukira.Demo.Managers
             }
         }
 
-        public static Setting GetSetting(String setting_name)
+        public static Setting GetSetting(SETTINGS settings_name)
         {
+            String setting_name = GetSettingsName(settings_name);
+
             //resultant object
             Setting setting             = null;
 
@@ -114,6 +127,21 @@ namespace Nkujukira.Demo.Managers
                 CloseDatabaseConnection();
             }
             return setting;
+        }
+
+        private static string GetSettingsName(SETTINGS settings_name)
+        {
+            switch (settings_name) 
+            {
+                case SETTINGS.SIMILARITY_THRESHOLD:
+                    return "similarity_threshold";
+                case SETTINGS.THEME:
+                    return "theme";
+                case SETTINGS.MINIMUM_NUMBER_OF_FACES_ALLOWED:
+                    return "minimum_faces";
+
+            }
+            return null;
         }
 
         public static Setting[] GetAllSettings() 
